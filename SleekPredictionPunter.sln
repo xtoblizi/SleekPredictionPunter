@@ -3,7 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SleekPredictionPunter", "..\Private\SleekPredictionPunter\SleekPredictionPunter.csproj", "{223B318C-935E-408B-B7E6-478AB16E2399}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunterWeb", "SleekPredictionPunterWeb\SleekPredictionPunterWeb.csproj", "{DA502246-063C-43F9-B7CA-8A5BC8200F7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunter.Repository", "SleekPredictionPunter.Repository\SleekPredictionPunter.Repository.csproj", "{0956427C-F6A9-4CA6-970A-198FF40B1911}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunter.AppService", "SleekPredictionPunter.AppService\SleekPredictionPunter.AppService.csproj", "{6C3044B7-F9C8-454C-9722-BE602564AAEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunter.DatabaseInfrastructure", "SleekPredictionPunter.DatabaseInfrastructure\SleekPredictionPunter.DatabaseInfrastructure.csproj", "{CA46C529-EFB7-4C06-A415-2485DDC41D3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunter.Api", "SleekPredictionPunter.Api\SleekPredictionPunter.Api.csproj", "{D6023D43-257D-4FCA-9125-6B22E32A6E17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +19,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{223B318C-935E-408B-B7E6-478AB16E2399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{223B318C-935E-408B-B7E6-478AB16E2399}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{223B318C-935E-408B-B7E6-478AB16E2399}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{223B318C-935E-408B-B7E6-478AB16E2399}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA502246-063C-43F9-B7CA-8A5BC8200F7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA502246-063C-43F9-B7CA-8A5BC8200F7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA502246-063C-43F9-B7CA-8A5BC8200F7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA502246-063C-43F9-B7CA-8A5BC8200F7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0956427C-F6A9-4CA6-970A-198FF40B1911}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0956427C-F6A9-4CA6-970A-198FF40B1911}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0956427C-F6A9-4CA6-970A-198FF40B1911}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0956427C-F6A9-4CA6-970A-198FF40B1911}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C3044B7-F9C8-454C-9722-BE602564AAEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C3044B7-F9C8-454C-9722-BE602564AAEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C3044B7-F9C8-454C-9722-BE602564AAEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C3044B7-F9C8-454C-9722-BE602564AAEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA46C529-EFB7-4C06-A415-2485DDC41D3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA46C529-EFB7-4C06-A415-2485DDC41D3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA46C529-EFB7-4C06-A415-2485DDC41D3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA46C529-EFB7-4C06-A415-2485DDC41D3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6023D43-257D-4FCA-9125-6B22E32A6E17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6023D43-257D-4FCA-9125-6B22E32A6E17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6023D43-257D-4FCA-9125-6B22E32A6E17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6023D43-257D-4FCA-9125-6B22E32A6E17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
