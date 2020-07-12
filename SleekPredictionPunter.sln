@@ -5,15 +5,15 @@ VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunterWeb", "SleekPredictionPunterWeb\SleekPredictionPunterWeb.csproj", "{DA502246-063C-43F9-B7CA-8A5BC8200F7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunter.Repository", "SleekPredictionPunter.Repository\SleekPredictionPunter.Repository.csproj", "{0956427C-F6A9-4CA6-970A-198FF40B1911}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunter.AppService", "SleekPredictionPunter.AppService\SleekPredictionPunter.AppService.csproj", "{6C3044B7-F9C8-454C-9722-BE602564AAEA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunter.DatabaseInfrastructure", "SleekPredictionPunter.DatabaseInfrastructure\SleekPredictionPunter.DatabaseInfrastructure.csproj", "{CA46C529-EFB7-4C06-A415-2485DDC41D3D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunter.Api", "SleekPredictionPunter.Api\SleekPredictionPunter.Api.csproj", "{D6023D43-257D-4FCA-9125-6B22E32A6E17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunter.Model", "SleekPredictionPunter.Model\SleekPredictionPunter.Model.csproj", "{1E970BF9-8BB4-4984-9097-53E14181CD5D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunter.DataInfrastructure", "SleekPredictionPunter.DataInfrastructure\SleekPredictionPunter.DataInfrastructure.csproj", "{D245B62D-C990-4AA1-8029-448A42AB8712}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunter.Repository", "SleekPredictionPunter.Repository\SleekPredictionPunter.Repository.csproj", "{58A3C1B8-6070-4F39-AF83-2D1E2F9C7AB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunter.AppService", "SleekPredictionPunter.AppService\SleekPredictionPunter.AppService.csproj", "{24A988C0-53A6-46DE-A3D7-B4B53F75AE73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunter.Model", "SleekPredictionPunter.Model\SleekPredictionPunter.Model.csproj", "{CBCFB741-4FA6-4970-8603-55C1A2B8B19B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,26 +25,26 @@ Global
 		{DA502246-063C-43F9-B7CA-8A5BC8200F7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA502246-063C-43F9-B7CA-8A5BC8200F7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA502246-063C-43F9-B7CA-8A5BC8200F7F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0956427C-F6A9-4CA6-970A-198FF40B1911}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0956427C-F6A9-4CA6-970A-198FF40B1911}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0956427C-F6A9-4CA6-970A-198FF40B1911}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0956427C-F6A9-4CA6-970A-198FF40B1911}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6C3044B7-F9C8-454C-9722-BE602564AAEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6C3044B7-F9C8-454C-9722-BE602564AAEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6C3044B7-F9C8-454C-9722-BE602564AAEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6C3044B7-F9C8-454C-9722-BE602564AAEA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA46C529-EFB7-4C06-A415-2485DDC41D3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA46C529-EFB7-4C06-A415-2485DDC41D3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA46C529-EFB7-4C06-A415-2485DDC41D3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA46C529-EFB7-4C06-A415-2485DDC41D3D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D6023D43-257D-4FCA-9125-6B22E32A6E17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D6023D43-257D-4FCA-9125-6B22E32A6E17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6023D43-257D-4FCA-9125-6B22E32A6E17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6023D43-257D-4FCA-9125-6B22E32A6E17}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1E970BF9-8BB4-4984-9097-53E14181CD5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E970BF9-8BB4-4984-9097-53E14181CD5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E970BF9-8BB4-4984-9097-53E14181CD5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E970BF9-8BB4-4984-9097-53E14181CD5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D245B62D-C990-4AA1-8029-448A42AB8712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D245B62D-C990-4AA1-8029-448A42AB8712}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D245B62D-C990-4AA1-8029-448A42AB8712}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D245B62D-C990-4AA1-8029-448A42AB8712}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58A3C1B8-6070-4F39-AF83-2D1E2F9C7AB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58A3C1B8-6070-4F39-AF83-2D1E2F9C7AB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58A3C1B8-6070-4F39-AF83-2D1E2F9C7AB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58A3C1B8-6070-4F39-AF83-2D1E2F9C7AB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24A988C0-53A6-46DE-A3D7-B4B53F75AE73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24A988C0-53A6-46DE-A3D7-B4B53F75AE73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24A988C0-53A6-46DE-A3D7-B4B53F75AE73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24A988C0-53A6-46DE-A3D7-B4B53F75AE73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBCFB741-4FA6-4970-8603-55C1A2B8B19B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBCFB741-4FA6-4970-8603-55C1A2B8B19B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBCFB741-4FA6-4970-8603-55C1A2B8B19B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBCFB741-4FA6-4970-8603-55C1A2B8B19B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
