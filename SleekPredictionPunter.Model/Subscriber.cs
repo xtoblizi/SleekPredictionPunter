@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SleekPredictionPunter.Model
 {
-	public class AgentUser  : Person
+	public class Subscriber : Person
 	{
 
 	}

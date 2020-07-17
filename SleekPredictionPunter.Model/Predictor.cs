@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SleekPredictionPunter.Model
 {
-	public class PredictorUser : Person
+	public class Predictor : Person
 	{
 		// add predictor specific properties
 	}

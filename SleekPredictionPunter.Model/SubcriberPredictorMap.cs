@@ -16,11 +16,4 @@ namespace SleekPredictionPunter.Model
 		/// </summary>
 		public string PredictorUsername { get; set; }
 	}
-
-	public class AgentRefereeMap
-	{
-		public string AgentUsername { get; set; }
-
-		public string RefereeUsername { get; set; }
-	}
 }
