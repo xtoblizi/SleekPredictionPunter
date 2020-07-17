@@ -16,6 +16,7 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.1.6" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SleekPredictionPunter.GeneralUtilsAndServices\SleekPredictionPunter.GeneralUtilsAndServices.csproj" />
     <ProjectReference Include="..\SleekPredictionPunter.Model\SleekPredictionPunter.Model.csproj" />
   </ItemGroup>
 </Project>

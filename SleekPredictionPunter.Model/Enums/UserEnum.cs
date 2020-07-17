@@ -12,4 +12,17 @@ namespace SleekPredictionPunter.Model.Enums
 		[Description("Not Activated")]
 		NotActivated = 2
 	}
+
+	public enum RoleEnum
+	{
+		[Description("SuperAdmin")]
+		SystemAdmin = 1,
+		[Description("Subscriber")]
+		Subscriber = 2,
+		[Description("Predictor")]
+		Predictor = 3,
+		[Description("Agent")]
+		Agent = 4
+
+	}
 }
