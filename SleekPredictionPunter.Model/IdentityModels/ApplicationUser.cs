@@ -12,7 +12,7 @@ namespace SleekPredictionPunter.Model.IdentityModels
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public string FullName { get { return $"{FirstName} {LastName}"; } }
-		public UserStatusEnum Status { get; set; } = UserStatusEnum.NotActivated;
+		public EntityStatusEnum Status { get; set; } = EntityStatusEnum.NotActivated;
 		public bool IsTenant { get; set; } = false;
 
 		public DateTime DateCreated { get; set; } = DateTime.UtcNow;

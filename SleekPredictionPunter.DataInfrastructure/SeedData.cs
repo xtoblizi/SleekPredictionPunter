@@ -34,7 +34,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 						UserName = "systemadmin",
 						LastName = "Admin",
 						FirstName = "Total Prediction Admin",
-						Status = UserStatusEnum.Activated,
+						Status = EntityStatusEnum.Activated,
 						EmailConfirmed = true,
 						TwoFactorEnabled = false,
 						PhoneNumberConfirmed = true

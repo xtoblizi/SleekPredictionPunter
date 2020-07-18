@@ -9,7 +9,7 @@ namespace SleekPredictionPunter.Model.BaseModels
 	{
 		public Person()
 		{
-			ActivatedStatus = UserStatusEnum.NotActivated;
+			ActivatedStatus = EntityStatusEnum.NotActive;
 			IsTenant = false;
 
 			TenantUniqueName = IsTenant ? Username : string.Empty;
@@ -36,8 +36,8 @@ namespace SleekPredictionPunter.Model.BaseModels
 
 		public string BrandNameOrNickName { get; set; }
 		public string FullName { get { return $"{FirstName} {LastName}"; } }
-		public UserStatusEnum ActivatedStatus { get; set; } 
-		public bool IsTenant { get; set; }
+		public EntityStatusEnum ActivatedStatus { get; set; } 
+		public virtual bool IsTenant { get; set; }
 
 	}
 }

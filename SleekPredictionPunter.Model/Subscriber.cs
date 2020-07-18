@@ -7,6 +7,10 @@ namespace SleekPredictionPunter.Model
 {
 	public class Subscriber : Person
 	{
-
+		private bool istenant = false;
+		public Subscriber()
+		{
+			IsTenant = false;
+		}
 	}
 }

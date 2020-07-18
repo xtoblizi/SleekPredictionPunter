@@ -46,7 +46,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 			return base.SaveChanges();
 		}
 
-		public async Task<int> SaveChangesAsync()
+		public async Task<long> SaveChangesAsync()
 		{
 			Audit();
 			return await base.SaveChangesAsync();
