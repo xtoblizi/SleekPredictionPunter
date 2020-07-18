@@ -16,7 +16,7 @@ namespace SleekPredictionPunter.Repository.Base
 
 		Task<IEnumerable<T>> GetAllQueryable(Func<T, bool> predicate = null, int startIndex = 0, int count = int.MaxValue);
 
-		Task<T> GetById(dynamic id);
+		Task<T> GetById(string id);
 
 		Task<T> GetById(long id);
 

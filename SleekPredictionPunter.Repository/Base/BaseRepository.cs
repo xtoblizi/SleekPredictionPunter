@@ -52,7 +52,7 @@ namespace SleekPredictionPunter.Repository.Base
 				await SaveChangesAsync();
 		}
 
-		private async virtual Task<long> SaveChangesAsync()
+		public async virtual Task<long> SaveChangesAsync()
 		{
 			return await _predictionDbContext.SaveChangesAsync();
 		}
