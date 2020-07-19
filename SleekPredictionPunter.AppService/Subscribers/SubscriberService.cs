@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using SleekPredictionPunter.AppService.Dtos;
 using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Repository.Base;
@@ -21,9 +22,24 @@ namespace SleekPredictionPunter.AppService
 		/// <param name="model"></param>
 		/// <param name="savechanges"></param>
 		/// <returns></returns>
-		public async Task<long> Insert(Subscriber model, bool savechanges = true)
+		public async Task<long> Insert(SubscriberDto model, bool savechanges = true)
 		{
-			return await _repo.Insert(model, savechanges);
+			var item = new Subscriber()
+			{
+				ActivatedStatus = (EntityStatusEnum)model.ActivatedStatus,
+				BrandNameOrNickName = model.BrandNameOrNickName,
+				DateCreated = model.DateCreated,
+				EntityStatus = (EntityStatusEnum)model.EntityStatus,
+				DateUpdated = model.DateUpdated,
+				Email = model.Email,
+				FirstName = model.FirstName,
+				Gender = (GenderEnum)model.Gender,
+				IsTenant = model.IsTenant,
+				LastName = model.LastName,
+				PhoneNumber = model.PhoneNumber,
+				Username = model.Username
+			};
+			return await _repo.Insert(item, savechanges);
 		}
 
 		/// <summary>
@@ -32,9 +48,24 @@ namespace SleekPredictionPunter.AppService
 		/// <param name="model"></param>
 		/// <param name="savechanges"></param>
 		/// <returns></returns>
-		public async Task Update(Subscriber model, bool savechanges = true)
+		public async Task Update(SubscriberDto model, bool savechanges = true)
 		{
-			await _repo.Update(model, savechanges);
+			var item = new Subscriber()
+			{
+				ActivatedStatus = (EntityStatusEnum)model.ActivatedStatus,
+				BrandNameOrNickName = model.BrandNameOrNickName,
+				DateCreated = model.DateCreated,
+				EntityStatus = (EntityStatusEnum)model.EntityStatus,
+				DateUpdated = model.DateUpdated,
+				Email = model.Email,
+				FirstName = model.FirstName,
+				Gender = (GenderEnum)model.Gender,
+				IsTenant = model.IsTenant,
+				LastName = model.LastName,
+				PhoneNumber = model.PhoneNumber,
+				Username = model.Username
+			};
+			await _repo.Update(item, savechanges);
 		}
 
 		/// <summary>
@@ -43,9 +74,24 @@ namespace SleekPredictionPunter.AppService
 		/// <param name="model"></param>
 		/// <param name="savechanges"></param>
 		/// <returns></returns>
-		public async Task Delete(Subscriber model, bool savechanges = true)
+		public async Task Delete(SubscriberDto model, bool savechanges = true)
 		{
-			await _repo.Delete(model, savechanges);
+			var item = new Subscriber()
+			{
+				ActivatedStatus = (EntityStatusEnum)model.ActivatedStatus,
+				BrandNameOrNickName = model.BrandNameOrNickName,
+				DateCreated = model.DateCreated,
+				EntityStatus = (EntityStatusEnum)model.EntityStatus,
+				DateUpdated = model.DateUpdated,
+				Email = model.Email,
+				FirstName = model.FirstName,
+				Gender = (GenderEnum)model.Gender,
+				IsTenant = model.IsTenant,
+				LastName = model.LastName,
+				PhoneNumber = model.PhoneNumber,
+				Username = model.Username
+			};
+			await _repo.Delete(item, savechanges);
 		}
 
 		/// <summary>
@@ -89,8 +135,24 @@ namespace SleekPredictionPunter.AppService
 		/// </summary>
 		/// <param name="predicate"></param>
 		/// <returns></returns>
-		public async Task<Subscriber> GetFirstOrDefault(Subscriber model)
+		public async Task<Subscriber> GetFirstOrDefault(SubscriberDto item)
 		{
+			var model = new Subscriber()
+			{
+				ActivatedStatus = (EntityStatusEnum)item.ActivatedStatus,
+				BrandNameOrNickName= item.BrandNameOrNickName,
+				DateCreated= item.DateCreated,
+				EntityStatus= (EntityStatusEnum)item.EntityStatus,
+				DateUpdated= item.DateUpdated,
+				Email= item.Email,
+				FirstName= item.FirstName, 
+				Gender= (GenderEnum)item.Gender,
+				IsTenant= item.IsTenant,
+				LastName= item.LastName,
+				PhoneNumber= item.PhoneNumber, 
+				Username= item.Username
+			};
+
 			model.Email = string.IsNullOrEmpty(model.Email) ? string.Empty : model.Email.ToLower();
 			model.Username = string.IsNullOrEmpty(model.Username) ? string.Empty : model.Username.ToLower();
 			model.PhoneNumber = string.IsNullOrEmpty(model.PhoneNumber) ? string.Empty : model.PhoneNumber.ToLower();

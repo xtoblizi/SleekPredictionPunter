@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SleekPredictionPunterWeb", "SleekPredictionPunterWeb\SleekPredictionPunterWeb.csproj", "{DA502246-063C-43F9-B7CA-8A5BC8200F7F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SleekPredictionPunter.Api", "SleekPredictionPunter.Api\SleekPredictionPunter.Api.csproj", "{D6023D43-257D-4FCA-9125-6B22E32A6E17}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SleekPredictionPunter.DataInfrastructure", "SleekPredictionPunter.DataInfrastructure\SleekPredictionPunter.DataInfrastructure.csproj", "{D245B62D-C990-4AA1-8029-448A42AB8712}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SleekPredictionPunter.Repository", "SleekPredictionPunter.Repository\SleekPredictionPunter.Repository.csproj", "{58A3C1B8-6070-4F39-AF83-2D1E2F9C7AB4}"
@@ -15,13 +13,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SleekPredictionPunter.AppSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SleekPredictionPunter.Model", "SleekPredictionPunter.Model\SleekPredictionPunter.Model.csproj", "{CBCFB741-4FA6-4970-8603-55C1A2B8B19B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunter.IdentityServices", "SleekPredictionPunter.IdentityServices\SleekPredictionPunter.IdentityServices.csproj", "{0D536F3E-1B48-4830-AB29-D48F0A77CD8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SleekPredictionPunter.IdentityServices", "SleekPredictionPunter.IdentityServices\SleekPredictionPunter.IdentityServices.csproj", "{0D536F3E-1B48-4830-AB29-D48F0A77CD8A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{CA5D2CBC-B2A1-43E3-8809-EBB5532228A5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Host", "Host", "{148FF062-1892-42C6-B4FF-AB5361B937B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunter.GeneralUtilsAndServices", "SleekPredictionPunter.GeneralUtilsAndServices\SleekPredictionPunter.GeneralUtilsAndServices.csproj", "{3EF546E4-F287-4F9C-8FF8-7238D4279D3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SleekPredictionPunter.GeneralUtilsAndServices", "SleekPredictionPunter.GeneralUtilsAndServices\SleekPredictionPunter.GeneralUtilsAndServices.csproj", "{3EF546E4-F287-4F9C-8FF8-7238D4279D3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunter.Api", "SleekPredictionPunter.Api\SleekPredictionPunter.Api.csproj", "{64BD767B-7F0E-43F7-A9F3-DC63421F406E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +33,6 @@ Global
 		{DA502246-063C-43F9-B7CA-8A5BC8200F7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA502246-063C-43F9-B7CA-8A5BC8200F7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA502246-063C-43F9-B7CA-8A5BC8200F7F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D6023D43-257D-4FCA-9125-6B22E32A6E17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6023D43-257D-4FCA-9125-6B22E32A6E17}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D6023D43-257D-4FCA-9125-6B22E32A6E17}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D6023D43-257D-4FCA-9125-6B22E32A6E17}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D245B62D-C990-4AA1-8029-448A42AB8712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D245B62D-C990-4AA1-8029-448A42AB8712}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D245B62D-C990-4AA1-8029-448A42AB8712}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,14 +57,18 @@ Global
 		{3EF546E4-F287-4F9C-8FF8-7238D4279D3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EF546E4-F287-4F9C-8FF8-7238D4279D3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EF546E4-F287-4F9C-8FF8-7238D4279D3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64BD767B-7F0E-43F7-A9F3-DC63421F406E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64BD767B-7F0E-43F7-A9F3-DC63421F406E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64BD767B-7F0E-43F7-A9F3-DC63421F406E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64BD767B-7F0E-43F7-A9F3-DC63421F406E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DA502246-063C-43F9-B7CA-8A5BC8200F7F} = {148FF062-1892-42C6-B4FF-AB5361B937B8}
-		{D6023D43-257D-4FCA-9125-6B22E32A6E17} = {148FF062-1892-42C6-B4FF-AB5361B937B8}
 		{3EF546E4-F287-4F9C-8FF8-7238D4279D3D} = {CA5D2CBC-B2A1-43E3-8809-EBB5532228A5}
+		{64BD767B-7F0E-43F7-A9F3-DC63421F406E} = {148FF062-1892-42C6-B4FF-AB5361B937B8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {97A460F3-A638-4D3D-A624-511353C9DF37}

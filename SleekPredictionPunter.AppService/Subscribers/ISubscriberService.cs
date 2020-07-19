@@ -1,4 +1,5 @@
-﻿using SleekPredictionPunter.Model;
+﻿using SleekPredictionPunter.AppService.Dtos;
+using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Repository.Base;
 using System;
 using System.Collections.Generic;
@@ -9,12 +10,12 @@ namespace SleekPredictionPunter.AppService
 {
 	public interface ISubscriberService 
 	{
-		Task<long> Insert(Subscriber phoneOwner, bool savechage = true);
-		Task Update(Subscriber phoneOwner, bool savechage = true);
+		Task<long> Insert(SubscriberDto phoneOwner, bool savechage = true);
+		Task Update(SubscriberDto phoneOwner, bool savechage = true);
 
-		Task Delete(Subscriber phoneOwner, bool savechage = true);
+		Task Delete(SubscriberDto phoneOwner, bool savechage = true);
 
-		Task<Subscriber> GetFirstOrDefault(Subscriber model);
+		Task<Subscriber> GetFirstOrDefault(SubscriberDto model);
 
 		Task<IEnumerable<Subscriber>> GetAllQueryable(
 			int? activationstatus = null, int? gender = null,
