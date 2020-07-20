@@ -15,7 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SleekPredictionPunter.AppService\SleekPredictionPunter.AppService.csproj" />
     <ProjectReference Include="..\SleekPredictionPunter.DataInfrastructure\SleekPredictionPunter.DataInfrastructure.csproj" />
+    <ProjectReference Include="..\SleekPredictionPunter.GeneralUtilsAndServices\SleekPredictionPunter.GeneralUtilsAndServices.csproj" />
   </ItemGroup>
 
 </Project>

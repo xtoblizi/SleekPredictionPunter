@@ -19,7 +19,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 			{
 				var context = serviceProvider.GetRequiredService<PredictionDbContext>();
 				var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-				var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+				var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
 
 				context.Database.EnsureCreated();
 				ApplicationUser user = null;
@@ -55,7 +55,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 						var roleRecord = context.Roles.Where(x => x.Name.Equals(item.Name));
 						if (roleRecord.FirstOrDefault()?.Name == null)
 						{
-							IdentityRole role = new IdentityRole()
+							ApplicationRole role = new ApplicationRole()
 							{
 								ConcurrencyStamp = Guid.NewGuid().ToString(),
 								Name = item.Name,
