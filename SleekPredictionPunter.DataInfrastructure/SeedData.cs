@@ -29,15 +29,17 @@ namespace SleekPredictionPunter.DataInfrastructure
 				{
 					user = new ApplicationUser()
 					{
-						Email = $"systemadmin@totalprediction.com",
+						Email = $"systemadmin@predictivepower.com",
 						SecurityStamp = Guid.NewGuid().ToString(),
 						UserName = "systemadmin",
 						LastName = "Admin",
 						FirstName = "Total Prediction Admin",
-						Status = EntityStatusEnum.Activated,
+						Status = EntityStatusEnum.Active,
 						EmailConfirmed = true,
 						TwoFactorEnabled = false,
-						PhoneNumberConfirmed = true
+						PhoneNumberConfirmed = true,
+						LockoutEnabled = false,
+						DateCreated = DateTime.UtcNow
 					};
 					await userManager.CreateAsync(user, "password");
 					isUserCreated = true;

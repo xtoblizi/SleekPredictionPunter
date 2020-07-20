@@ -30,6 +30,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{		
 			base.OnModelCreating(modelBuilder);
+			
 			//modelBuilder.Entity<IdentityUser>().ToTable("user");
 			//modelBuilder.Entity<ApplicationUser>().ToTable("user");
 
