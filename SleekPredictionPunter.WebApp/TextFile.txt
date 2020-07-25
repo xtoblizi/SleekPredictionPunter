@@ -1,0 +1,10 @@
+﻿
+Project Startup and Initialization
+
+NOte to initiate the project properly oon your development machine. 
+You must first update the database via packagme manager console using entity framework "update-database" commnad.
+Also to do the above , you must select the Prediction.DataInfrastructure project as the target assembly.
+
+Note If you pull this project and find not file in the migration folder of the SleekPrediction.DataInfrastructure assemnly the you must
+first add-migrattion. use the command : "Add-Migration Init -Project SleekPredictionPunter.DataInfrastructure" after you can run the "update-database" command.
+

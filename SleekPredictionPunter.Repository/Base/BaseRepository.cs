@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.Repository.Base
 {
-	public abstract class BaseRepository<T> : IBaseRepository<T>  where T : class
+	public class BaseRepository<T> : IBaseRepository<T> where T : class
 	{
 		#region SetUp
 		private readonly PredictionDbContext _predictionDbContext;

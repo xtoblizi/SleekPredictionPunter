@@ -1,6 +1,6 @@
 ﻿namespace SleekPredictionPunter.Model
 {
-	public class AgentRefereeMap
+	public class AgentRefereeMap: BaseEntity
 	{
 		public string AgentUsername { get; set; }
 

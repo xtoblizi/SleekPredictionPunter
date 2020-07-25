@@ -7,17 +7,25 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SleekPredictionPunter.AppService;
 using SleekPredictionPunter.DataInfrastructure;
+using System.IO;
 
 namespace SleekPredictionPunter.WebApp
 {
 	public class Startup
 	{
-		public Startup(IConfiguration configuration)
+		public Startup(IConfiguration configuration, IWebHostEnvironment env)
 		{
-			Configuration = configuration;
+			 Configuration = new ConfigurationBuilder()
+			 .SetBasePath(Directory.GetCurrentDirectory())
+			 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+			 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+			 .AddEnvironmentVariables()
+			 .Build();
+
+
 		}
 
-		public IConfiguration Configuration { get; }
+		public IConfiguration Configuration { get; } 
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
@@ -32,8 +40,10 @@ namespace SleekPredictionPunter.WebApp
 
 			services.AddDbContext<PredictionDbContext>(options =>
 			{
-				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
+					b=> b.MigrationsAssembly("SleekPredictionPunter.WebApp"));
 			});
+
 			services.AddUserIdentityServices();
 			services.AddPredictionApplicationServices();
 			services.AddRazorPages();

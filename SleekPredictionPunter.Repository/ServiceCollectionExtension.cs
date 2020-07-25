@@ -8,7 +8,10 @@ namespace SleekPredictionPunter.Repository
 	{
 		public static void AddPredictionRepositories(this IServiceCollection services)
 		{
-			services.AddTransient(typeof(IBaseRepository<>),typeof(BaseRepository<>));
+			services.AddScoped(typeof(IBaseRepository<>),typeof(BaseRepository<>));
+
+
+
 		}
 	}
 }
