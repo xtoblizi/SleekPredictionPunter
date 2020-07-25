@@ -19,9 +19,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Host", "Host", "{148FF062-1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SleekPredictionPunter.GeneralUtilsAndServices", "SleekPredictionPunter.GeneralUtilsAndServices\SleekPredictionPunter.GeneralUtilsAndServices.csproj", "{3EF546E4-F287-4F9C-8FF8-7238D4279D3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunter.Api", "SleekPredictionPunter.Api\SleekPredictionPunter.Api.csproj", "{64BD767B-7F0E-43F7-A9F3-DC63421F406E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunter.WebApp", "SleekPredictionPunter.WebApp\SleekPredictionPunter.WebApp.csproj", "{09ACED32-396B-47A1-8CE5-DFB05A0EBBDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleekPredictionPunterWeb", "SleekPredictionPunterWeb\SleekPredictionPunterWeb.csproj", "{E9DDCAD1-1F14-4D14-A391-9DF46CB86A2F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RESOURCES", "RESOURCES", "{FB61EAEC-B32D-4574-9FDF-6AAE99259797}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Downloads\Dashio.zip = ..\..\..\Downloads\Dashio.zip
+		TextFile1.txt = TextFile1.txt
+		..\..\..\Downloads\themeforest-bAsVz7od-peredion-esports-prediction-html-template.zip = ..\..\..\Downloads\themeforest-bAsVz7od-peredion-esports-prediction-html-template.zip
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1erereUSerStore", "WebApplication1erereUSerStore\WebApplication1erereUSerStore.csproj", "{A5D5ADEE-063B-4436-9B12-614DA32D7C03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,14 +60,14 @@ Global
 		{3EF546E4-F287-4F9C-8FF8-7238D4279D3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EF546E4-F287-4F9C-8FF8-7238D4279D3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EF546E4-F287-4F9C-8FF8-7238D4279D3D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64BD767B-7F0E-43F7-A9F3-DC63421F406E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64BD767B-7F0E-43F7-A9F3-DC63421F406E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64BD767B-7F0E-43F7-A9F3-DC63421F406E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64BD767B-7F0E-43F7-A9F3-DC63421F406E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E9DDCAD1-1F14-4D14-A391-9DF46CB86A2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E9DDCAD1-1F14-4D14-A391-9DF46CB86A2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E9DDCAD1-1F14-4D14-A391-9DF46CB86A2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E9DDCAD1-1F14-4D14-A391-9DF46CB86A2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09ACED32-396B-47A1-8CE5-DFB05A0EBBDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09ACED32-396B-47A1-8CE5-DFB05A0EBBDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09ACED32-396B-47A1-8CE5-DFB05A0EBBDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09ACED32-396B-47A1-8CE5-DFB05A0EBBDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5D5ADEE-063B-4436-9B12-614DA32D7C03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5D5ADEE-063B-4436-9B12-614DA32D7C03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5D5ADEE-063B-4436-9B12-614DA32D7C03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5D5ADEE-063B-4436-9B12-614DA32D7C03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,1 @@
+Store original resources used in the application here. for backup and revert purposes

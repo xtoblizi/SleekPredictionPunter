@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Model.IdentityModels;
 using System;
@@ -9,11 +10,24 @@ using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.DataInfrastructure
 {
+	public class PredictionDbFactory : IDesignTimeDbContextFactory<PredictionDbContext>
+	{
+		const string  connectionstring = "Data Source= DESKTOP-JBDM8G2\\SQLEXPRESS;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True; Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
+		public PredictionDbContext CreateDbContext(string[] args)
+		{
+			var optionsBuilder = new DbContextOptionsBuilder<PredictionDbContext>();
+			optionsBuilder.UseSqlServer(connectionstring);
+
+			return new PredictionDbContext(optionsBuilder.Options);
+		}
+	}
 	public class PredictionDbContext : IdentityDbContext 
 	{
 		public PredictionDbContext(DbContextOptions<PredictionDbContext> options) : base(options) 
 		{
 		}
+
+		
 
 		// add tables of the database as the dbcontext properties here.
 
@@ -27,16 +41,52 @@ namespace SleekPredictionPunter.DataInfrastructure
 		/// Override method on creation of the tables of the database
 		/// </summary>
 		/// <param name="modelBuilder"></param>
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		protected override void OnModelCreating(ModelBuilder builder)
 		{		
-			base.OnModelCreating(modelBuilder);
-			//modelBuilder.Entity<IdentityUser>().ToTable("user");
-			//modelBuilder.Entity<ApplicationUser>().ToTable("user");
+			base.OnModelCreating(builder);
 
-			//modelBuilder.Entity<IdentityRole>().ToTable("role");
-			//modelBuilder.Entity<IdentityUserRole>().ToTable("userrole");
-			//modelBuilder.Entity<IdentityUserClaim>().ToTable("userclaim");
-			//modelBuilder.Entity<IdentityUserLogin>().ToTable("userlogin");
+			builder.Entity<ApplicationUser>(entity =>
+			{
+				entity.ToTable(name: "User");
+			});
+
+			builder.Entity<IdentityRole>(entity =>
+			{
+				entity.ToTable(name: "Role");
+			});
+			builder.Entity<IdentityUserRole<string>>(entity =>
+			{
+				entity.ToTable("UserRoles");
+				//in case you chagned the TKey type
+				//  entity.HasKey(key => new { key.UserId, key.RoleId });
+			});
+
+			builder.Entity<IdentityUserClaim<string>>(entity =>
+			{
+				entity.ToTable("UserClaims");
+			});
+
+			builder.Entity<IdentityUserLogin<string>>(entity =>
+			{
+				entity.ToTable("UserLogins");
+				//in case you chagned the TKey type
+				//  entity.HasKey(key => new { key.ProviderKey, key.LoginProvider });       
+			});
+
+			builder.Entity<IdentityRoleClaim<string>>(entity =>
+			{
+				entity.ToTable("RoleClaims");
+
+			});
+
+			builder.Entity<IdentityUserToken<string>>(entity =>
+			{
+				entity.ToTable("UserTokens");
+				//in case you chagned the TKey type
+				// entity.HasKey(key => new { key.UserId, key.LoginProvider, key.Name });
+
+			});
+
 		}
 
 

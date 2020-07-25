@@ -19,7 +19,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 			{
 				var context = serviceProvider.GetRequiredService<PredictionDbContext>();
 				var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-				var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+				var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
 
 				context.Database.EnsureCreated();
 				ApplicationUser user = null;
@@ -29,15 +29,17 @@ namespace SleekPredictionPunter.DataInfrastructure
 				{
 					user = new ApplicationUser()
 					{
-						Email = $"systemadmin@totalprediction.com",
+						Email = $"systemadmin@predictivepower.com",
 						SecurityStamp = Guid.NewGuid().ToString(),
 						UserName = "systemadmin",
 						LastName = "Admin",
 						FirstName = "Total Prediction Admin",
-						Status = EntityStatusEnum.Activated,
+						Status = EntityStatusEnum.Active,
 						EmailConfirmed = true,
 						TwoFactorEnabled = false,
-						PhoneNumberConfirmed = true
+						PhoneNumberConfirmed = true,
+						LockoutEnabled = false,
+						DateCreated = DateTime.UtcNow
 					};
 					await userManager.CreateAsync(user, "password");
 					isUserCreated = true;
@@ -53,7 +55,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 						var roleRecord = context.Roles.Where(x => x.Name.Equals(item.Name));
 						if (roleRecord.FirstOrDefault()?.Name == null)
 						{
-							IdentityRole role = new IdentityRole()
+							ApplicationRole role = new ApplicationRole()
 							{
 								ConcurrencyStamp = Guid.NewGuid().ToString(),
 								Name = item.Name,
