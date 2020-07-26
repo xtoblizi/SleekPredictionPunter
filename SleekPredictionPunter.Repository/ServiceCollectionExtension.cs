@@ -10,8 +10,6 @@ namespace SleekPredictionPunter.Repository
 		{
 			services.AddScoped(typeof(IBaseRepository<>),typeof(BaseRepository<>));
 
-
-
 		}
 	}
 }

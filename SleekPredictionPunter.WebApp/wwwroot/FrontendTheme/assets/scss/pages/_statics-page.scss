@@ -1,0 +1,323 @@
+// statics-page
+.statics-page {
+    padding: 120px 0;
+    background: #f5f5f5;
+    .betting-table .bett-menu .nav-tabs .nav-item:first-child .nav-link:before {
+        display: none;
+    }
+    h4.tab-title {
+        background: $bg-1;
+        color: $white;
+        padding: 20px 30px;
+        font-weight: 500;
+        margin-bottom: 40px;
+        font-size: 22px;
+        text-transform: uppercase;
+        line-height: 100%;
+        position: relative;
+        border-radius: 5px;
+        position: relative;
+        i {
+            float: right;
+            font-size: 30px;
+        }
+    }
+    .round-set {
+        margin-bottom: 40px;
+        h3.title {
+            font-size: 20px;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 22px;
+            margin-top: -5px;
+            color: #2a2a2a;
+        }
+        &.one {
+            .col-xl-3:nth-child(2n+1) {
+                .single-game {
+                    &:before {
+                        position: absolute;
+                        content: '';
+                        left: 50%;
+                        bottom: -40px;
+                        width: 60%;
+                        height: 1px;
+                        background: $sec-color;
+                    }
+                }
+            }
+            .col-xl-3:nth-child(2n+0) {
+                .single-game {
+                    &:before {
+                        position: absolute;
+                        content: '';
+                        right: 50%;
+                        bottom: -40px;
+                        width: 60%;
+                        height: 1px;
+                        background: $sec-color;
+                    }
+                }
+            }
+        }
+        &.two {
+            .col-xl-4 {
+                .single-game {
+                    &:before {
+                        position: absolute;
+                        content: '';
+                        left: 50%;
+                        bottom: 100%;
+                        height: 47px;
+                        width: 1px;
+                        background: $sec-color;
+                    }
+                }
+                &:last-child {
+                    .single-game {
+                        &:before {
+                            left: 70%;
+                            transform: rotate(18deg);
+                        }
+                    }
+                }
+                &:first-child {
+                    .single-game {
+                        &:before {
+                            left: 30%;
+                            transform: rotate(-18deg);
+                        }
+                    }
+                }
+            }
+            
+        }
+        &.final {
+            margin-bottom: 0;
+            .single-game {
+                border-color: $sec-color;
+                background: linear-gradient(160deg, $sec-color, $sec-color-deep);
+                ul li span.player-name, ul li span.point {
+                    color: $white;
+                }
+                &:after {
+                    top: auto;
+                    bottom: 100%;
+                    height: 45px;
+                    background: $sec-color;
+                }
+                &:before {
+                    position: absolute;
+                    content: '';
+                    left: 50%;
+                    margin-left: -167px;
+                    width: 334px;
+                    top: -45px;
+                    height: 1px;
+                    background: $sec-color;
+                }
+            }
+        }
+    }
+    .single-game {
+        border: 1px solid #ddd;
+        padding: 22px 30px 21px;
+        border-radius: 5px;
+        background-color: $white;
+        position: relative;
+        @include transition($transition);
+        &:hover {
+            border-color: $sec-color;
+        }
+        &:after {
+            position: absolute;
+            content: '';
+            left: 50%;
+            top: 100%;
+            height: 40px;
+            width: 1px;
+            background: $sec-color;
+        }
+        ul {
+            li {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                line-height: 26px;
+                span {
+                    display: block;
+                    color: #2a2a2a;
+                    &.player-name {
+                        font-size: 15px;
+                        font-weight: 400;
+                        text-transform: uppercase;
+                    }
+                    &.point {
+                        font-size: 15px;
+                        font-weight: 400;
+                        text-transform: uppercase;
+                    }
+                }
+                &.winner {
+                    span {
+                        &.player-name {
+                            font-weight: 500;
+                        }
+                        &.point {
+                            font-weight: 500;
+                            color: $sec-color;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // match winner
+    .match-winner {
+        padding: 120px 0;
+        .single-match-winner {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0px 3px 11px 0px rgba(85, 85, 85, 0.2);
+            padding: 43px 50px 78px;
+            border-radius: 10px;
+            .single-percentage {
+                position: relative;
+                &:after {
+                    position: absolute;
+                    content: '';
+                    left: 150%;
+                    top: 50%;
+                    width: 80px;
+                    height: 1px;
+                    background: #555;
+
+                }
+                &:last-child {
+                    &:after {
+                        position: absolute;
+                        content: '';
+                        left: auto;
+                        right: 150%;
+                        top: 50%;
+                        width: 80px;
+                        height: 1px;
+                        background: $sec-color;
+
+                    }
+                }
+                span {
+                    display: block;
+                    text-align: center;
+                    &.number {
+                        font-size: 45px;
+                        font-weight: 300;
+                        line-height: 100%;
+                        margin-bottom: 11px;
+                        margin-top: -6px;
+                    }
+                    &.title {
+                        font-size: 18px;
+                        font-weight: 500;
+                        color: $sec-color;
+                        text-transform: uppercase;
+                        line-height: 100%;
+                        margin-bottom: -3px;
+                    }
+                }
+            }
+            .circle {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                span {
+                    &.cicle-title {
+                        position: absolute;
+                        top: 100%;
+                        text-transform: uppercase;
+                        font-weight: 500;
+                        color: #777;
+                        margin-top: 19px;
+                    }
+                }
+            }
+        }
+    }
+    .matched-for-result {
+        padding: 0;
+        .upcoming-match-list .single-upcoming-match .single-team:last-child {
+            padding-left: 160px;
+        }
+        .upcoming-match-list {
+            box-shadow: 0px 3px 11px 0px rgba(85, 85, 85, 0.2);
+            border-radius: 10px;
+            &.mt-30 {
+                margin-top: 30px;
+            }
+        }
+        .single-upcoming-match {
+            box-shadow: none;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 0;
+            justify-content: space-around;
+            div {
+                flex: 1;
+            }
+            &:last-child {
+                border-bottom: none;
+            }
+            .summery {
+                border-left: 1px solid #eee;
+                border-right: 1px solid #eee;
+                padding: 0 20px;
+                position: absolute;
+                span {
+                    display: block;
+                    &.date {
+                        font-size: 16px;
+                        font-weight: 500;
+                        color: $sec-color-deep;
+                    }
+                    &.time {
+                        font-size: 13px;
+                        font-weight: 500;
+                        color: #888;
+                    }
+                    &.goal {
+                        font-size: 20px;
+                        font-weight: 600;
+                        margin-top: 10px;
+                        color: $base-color;
+                        span {
+                            display: inline-block;
+                            &.less {
+                                font-weight: 400;
+                            }
+                        }
+                    }
+                }
+            }
+            .single-team {
+                flex-direction: column;
+                padding: 25px 30px;
+                .part-text {
+                    .team-name {
+                        font-size: 16px!important;
+                    }
+                }
+                .part-logo {
+                    margin: 0!important;
+                    margin-top: 13px!important;
+                    img {
+                        width: auto!important;
+                        height: 45px;
+                    }
+                }
+            }
+        }
+    }
+}

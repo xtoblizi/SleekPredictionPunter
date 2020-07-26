@@ -1,0 +1,170 @@
+// download app
+.download-app {
+    padding: 120px 0;
+    background: linear-gradient(360deg, rgba(200, 43, 43, 0), #f7f7f7);
+    background: #f7f7f7;
+    .container {
+        position: relative;
+    }
+    img.shape {
+        width: 1000px;
+        position: absolute;
+        left: 388px;
+        bottom: 0;
+    }
+    .part-img {
+        position: relative;
+        z-index: 3;
+        // &:after {
+        //     position: absolute;
+        //     content: '';
+        //     width: 999px;
+        //     height: 425px;
+        //     top: 50%;
+        //     transform: translateY(-50%);
+        //     opacity: 1;
+        //     right: 200px;
+        //     z-index: -1;
+        //     background: url('../img/app-bg.jpg') center center no-repeat;
+        //     background-size: 100%;
+        //     background-color: $sec-color;
+        // }
+        // &:before {
+        //     position: absolute;
+        //     content: '';
+        //     width: 999px;
+        //     height: 425px;
+        //     top: 50%;
+        //     transform: translateY(-50%);
+        //     opacity: 1;
+        //     right: 200px;
+        //     z-index: 0;
+        //     background-color: rgba($sec-color, 0.6);
+        // }
+        img.app {
+            width: 300px;
+            position: relative;
+            z-index: 2;
+            &:first-child {
+                position: absolute;
+                left: 25%;
+                // top: 64px;
+                bottom: 0;
+                z-index: 3;
+                // transform: rotate(20deg);
+                width: 260px;
+            }
+        }
+    }
+    .part-text {
+        position: relative;
+        z-index: 3;
+        //  &:after {
+        //     position: absolute;
+        //     content: '';
+        //     width: 999px;
+        //     height: 425px;
+        //     top: 50%;
+        //     transform: translateY(-50%);
+        //     opacity: 1;
+        //     left: calc(100% + 80px);
+        //     z-index: -1;
+        //     background: url('../img/app-bg.jpg') center center no-repeat;
+        //     background-size: 100%;
+        //     background-color: $sec-color;
+        // }
+        // &:before {
+        //     position: absolute;
+        //     content: '';
+        //     width: 999px;
+        //     height: 425px;
+        //     top: 50%;
+        //     transform: translateY(-50%);
+        //     opacity: 1;
+        //     left: calc(100% + 80px);
+        //     z-index: 0;
+        //     background-color: rgba($sec-color, 0.6);
+        // }
+        h4 {
+            text-transform: uppercase;
+            font-weight: 400;
+            color: $sec-color;
+            font-size: 18px;
+            display: block;
+            margin-bottom: 6px;
+        }
+        h3 {
+            text-transform: uppercase;
+            font-weight: 600;
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: $bg-2;
+            // opacity: .9;
+        }
+        p {
+            font-size: 16px;
+            line-height: 28px;
+            color: $bg-2;
+            opacity: .9;
+            img {
+                height: 14px;
+                // filter: invert(100);
+                margin: 0 3px;
+                position: relative;
+                margin-top: -0.5px;
+            }
+        }
+        ul {
+            margin-top: 40px;
+            li {
+                display: inline-block;
+                margin-right: 16px;
+                &:last-child {
+                    margin-right: 0;
+                }
+                a {
+                    display: inline-block;
+                    width: 130px;
+                }
+            }
+        }
+    }
+    .app-features {
+        margin-top: 60px;
+        .single-feature {
+            display: inline-block;
+            margin-right: 40px;
+            text-align: center;
+            &:last-child {
+                margin-right: 0;
+            }
+            .part-icon {
+                border: 5px solid rgba($sec-color, 0.4);
+                display: inline-block;
+                padding: 25px;
+                border-radius: 50%;
+                position: relative;
+                margin-bottom: 20px;
+                &:after {
+                    position: absolute;
+                    content: '';
+                    left: 0;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    border: 5px solid rgba($sec-color, 0.2);
+                    border-radius: 50%;
+                }
+                img {
+                    width: 40px;
+                }
+            }
+            .title {
+                display: block;
+                text-transform: uppercase;
+                font-weight: 500;
+                font-size: 14px;
+            }
+        }
+    }
+}

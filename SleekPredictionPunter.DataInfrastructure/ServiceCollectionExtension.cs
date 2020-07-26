@@ -13,8 +13,9 @@ namespace SleekPredictionPunter.DataInfrastructure
 	{
 		public static void AddUserIdentityServices(this IServiceCollection services)
 		{
-			
-			services.AddIdentity<ApplicationUser, ApplicationRole>(options => {
+
+			services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+			{
 
 				options.Password.RequireDigit = false;
 				options.Password.RequiredLength = 4;

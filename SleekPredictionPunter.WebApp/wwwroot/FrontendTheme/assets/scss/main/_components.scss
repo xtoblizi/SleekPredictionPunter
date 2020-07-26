@@ -1,0 +1,62 @@
+// tag
+.tag {
+    display: inline-block;
+    font-size: 12px;
+    padding: 1px 4px;
+    font-weight: 500;
+    color: $bg-2;
+    border-radius: 3px;
+    background: #ddd;
+}
+.tag-yellow {
+    background: var(--yellow);
+}
+.tag-orange {
+    background: var(--primary);
+    color: $white;
+}
+
+// button
+.bet-btn {
+    background: #ddd;
+    display: inline-block;
+    padding: 0 20px;
+    height: 50px;
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: 500;
+    line-height: 50px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    color: $white;
+    @include transition($transition);
+}
+.bet-btn-base {
+    background: $sec-color;
+    color: $white;
+    &:hover {
+        background: $bg-1;
+        color: $white;
+    }
+}
+.bet-btn-dark-light {
+    background: $bg-1;
+    color: $white;
+    &:hover {
+        background: $sec-color;
+        color: $white;
+    }
+}
+.bet-btn-border {
+    background: transparent;
+    border: 1px solid #fff;
+    line-height: 48px;
+    &:hover {
+        background: $sec-color;
+        color: $white;
+        border-color: transparent;
+    }
+}
+
+
+// background

@@ -1,0 +1,52 @@
+
+//== Template Main Color
+$base-color: #79a125;
+$sec-color: #f81b64;
+$sec-color-deep: #c40c49; 
+$bg-color:#f4f4f4;
+$white: #fff;
+$bg-1: #2a2a2a;
+$bg-2: #383838;
+
+$text-1: #9b9b9b;
+//== heading color
+$heading-color: #111705;
+$heading-color-2: #df0225;
+$descr-color: #111705;
+$subtitle-color: #101830;
+//== social color
+$facebook: #3b5999;
+$twitter: #55acee;
+$linkedin: #0077B5;
+$google-plus: #dd4b39;
+$pinterest: #bd081c;
+$youtube: #cd201f;
+$instagram: #e4405f;
+$dribbble: #ea4c89;
+$behance: #131418;
+$wordpress: #21759b;
+$skype: #00AFF0;
+
+/*==========================================
+    typography
+===========================================*/
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i,900,900i&display=swap');
+$body-font: 'Rubik', sans-serif;
+$heading-font: 'Rubik', sans-serif;
+
+//== font sizes
+$base-font-size: 16px !default;
+$font-size-h1: 60px !default;
+$font-size-h2: 52px !default;
+$font-size-h3: 36px !default;
+$font-size-h4: 24px !default;
+//** Unit-less `line-height` for use in components like buttons.
+$line-height: 1.4 !default; // 24/15
+// border-radius
+$border-radius-5: 5px !default;
+$border-radius-25: 25px !default;
+$border-radius-3: 3px !default;
+$border-radius-circle: 50% !default;
+//  transition
+$transition: all .3s ease-in;
+$transition-long: all .5s ease-in;

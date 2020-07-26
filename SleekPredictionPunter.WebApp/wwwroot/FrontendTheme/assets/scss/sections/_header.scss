@@ -1,0 +1,202 @@
+// header
+.header {
+    .header-top {
+        background: $bg-1;
+        padding: 10px 0;
+        .left-area, .right-area {
+            ul {
+                li {
+                    display: inline-block;
+                    padding: 0 15px;
+                    text-transform: uppercase;
+                    font-size: 13px;
+                    color: #ddd;
+                    position: relative;
+                    &:after {
+                        position: absolute;
+                        content: '';
+                        left: 0;
+                        top: 0;
+                        height: 16px;
+                        width: 1px;
+                        background: rgba($white, .29);
+                    }
+                    &:last-child {
+                        padding-right: 0;
+                    }
+                    &:first-child {
+                        padding-left: 0;
+                        &:after {
+                            display: none;
+                        }
+                    }
+                    span {
+                        display: inline-block;
+                        &.icon {
+                            margin-right: 5px;
+                        }
+                        &.text.clocks {
+                            span {
+                                margin: 0 2px;
+                                &:first-child {
+                                    margin-left: 0;
+                                }
+                                &:last-child {
+                                    margin-right: 0;
+                                }
+                            }
+                        }
+                    }
+                    .link {
+                        color: #ddd;
+                        svg {
+                            height: 18px;
+                            width: 25px;
+                            margin-right: 5px;
+                            position: relative;
+                            top: -2px;
+                            color: $sec-color;
+                        }
+                        &.reg {
+                            background: $sec-color;
+                            color: $white;
+                            padding: 3px 10px 2px;
+                            border-radius: 3px;
+                        }
+                    }
+                    select {
+                        font-size: 14px;
+                        appearance: none;
+                        border: none;
+                        background: transparent;
+                        color: #ddd;
+                        option {
+                            background: $bg-2;
+                        }
+                    }
+                }
+            }
+        }
+        .right-area {
+            text-align: right;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+    }
+    .header-bottom {
+        background: #383838;
+        @include transition($transition);
+        &.navbar-fixed {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            left: 0;
+            z-index: 55;
+            @include transition($transition);
+        }
+        .logo {
+            max-width: 150px;
+            a {
+                display: inline-block;
+            }
+        }
+        .navbar {
+            padding: 0 0;
+            .navbar-nav {
+                .nav-item {
+                    .nav-link {
+                        padding: 30px 20px;
+                        text-transform: uppercase;
+                        color: #eee;
+                        font-size: 15px;
+                        font-weight: 500;
+                    }
+                    &:last-child {
+                        .nav-link {
+                            padding-right: 0;
+                        }
+                    }
+                    &.dropdown {
+                        .dropdown-toggle {
+                            position: relative;
+                            &:after {
+                                content: '\f107';
+                                border: none;
+                                font-family: "Font Awesome 5 Free";
+                                font-weight: 900;
+                                width: auto;
+                                height: auto;
+                                vertical-align: 0;
+                                font-size: 15px;
+                                position: relative;    
+                                margin-left: 1px;
+                                opacity: .6;
+                                transform: rotate(0);
+                                @include transition($transition);
+                            }
+                        }
+                        &:hover {
+                            .dropdown-menu {
+                                margin-top: 0;
+                                opacity: 1;
+                                visibility: visible;                            
+                            }
+                            .dropdown-toggle {
+                                &:after {
+                                    transform: rotate(180deg);
+                                }
+                            }
+                        }
+                        .dropdown-menu {
+                            display: block;
+                            margin-top: 0;
+                            border-radius: 0;
+                            border: none;
+                            padding: 0;
+                            margin-top: 30px;
+                            @include transition($transition);
+                            opacity: 0;
+                            visibility: hidden;
+                            box-shadow: 0 0 13px 8px rgba(0, 0, 0, 0.04);
+                            .dropdown-item {
+                                text-transform: uppercase;
+                                font-size: 15px;
+                                font-weight: 500;
+                                color: rgba($bg-2, 0.7);
+                                padding: 16px 25px 14px;
+                                border-bottom: 1px solid rgba($bg-2, 0.1);
+                                background: $white;
+                                position: relative;
+                                line-height: 100%;
+                                z-index: 2;
+                                @include transition($transition);
+                                &:after {
+                                    position: absolute;
+                                    content: '';
+                                    left: 0;
+                                    top: 0;
+                                    width: 1px;
+                                    height: 100%;
+                                    background: linear-gradient(160deg, $sec-color, $sec-color-deep);
+                                    z-index: -1;
+                                    @include transition($transition);
+                                }
+                                &:hover {
+                                    color: $white;
+                                    border-color: transparent;
+                                    &:after {
+                                        width: 100%;
+                                    }
+                                }
+                                &:last-child {
+                                    border-bottom: 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
