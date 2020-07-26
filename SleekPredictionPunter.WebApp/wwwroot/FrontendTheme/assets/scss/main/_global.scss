@@ -1,0 +1,316 @@
+// custom container
+.container {
+  max-width: 1200px;
+}
+html {
+    scroll-behavior: smooth;
+}
+
+
+/*==========================================
+    section title
+==========================================*/
+.section-title {
+    margin-bottom: 70px;
+    text-align: center;
+    span.subtitle {
+        font-size: 16px;
+        font-weight: 700;
+        text-transform: uppercase;
+        display: block;
+        margin-top: -5px;
+    }
+    h2 { 
+        font-size: 45px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: $bg-2;
+        margin-bottom: 20px;
+        margin-top: -12px;
+    }
+    p {
+        font-size: 16px;
+        line-height: 28px;
+        color: $descr-color;
+    }
+}
+.c-white {
+    color: $white;
+}
+
+// bet modal
+.bet-modal-bg {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 55;
+  overflow: hidden;
+  background: rgba($bg-2, 0.0);
+  @include transition(.2s);
+  opacity: 0;
+  visibility: hidden;
+  &.show {
+    background: rgba($bg-2, 0.8);
+    opacity: 1;
+    visibility: visible;
+  }
+  .bet-modal {
+    background: $white;
+    text-align: center;
+    @include transition(.2s);
+    position: relative;
+    opacity: 0;
+    visibility: hidden;
+    top: 60px;
+    width: 400px;
+    &.open {
+      top: 0;
+      visibility: visible;
+      opacity: 1;
+    }
+    .bet-header {
+      background: $bg-2;
+      padding: 15px 30px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      .title {
+        color: $white;
+        text-transform: uppercase;
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 1px;
+      }
+      .cls-btn {
+        background: transparent;
+        border: none;
+        color: $white;
+        font-size: 18px;
+        @include transition($transition);
+        cursor: pointer;
+        outline: none;
+        &:hover {
+          color: $sec-color;
+        }
+      }
+    }
+    .bet-body {
+      text-align: center;
+      // padding: 10px 30px;
+      .place-of-bet {
+        .place-of-bet-title, .altv-1 {
+          text-transform: uppercase;
+          font-size: 16px;
+          color: $sec-color-deep;
+          font-weight: 500;
+          display: inline-block;
+          margin-right: 5px;
+        }
+        .altv-1 {
+          color: #555;
+          padding: 25px 0 7px;
+        }
+      }
+      .bet-descr {
+        line-height: 26px;
+        span.img-ic {
+          width: 20px;
+          display: inline-block;
+          margin: 0 10px;
+          img {
+            width: 100%;
+          }
+        }
+        .team-name {
+          display: inline-block;
+          text-transform: uppercase;
+          font-weight: 500;
+          color: $bg-2;
+          font-size: 14px;
+          color: #555;
+        }
+        .team-score {
+          font-size: 13px;
+          text-transform: uppercase;
+          font-weight: 400;
+          color: #777;
+          span {
+          }
+        }
+      }
+      .ctrl-buttons {
+        padding: 28px 0 30px;
+        font-size: 25px;
+        line-height: 40px;
+        .butto-shadow {
+          display: inline-block;
+          box-shadow: 0px 2px 10px 0px rgba($bg-2, 0.2);
+          padding: 0 20px;
+          border-radius: 50px;
+        }
+        .ctrl-button-for-number {
+          width: 40px;
+          height: 40px;
+          background: transparent;
+          border: none;
+          border-radius: 50%;
+          outline: none;
+          line-height: 6px;
+          cursor: pointer;
+        }
+        .altv-2 {
+          font-size: 22px;
+          display: inline-block;
+          margin: 0 10px;
+          color: $sec-color-deep;
+          font-weight: 500;
+        }
+      }
+      .bet-total {
+        background: $sec-color-deep;
+        padding: 13px 0 12px;
+        ul {
+          li {
+            color: $white;
+            text-transform: uppercase;
+            font-size: 14px;
+            color: #eee;
+            .altv-3, .number-of-bet-count {
+              font-weight: 400;
+              font-size: 15px;
+              color: $white;
+            }
+          }
+        }
+      }
+    }
+    .bet-footer {
+      padding: 20px 0;
+      button {
+        background: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: 500;
+        color: $bg-2;
+        font-size: 14px;
+        height: 40px;
+        padding: 0 30px;
+        box-shadow: 0px 2px 10px 0px rgba($bg-2, 0.2);
+        border-radius: 50px;
+      }
+    }
+  }
+}
+.overflow-hidden {
+  overflow: hidden;
+  height: 100%;
+}
+
+// preloader
+.preloader {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background: #fff;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img {
+      width: 200px;
+    }
+    span {
+      font-size: 20px;
+      font-weight: 600;
+      color: $sec-color;
+      letter-spacing: 6px;
+      margin-top: 10px;
+    }
+}
+
+
+
+
+/*==========================================
+    scroll to top button
+==========================================*/
+.scroll-to-top {
+    position: fixed;
+    right: 50px;
+    bottom: 80px;
+    display: inline-block;
+    z-index: 9;
+    width: 40px;
+    height: 40px;
+    background: #052157;
+    border: 2px solid $white;
+    text-align: center;
+}
+.scroll-to-top a {
+    text-decoration: none;
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    cursor: pointer;
+    font-size: 24px;
+    color: #fff;
+    padding: 2px 0 0px 0;
+    display: inline-block;
+}
+.scroll-to-top a i {
+  color: $white;
+}
+
+.bettix-pagination {
+  text-align: center;
+  position: relative;
+  &:after {
+    position: absolute;
+    content: '';
+    left: 0;
+    top: 50%;
+    width: 100%;
+    background: #ddd;
+    height: 2px;
+  }
+  ul {
+    background: $white;
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    padding: 0 30px;
+    li {
+      display: inline-block;
+      a {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        line-height: 40px;
+        color: $sec-color-deep;
+        border: 1px solid $sec-color-deep;
+        border-radius: 50px;
+        margin-right: 16px;
+        @include transition($transition);
+        &.active, &:hover {
+          background: $sec-color;
+          color: $white;
+        }
+      }
+      &:last-child {
+        a {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}

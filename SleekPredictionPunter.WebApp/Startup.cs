@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -43,6 +44,7 @@ namespace SleekPredictionPunter.WebApp
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
 					b=> b.MigrationsAssembly("SleekPredictionPunter.WebApp"));
 			});
+	
 
 			services.AddUserIdentityServices();
 			services.AddPredictionApplicationServices();
@@ -70,11 +72,28 @@ namespace SleekPredictionPunter.WebApp
 			app.UseAuthorization();
 			app.UseAuthentication();
 			//app.UseMvc();
+			//app.UseEndpoints(endpoints =>
+			//{
+			//	endpoints.MapAreaControllerRoute(
+			//			name:"adminarea",
+			//			areaName:"admin",
+			//			pattern:"{identity}/{controller=Home}/{action=Index}/{id?}");
+
+			//	endpoints.MapAreaControllerRoute(
+			//			name: "adminarea",
+			//			areaName: "admin",
+			//			pattern: "{admin}/{controller=Home}/{action=Index}/{id?}");
+
+			//	endpoints.MapControllerRoute(
+			//		name: "default",
+			//		pattern: "{controller=Home}/{action=Index}/{id?}");
+			//});
+
 			app.UseEndpoints(endpoints =>
 			{
-				endpoints.MapControllerRoute(
-					name: "default",
-					pattern: "{controller=Home}/{action=Index}/{id?}");
+				endpoints.MapRazorPages();
+				endpoints.MapControllerRoute("areas", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+				endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 			});
 		}
 	}

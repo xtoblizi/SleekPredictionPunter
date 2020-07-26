@@ -1,0 +1,112 @@
+// testimonial
+.testimonial {
+    padding: 120px 0;
+    .testimonial-slider {
+        .disabled {
+            display: none;
+        }
+        .owl-dots {
+            text-align: center;
+            line-height: 0;
+            margin-top: 30px;
+            .owl-dot {
+                width: 10px;
+                height: 10px;
+                background: $sec-color;
+                display: inline-block;
+                border-radius: 50px;
+                margin-right: 6px;
+                @include transition($transition);
+                cursor: pointer;
+                opacity: .6;
+                &:last-child {
+                    margin-right: 0;
+                }
+                &.active {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+    .single-testimonial {
+        text-align: center;
+        .part-img {
+            width: 90px;
+            display: inline-block;
+            overflow: hidden;
+            border: 2px solid $sec-color;
+            border-radius: 50%;
+            padding: 5px;
+            position: relative;
+            z-index: 4;
+            margin-bottom: 21px;
+            transform: scale(0.8);
+            @include transition($transition);
+            img {
+                width: 100%;
+                border-radius: 50%;
+            }
+            &.add-anim {
+                transform: scale(1.0);
+            }
+        }
+        .part-text {
+            position: relative;
+            z-index: 2;    
+            margin-bottom: 30px;
+            &:after {
+                position: absolute;
+                content: '';
+                left: 50%;
+                transform: translateX(-50%);
+                background: $sec-color;
+                width: 350px;
+                top: -74px;
+                bottom: -30px;
+                opacity: .08;
+                z-index: -1;
+            }
+            .icon-for-quot {
+                font-size: 35px;
+                margin-bottom: 19px;
+                color: $bg-2;
+                opacity: .5;
+                font-style: italic;
+            }
+            p {
+                font-size: 24px;
+                line-height: 38px;
+                font-style: italic;
+                position: relative;
+                padding-bottom: 21px;
+                margin-bottom: 28px;
+                color: $bg-2;
+                opacity: .8;
+                &:after {
+                    position: absolute;
+                    content: '';
+                    left: 50%;
+                    transform: translateX(-50%);
+                    height: 2px;
+                    background: $sec-color;
+                    width: 100px;
+                    bottom: 0;
+                }
+            }
+            span {
+                display: block;
+                text-transform: uppercase;
+                &.position {
+                    font-size: 16px;
+                    margin-bottom: 5px;
+                    color: $bg-2;
+                }
+                &.user-name {
+                    font-size: 20px;
+                    font-weight: 500;
+                    color: $bg-2;
+                }
+            }
+        }
+    }
+}

@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using SleekPredictionPunter.AppService;
 using SleekPredictionPunter.Model.IdentityModels;
 
 namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
@@ -24,14 +25,17 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+		private readonly ISubscriberService _subscriberService;
 
         public RegisterModel(
+			ISubscriberService susbscriberService,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
             _userManager = userManager;
+			_subscriberService = susbscriberService;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
@@ -79,6 +83,8 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+					// add user to correct role
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

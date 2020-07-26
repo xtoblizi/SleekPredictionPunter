@@ -16,7 +16,6 @@
   <ItemGroup>
     <Folder Include="Agents\" />
     <Folder Include="SubscriberPredictorMap\" />
-    <Folder Include="Predictors\" />
   </ItemGroup>
 
 </Project>

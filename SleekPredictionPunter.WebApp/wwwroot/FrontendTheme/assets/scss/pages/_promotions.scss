@@ -1,0 +1,84 @@
+// promotions
+.promotions {
+    padding: 120px 0 90px;
+    .single-promotion {
+        // background: url('../img/upcoming-match-bg-4.jpg') center center no-repeat;
+        background-size: cover;
+        position: relative;
+        z-index: 2;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-bottom: 30px;
+        &:after {
+            position: absolute;
+            content: '';
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(80deg, $bg-1, rgba(0, 0, 0, 0.7));
+            background-color: $bg-2;
+            z-index: -1;
+        }
+        .single-promotion-img {
+            height: 300px;
+            overflow: hidden;
+            
+        }
+        .part-text {
+            padding: 50px;
+            span.sub-title {
+                display: block;
+                color: $sec-color;
+                text-transform: uppercase;
+                font-weight: 400;
+                font-size: 16px;
+                margin-top: -6px;
+                margin-bottom: 3px;
+            }
+            h4.title {
+                color: $white;
+                text-transform: uppercase;
+                font-size: 30px;
+                font-weight: 600;
+                line-height: 40px;
+            }
+            h5.title {
+                color: $white;
+                text-transform: uppercase;
+                font-size: 28px;
+                font-weight: 600;
+                line-height: 38px;
+            }
+            p {
+                color: #f0f0f0;
+                font-size: 16px;
+                line-height: 26px;
+                margin-top: 14px;
+                margin-bottom: 12px;
+            }
+            a {
+                display: inline-block;
+                padding: 0 35px;
+                height: 50px;
+                line-height: 50px;
+                text-transform: uppercase;
+                color: $white;
+                font-weight: 500;
+                background: $sec-color;
+                border-radius: 5px;
+                margin-top: 20px;
+                @include transition($transition);
+                &:hover {
+                    background: $bg-2;
+                }
+            }
+        }
+        .part-img {
+            position: absolute;
+            right: -50px;
+            bottom: -100px;
+            width: 400px;
+        }
+    }
+}

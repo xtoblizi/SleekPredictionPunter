@@ -1,0 +1,324 @@
+@media only screen and (min-width: 320px) and (max-width: 479px) {
+    .user-panel-header .user-face {
+        display: block;
+    }
+    .user-panel-header .part-left .part-name span.user-name-text {
+        font-size: 20px;
+    }
+    .user-panel-header .part-left .part-pic {
+        width: 80px;
+        margin-right: 15px;
+    }
+    .user-panel-header .part-left .part-pic img {
+        padding: 5px;
+    }
+    .user-panel-header .part-left .part-name span.welcome-text {
+        font-size: 16px;
+    }
+    .user-panel-header .part-right {
+        margin-top: 20px;
+    }
+    .user-panel-header .part-right ul {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    .user-panel-header .part-right ul li a {
+        height: 40px;
+        padding: 0 20px;
+        font-size: 12px;
+        margin-right: 16px;
+    }
+    .user-panel-header .part-right ul li a svg {
+        height: 15px;
+    }
+    .user-panel-header .dashboard-menu ul {
+        display: block;
+    }
+    .user-panel-header .dashboard-menu ul li {
+        display: block;
+    }
+    .user-panel-header .dashboard-menu ul li .menu-item {
+        display: block;
+        border-radius: 0;
+        text-align: left;
+        padding: 0 30px;
+        border: none;
+    }
+    .user-panel-header .dashboard-menu ul li .menu-item:after {
+        display: none;
+    }
+    .user-panel-header:after {
+        opacity: .8;
+    }
+    .user-panel-header {
+        margin-bottom: 60px;
+    }
+
+    /* statics */
+    .user-panel-title h3 {
+        font-size: 20px;
+    }
+    .account-info {
+        margin-right: 0;
+        margin-bottom: 30px;
+    }
+    .payment-history .transaction-area {
+        overflow-y: hidden;
+        overflow-x: scroll;
+    }
+    .payment-history .transaction-area .table {
+        width: 800px;
+    }
+    .user-panel-dashboard {
+        padding-bottom: 60px;
+    }
+    .payment-history {
+        margin-top: 30px;
+    }
+    .player-statics {
+        padding-bottom: 20px;
+    }
+    .user-panel-title {
+        margin-bottom: 16px;
+    } 
+}
+@media only screen and (min-width: 480px) and (max-width: 575px) {
+    .user-panel-header .user-face {
+        display: block;
+    }
+    .user-panel-header .part-left .part-name span.user-name-text {
+        font-size: 20px;
+    }
+    .user-panel-header .part-left .part-pic {
+        width: 80px;
+        margin-right: 15px;
+    }
+    .user-panel-header .part-left .part-pic img {
+        padding: 5px;
+    }
+    .user-panel-header .part-left .part-name span.welcome-text {
+        font-size: 16px;
+    }
+    .user-panel-header .part-right {
+        margin-top: 20px;
+    }
+    .user-panel-header .part-right ul {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    .user-panel-header .dashboard-menu ul {
+        display: block;
+    }
+    .user-panel-header .dashboard-menu {
+        padding: 60px 0 50px;
+    }
+    .user-panel-header .dashboard-menu ul li .menu-item {
+        text-align: left;
+        padding: 0 30px;
+        margin-right: 6px;
+        margin-bottom: 10px;
+    }
+    .user-panel-header .dashboard-menu ul li .menu-item:after {
+        display: none;
+    }
+    .user-panel-header:after {
+        opacity: .8;
+    }
+    .user-panel-header {
+        margin-bottom: 60px;
+    }
+
+    /* statics */
+    .user-panel-title h3 {
+        font-size: 20px;
+    }
+    .account-info {
+        margin-right: 0;
+        margin-bottom: 30px;
+    }
+    .payment-history .transaction-area {
+        overflow-y: hidden;
+        overflow-x: scroll;
+    }
+    .payment-history .transaction-area .table {
+        width: 800px;
+    }
+    .user-panel-dashboard {
+        padding-bottom: 60px;
+    }
+    .payment-history {
+        margin-top: 30px;
+    }
+    .player-statics {
+        padding-bottom: 20px;
+    }
+    .user-panel-title {
+        margin-bottom: 16px;
+    } 
+}
+
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+    .user-panel-header .user-face {
+        display: block;
+    }
+    .user-panel-header .part-left .part-name span.user-name-text {
+        font-size: 22px;
+    }
+    .user-panel-header .part-left .part-pic {
+        width: 80px;
+        margin-right: 15px;
+    }
+    .user-panel-header .part-left .part-pic img {
+        padding: 5px;
+    }
+    .user-panel-header .part-left .part-name span.welcome-text {
+        font-size: 16px;
+    }
+    .user-panel-header .part-right {
+        margin-top: 20px;
+    }
+    .user-panel-header .part-right ul {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    .user-panel-header .dashboard-menu ul {
+        display: block;
+    }
+    .user-panel-header .dashboard-menu {
+        padding: 60px 0 50px;
+    }
+    .user-panel-header .dashboard-menu ul li .menu-item {
+        text-align: left;
+        padding: 0 30px;
+        margin-right: 6px;
+        margin-bottom: 10px;
+    }
+    .user-panel-header .dashboard-menu ul li .menu-item:after {
+        display: none;
+    }
+    .user-panel-header:after {
+        opacity: .8;
+    }
+    .user-panel-header {
+        margin-bottom: 60px;
+    }
+
+    /* statics */
+    .user-panel-title h3 {
+        font-size: 20px;
+    }
+    .account-info {
+        margin-right: 0;
+        margin-bottom: 30px;
+    }
+    .payment-history .transaction-area {
+        overflow-y: hidden;
+        overflow-x: scroll;
+    }
+    .payment-history .transaction-area .table {
+        width: 800px;
+    }
+    .user-panel-dashboard {
+        padding-bottom: 60px;
+    }
+    .payment-history {
+        margin-top: 30px;
+    }
+    .player-statics {
+        padding-bottom: 20px;
+    }
+    .user-panel-title {
+        margin-bottom: 16px;
+    } 
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .user-panel-header .user-face {
+        display: block;
+    }
+    .user-panel-header .part-left .part-name span.user-name-text {
+        font-size: 22px;
+    }
+    .user-panel-header .part-left .part-pic {
+        width: 80px;
+        margin-right: 15px;
+    }
+    .user-panel-header .part-left .part-pic img {
+        padding: 5px;
+    }
+    .user-panel-header .part-left .part-name span.welcome-text {
+        font-size: 16px;
+    }
+    .user-panel-header .part-right {
+        margin-top: 20px;
+    }
+    .user-panel-header .part-right ul {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    .user-panel-header .dashboard-menu ul {
+        display: block;
+    }
+    .user-panel-header .dashboard-menu {
+        padding: 60px 0 50px;
+    }
+    .user-panel-header .dashboard-menu ul li .menu-item {
+        text-align: left;
+        padding: 0 30px;
+        margin-right: 6px;
+        margin-bottom: 10px;
+    }
+    .user-panel-header .dashboard-menu ul li .menu-item:after {
+        display: none;
+    }
+    .user-panel-header:after {
+        opacity: .8;
+    }
+    .user-panel-header {
+        margin-bottom: 60px;
+    }
+
+    /* statics */
+    .user-panel-title h3 {
+        font-size: 20px;
+    }
+    .account-info {
+        margin-right: 0;
+        margin-bottom: 30px;
+    }
+    .payment-history .transaction-area {
+        overflow-y: hidden;
+        overflow-x: scroll;
+    }
+    .user-panel-dashboard {
+        padding-bottom: 60px;
+    }
+    .payment-history {
+        margin-top: 30px;
+    }
+    .player-statics {
+        padding-bottom: 20px;
+    }
+    .user-panel-title {
+        margin-bottom: 16px;
+    } 
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    .user-panel-header .dashboard-menu ul {
+        display: block;
+    }
+    .user-panel-header .dashboard-menu ul li .menu-item {
+        text-align: left;
+        padding: 0 30px;
+        margin-right: 6px;
+        margin-bottom: 10px;
+    }
+    .user-panel-header .dashboard-menu ul li .menu-item:after {
+        display: none;
+    }
+}

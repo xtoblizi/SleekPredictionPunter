@@ -59,15 +59,22 @@ namespace SleekPredictionPunter.AppService
 		/// <param name="startIndex"></param>
 		/// <param name="count"></param>
 		/// <returns></returns>
-		public async Task<IEnumerable<Subscriber>> GetAllQueryable(int? activationstatus = null,int? gender = null,
-			DateTime? startDate = null , DateTime? endDate = null,
+		public async Task<IEnumerable<Subscriber>> GetAllQueryable(int? activationstatus = null,
+			int? gender = null,
+			string state = null, string country = null,
+			DateTime? startDate = null, DateTime? endDate = null,
 			int startIndex = 0, int count = int.MaxValue)
-		{			
+		{
+			state = string.IsNullOrEmpty(state) ? string.Empty : state.ToLower();
+			country = string.IsNullOrEmpty(country) ? string.Empty : country.ToLower();
+
 			Func<Subscriber, bool> predicate = (x =>
 			(activationstatus == null || x.ActivatedStatus == (EntityStatusEnum)activationstatus)
 			&& (gender == null || x.Gender == (GenderEnum)gender)
 			&& (startDate == null || x.DateCreated >= startDate)
 			&& (endDate == null || x.DateCreated <= endDate)
+			&& (string.IsNullOrEmpty(state)|| x.State == state)
+			&& (string.IsNullOrEmpty(country)|| x.Country == country)
 			&& (endDate == null || x.DateCreated <= endDate));
 
 			return await _repo.GetAllQueryable(predicate, startIndex, count);

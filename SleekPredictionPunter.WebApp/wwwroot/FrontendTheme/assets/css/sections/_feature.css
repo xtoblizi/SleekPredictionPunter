@@ -1,0 +1,12 @@
+/*==========================================
+    feature
+==========================================*/
+.feature .single-feature h2 {
+  color: #6a38da;
+  font-size: 48px;
+  font-weight: 300; }
+
+.feature .single-feature h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #455164; }

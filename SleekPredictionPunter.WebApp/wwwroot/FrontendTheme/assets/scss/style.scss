@@ -1,0 +1,52 @@
+/* =================================
+ Temlate Name : 
+ Author Name : 
+ Date: 
+ Version: 1.0
+ =================================
+
+/* =================================
+ css index
+ =================================
+ 
+================================= */
+
+
+@import "main/_variables";
+@import "main/_mixins";
+@import "main/_global";
+@import "main/_normalize";
+@import "main/_components";
+//=Section scss
+
+@import "sections/_header";
+@import "sections/_banner";
+@import "sections/_about";
+@import "sections/_cta";
+@import "sections/_features";
+@import "sections/_betting";
+@import "sections/_upcoming-match";
+@import "sections/_statics";
+@import "sections/_testimonial";
+@import "sections/_download-app";
+@import "sections/_newsletter";
+@import "sections/_sponsor";
+@import "sections/_blog";
+@import "sections/_footer";
+
+//=Pages scss
+@import "pages/_breadcrumb";
+@import "pages/_statics-page";
+@import "pages/_schedule";
+@import "pages/_result";
+@import "pages/_standing";
+@import "pages/_promotions";
+@import "pages/_latest-result";
+@import "pages/_bet-slip";
+@import "pages/_contact";
+@import "pages/_register";
+@import "pages/_login";
+@import "pages/_error";
+
+// user panel
+@import "userPanel/_homepage";

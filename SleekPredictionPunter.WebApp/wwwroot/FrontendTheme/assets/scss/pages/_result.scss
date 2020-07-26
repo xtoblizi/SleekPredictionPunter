@@ -1,0 +1,145 @@
+// result
+.result {
+    padding: 120px 0;
+    .filter-menu {
+        margin-bottom: 50px;
+        .form-group {
+            position: relative;
+            margin-bottom: 0;
+            &:after {
+                position: absolute;
+                content: '\f107';
+                font-family: "Font Awesome 5 Free";
+                font-weight: 900;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 20px;
+                z-index: -1;
+                color: $bg-2;
+            }
+        }
+        .form-control {
+            appearance: none;
+            border-color: #ddd;
+            height: 55px;
+            font-size: 15px;
+            background: rgba($sec-color, 0.08);
+            border: 1px solid rgba($sec-color, 0.2);
+            padding: 0 20px;
+            text-transform: uppercase;
+            font-family: $heading-font;
+            font-weight: 500;
+            color: rgba($bg-1, 0.65);
+            cursor: pointer;
+            option {
+                cursor: pointer;
+            }
+        }
+        .form-control:focus {
+            box-shadow: none;
+            border-color: $sec-color;
+        }
+    }
+    .result-sheet-cover {
+        &:last-child {
+            .result-sheet {
+                margin-bottom: 0;
+            }
+        }
+    }
+    .result-sheet {
+        box-shadow: 0px 2px 7px 0px rgba(42, 42, 42, 0.15);
+        padding: 30px 30px 10px;
+        border-radius: 10px;
+        margin-bottom: 50px;
+        .result-title {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 0;
+            position: relative;
+            padding-left: 30px;
+            color: $bg-2;
+            &:after {
+                position: absolute;
+                content: '';
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 10px;
+                height: 10px;
+                background: $sec-color-deep;
+                border-radius: 50%;
+            }
+        }
+        .table {
+            border-collapse: separate;
+            border-spacing: 0 20px;
+            thead {
+                th {
+                    border: none;
+                }
+                tr {
+                    box-shadow: 0px 2px 7px 0px rgba(42, 42, 42, 0.08);
+                    background: $bg-2;
+                    overflow: hidden;
+                    th {
+                        color: $white;
+                        font-weight: 500;
+                    }
+                }
+            }
+            th, td {
+                border: none;
+                text-transform: uppercase;
+                font-size: 15px;
+                vertical-align: middle;
+                height: 70px;
+            }
+            tbody {
+                tr {
+                    box-shadow: 0px 2px 7px 0px rgba(42, 42, 42, 0.08);
+                    background: $white;
+                    overflow: hidden;
+                    th {
+                        span.icon {
+                            font-size: 30px;
+                            display: inline-block;
+                            margin-left: 20px;
+                            color: $sec-color;
+                        }
+                    }
+                }
+                td {
+                    &.team-name {
+                        font-weight: 500;
+                        span {
+                            &.versace {
+                                color: $sec-color-deep;
+                                font-size: 20px;
+                                font-weight: 300;
+                                display: inline-block;
+                                margin: 0 10px;
+                                font-style: italic;
+                            }
+                        }
+                    }
+                    a {
+                        .view-icon {
+                            display: inline-block;
+                            color: #888;
+                        }
+                    }
+                    &.score {
+                        color: $sec-color-deep;
+                        font-weight: 500;
+                    }
+                    &.date {
+                        color: #2a2a2a;
+                        opacity: .8;
+                        font-weight: 400;
+                    }
+                }
+            }
+        }
+    }
+}

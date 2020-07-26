@@ -39,5 +39,14 @@ namespace SleekPredictionPunter.Model.BaseModels
 		public EntityStatusEnum ActivatedStatus { get; set; } 
 		public virtual bool IsTenant { get; set; }
 
+		#region Address Details 
+		public string Country { get; set; }
+		public string State { get; set; }
+		public string City { get; set; }
+		public string Street { get; set; }
+
+		public string FullAddress { get { return $"{Street}, {City}, {State}, {Country}."; } }
+		#endregion
+
 	}
 }

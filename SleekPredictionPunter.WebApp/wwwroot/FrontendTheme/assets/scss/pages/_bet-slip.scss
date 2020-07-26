@@ -1,0 +1,222 @@
+// bet slip
+.bet-slip {
+    padding: 120px 0;
+    .bet-slip-content {
+        .box-heading {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 15px 30px;
+            background: rgba($bg-2, 0.9);
+            h4 {
+                margin: 0;
+                font-size: 16px;
+                text-transform: uppercase;
+                color: $white;
+                font-weight: 500;
+            }
+        }
+        .different-bet {
+            padding: 30px;
+            box-shadow: 0px 0px 11px 7px rgba(56, 56, 56, 0.06);
+            padding-top: 10px;
+            border-top: 2px dashed rgba($sec-color-deep, 0.4);
+            &:first-child {
+                border: none;
+            }
+        }
+        .team-opponent {
+            text-align: center;
+            span {
+                &.team {
+                    color: rgba($bg-2, 0.8);
+                    text-transform: uppercase;
+                    font-size: 16px;
+                    font-weight: 500;
+                    line-height: 60px;
+                    .versace {
+                        width: 18px;
+                        display: inline-block;
+                        position: relative;
+                        top: -2px;
+                        margin: 0 10px;
+                    }
+                }
+            }
+        }
+        .single-bet {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba($sec-color, 0.4);
+            margin-bottom: 10px;
+            padding: 20px 30px;
+            border-radius: 5px;
+            &:hover {
+                .remove-element {
+                    background-color: $sec-color-deep;
+                    color: $white;
+                }
+            }
+            .remove-element {
+                background: transparent;
+                background: rgba($sec-color, 0.1);
+                border-radius: 50%;
+                width: 30px;
+                height: 30px;
+                border: none;
+                font-size: 12px;
+                color: $sec-color-deep;
+                cursor: pointer;
+                @include transition($transition);
+            }
+            .left-side {
+                span {
+                    display: inline-block;
+                    padding: 0 10px;
+                }
+                .bet-place {
+                    text-transform: uppercase;
+                    font-weight: 500;
+                    color: $sec-color-deep;
+                    position: relative;
+                    &:after {
+                        position: absolute;
+                        content: '';
+                        left: 100%;
+                        top: 50%;
+                        margin-top: -2px;
+                        margin-left: 0px;
+                        width: 4px;
+                        height: 4px;
+                        background: $base-color;
+                        border-radius: 50%;
+                    }
+                }
+                .bet-price {
+                    text-transform: uppercase;
+                    font-weight: 500;
+                    color: $bg-2;
+                    opacity: .8;
+                }
+            }
+            .right-side {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                .bet-stake {
+                    form {
+                        input {
+                            font-size: 14px;
+                            border: 1px solid rgba($sec-color, 0.2);
+                            height: 40px;
+                            padding: 0 20px;
+                            border-radius: 5px;
+                            margin-right: 20px;
+                            @include transition($transition);
+                            &:focus {
+                                border: 1px solid rgba($sec-color, 1);
+                            }
+                        }
+                    }
+                }
+                .bet-returns {
+                    text-transform: uppercase;
+                    font-weight: 500;
+                    color: $bg-2;
+                    opacity: .8;
+                }
+            }
+        }
+    }
+    .bet-slip-sidebar {
+        box-shadow: 0px 0px 11px 7px rgba(56, 56, 56, 0.06);
+        h4.title {
+            padding: 15px 30px;
+            background: linear-gradient(165deg, $sec-color, $sec-color-deep);
+            margin: 0;
+            font-size: 16px;
+            text-transform: uppercase;
+            color: $white;
+            font-weight: 500;
+            text-align: center;
+        }
+        .sidebar-content {
+            padding: 26px 30px 22px;
+            ul {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                position: relative;
+                &:after {
+                    position: absolute;
+                    content: '';
+                    left: 50%;
+                    margin-left: -1px;
+                    width: 1px;
+                    height: 100%;
+                    background: $sec-color;
+                    opacity: .4;
+                }
+                li {
+                    text-align: center;
+                    span {
+                        display: block;
+                        &.title {
+                            font-size: 14px;
+                            font-weight: 500;
+                            text-transform: uppercase;
+                            margin-bottom: 2px;
+                        }
+                        &.number {
+                            font-size: 20px;
+                            color: $sec-color-deep;
+                        }
+                    }
+                }
+            }
+            .total-returns {
+                background: $sec-color;
+                background: linear-gradient(165deg, $sec-color, $sec-color-deep);
+                text-align: center;
+                padding: 25px 0 36px;
+                border-radius: 5px;
+                margin-top: 30px;
+                span {
+                    display: block;
+                    &.text {
+                        font-size: 14px;
+                        font-weight: 500;
+                        text-transform: uppercase;
+                        color: $white;
+                    }
+                    &.number {
+                        font-size: 30px;
+                        color: $white;
+                        font-weight: 500;
+                    }
+                }
+            }
+            .btn-for-bet {
+                text-align: center;
+                .place-bet-btn {
+                    display: inline-block;
+                    padding: 0 35px;
+                    height: 40px;
+                    line-height: 40px;
+                    color: $white;
+                    text-transform: uppercase;
+                    font-size: 14px;
+                    font-weight: 400;
+                    background: $bg-2;
+                    border-radius: 5px;
+                    position: relative;
+                    top: -20px;
+                    border: 1px solid $white;
+                }
+            }
+        }
+    }
+}

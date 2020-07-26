@@ -1,0 +1,99 @@
+// breadcrumb
+.breadcrumb-bettix {
+    background: url('../img/breadcrumb-bg-statics.jpg') center center no-repeat;
+    background-size: cover;
+    position: relative;
+    z-index: 2;
+    &:after {
+        position: absolute;
+        content: '';
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(220deg, rgba(34, 34, 34, 0) 0%, #000609 59%);
+        z-index: -1;
+        opacity: .9;
+    }
+    &.schedule-page {
+        background: url('../img/upcoming-match-bg-4.jpg') center center no-repeat;
+        background-size: cover;
+    }
+    &.result-page {
+        background: url('../img/breadcrumb-bg-result.jpg') bottom center no-repeat;
+        background-size: cover;
+    }
+    &.standing-page {
+        background: url('../img/breadcrumb-bg-standing.jpg') center bottom no-repeat;
+        background-size: cover;
+    }
+    &.promotion-page {
+        background: url('../img/breadcrumb-bg-promotion.jpg') center center no-repeat;
+        background-size: cover;
+    }
+    &.latest-result-page {
+        background: url('../img/breadcrumb-bg-latest-result.jpg') center 12% no-repeat;
+        background-size: cover;
+    }
+    &.blog-page {
+        background: url('../img/breadcrumb-bg-blog.jpg') center 15% no-repeat;
+        background-size: cover;
+    }
+    &.betslip-page {
+        background: url('../img/breadcrumb-bg-betslip.jpg') center center no-repeat;
+        background-size: cover;
+        &:after {
+            opacity: .95;
+        }
+    }
+    &.contact-page {
+        background: url('../img/breadcrumb-bg-contact.jpg') center center no-repeat;
+        background-size: cover;
+    }
+    &.register-page {
+        background: url('../img/breadcrumb-bg-register.jpg') center center no-repeat;
+        background-size: cover;
+    }
+    &.error-page {
+        background: url('../img/breadcrumb-bg-error.jpg') center 88% no-repeat;
+        background-size: cover;
+    }
+    .breadcrumb-content {
+        padding: 120px 0;
+        h2 {
+            font-size: 45px;
+            color: $white;
+            margin-bottom: 11px;
+            text-transform: uppercase;
+            margin-top: -11px;
+        }
+        ul {
+            margin-bottom: -6px;
+            li {
+                display: inline-block;
+                position: relative;
+                color: $sec-color;
+                text-transform: uppercase;
+                font-size: 14px;
+                &:after {
+                    content: '\f0da';
+                    font-family: "Font Awesome 5 Free";
+                    font-weight: 900;
+                    margin-left: 10px;
+                    margin-right: 10px;
+                }
+                &:last-child {
+                    &:after {
+                        display: none;
+                    }
+                }
+                a {
+                    display: inline-block;
+                    color: $white;
+                    text-transform: uppercase;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}

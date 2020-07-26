@@ -1,0 +1,33 @@
+// feature
+.feature {
+    padding: 120px 0 71px;
+    .single-feature {
+        text-align: center;
+        margin-bottom: 40px;
+        .part-icon {
+            width: 60px;
+            margin-bottom: 33px;
+            display: inline-block;
+            img {
+                width: 100%;
+            }
+        }
+        .part-text {
+            h3 {
+                &.title {
+                    text-transform: uppercase;
+                    font-weight: 600;
+                    color: $sec-color;
+                    letter-spacing: 0.6px;
+                    margin-bottom: 20px;
+                    font-size: 22px;
+                }
+            }
+            p {
+                font-size: 16px;
+                line-height: 28px;
+                color: $bg-2;
+            }
+        }
+    }
+}

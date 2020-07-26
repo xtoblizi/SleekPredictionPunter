@@ -1,0 +1,233 @@
+// regsiter
+.register {
+    padding: 120px 0;
+    .sign-up-step {
+        box-shadow: 0px 0px 11px 7px rgba(56, 56, 56, 0.08);
+        border-radius: 10px;
+        padding: 30px;
+        margin-bottom: 30px;
+        ul {
+            display: inline-flex;
+            li {
+                display: inline-flex;
+                padding: 0 30px;
+                border-right: 1px solid rgba($bg-2, 0.3);
+                border-top: 1px solid rgba($bg-2, 0.2);
+                border-bottom: 1px solid rgba($bg-2, 0.2);
+                height: 50px;
+                line-height: 48px;
+                border-radius: 0 50px 50px 0;
+                margin-left: -25px;
+                padding-left: 45px;
+                align-items: baseline;
+                @include transition($transition);
+                position: relative;
+                z-index: 2;
+                overflow: hidden;
+                &:after {
+                    position: absolute;
+                    content: '';
+                    left: 0;
+                    top: 0;
+                    width: 0;
+                    height: 100%;
+                    background: linear-gradient(160deg, $sec-color, $sec-color-deep);
+                    z-index: -1;
+                    @include transition($transition);
+                    border-radius: 0 50px 50px 0;
+                }
+                &.active {
+                    border-color: $white;
+                    &:after {
+                        width: 100%;
+                    }
+                    span.text, span.icon {
+                        color: $white;
+                    }
+                }
+                &:first-child {
+                    padding-left: 25px;
+                    z-index: 5;
+                    border-radius: 10px 50px 50px 10px;
+                    border-left: 1px solid rgba($bg-2, 0.6);
+                    margin-left: 0;
+                }
+                &:nth-child(2) {
+                    z-index: 4;
+                }
+                &:nth-child(3) {
+                    z-index: 3;
+                }
+                &:last-child {
+                    z-index: 2;
+                    &.active {
+                        &:after {
+                            background: $base-color;
+                        }
+                    }
+                }
+                span.icon {
+                    margin-right: 10px;
+                    color: rgba($bg-2, 0.6);
+                    svg {
+                        height: 22px;
+                        width: auto;
+                        font-size: auto;
+                    }
+                }
+                span.text {
+                    text-transform: uppercase;
+                    font-size: 14px;
+                    font-weight: 400;
+                    color: rgba($bg-2, 0.8);
+                }
+            }
+         }
+    }
+    .all-form {
+        box-shadow: 0px 0px 11px 7px rgba(56, 56, 56, 0.08);
+        border-radius: 10px;
+        padding: 30px;
+        position: relative;
+    }
+    .single-form {
+        display: none;
+        &#first-step {
+            display: block;
+        }
+        form {
+            div {
+                position: relative;
+            }
+            label {
+                display: block;
+                padding-bottom: 6px;
+                font-size: 14px;
+                text-transform: uppercase;
+                font-weight: 400;
+                color: $bg-2;
+                padding-top: 6px;
+                margin-bottom: 0;
+                position: absolute;
+                bottom: 7px;
+                left: 30px;
+                @include transition($transition);
+                opacity: .5;
+                &.active {
+                    font-size: 12px;
+                    font-weight: 500;
+                    opacity: 1;
+                    bottom: 50px;
+                    left: 0;
+                    color: $sec-color;
+                }
+            }
+            input {
+                width: 100%;
+                height: 50px;
+                padding: 0 30px;
+                margin-top: 30px;
+                border: 1px solid rgba($bg-2, 0.2);
+                border-radius: 5px;
+                @include transition($transition);
+                // &:focus ~ label {
+                //     font-size: 12px;
+                //     font-weight: 500;
+                //     opacity: 1;
+                //     bottom: 50px;
+                //     left: 0;
+                //     color: $sec-color;
+                // }
+                &:focus {
+                    border-color: rgba($sec-color, 0.5);
+                }
+            }
+        }
+        p {
+            font-size: 14px;
+            color: $bg-2;
+            opacity: .6;
+            margin-bottom: 0;
+            padding-top: 26px;
+        }
+        .next {
+            margin-top: 25px;
+            border: none;
+            background: $sec-color;
+            height: 50px;
+            width: 150px;
+            color: $white;
+            text-transform: uppercase;
+            border-radius: 5px;
+            font-weight: 500;
+            outline: none;
+            cursor: pointer;
+            @include transition($transition);
+            &:hover {
+                background: $bg-2;
+            }
+            &.disabled {
+                cursor: not-allowed;
+                background: #ddd;
+            }
+        }
+    }
+    .final-step {
+        text-align: center;
+        display: none;
+        padding: 120px 0;
+        border: 1px solid rgba($bg-2, 0.2);
+        border-radius: 5px;
+        .text {
+            display: block;
+            color: $base-color;
+            font-size: 34px;
+            margin-top: 17px;
+            margin-bottom: -13px;
+        }
+        svg {
+            width: 100px;
+            display: inline-block;
+        }
+        .path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 0;
+            &.circle {
+                -webkit-animation: dash .9s ease-in-out;
+                animation: dash .9s ease-in-out;
+            }
+            &.line {
+                stroke-dashoffset: 1000;
+                -webkit-animation: dash .9s .35s ease-in-out forwards;
+                animation: dash .9s .35s ease-in-out forwards;
+            }
+            &.check {
+                stroke-dashoffset: -100;
+                -webkit-animation: dash-check .9s .35s ease-in-out forwards;
+                animation: dash-check .9s .35s ease-in-out forwards;
+            }
+        }
+    }
+}
+
+
+  
+  
+  @keyframes dash {
+    0% {
+      stroke-dashoffset: 1000;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  @keyframes dash-check {
+    0% {
+      stroke-dashoffset: -100;
+    }
+    100% {
+      stroke-dashoffset: 900;
+    }
+  }
+  

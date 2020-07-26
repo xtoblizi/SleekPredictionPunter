@@ -1,0 +1,55 @@
+// about
+.about {
+    padding: 120px 0;
+    .part-img {
+        position: relative;
+        &:after {
+            position: absolute;
+            content: '';
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent, rgba($sec-color, 0.7));
+        }
+        img {
+            width: 100%;
+        }
+    }
+    .part-text {
+        padding: 50px;
+        background: $bg-1;
+        margin-left: -250px;
+        box-shadow: -3px 5px 11px 0px rgba(0, 0, 0, 0.34);
+        // border-bottom: 1px dashed $white;
+        // border-left: 1px dashed $white;
+        h2 {
+            color: $white;
+            margin-bottom: 14px;
+            margin-top: -8px;
+        }
+        p {
+            color: $white;
+            opacity: .9;
+            line-height: 28px;
+            font-weight: 400;
+        }
+    }
+    .about-btn {
+        display: inline-block;
+        padding: 0 30px;
+        height: 50px;
+        border: 2px solid $bg-2;
+        color: $bg-2;
+        font-weight: 500;
+        line-height: 50px;
+        text-transform: uppercase;
+        margin-top: 30px;
+        margin-left: 30px;
+        @include transition($transition);
+        &:hover {
+            color: $white;
+            background: $bg-2;
+        }
+    }
+}
