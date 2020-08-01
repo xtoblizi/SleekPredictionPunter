@@ -55,8 +55,18 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+			[Required]
+            public string FirstName { get; set; }
+			[Required]
+            public string LastName { get; set; }
+
+			public string Country { get; set; }
+			public string State { get; set; }
+			public string City { get; set; }
+
+			[Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
+				MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
@@ -65,11 +75,16 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-        }
+
+			[DataType(DataType.Date)]
+			[Required]
+			public DateTime DateOfBirth { get; set; }
+		}
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            ReturnUrl = returnUrl;
+			
+			ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 

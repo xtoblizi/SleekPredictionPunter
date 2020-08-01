@@ -25,13 +25,13 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			var getPredictions = await _predictionService.GetPredictions();
-			ViewBag.Predictions = getPredictions;
+			ViewBag.IsBanner = true;
 			return View();
 		}
 
 		public IActionResult Privacy()
 		{
+			ViewBag.IsBanner = true;
 			return View();
 		}
 
