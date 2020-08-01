@@ -41,8 +41,7 @@ namespace SleekPredictionPunter.WebApp
 
 			services.AddDbContext<PredictionDbContext>(options =>
 			{
-				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
-					b=> b.MigrationsAssembly("SleekPredictionPunter.WebApp"));
+				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 			});
 	
 
@@ -88,6 +87,8 @@ namespace SleekPredictionPunter.WebApp
 			//		name: "default",
 			//		pattern: "{controller=Home}/{action=Index}/{id?}");
 			//});
+
+			_=SeedData.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
 
 			app.UseEndpoints(endpoints =>
 			{
