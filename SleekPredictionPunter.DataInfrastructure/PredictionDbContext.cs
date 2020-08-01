@@ -21,13 +21,11 @@ namespace SleekPredictionPunter.DataInfrastructure
 			return new PredictionDbContext(optionsBuilder.Options);
 		}
 	}
-	public class PredictionDbContext : IdentityDbContext 
+	public class PredictionDbContext : IdentityDbContext<ApplicationUser,ApplicationRole,string>
 	{
 		public PredictionDbContext(DbContextOptions<PredictionDbContext> options) : base(options) 
 		{
 		}
-
-		
 
 		// add tables of the database as the dbcontext properties here.
 
@@ -47,12 +45,12 @@ namespace SleekPredictionPunter.DataInfrastructure
 
 			builder.Entity<ApplicationUser>(entity =>
 			{
-				entity.ToTable(name: "User");
+				entity.ToTable(name: "Users");
 			});
 
-			builder.Entity<IdentityRole>(entity =>
+			builder.Entity<ApplicationRole>(entity =>
 			{
-				entity.ToTable(name: "Role");
+				entity.ToTable(name: "Roles");
 			});
 			builder.Entity<IdentityUserRole<string>>(entity =>
 			{

@@ -20,11 +20,13 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
 		public IActionResult Index()
 		{
+			ViewBag.IsBanner = true;
 			return View();
 		}
 
 		public IActionResult Privacy()
 		{
+			ViewBag.IsBanner = true;
 			return View();
 		}
 
