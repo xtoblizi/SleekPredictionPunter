@@ -10,7 +10,7 @@ namespace SleekPredictionPunter.AppService.PredictionAppService
     {
         Task<IEnumerable<Prediction>> GetPredictions(Func<Prediction, bool> predicate = null, int startIndex = 0, int count = int.MaxValue);
         Task<Prediction> GetPredictionByPredictor(long id);
-        Task<long> CreatePredictor(Prediction model);
+        Task<long> InsertPrediction(Prediction model);
         Task RemovePredictionBy(Prediction phoneOwner, bool savechage = true);
     }
 }

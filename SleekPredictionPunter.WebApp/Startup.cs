@@ -43,8 +43,7 @@ namespace SleekPredictionPunter.WebApp
 			{
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 			});
-	
-
+			 
 			services.AddUserIdentityServices();
 			services.AddPredictionApplicationServices();
 			services.AddRazorPages();

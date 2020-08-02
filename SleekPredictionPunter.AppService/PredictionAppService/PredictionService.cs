@@ -15,7 +15,7 @@ namespace SleekPredictionPunter.AppService.PredictionAppService
             _repo = baseRepository;
         }
 
-        public async Task<long> CreatePredictor(Prediction model)
+        public async Task<long> InsertPrediction(Prediction model)
         {
            return await _repo.Insert(model);
         }

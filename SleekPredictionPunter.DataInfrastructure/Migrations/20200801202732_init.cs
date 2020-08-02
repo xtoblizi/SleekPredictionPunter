@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,7 +54,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PredictorUsers",
+                name: "Predictor",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -79,7 +79,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PredictorUsers", x => x.Id);
+                    table.PrimaryKey("PK_Predictor", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -197,6 +197,42 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Predictions",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: true),
+                    PredictorUserName = table.Column<string>(nullable: true),
+                    ClubA = table.Column<string>(nullable: true),
+                    ClubALogoPath = table.Column<string>(nullable: true),
+                    ClubB = table.Column<string>(nullable: true),
+                    ClubBLogoPath = table.Column<string>(nullable: true),
+                    PredictionValue = table.Column<string>(nullable: true),
+                    TimeofFixture = table.Column<DateTime>(nullable: false),
+                    SubscriberId = table.Column<long>(nullable: true),
+                    PredictorId = table.Column<long>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Predictions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Predictions_Predictor_PredictorId",
+                        column: x => x.PredictorId,
+                        principalTable: "Predictor",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Predictions_Subscribers_SubscriberId",
+                        column: x => x.SubscriberId,
+                        principalTable: "Subscribers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserClaims",
                 columns: table => new
                 {
@@ -282,6 +318,16 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Predictions_PredictorId",
+                table: "Predictions",
+                column: "PredictorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Predictions_SubscriberId",
+                table: "Predictions",
+                column: "SubscriberId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
                 table: "RoleClaims",
                 column: "RoleId");
@@ -330,16 +376,13 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 name: "AgentUsers");
 
             migrationBuilder.DropTable(
-                name: "PredictorUsers");
+                name: "Predictions");
 
             migrationBuilder.DropTable(
                 name: "RoleClaims");
 
             migrationBuilder.DropTable(
                 name: "SubcriberPredictorMaps");
-
-            migrationBuilder.DropTable(
-                name: "Subscribers");
 
             migrationBuilder.DropTable(
                 name: "UserClaims");
@@ -352,6 +395,12 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Predictor");
+
+            migrationBuilder.DropTable(
+                name: "Subscribers");
 
             migrationBuilder.DropTable(
                 name: "Roles");

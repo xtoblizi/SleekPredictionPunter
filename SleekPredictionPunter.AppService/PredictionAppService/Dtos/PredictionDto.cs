@@ -1,27 +1,27 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using SleekPredictionPunter.Model;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace SleekPredictionPunter.Model
+namespace SleekPredictionPunter.AppService.PredictionAppService.Dtos
 {
-	public class Prediction : BaseEntity
-	{
-		/// <summary>
-		/// The owner of the prediction
-		/// </summary>
+    public class PredictionDto
+    {
 		public string PredictorUserName { get; set; }
 		public string ClubA { get; set; }
 
-		
-		public string ClubALogoPath { get; set; }
+
+		//public string ClubALogoPath { get; set; }
 
 		public string ClubB { get; set; }
 
-		public string ClubBLogoPath { get; set; }
+		//public string ClubBLogoPath { get; set; }
 
 		public string PredictionValue { get; set; }
 
+		public IFormFile FileA { get; set; }
+		public IFormFile FileB { get; set; }
 		public DateTime TimeofFixture { get; set; }
 
 		/// <summary>

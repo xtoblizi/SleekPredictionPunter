@@ -12,7 +12,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 {
 	public class PredictionDbFactory : IDesignTimeDbContextFactory<PredictionDbContext>
 	{
-		const string  connectionstring = "Data Source= (LocalDb)\\MSSQLLocalDB;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True; Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
+		const string  connectionstring = "Data Source= (LocalDb)\\MSSQLLocalDB;Initial Catalog = SleekDb; Integrated Security = True; Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
 		public PredictionDbContext CreateDbContext(string[] args)
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<PredictionDbContext>();
@@ -33,7 +33,10 @@ namespace SleekPredictionPunter.DataInfrastructure
 		public DbSet<Predictor> PredictorUsers { get; set; }
 		public DbSet<SubcriberPredictorMap> SubcriberPredictorMaps { get; set; }
 		public DbSet<Subscriber> Subscribers { get; set; }
-		public DbSet<AgentRefereeMap> AgentRefereeMaps { get; set; }
+		public DbSet<AgentRefereeMap> AgentRefereeMaps { get; set; } 
+		public DbSet<Prediction> Predictions { get; set; }
+		public DbSet<Predictor> Predictors { get; set; }
+
 
 		/// <summary>
 		/// Override method on creation of the tables of the database
