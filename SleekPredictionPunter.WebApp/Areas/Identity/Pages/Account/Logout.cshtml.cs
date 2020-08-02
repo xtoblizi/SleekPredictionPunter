@@ -26,17 +26,23 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
         public void OnGet()
         {
         }
-
+        public async Task<IActionResult> Logout2()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
+        }
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {
+                HttpContext.Session.Clear();
                 return LocalRedirect(returnUrl);
             }
             else
             {
+                HttpContext.Session.Clear();
                 return RedirectToPage();
             }
         }
