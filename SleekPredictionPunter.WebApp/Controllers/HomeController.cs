@@ -14,9 +14,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
-		private readonly ContactAppService _contactService;
+		private readonly IContactAppService _contactService;
 
-		public HomeController(ILogger<HomeController> logger,ContactAppService contactAppService)
+		public HomeController(ILogger<HomeController> logger,IContactAppService contactAppService)
 		{
 			_contactService = contactAppService;
 			_logger = logger;
