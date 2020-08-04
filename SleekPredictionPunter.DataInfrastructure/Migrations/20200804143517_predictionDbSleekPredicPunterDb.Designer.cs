@@ -10,8 +10,8 @@ using SleekPredictionPunter.DataInfrastructure;
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
     [DbContext(typeof(PredictionDbContext))]
-    [Migration("20200804134644_CreateIdentitySchema")]
-    partial class CreateIdentitySchema
+    [Migration("20200804143517_predictionDbSleekPredicPunterDb")]
+    partial class predictionDbSleekPredicPunterDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -443,7 +443,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Predictors");
+                    b.ToTable("Predictor");
                 });
 
             modelBuilder.Entity("SleekPredictionPunter.Model.SubcriberPredictorMap", b =>
