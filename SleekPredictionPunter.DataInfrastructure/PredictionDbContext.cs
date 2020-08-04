@@ -34,7 +34,6 @@ namespace SleekPredictionPunter.DataInfrastructure
 		// add tables of the database as the dbcontext properties here.
 
 		public DbSet<Agent> AgentUsers { get; set; }
-		public DbSet<Predictor> PredictorUsers { get; set; }
 		public DbSet<SubcriberPredictorMap> SubcriberPredictorMaps { get; set; }
 		public DbSet<Subscriber> Subscribers { get; set; }
 		public DbSet<AgentRefereeMap> AgentRefereeMaps { get; set; } 

@@ -16,9 +16,12 @@ namespace SleekPredictionPunter.WebApp.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
-		private readonly ContactAppService _contactService;
-
-		public HomeController(ILogger<HomeController> logger,ContactAppService contactAppService)
+		private readonly IContactAppService _contactService;
+		private readonly IPredictionService _predictionService;
+		private readonly IPredictorService _predictorService;
+		public HomeController(ILogger<HomeController> logger,
+			IPredictorService predictorService,IPredictionService predictionService,
+			IContactAppService contactAppService)
 		{
 			_contactService = contactAppService;
 			_predictionService = predictionService;
@@ -33,6 +36,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
 			ViewBag.Predictions = gatePredictions;
 			return View();
 		}
+
+		[HttpGet("contact")]
 		public IActionResult Contact()
 		{
 			ViewBag.IsBanner = false;
@@ -43,7 +48,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
 		public async Task<IActionResult> Contact(ContactDto contactDto)
 		{
 			if (contactDto == null)
-				return View("Contacts details cannot be empty");
+			{
+				ViewBag.Error = "Contacts details cannot be empty";
+				return View(ViewBag.Error);
+			}
+				
 
 			var result = await _contactService.Insert(contactDto);
 			return View("Contact succesfully saved");
