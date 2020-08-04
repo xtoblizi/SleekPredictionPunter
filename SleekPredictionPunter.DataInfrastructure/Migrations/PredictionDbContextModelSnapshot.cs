@@ -329,6 +329,58 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("SleekPredictionPunter.Model.Prediction", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClubA")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClubALogoPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClubB")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClubBLogoPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PredictionValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("PredictorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("PredictorUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("SubscriberId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("TimeofFixture")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PredictorId");
+
+                    b.HasIndex("SubscriberId");
+
+                    b.ToTable("Predictions");
+                });
+
             modelBuilder.Entity("SleekPredictionPunter.Model.Predictor", b =>
                 {
                     b.Property<long>("Id")
@@ -389,7 +441,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PredictorUsers");
+                    b.ToTable("Predictor");
                 });
 
             modelBuilder.Entity("SleekPredictionPunter.Model.SubcriberPredictorMap", b =>
@@ -531,6 +583,17 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SleekPredictionPunter.Model.Prediction", b =>
+                {
+                    b.HasOne("SleekPredictionPunter.Model.Predictor", "Predictor")
+                        .WithMany()
+                        .HasForeignKey("PredictorId");
+
+                    b.HasOne("SleekPredictionPunter.Model.Subscriber", "Subscriber")
+                        .WithMany()
+                        .HasForeignKey("SubscriberId");
                 });
 #pragma warning restore 612, 618
         }

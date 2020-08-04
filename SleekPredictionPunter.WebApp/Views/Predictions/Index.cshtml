@@ -1,0 +1,94 @@
+﻿@model IEnumerable<SleekPredictionPunter.Model.Prediction>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_AdminLayout";
+}
+
+    <div class="row mt">
+        <div class="col-sm-8 col-md-8 col-lg-8" style="margin-left:50px; margin-top:70px">
+            <hr />
+            <h3>
+                <i class="fa fa-angle-right">
+                </i>
+                Predictions
+            </h3>
+            <p>
+                <a asp-action="Create"  class="btn btn-primary">Create New</a>
+            </p>
+
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            Predicted By
+                        </th>
+                        <th>
+                            Club A
+                        </th>
+                        <th>
+                            Club Logo
+                        </th>
+                        <th>
+                            
+                        </th>
+                        <th>
+                            Club B
+                        </th>
+                        <th>
+                            Club Logo
+                        </th>
+                        <th>
+                            Prediction
+                        </th>
+                        <th>
+                            Time
+                        </th>
+
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PredictorUserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ClubA)
+                            </td>
+                            <td>
+                                <img src="~/ClubLogo/@(System.IO.Path.GetFileName(item.ClubALogoPath))" style="width:30px;height:30px" />
+                            </td>
+                            <td>
+                                VS
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ClubB)
+                            </td>
+                            <td>
+                                <img src="~/ClubLogo/@(System.IO.Path.GetFileName(item.ClubBLogoPath))" style="width:30px;height:30px" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PredictionValue)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TimeofFixture)
+                            </td>
+
+
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+

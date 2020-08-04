@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SleekPredictionPunter.AppService.Contacts;
 using SleekPredictionPunter.Model;
+using SleekPredictionPunter.AppService.PredictionAppService;
+using SleekPredictionPunter.AppService.Predictors;
 using SleekPredictionPunter.WebApp.Models;
 
 namespace SleekPredictionPunter.WebApp.Controllers
@@ -14,17 +16,19 @@ namespace SleekPredictionPunter.WebApp.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
-		private readonly ContactAppService _contactService;
 
-		public HomeController(ILogger<HomeController> logger,ContactAppService contactAppService)
-		{
-			_contactService = contactAppService;
-			_logger = logger;
-		}
+        public HomeController(ILogger<HomeController> logger, IPredictionService predictionService, IPredictorService predictorService)
+        {
+            _logger = logger;
+            _predictionService = predictionService;
+            _predictorService = predictorService;
+        }
 
-		public IActionResult Index()
+        public async Task<IActionResult> Index()
 		{
 			ViewBag.IsBanner = true;
+			var gatePredictions = await _predictionService.GetPredictions();
+			ViewBag.Predictions = gatePredictions;
 			return View();
 		}
 		public IActionResult Contact()

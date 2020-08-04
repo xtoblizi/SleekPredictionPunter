@@ -10,7 +10,9 @@ namespace SleekPredictionPunter.AppService
 		public static void AddPredictionApplicationServices(this IServiceCollection services)
 		{
 			services.AddTransient<ISubscriberService, SubscriberService>();
-			services.AddTransient<IContactAppService, ContactAppService>();
+			services.AddTransient<IPredictionService, PredictionService>();
+			services.AddTransient<IAgentService, AgentService>();
+			services.AddTransient<IPredictorService, PredictorService>();
 
 			// repository DI registration
 			services.AddPredictionRepositories();

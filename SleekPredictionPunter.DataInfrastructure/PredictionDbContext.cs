@@ -34,8 +34,10 @@ namespace SleekPredictionPunter.DataInfrastructure
 		public DbSet<Predictor> PredictorUsers { get; set; }
 		public DbSet<SubcriberPredictorMap> SubcriberPredictorMaps { get; set; }
 		public DbSet<Subscriber> Subscribers { get; set; }
-		public DbSet<AgentRefereeMap> AgentRefereeMaps { get; set; }
-		public DbSet<Contact> Contacts{ get; set; }
+		public DbSet<AgentRefereeMap> AgentRefereeMaps { get; set; } 
+		public DbSet<Prediction> Predictions { get; set; }
+		public DbSet<Predictor> Predictors { get; set; }
+
 
 		/// <summary>
 		/// Override method on creation of the tables of the database
