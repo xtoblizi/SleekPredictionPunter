@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SleekPredictionPunter.AppService.Contacts;
+using SleekPredictionPunter.Model;
 using SleekPredictionPunter.WebApp.Models;
 
 namespace SleekPredictionPunter.WebApp.Controllers
@@ -12,9 +14,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
+		private readonly ContactAppService _contactService;
 
-		public HomeController(ILogger<HomeController> logger)
+		public HomeController(ILogger<HomeController> logger,ContactAppService contactAppService)
 		{
+			_contactService = contactAppService;
 			_logger = logger;
 		}
 
@@ -22,6 +26,21 @@ namespace SleekPredictionPunter.WebApp.Controllers
 		{
 			ViewBag.IsBanner = true;
 			return View();
+		}
+		public IActionResult Contact()
+		{
+			ViewBag.IsBanner = false;
+			return View();
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Contact(ContactDto contactDto)
+		{
+			if (contactDto == null)
+				return View("Contacts details cannot be empty");
+
+			var result = await _contactService.Insert(contactDto);
+			return View("Contact succesfully saved");
 		}
 
 		public IActionResult Privacy()
