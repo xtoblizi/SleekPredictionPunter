@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -18,6 +19,10 @@
     <ProjectReference Include="..\SleekPredictionPunter.AppService\SleekPredictionPunter.AppService.csproj" />
     <ProjectReference Include="..\SleekPredictionPunter.DataInfrastructure\SleekPredictionPunter.DataInfrastructure.csproj" />
     <ProjectReference Include="..\SleekPredictionPunter.GeneralUtilsAndServices\SleekPredictionPunter.GeneralUtilsAndServices.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\ClubLogo\" />
   </ItemGroup>
 
 </Project>

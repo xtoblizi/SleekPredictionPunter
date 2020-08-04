@@ -69,8 +69,12 @@ namespace SleekPredictionPunter.Repository.Base
 		public async virtual Task<IEnumerable<T>> GetAllQueryable(Func<T, bool> predicate = null, 
 			int startIndex = 0, int count = int.MaxValue) 
 		{
-			var dbSet = _entity.Where(predicate).Skip(startIndex).Take(count);
-			return await Task.FromResult(dbSet);
+			if(predicate != null)
+            {
+				var dbSet = _entity.Where(predicate).Skip(startIndex).Take(count).ToList();
+				return await Task.FromResult(dbSet);
+			} 
+			return await _entity.Skip(startIndex).Take(count).ToListAsync(); 
 		}
 
 		/// <summary>
