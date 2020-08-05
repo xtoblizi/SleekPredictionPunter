@@ -39,6 +39,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 		public DbSet<AgentRefereeMap> AgentRefereeMaps { get; set; } 
 		public DbSet<Prediction> Predictions { get; set; }
 		public DbSet<Predictor> Predictors { get; set; }
+		public DbSet<Package> Packages { get; set; }
 
 
 		/// <summary>
