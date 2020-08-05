@@ -11,7 +11,6 @@ namespace SleekPredictionPunter.Model.BaseModels
 		{
 			ActivatedStatus = EntityStatusEnum.NotActive;
 			IsTenant = false;
-
 			TenantUniqueName = IsTenant ? Username : string.Empty;
 		}
 
@@ -23,20 +22,16 @@ namespace SleekPredictionPunter.Model.BaseModels
 		/// <summary>
 		/// If the identity is a tenant based identity then the username become the tenant
 		/// </summary>
-		public string TenantUniqueName { get; private set; }
-
+		public string TenantUniqueName { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
-
 		public string Email { get; set; }
-
 		public string PhoneNumber { get; set; }
-
 		public GenderEnum Gender { get; set; }
-
+		public DateTime DateOfBirth { get; set; }
 		public string BrandNameOrNickName { get; set; }
 		public string FullName { get { return $"{FirstName} {LastName}"; } }
-		public EntityStatusEnum ActivatedStatus { get; set; } 
+		public EntityStatusEnum ActivatedStatus { get; set; }
 		public virtual bool IsTenant { get; set; }
 
 		#region Address Details 
