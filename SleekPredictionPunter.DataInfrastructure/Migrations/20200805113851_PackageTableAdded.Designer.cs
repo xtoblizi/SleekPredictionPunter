@@ -10,8 +10,8 @@ using SleekPredictionPunter.DataInfrastructure;
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
     [DbContext(typeof(PredictionDbContext))]
-    [Migration("20200805100940_packagemodeladdtion")]
-    partial class packagemodeladdtion
+    [Migration("20200805113851_PackageTableAdded")]
+    partial class PackageTableAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
