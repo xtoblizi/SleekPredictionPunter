@@ -126,7 +126,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 						City = Input.City,
 						Country = Input.Country,
 						DateofBirth = Input.DateOfBirth,
-						State = Input.State
+						State = Input.State,
 					};
 					var result = await _userManager.CreateAsync(user, Input.Password);
 					if (result.Succeeded)
