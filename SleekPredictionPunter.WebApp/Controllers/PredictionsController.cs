@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using SleekPredictionPunter.AppService.Packages;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.PredictionAppService.Dtos;
 using SleekPredictionPunter.DataInfrastructure;
@@ -17,10 +19,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
     public class PredictionsController : Controller
     { 
         private readonly IPredictionService _predictionService;
-
-        public PredictionsController(IPredictionService predictionService)
+        private readonly IPackageService _packageService;
+        public PredictionsController(IPredictionService predictionService, IPackageService packageService)
         { 
             _predictionService = predictionService;
+            _packageService = packageService;
         }
 
         // GET: Predictions
@@ -49,9 +52,10 @@ namespace SleekPredictionPunter.WebApp.Controllers
         }
 
         // GET: Predictions/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             ViewBag.Predictions = "active";
+            ViewBag.PackageId = new SelectList(await _packageService.GetPackages(), "Id", "PackageName");
             return View();
         }
 
@@ -84,20 +88,21 @@ namespace SleekPredictionPunter.WebApp.Controllers
 				await stream.FlushAsync(); 
 			}
 
+            var getpackage = await _packageService.GetById(prediction.PackgeId);
             Prediction predictionModel = new Prediction()
             {
-                ClubA=prediction.ClubA,
-                ClubALogoPath=pathA,
-                ClubB=prediction.ClubB,
-                ClubBLogoPath=pathB,
-                DateCreated=DateTime.UtcNow,
-                DateUpdated=DateTime.UtcNow,
-                PredictionValue=prediction.PredictionValue,
-                Predictor=prediction.Predictor,
-                PredictorUserName=User.Identity.Name,
-                Subscriber=prediction.Subscriber,
-                TimeofFixture=prediction.TimeofFixture,
-                PredictionType=prediction.PredictionType
+                ClubA = prediction.ClubA,
+                ClubALogoPath = pathA,
+                ClubB = prediction.ClubB,
+                ClubBLogoPath = pathB,
+                DateCreated = DateTime.UtcNow,
+                DateUpdated = DateTime.UtcNow,
+                PredictionValue = prediction.PredictionValue,
+                Predictor = prediction.Predictor,
+                PredictorUserName = User.Identity.Name,
+                Subscriber = prediction.Subscriber,
+                TimeofFixture = prediction.TimeofFixture,
+                Package=getpackage
             };
 
             if (ModelState.IsValid)
@@ -105,6 +110,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 await _predictionService.InsertPrediction(predictionModel);
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.PackageId = new SelectList(await _packageService.GetPackages(), "Id", "PackageName", prediction.PackgeId);
             return View(prediction);
         }
 

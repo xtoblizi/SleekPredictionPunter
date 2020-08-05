@@ -27,25 +27,23 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-		private readonly ISubscriberService _subscriberService;
+        private readonly ISubscriberService _subscriberService;
         private readonly RoleManager<ApplicationRole> _roleManager;
 
-		public RegisterModel(
-			RoleManager<ApplicationRole> roleManager,
-			ISubscriberService susbscriberService,
+        public RegisterModel(
+            RoleManager<ApplicationRole> roleManager,
+            ISubscriberService susbscriberService,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender,
-            RoleManager<ApplicationRole> roleManager)
+            IEmailSender emailSender)
         {
-			_roleManager = roleManager;
+            _roleManager = roleManager;
             _userManager = userManager;
-			_subscriberService = susbscriberService;
+            _subscriberService = susbscriberService;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            _roleManager = roleManager;
         }
 
         [BindProperty]
@@ -62,18 +60,18 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-			[Required]
+            [Required]
             public string FirstName { get; set; }
-			[Required]
+            [Required]
             public string LastName { get; set; }
 
-			public string Country { get; set; }
-			public string State { get; set; }
-			public string City { get; set; }
+            public string Country { get; set; }
+            public string State { get; set; }
+            public string City { get; set; }
 
-			[Required]
+            [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
-				MinimumLength = 6)]
+                MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
@@ -83,15 +81,15 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-			[DataType(DataType.Date)]
-			[Required]
-			public DateTime DateOfBirth { get; set; }
-		}
+            [DataType(DataType.Date)]
+            [Required]
+            public DateTime DateOfBirth { get; set; }
+        }
 
-        public async Task OnGetAsync(string returnUrl = null, string userType=null)
+        public async Task OnGetAsync(string returnUrl = null, string userType = null)
         {
-			
-			ReturnUrl = returnUrl;
+
+            ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
@@ -103,24 +101,24 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             {
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                
+
                 if (result.Succeeded)
                 {
                     // add user to correct role
-                    
+
 
                     _logger.LogInformation("User created a new account with password.");
 
-						var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-						code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-						var callbackUrl = Url.Page(
-							"/Account/ConfirmEmail",
-							pageHandler: null,
-							values: new { area = "Identity", userId = user.Id, code = code },
-							protocol: Request.Scheme);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { area = "Identity", userId = user.Id, code = code },
+                        protocol: Request.Scheme);
 
-						await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-							$"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
@@ -133,17 +131,17 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
                     {
 
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        if (userType != null)
+                        if (string.IsNullOrEmpty(userType))
                         {
                             await _userManager.AddToRoleAsync(user, RoleEnum.Subscriber.GetDescription());
-                            return RedirectToAction("Create", "Predictions");
+                            return RedirectToAction("Create", "Subscribers", new { area = "" });
                         }
                         else
                         {
                             await _userManager.AddToRoleAsync(user, RoleEnum.Predictor.GetDescription());
-                            return RedirectToAction("Create", "Subscribers", new { area = "" });
-                        } 
-                      
+                            return RedirectToAction("Create", "Predictors", new { area = "" });
+                        }
+
                     }
                 }
                 foreach (var error in result.Errors)
@@ -152,14 +150,10 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
                 }
             }
 
-				// If we got this far, something failed, redisplay form
-				return Page();
-			}
-			catch (Exception ex)
-			{
-				return Page();
-				throw ex;
-			}
+            // If we got this far, something failed, redisplay form
+            return Page();
         }
+
+
     }
 }

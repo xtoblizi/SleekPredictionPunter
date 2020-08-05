@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using SleekPredictionPunter.AppService.Agents;
 using SleekPredictionPunter.AppService.Contacts;
+using SleekPredictionPunter.AppService.Packages;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.Predictors;
 using SleekPredictionPunter.Repository;
@@ -17,6 +18,7 @@ namespace SleekPredictionPunter.AppService
 			services.AddTransient<IAgentService, AgentService>();
 			services.AddTransient<IPredictorService, PredictorService>();
 			services.AddTransient<IContactAppService, ContactAppService>();
+			services.AddTransient<IPackageService, PackageService>();
 
 			// repository DI registration
 			services.AddPredictionRepositories();

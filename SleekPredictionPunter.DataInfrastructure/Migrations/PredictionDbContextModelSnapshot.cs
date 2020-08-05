@@ -169,6 +169,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RefererCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
@@ -329,6 +332,36 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("SleekPredictionPunter.Model.Package", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PackageName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Packages");
+                });
+
             modelBuilder.Entity("SleekPredictionPunter.Model.Prediction", b =>
                 {
                     b.Property<long>("Id")
@@ -357,6 +390,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
 
+                    b.Property<long?>("PackageId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("PredictionValue")
                         .HasColumnType("nvarchar(max)");
 
@@ -373,6 +409,8 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PackageId");
 
                     b.HasIndex("PredictorId");
 
@@ -517,6 +555,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RefererCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
@@ -587,6 +628,10 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
             modelBuilder.Entity("SleekPredictionPunter.Model.Prediction", b =>
                 {
+                    b.HasOne("SleekPredictionPunter.Model.Package", "Package")
+                        .WithMany()
+                        .HasForeignKey("PackageId");
+
                     b.HasOne("SleekPredictionPunter.Model.Predictor", "Predictor")
                         .WithMany()
                         .HasForeignKey("PredictorId");
