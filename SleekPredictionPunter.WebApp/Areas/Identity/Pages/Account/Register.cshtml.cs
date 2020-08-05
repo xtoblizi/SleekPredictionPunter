@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using SleekPredictionPunter.AppService;
+using SleekPredictionPunter.GeneralUtilsAndServices;
+using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.IdentityModels;
 
 namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
@@ -26,19 +28,22 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 		private readonly ISubscriberService _subscriberService;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
         public RegisterModel(
 			ISubscriberService susbscriberService,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            RoleManager<ApplicationRole> roleManager)
         {
             _userManager = userManager;
 			_subscriberService = susbscriberService;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         [BindProperty]
@@ -81,14 +86,14 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 			public DateTime DateOfBirth { get; set; }
 		}
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string returnUrl = null, string userType=null)
         {
 			
 			ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null, string userType = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -96,9 +101,11 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             {
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                
                 if (result.Succeeded)
                 {
-					// add user to correct role
+                    // add user to correct role
+                    
 
                     _logger.LogInformation("User created a new account with password.");
 
@@ -115,12 +122,26 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
+                        if (userType != null) await _userManager.AddToRoleAsync(user, RoleEnum.Subscriber.GetDescription());
+                        else await _userManager.AddToRoleAsync(user, RoleEnum.Predictor.GetDescription());
+
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
                     }
                     else
                     {
+
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        if (userType != null)
+                        {
+                            await _userManager.AddToRoleAsync(user, RoleEnum.Subscriber.GetDescription());
+                            return RedirectToAction("Create", "Predictions");
+                        }
+                        else
+                        {
+                            await _userManager.AddToRoleAsync(user, RoleEnum.Predictor.GetDescription());
+                            return RedirectToAction("Create", "Subscribers", new { area = "" });
+                        } 
+                      
                     }
                 }
                 foreach (var error in result.Errors)

@@ -6,61 +6,7 @@
 
 <link rel="stylesheet" href="~/FrontendTheme/assets/css/register-page-responsive.css">
 
-@*<div class="row">
-		<div class="col-md-4">
-			<form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-				<h4>Create a new account.</h4>
-				<hr />
-				<div asp-validation-summary="All" class="text-danger"></div>
-				<div class="form-group">
-					<label asp-for="Input.Email"></label>
-					<input asp-for="Input.Email" class="form-control" />
-					<span asp-validation-for="Input.Email" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-					<label asp-for="Input.Password"></label>
-					<input asp-for="Input.Password" class="form-control" />
-					<span asp-validation-for="Input.Password" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-					<label asp-for="Input.ConfirmPassword"></label>
-					<input asp-for="Input.ConfirmPassword" class="form-control" />
-					<span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-				</div>
-				<button type="submit" class="btn btn-primary">Register</button>
-			</form>
-		</div>
-		<div class="col-md-6 col-md-offset-2">
-			<section>
-				<h4>Use another service to register.</h4>
-				<hr />
-				@{
-					if ((Model.ExternalLogins?.Count ?? 0) == 0)
-					{
-						<div>
-							<p>
-								There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-								for details on setting up this ASP.NET application to support logging in via external services.
-							</p>
-						</div>
-					}
-					else
-					{
-						<form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-							<div>
-								<p>
-									@foreach (var provider in Model.ExternalLogins)
-									{
-										<button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-									}
-								</p>
-							</div>
-						</form>
-					}
-				}
-			</section>
-		</div>
-	</div>*@
+
 
 <!-- regsiter begin -->
 <div class="register">
@@ -77,43 +23,47 @@
 			<div class="col-xl-9 col-lg-9">
 				
 				<div class="all-form">
-					<div class="single-form" id="first-step">
-						<form>
-							<div>
-								<input asp-for="Input.FirstName" type="text" value="" id="firstName" required>
-								<label for="firstName">First Name</label>
-							</div>
-							<div>
-								<input asp-for="Input.LastName" type="text" value="" id="lastName" required>
-								<label for="lastName">Last Name</label>
-							</div>
-							<div>
-								<input asp-for="Input.Email" type="email" id="emailAdd" required>
-								<label for="emailAdd">Email Address</label>
-							</div>
-							<div>
-								<input asp-for="Input.Password" type="password" id="password" required>
-								<label for="password">Password</label>
-							</div>
-							<div>
-								<input asp-for="Input.ConfirmPassword" type="password" id="paswordconfirm" required>
-								<label for="paswordconfirm">Confirm Password</label>
-							</div>
-							<div>
-								<input asp-for="Input.State" type="text" id="state" required>
-								<label for="state">State</label>
-							</div>
-							<div>
-								<input asp-for="Input.Country" type="text" id="country" required>
-								<label for="country">Country</label>
-							</div>
-							<div>
-								<input asp-for="Input.DateOfBirth" type="date" value="" id="dOb" required>
-								<label for="dOb">Date Of Birth</label>
-							</div><p>By clicking "NEXT", you confirm that you have read and understood the Bettix <a href="#">Privacy & Coockie Policy</a>, and agree to its terms.</p>
-							<button class="next" type="submit">Submit</button>
+                    <div class="single-form" id="first-step">
+
+                        <form class="form-inline" method="post">
+                            <div class="form-group col-md-6">
+                                <input asp-for="Input.FirstName" type="text" value="" id="firstName" required>
+                                <label for="firstName">First Name</label>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input asp-for="Input.LastName" type="text" value="" id="lastName" required>
+                                <label for="lastName">Last Name</label>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <input asp-for="Input.Email" type="email" id="emailAdd" required>
+                                <label for="emailAdd">Email Address</label>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input asp-for="Input.Password" type="password" id="password" required>
+                                <label for="password">Password</label>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input asp-for="Input.ConfirmPassword" type="password" id="paswordconfirm" required>
+                                <label for="paswordconfirm">Confirm Password</label>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input asp-for="Input.State" type="text" id="state" required>
+                                <label for="state">State</label>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input asp-for="Input.Country" type="text" id="country" required>
+                                <label for="country">Country</label>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input asp-for="Input.DateOfBirth" type="date" value="" id="dOb" required>
+                                <label for="dOb">Date Of Birth</label>
+                            </div><p>By clicking "NEXT", you confirm that you have read and understood the Bettix <a href="#">Privacy & Coockie Policy</a>, and agree to its terms.</p>
+                            
+							<button class="next" type="submit">Continue <i class="fa fa-mail-forward"></i></button>
 						</form>
-					</div>
+
+                    </div>
 				</div>
 			</div>
 		</div>

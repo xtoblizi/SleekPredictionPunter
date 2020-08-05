@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.PredictionAppService.Dtos;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
+    //[Authorize]
     public class PredictionsController : Controller
     { 
         private readonly IPredictionService _predictionService;
@@ -24,12 +26,14 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // GET: Predictions
         public async Task<IActionResult> Index()
         {
+            ViewBag.Predictions = "active";
             return View(await _predictionService.GetPredictions());
         }
 
         // GET: Predictions/Details/5
         public async Task<IActionResult> Details(long? id)
         {
+            ViewBag.Predictions = "active";
             if (id == null)
             {
                 return NotFound();
@@ -47,6 +51,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // GET: Predictions/Create
         public IActionResult Create()
         {
+            ViewBag.Predictions = "active";
             return View();
         }
 
@@ -57,6 +62,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromForm]PredictionDto prediction)
         {
+            ViewBag.Predictions = "active";
             System.Random random = new System.Random();
             int genNumberA = random.Next(1234567890);
             int genNumberB = random.Next(0987654321);
@@ -81,9 +87,10 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 DateUpdated=DateTime.UtcNow,
                 PredictionValue=prediction.PredictionValue,
                 Predictor=prediction.Predictor,
-                PredictorUserName=prediction.PredictorUserName,
+                PredictorUserName=User.Identity.Name,
                 Subscriber=prediction.Subscriber,
-                TimeofFixture=prediction.TimeofFixture
+                TimeofFixture=prediction.TimeofFixture,
+                PredictionType=prediction.PredictionType
             };
 
             if (ModelState.IsValid)
@@ -98,6 +105,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // GET: Predictions/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
+            ViewBag.Predictions = "active";
             if (id == null)
             {
                 return NotFound();

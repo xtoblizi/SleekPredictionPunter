@@ -119,10 +119,7 @@
 									</select>
 								</li>
 								<li>
-									<partial name="_LoginPartial" />
-									@*<a class="link" href="bet-slip.html">
-
-										</a>*@
+									<partial name="_LoginPartial" /> 
 								</li>
 							</ul>
 						</div>
@@ -130,6 +127,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<div id="navbar" class="header-bottom">
 			<div class="container">
 				<div class="row">
@@ -153,53 +151,23 @@
 						<div class="mainmenu">
 							<nav class="navbar navbar-expand-lg">
 								<div class="collapse navbar-collapse" id="navbarSupportedContent">
-									<ul class="navbar-nav ml-auto">
-										<li class="nav-item dropdown">
-											<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-												Home
-											</a>
-											<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-												<a class="dropdown-item" href="index.html">Home One</a>
-												<a class="dropdown-item" href="index-2.html">Home Two</a>
-											</div>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link" href="about.html">About</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link" href="statics.html">Statics</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link" href="promotions.html">Promotions</a>
-										</li>
-										<li class="nav-item dropdown">
-											<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-												Blog
-											</a>
-											<div class="dropdown-menu" aria-labelledby="navbarDropdown2">
-												<a class="dropdown-item" href="blog.html">Blog Post</a>
-												<a class="dropdown-item" href="blog-details.html">Blog Details</a>
-											</div>
-										</li>
-										<li class="nav-item dropdown">
-											<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-												Pages
-											</a>
-											<div class="dropdown-menu" aria-labelledby="navbarDropdown3">
-												<a class="dropdown-item" href="result.html">Result</a>
-												<a class="dropdown-item" href="latest-result.html">Latest Result</a>
-												<a class="dropdown-item" href="standing.html">Standing</a>
-												<a class="dropdown-item" href="schedule.html">Schedule</a>
-												<a class="dropdown-item" href="bet-slip.html">Bet Slip</a>
-												<a class="dropdown-item" href="login.html">Login</a>
-												<a class="dropdown-item" href="register.html">Register</a>
-												<a class="dropdown-item" href="error.html">Error 404</a>
-											</div>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link" href="contact.html">Contact US</a>
-										</li>
-									</ul>
+                                    <ul class="navbar-nav ml-auto"> 
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="../../Home/Index">Home</a>
+                                        </li>
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Become a predictor
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                <a asp-page="/Account/Register" asp-area="Identity" asp-route-userType="predictor" class="dropdown-item">Create an account</a>
+                                            </div>
+                                        </li>
+										 
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="../Home/Contact">Contact US</a>
+                                        </li>
+                                    </ul>
 								</div>
 							</nav>
 						</div>

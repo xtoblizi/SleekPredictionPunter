@@ -18,9 +18,13 @@
                 <form asp-action="Create" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="PredictorUserName" class="control-label"></label>
-                        <input asp-for="PredictorUserName" class="form-control" />
-                        <span asp-validation-for="PredictorUserName" class="text-danger"></span>
+                        <label asp-for="PredictionType" class="control-label"></label>
+                        <select class="form-control" name="PredictionType">
+                            <option>Free Prediction</option>
+                            <option>Premium Prediction</option>
+                            <option></option>
+                        </select>
+                        <span asp-validation-for="PredictionType" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="ClubA" class="control-label"></label>

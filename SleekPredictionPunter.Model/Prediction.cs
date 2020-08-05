@@ -30,5 +30,9 @@ namespace SleekPredictionPunter.Model
 		/// </summary>
 		public Subscriber Subscriber { get; set; }
 		public Predictor Predictor { get; set; }
+
+		public ICollection<Package> Packages { get; set; }
 	}
+
+	
 }
