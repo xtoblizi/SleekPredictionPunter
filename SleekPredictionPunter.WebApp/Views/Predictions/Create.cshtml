@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Create";
     Layout = "_AdminLayout";
+    var authors = (IEnumerable<SelectListItem>)ViewData["PackageId"]; 
 }
 
 <div class="row mt">
@@ -14,6 +15,7 @@
             Predictions/Create
         </h3>
         <div class="row">
+            @ViewData["PackageId"]
             <div class="col-md-4">
                 <form asp-action="Create" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -56,8 +58,8 @@
                         <span asp-validation-for="FileB" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label  class="control-label">Choose a package</label>
-                        <select asp-for="PackgeId" asp-items="ViewBag.PackageId" class="form-control" />
+                        <label asp-for="PackgeId" class="col-md-2 control-label"></label>
+                        <select asp-for="PackgeId" asp-items="authors" class="form-control"></select>
                     </div>
                     <hr />
                     <div class="form-group">
@@ -71,5 +73,5 @@
             <a asp-action="Index">Back to List</a>
         </div>
 
-</div>
+    </div>
 </div>
