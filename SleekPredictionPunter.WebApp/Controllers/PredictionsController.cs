@@ -19,8 +19,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
     public class PredictionsController : Controller
     { 
         private readonly IPredictionService _predictionService;
-        private readonly IPackageService _packageService;
-        public PredictionsController(IPredictionService predictionService, IPackageService packageService)
+        private readonly IPackageAppService _packageService;
+        public PredictionsController(IPredictionService predictionService, IPackageAppService packageService)
         { 
             _predictionService = predictionService;
             _packageService = packageService;

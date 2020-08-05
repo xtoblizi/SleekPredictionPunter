@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SleekPredictionPunter.AppService.Packages;
 using SleekPredictionPunter.Model;
+using SleekPredictionPunter.Model.Packages;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
@@ -19,7 +20,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // GET: Packages
         public async Task<IActionResult> Index(int startIndex= 0, int count = int.MaxValue)
         {
-			var result = await _packageAppService.GetPackages(startIndex: startIndex, count: count);
+			var result = await _packageAppService.GetPackages();
 
             return View(result);
         }
@@ -46,7 +47,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             {
                 // TODO: Add insert logic here
 
-
+                await _packageAppService.Insert(package);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -64,12 +65,12 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // POST: Packages/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, PackageDto model)
+        public async Task<IActionResult> Edit(int id, PackageDto model)
         {
             try
             {
                 // TODO: Add update logic here
-
+                await _packageAppService.Update(model);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -87,12 +88,12 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // POST: Packages/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, PackageDto model)
+        public async Task<IActionResult> Delete(int id, PackageDto model)
         {
             try
             {
                 // TODO: Add delete logic here
-
+                await _packageAppService.Delete(model);
                 return RedirectToAction(nameof(Index));
             }
             catch
