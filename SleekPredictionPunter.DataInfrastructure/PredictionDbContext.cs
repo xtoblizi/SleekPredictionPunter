@@ -40,6 +40,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 		public DbSet<Predictor> Predictors { get; set; }
 		public DbSet<Package> Packages { get; set; }
 
+
 		/// <summary>
 		/// Override method on creation of the tables of the database
 		/// </summary>
