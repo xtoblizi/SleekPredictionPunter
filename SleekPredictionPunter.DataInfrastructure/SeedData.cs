@@ -63,10 +63,10 @@ namespace SleekPredictionPunter.DataInfrastructure
 							await roleManager.CreateAsync(role);
 						}
 					}
-					var systemAdminrole = RoleEnum.SystemAdmin.GetDescription();
+					var systemAdminrole = RoleEnum.SuperAdmin.GetDescription();
 					if (isUserCreated == true && !(await userManager.IsInRoleAsync(user, systemAdminrole)))
 					{
-						await userManager.AddToRoleAsync(user, RoleEnum.SystemAdmin.GetDescription());
+						await userManager.AddToRoleAsync(user, RoleEnum.SuperAdmin.GetDescription());
 					}
 				}
 

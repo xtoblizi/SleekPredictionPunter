@@ -40,6 +40,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 		public DbSet<Prediction> Predictions { get; set; }
 		public DbSet<Predictor> Predictors { get; set; }
 		public DbSet<Package> Packages { get; set; }
+		public DbSet<Contact> Contacts { get; set; }
 
 
 		/// <summary>

@@ -13,39 +13,52 @@
 					<p>Predictive Power is one of the most competive and profound sports prediction webplatform with free and premium packages.</p>
 				</div>
 			</div>
+			<div class="col-xl-6 col-lg-6 col-md-8">
+                @*<div class="section-title">
+                    @if(TempData["ContactCreation"] != null)
+                    {
+                      <h5 class="text-success text-center">@TempData["ContactCreation"]</h5>
+                    }
+                </div>*@
+			</div>
 		</div>
 		<div class="row no-gutters">
-			<div class="col-xl-8 col-lg-8 col-md-7">
-				<div class="contact-form">
-					<form>
-						<div class="row">
-							<div class="col-xl-6 col-lg-6">
-								<label for="fullName">First Name</label>
-								<input readonly type="text" asp-for="FirstName" id="firstname" placeholder="Ex: John Doe">
-							</div>
-							<div class="col-xl-6 col-lg-6">
-								<label for="fullName">Last Name</label>
-								<input readonly type="text" asp-for="LastName" id="lastname" placeholder="Ex: John Doe">
-							</div>
-							<div class="col-xl-6 col-lg-6">
-								<label for="phoneNo">Phone No</label>
-								<input type="text" asp-for="PhoneNumber" id="phoneNo" placeholder="+96 xxx xxx xxx">
-							</div>
-							<div class="col-xl-6 col-lg-6">
-								<label for="emailAdd">Email</label>
-								<input type="text" asp-for="Email" id="emailAdd" placeholder="Ex: yourmail@do.main">
-							</div>
-							<div class="col-xl-6 col-lg-6">
-								<label for="mailSubject">Subject</label>
-								<input type="text" asp-for="Subject" id="mailSubject" placeholder="Ex: Service">
-							</div>
-						</div>
-						<label for="yourMessage">Subject</label>
-						<textarea id="yourMessage" asp-for="ContactReason" placeholder="Ex: Hello Admin!"></textarea>
-						<button class="submit-btn">Submit</button>
-					</form>
-				</div>
-			</div>
+            <div class="col-xl-8 col-lg-8 col-md-7">
+                @if (TempData["ContactCreation"] != null)
+                {
+                  <h5 class="text-success text-center text-justify">@TempData["ContactCreation"]</h5><br />
+                } 
+
+                <div class="contact-form">
+                    <form asp-action="Contact">
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6">
+                                <label for="fullName">First Name</label>
+                                <input type="text" asp-for="FirstName" id="firstname" placeholder="Ex: John Doe">
+                            </div>
+                            <div class="col-xl-6 col-lg-6">
+                                <label for="fullName">Last Name</label>
+                                <input type="text" asp-for="LastName" id="lastname" placeholder="Ex: John Doe">
+                            </div>
+                            <div class="col-xl-6 col-lg-6">
+                                <label for="phoneNo">Phone No</label>
+                                <input type="text" asp-for="PhoneNumber" required id="phoneNo" placeholder="+96 xxx xxx xxx">
+                            </div>
+                            <div class="col-xl-6 col-lg-6">
+                                <label for="emailAdd">Email</label>
+                                <input type="text" asp-for="Email" required id="emailAdd" placeholder="Ex: yourmail@do.main">
+                            </div>
+                            <div class="col-xl-6 col-lg-6">
+                                <label for="mailSubject">Subject</label>
+                                <input type="text" asp-for="Subject" required id="mailSubject" placeholder="Ex: Service">
+                            </div>
+                        </div>
+                        <label for="yourMessage">Subject</label>
+                        <textarea id="yourMessage" asp-for="ContactReason" required placeholder="Ex: Hello Admin!"></textarea>
+                        <button class="submit-btn">Submit</button>
+                    </form>
+                </div>
+            </div>
 			<div class="col-xl-4 col-lg-4 col-md-5">
 				<div class="contact-information">
 					<div class="about-site">
@@ -58,7 +71,7 @@
 								<i class="fas fa-map-marker-alt"></i>
 							</span>
 							<span class="text">
-								2870 Whitetail Lane, Lagos, Nigeria
+								Lagos, Nigeria
 							</span>
 						</li>
 

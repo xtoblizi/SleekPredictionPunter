@@ -37,12 +37,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
 			return View();
 		}
 
-		[HttpGet("contact")]
-		public IActionResult Contact()
-		{
-			ViewBag.IsBanner = false;
-			return View();
-		}
+		
+		
 
 		[HttpGet("error")]
 		public IActionResult Error(string exceptionMessage = null)
@@ -55,8 +51,37 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
 			return View();
 			
-		}	
-		
+		}
+		public IActionResult Contact(string message = null)
+		{
+			ViewBag.IsBanner = false;
+            if (string.IsNullOrEmpty(message))
+            {
+				return View(message);
+			}
+			return View();
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Contact(ContactDto contactDto)
+		{
+			if (contactDto == null)
+			{
+				TempData["ContactCreation"] = "Contacts details cannot be empty";
+				return View(TempData["ContactCreation"]);
+			}
+
+			var result = await _contactService.Insert(contactDto);
+			TempData["ContactCreation"] = "Your contact request has successfully been received and your would be responded to in less than 48hours. Thanks for your reach : Predictive Power";
+			return View();
+		}
+		public async Task<IActionResult> ContactIndex()
+		{
+			ViewBag.IsBanner = false;
+			var result = await _contactService.GetAllQueryable();
+			return View(result);
+		}
+
 		[HttpGet("error")]
 		public IActionResult AdminHome(string exceptionMessage = null)
 		{
@@ -69,20 +94,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
 			return View();
 			
 		}
-
-		[HttpPost]
-		public async Task<IActionResult> Contact(ContactDto contactDto)
-		{
-			if (contactDto == null)
-			{
-				ViewBag.Error = "Contacts details cannot be empty";
-				return View(ViewBag.Error);
-			}
-				
-
-			var result = await _contactService.Insert(contactDto);
-			return View("Contact succesfully saved");
-		}
+	
+		
 
 		public IActionResult Privacy()
 		{

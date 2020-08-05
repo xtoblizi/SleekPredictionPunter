@@ -26,6 +26,14 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
             return View(result);
         }
+        
+        public async Task<IActionResult> FrontEndIndex(int startIndex= 0, int count = int.MaxValue)
+        {
+            ViewBag.Package = "active";
+            var result = await _packageAppService.GetPackages();
+
+            return View(result);
+        }
 
         // GET: Packages/Details/5
         public async Task<IActionResult> Details(int id)

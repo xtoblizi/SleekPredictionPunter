@@ -155,6 +155,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
                     else
                     { 
                         await _signInManager.SignInAsync(user, isPersistent: false);
+                        
                        
                     }
                 }
