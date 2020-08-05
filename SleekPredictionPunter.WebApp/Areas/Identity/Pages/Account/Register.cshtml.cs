@@ -27,20 +27,20 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-		private readonly ISubscriberService _subscriberService;
-		private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly ISubscriberService _subscriberService;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
-		public RegisterModel(
-			RoleManager<ApplicationRole> roleManager,
-			ISubscriberService susbscriberService,
+        public RegisterModel(
+            RoleManager<ApplicationRole> roleManager,
+            ISubscriberService susbscriberService,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
-			_roleManager = roleManager;
+            _roleManager = roleManager;
             _userManager = userManager;
-			_subscriberService = susbscriberService;
+            _subscriberService = susbscriberService;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
@@ -60,18 +60,18 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-			[Required]
+            [Required]
             public string FirstName { get; set; }
-			[Required]
+            [Required]
             public string LastName { get; set; }
 
-			public string Country { get; set; }
-			public string State { get; set; }
-			public string City { get; set; }
+            public string Country { get; set; }
+            public string State { get; set; }
+            public string City { get; set; }
 
-			[Required]
+            [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
-				MinimumLength = 6)]
+                MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
@@ -81,101 +81,79 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-			[DataType(DataType.Date)]
-			[Required]
-			public DateTime DateOfBirth { get; set; }
-		}
+            [DataType(DataType.Date)]
+            [Required]
+            public DateTime DateOfBirth { get; set; }
+        }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string returnUrl = null, string userType = null)
         {
-			
-			ReturnUrl = returnUrl;
+
+            ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-		/// <summary>
-		/// The register post method was extended to include the nullable role value from the route parameters
-		/// </summary>
-		/// <param name="returnUrl"></param>
-		/// <param name="role"></param>
-		/// <returns></returns>
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null,int? role = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null, string userType = null)
         {
-			try
-			{
-				returnUrl = returnUrl ?? Url.Content("~/");
-				var roleName = string.Empty;
-				if (role == null)
-				{
-					roleName = RoleEnum.Subscriber.ToString();
-				}
-				else
-				{
-					roleName = ((RoleEnum)role.Value).ToString();
-				}
+            returnUrl = returnUrl ?? Url.Content("~/");
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var result = await _userManager.CreateAsync(user, Input.Password);
 
-				ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-				if (ModelState.IsValid)
-				{
-					var user = new ApplicationUser
-					{
-						UserName = Input.Email,
-						Email = Input.Email,
-						FirstName = Input.FirstName,
-						LastName = Input.LastName,
-						City = Input.City,
-						Country = Input.Country,
-						//DateofBirth = Input.DateOfBirth,
-						State = Input.State
-					};
-					var result = await _userManager.CreateAsync(user, Input.Password);
-					if (result.Succeeded)
-					{
-						// add user to correct role
-						#region 
-						if (result.Succeeded && !(await _userManager.IsInRoleAsync(user, roleName)))
-						{
-							await _userManager.AddToRoleAsync(user, roleName);
-						}
-						#endregion
+                if (result.Succeeded)
+                {
+                    // add user to correct role
 
-						_logger.LogInformation("User created a new account with password.");
 
-						var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-						code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-						var callbackUrl = Url.Page(
-							"/Account/ConfirmEmail",
-							pageHandler: null,
-							values: new { area = "Identity", userId = user.Id, code = code },
-							protocol: Request.Scheme);
+                    _logger.LogInformation("User created a new account with password.");
 
-						await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-							$"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { area = "Identity", userId = user.Id, code = code },
+                        protocol: Request.Scheme);
 
-						if (_userManager.Options.SignIn.RequireConfirmedAccount)
-						{
-							return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
-						}
-						else
-						{
-							await _signInManager.SignInAsync(user, isPersistent: false);
-							return LocalRedirect(returnUrl);
-						}
-					}
-					foreach (var error in result.Errors)
-					{
-						ModelState.AddModelError(string.Empty, error.Description);
-					}
-				}
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-				// If we got this far, something failed, redisplay form
-				return Page();
-			}
-			catch (Exception ex)
-			{
-				return Page();
-				throw ex;
-			}
+                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    {
+                        if (userType != null) await _userManager.AddToRoleAsync(user, RoleEnum.Subscriber.GetDescription());
+                        else await _userManager.AddToRoleAsync(user, RoleEnum.Predictor.GetDescription());
+
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
+                    }
+                    else
+                    {
+
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        if (string.IsNullOrEmpty(userType))
+                        {
+                            await _userManager.AddToRoleAsync(user, RoleEnum.Subscriber.GetDescription());
+                            return RedirectToAction("Create", "Subscribers", new { area = "" });
+                        }
+                        else
+                        {
+                            await _userManager.AddToRoleAsync(user, RoleEnum.Predictor.GetDescription());
+                            return RedirectToAction("Create", "Predictors", new { area = "" });
+                        }
+
+                    }
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return Page();
         }
+
+
     }
 }

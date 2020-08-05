@@ -238,7 +238,11 @@
 			</div>
 			<div class="top-menu">
 				<ul class="nav pull-right top-menu">
-					<li><a class="logout" href="login.html">Logout</a></li>
+                    <li  >
+                        <a class="logout"> <partial name="_LoginPartial.cshtml" /></a>
+                      
+                        
+                    </li>
 				</ul>
 			</div>
 		</header>
@@ -247,34 +251,31 @@
 		<aside>
 			<div id="sidebar" class="nav-collapse ">
 				<!-- sidebar menu start-->
-				<ul class="sidebar-menu" id="nav-accordion">
-					<p class="centered"><a href="profile.html"><img src="~/AdminTheme/img/ui-sam.jpg" class="img-circle" width="80"></a></p>
-					<h5 class="centered">Predictive Power Admin</h5>
+                <ul class="sidebar-menu" id="nav-accordion">
+                    <p class="centered"><a href="profile.html"><img src="~/AdminTheme/img/ui-sam.jpg" class="img-circle" width="80"></a></p>
+                    <h5 class="centered">Sam Soffes</h5>
 					@if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.SystemAdmin.ToString()))
 					{
 						<li class="mt">
-							<a class="active"asp-area="" asp-controller="Home" asp-action="Index">
+							<a class="@ViewBag.AdminIndex" asp-area="" asp-controller="Home" asp-action="Index">
 								<i class="fa fa-home"></i>
 								<span>Switch FrontEnd</span>
 							</a>
 						</li>
 					}
-					<li class="mt">
-						<a class="active" href="index.html">
-							<i class="fa fa-dashboard"></i>
-							<span>Dashboard</span>
-						</a>
-					</li>
-					<li class="sub-menu">
-						<a href="javascript:;">
-							<i class="fa fa-cogs"></i>
-							<span>Users</span>
-						</a>
-						<ul class="sub">
-							<li><a href="grids.html">Subscribers</a></li>
-							<li><a href="calendar.html">Predictors</a></li>
-						</ul>
-					</li>
+                    <li class="mt">
+                        <a class="@ViewBag.AdminIndex" href="../Admin/Index">
+                            <i class="fa fa-dashboard"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="mt">
+                        <a class="@ViewBag.Predictions" href="../Predictions/Index">
+                            <i class=" fa fa-bar-chart-o"></i>
+                            <span>Predictions</span>
+                        </a>
+                    </li>
 
 
 					<li>

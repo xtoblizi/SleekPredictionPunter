@@ -4,28 +4,23 @@
 @inject UserManager<ApplicationUser> UserManager
 
 
-@if (SignInManager.IsSignedIn(User) || Context.Session.GetString("userEmail") !=null)
+@if (SignInManager.IsSignedIn(User))
 {
-    <ul>
-        <li>
-            <a id="manage" class="nav-link" style="color:white;" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @Context.Session.GetString("userName")</a>
-            @*<a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>*@
-        </li>
-        <li>
-            <form id="logoutForm" class="form-inline" style="color:white;" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button id="logout" type="submit"  class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
-        </li>
-    </ul>
+
+    <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+        <button id="logout" type="submit">Logout</button>
+
+    </form>
 }
 else
 {
-    <ul>
-        <li>
-            <a class="nav-link" style="color:white;" id="register" asp-area="Identity" asp-page="/Account/Register"><b>Register</b></a>
-        </li>
-        <li>
-            <a class="nav-link" id="login" style="color:white;" asp-area="Identity" asp-page="/Account/Login"><b>Login</b></a>
-        </li>
-    </ul>
-}
+<ul class="navbar-nav">
+    <li class="" link"">
+        <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li class="" link"">
+        <a class="nav-link" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+</ul>
+        }
+  

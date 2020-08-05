@@ -390,6 +390,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
 
+                    b.Property<long?>("PackageId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("PredictionValue")
                         .HasColumnType("nvarchar(max)");
 
@@ -406,6 +409,8 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PackageId");
 
                     b.HasIndex("PredictorId");
 
@@ -623,6 +628,10 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
             modelBuilder.Entity("SleekPredictionPunter.Model.Prediction", b =>
                 {
+                    b.HasOne("SleekPredictionPunter.Model.Package", "Package")
+                        .WithMany()
+                        .HasForeignKey("PackageId");
+
                     b.HasOne("SleekPredictionPunter.Model.Predictor", "Predictor")
                         .WithMany()
                         .HasForeignKey("PredictorId");

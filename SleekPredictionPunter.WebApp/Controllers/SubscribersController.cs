@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using SleekPredictionPunter.AppService;
 using SleekPredictionPunter.DataInfrastructure;
 using SleekPredictionPunter.Model;
+using SleekPredictionPunter.Model.Enums;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -55,10 +57,16 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create( Subscriber subscriber)
         {
+            subscriber.ActivatedStatus = EntityStatusEnum.Active;
+            subscriber.DateCreated = DateTime.UtcNow;
+            subscriber.DateUpdated = DateTime.UtcNow;
+            subscriber.IsTenant = true;
+            subscriber.Username = User.Identity.Name;
+
             if (ModelState.IsValid)
             {
                 await _subscriberService.Insert(subscriber);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index","Admin");
             }
             return View(subscriber);
         }

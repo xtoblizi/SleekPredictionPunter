@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using SleekPredictionPunter.AppService.Packages;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.PredictionAppService.Dtos;
 using SleekPredictionPunter.DataInfrastructure;
@@ -12,24 +15,28 @@ using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
+    //[Authorize]
     public class PredictionsController : Controller
     { 
         private readonly IPredictionService _predictionService;
-
-        public PredictionsController(IPredictionService predictionService)
+        private readonly IPackageAppService _packageService;
+        public PredictionsController(IPredictionService predictionService, IPackageAppService packageService)
         { 
             _predictionService = predictionService;
+            _packageService = packageService;
         }
 
         // GET: Predictions
         public async Task<IActionResult> Index()
         {
+            ViewBag.Predictions = "active";
             return View(await _predictionService.GetPredictions());
         }
 
         // GET: Predictions/Details/5
         public async Task<IActionResult> Details(long? id)
         {
+            ViewBag.Predictions = "active";
             if (id == null)
             {
                 return NotFound();
@@ -45,8 +52,10 @@ namespace SleekPredictionPunter.WebApp.Controllers
         }
 
         // GET: Predictions/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Predictions = "active";
+            ViewBag.PackageId = new SelectList(await _packageService.GetPackages(), "Id", "PackageName");
             return View();
         }
 
@@ -57,6 +66,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromForm]PredictionDto prediction)
         {
+            ViewBag.Predictions = "active";
             System.Random random = new System.Random();
             int genNumberA = random.Next(1234567890);
             int genNumberB = random.Next(0987654321);
@@ -78,19 +88,21 @@ namespace SleekPredictionPunter.WebApp.Controllers
 				await stream.FlushAsync(); 
 			}
 
+            var getpackage = await _packageService.GetById(prediction.PackgeId);
             Prediction predictionModel = new Prediction()
             {
-                ClubA=prediction.ClubA,
-                ClubALogoPath=pathA,
-                ClubB=prediction.ClubB,
-                ClubBLogoPath=pathB,
-                DateCreated=DateTime.UtcNow,
-                DateUpdated=DateTime.UtcNow,
-                PredictionValue=prediction.PredictionValue,
-                Predictor=prediction.Predictor,
-                PredictorUserName=prediction.PredictorUserName,
-                Subscriber=prediction.Subscriber,
-                TimeofFixture=prediction.TimeofFixture
+                ClubA = prediction.ClubA,
+                ClubALogoPath = pathA,
+                ClubB = prediction.ClubB,
+                ClubBLogoPath = pathB,
+                DateCreated = DateTime.UtcNow,
+                DateUpdated = DateTime.UtcNow,
+                PredictionValue = prediction.PredictionValue,
+                Predictor = prediction.Predictor,
+                PredictorUserName = User.Identity.Name,
+                Subscriber = prediction.Subscriber,
+                TimeofFixture = prediction.TimeofFixture,
+                Package=getpackage
             };
 
             if (ModelState.IsValid)
@@ -98,6 +110,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 await _predictionService.InsertPrediction(predictionModel);
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.PackageId = new SelectList(await _packageService.GetPackages(), "Id", "PackageName", prediction.PackgeId);
             return View(prediction);
         }
 
@@ -105,6 +118,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // GET: Predictions/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
+            ViewBag.Predictions = "active";
             if (id == null)
             {
                 return NotFound();
