@@ -88,7 +88,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 				await stream.FlushAsync(); 
 			}
 
-            var getpackage = await _packageService.GetById(prediction.PackgeId);
+            var getpackage = await _packageService.GetPackageById(prediction.PackgeId);
             Prediction predictionModel = new Prediction()
             {
                 ClubA = prediction.ClubA,

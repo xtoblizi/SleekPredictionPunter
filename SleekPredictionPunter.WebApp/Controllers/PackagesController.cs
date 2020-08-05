@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SleekPredictionPunter.AppService.Packages;
 using SleekPredictionPunter.Model;
-using SleekPredictionPunter.Model.Packages;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {

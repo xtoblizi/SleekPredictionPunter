@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Model.IdentityModels;
-using SleekPredictionPunter.Model.Packages;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
