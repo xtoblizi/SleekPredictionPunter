@@ -132,8 +132,8 @@
 								</div>
 							</div>*@
 						<div class="right-area">
-							<partial name="_LoginPartial" />
-
+									<partial name="_LoginPartial" />
+							
 						</div>
 					</div>
 				</div>
@@ -170,33 +170,35 @@
 										</li>
 
 										<li class="nav-item">
-											<a class="nav-link" asp-area="" asp-controller="Predictions" asp-action="Index">Predictions</a>
+											<a class="nav-link" asp-controller="Predictions">Predictions</a>
+										</li>
+										<li class="nav-item dropdown">
+											<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												Results
+											</a>
+											<div class="dropdown-menu" aria-labelledby="navbarDropdown3">
+												<a class="dropdown-item" href="result.html">Predictions Results</a>
+												<a class="dropdown-item" href="standing.html">In House Games Results</a>
+											</div>
 										</li>
 										<li class="nav-item">
-											<a class="nav-link" asp-area="" asp-controller="Packages" asp-action="Index">Packages</a>
-										</li>
-
-										<li class="nav-item">
-											<a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About US</a>
+											<a class="nav-link" asp-controller="Home" asp-action="About">About US</a>
 										</li>
 										<li class="nav-item">
-											<a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact US</a>
+											<a class="nav-link" asp-controller="Home" asp-action="Contact">Contact US</a>
 										</li>
-										@if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.SystemAdmin.ToString()))
-										{
-											<li class="nav-item">
-												<a class="nav-link" asp-area="" asp-controller="Home" asp-action="admin">Admin Panel</a>
-											</li>
-										}
-
 										<li class="nav-item dropdown">
 											<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 												Important
 											</a>
 											<div class="dropdown-menu" aria-labelledby="navbarDropdown3">
-												<a class="dropdown-item" href="#">Privacy Details</a>
-												<a class="dropdown-item" href="#">Terms and Conditions Details</a>
+												<a class="dropdown-item" href="result.html">Privacy Details</a>
+												<a class="dropdown-item" href="standing.html">Terms and Conditions Details</a>
+												<a class="dropdown-item" href="standing.html">Testimonials</a>
 											</div>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" asp-controller="Home" asp-action="Admin">Switch To AdminPanel</a>
 										</li>
 									</ul>
 								</div>
