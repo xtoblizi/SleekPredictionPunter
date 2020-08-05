@@ -7,6 +7,6 @@ namespace SleekPredictionPunter.Model
 {
 	public class Agent  : Person
 	{
-
+		public string RefererCode { get; set; }
 	}
 }

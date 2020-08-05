@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.DependencyInjection;
 using SleekPredictionPunter.WebApp.WebAppServices;
+using System;
 
 [assembly: HostingStartup(typeof(SleekPredictionPunter.WebApp.Areas.Identity.IdentityHostingStartup))]
 namespace SleekPredictionPunter.WebApp.Areas.Identity
@@ -12,7 +14,8 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity
         {
             builder.ConfigureServices((context, services) => {
 				services.AddTransient<IEmailSender, EmailService>();
-			});
+
+            });
         }
     }
 }

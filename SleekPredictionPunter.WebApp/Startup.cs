@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SleekPredictionPunter.AppService;
 using SleekPredictionPunter.DataInfrastructure;
+using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.WebApp
 {
@@ -43,7 +46,21 @@ namespace SleekPredictionPunter.WebApp
 			{
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 			});
-			 
+
+
+			services.AddAuthentication(options =>
+			{
+				options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+				options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+			}).AddCookie(options =>
+			{
+				options.LoginPath = "/auth/login";
+				options.AccessDeniedPath = "";
+				options.ExpireTimeSpan = TimeSpan.FromMinutes(10500);
+			});
+			services.AddSession(x => { x.IdleTimeout = TimeSpan.FromHours(24); });
+			
 			services.AddUserIdentityServices();
 			services.AddPredictionApplicationServices();
 			services.AddRazorPages();
@@ -66,28 +83,14 @@ namespace SleekPredictionPunter.WebApp
 			app.UseStaticFiles();
 
 			app.UseRouting();
-
+			app.UseSession();
 			app.UseAuthorization();
 			app.UseAuthentication();
-			//app.UseMvc();
-			//app.UseEndpoints(endpoints =>
-			//{
-			//	endpoints.MapAreaControllerRoute(
-			//			name:"adminarea",
-			//			areaName:"admin",
-			//			pattern:"{identity}/{controller=Home}/{action=Index}/{id?}");
 
-			//	endpoints.MapAreaControllerRoute(
-			//			name: "adminarea",
-			//			areaName: "admin",
-			//			pattern: "{admin}/{controller=Home}/{action=Index}/{id?}");
+			Task.Run(() =>
+			{_ = SeedData.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
 
-			//	endpoints.MapControllerRoute(
-			//		name: "default",
-			//		pattern: "{controller=Home}/{action=Index}/{id?}");
-			//});
-
-			_=SeedData.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
+			});
 
 			app.UseEndpoints(endpoints =>
 			{

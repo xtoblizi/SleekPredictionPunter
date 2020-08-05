@@ -102,8 +102,13 @@ namespace SleekPredictionPunter.Repository.Base
 		/// <returns></returns>
 		public async virtual Task<T> GetFirstOrDefault(Func<T, bool> predicate)
 		{
-			var dbSet = _entity.Where(predicate)?.FirstOrDefault();
-			return await Task.FromResult(dbSet);
+			if (predicate != null)
+			{
+				var dbSet = _entity.Where(predicate)?.FirstOrDefault();
+				return await Task.FromResult(dbSet);
+			}
+			return await Task.FromResult(_entity.FirstOrDefault());
+			
 		}
 		#endregion
 

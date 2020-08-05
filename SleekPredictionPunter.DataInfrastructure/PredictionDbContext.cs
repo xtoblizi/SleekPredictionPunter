@@ -12,7 +12,11 @@ namespace SleekPredictionPunter.DataInfrastructure
 {
 	public class PredictionDbFactory : IDesignTimeDbContextFactory<PredictionDbContext>
 	{
-		const string  connectionstring = "Data Source= (LocalDb)\\MSSQLLocalDB;Initial Catalog = SleekDb; Integrated Security = True; Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
+		//const string  connectionstring = "Data Source=.;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
+		//	" Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
+		
+		const string  connectionstring = "Data Source=DESKTOP-JBDM8G2\\SQLEXPRESS;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
+			" Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
 		public PredictionDbContext CreateDbContext(string[] args)
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<PredictionDbContext>();
@@ -30,7 +34,6 @@ namespace SleekPredictionPunter.DataInfrastructure
 		// add tables of the database as the dbcontext properties here.
 
 		public DbSet<Agent> AgentUsers { get; set; }
-		public DbSet<Predictor> PredictorUsers { get; set; }
 		public DbSet<SubcriberPredictorMap> SubcriberPredictorMaps { get; set; }
 		public DbSet<Subscriber> Subscribers { get; set; }
 		public DbSet<AgentRefereeMap> AgentRefereeMaps { get; set; } 
@@ -89,7 +92,6 @@ namespace SleekPredictionPunter.DataInfrastructure
 			});
 
 		}
-
 
 		public override int SaveChanges()
 		{

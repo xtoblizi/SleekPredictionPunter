@@ -36,7 +36,8 @@ namespace SleekPredictionPunter.GeneralUtilsAndServices
 					.GetMember(value.ToString())
 					.FirstOrDefault()
 					?.GetCustomAttribute<DescriptionAttribute>()
-					?.Description;
+					?.Description
+					?.ToString();
 		}
 
 		// Get the Description of the enum value by Generic T enum value
@@ -48,7 +49,8 @@ namespace SleekPredictionPunter.GeneralUtilsAndServices
 					.GetMember(value.ToString())
 					.FirstOrDefault()
 					?.GetCustomAttribute<DescriptionAttribute>()
-					?.Description;
+					?.Description
+					?.ToString();
 		}
 
 
