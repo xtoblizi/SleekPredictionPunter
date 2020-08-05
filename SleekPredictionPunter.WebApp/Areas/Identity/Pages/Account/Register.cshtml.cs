@@ -14,7 +14,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using SleekPredictionPunter.AppService;
+using SleekPredictionPunter.AppService.Agents;
 using SleekPredictionPunter.GeneralUtilsAndServices;
+using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.IdentityModels;
 
@@ -29,6 +31,8 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
         private readonly ISubscriberService _subscriberService;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly IAgentService _agentService;
+
 
         public RegisterModel(
             RoleManager<ApplicationRole> roleManager,
@@ -36,7 +40,8 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IAgentService agentService)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -44,6 +49,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _agentService = agentService;
         }
 
         [BindProperty]
@@ -68,6 +74,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             public string Country { get; set; }
             public string State { get; set; }
             public string City { get; set; }
+            public string ReferrerCode { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
@@ -86,16 +93,18 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             public DateTime DateOfBirth { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null, string userType = null)
+        public async Task OnGetAsync(string returnUrl = null, int? userType = null)
         {
-
+            ViewData["userType"] = userType.ToString();
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null, string userType = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null, int? userType = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
+            ViewData["userType"] = userType.ToString();
+
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
@@ -104,9 +113,27 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    // add user to correct role
-
-
+                    if(userType != null)
+                    {
+                        var role = (RoleEnum)userType;
+                        // add user to correct role
+                        await _userManager.AddToRoleAsync(user, role.ToString());
+                        if(role == RoleEnum.Subscriber)
+                        {
+                            // create subscriber here.....
+                            await CreateSubscriber(user, Input.ReferrerCode);
+                            ViewData["regStatus"] = "You are successfully registered as an subscriber, you can now view free sport predictions. To view premium prediction you need to subscrib to a premium package.";
+                        }
+                        else if (role == RoleEnum.Agent)
+                        {
+                            // create Agent here.....
+                           var refCode = await CreateAgent(user);
+                            ViewData["RefCode"] = refCode;
+                            ViewData["RegStatus"] = "You are successfully registered as an agent. You can provide your referral code to users for registration.";
+                        }
+                    }
+                   
+                    
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -122,26 +149,13 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        if (userType != null) await _userManager.AddToRoleAsync(user, RoleEnum.Subscriber.GetDescription());
-                        else await _userManager.AddToRoleAsync(user, RoleEnum.Predictor.GetDescription());
-
+                        
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
                     }
                     else
-                    {
-
+                    { 
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        if (string.IsNullOrEmpty(userType))
-                        {
-                            await _userManager.AddToRoleAsync(user, RoleEnum.Subscriber.GetDescription());
-                            return RedirectToAction("Create", "Subscribers", new { area = "" });
-                        }
-                        else
-                        {
-                            await _userManager.AddToRoleAsync(user, RoleEnum.Predictor.GetDescription());
-                            return RedirectToAction("Create", "Predictors", new { area = "" });
-                        }
-
+                       
                     }
                 }
                 foreach (var error in result.Errors)
@@ -154,6 +168,53 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             return Page();
         }
 
+        private async Task<string> CreateAgent(ApplicationUser user)
+        {
+            var now = DateTime.Now;
+            var refCode = Guid.NewGuid().ToString().Substring(0, 4);
+            refCode += $"{now.Year}{now.Month}{now.Day}{now.Millisecond}";
 
+            var agent = new Agent()
+            {
+                ActivatedStatus = EntityStatusEnum.Active,
+                BrandNameOrNickName = user.FullName,
+                City = user.City,
+                Country = user.Country,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                IsTenant = true,
+                Username = user.UserName,
+                RefererCode = refCode
+                
+            };
+
+            await _agentService.CreateAgent(agent);
+            return refCode;
+        }
+
+        private async Task<bool> CreateSubscriber(ApplicationUser user,string refereerCode = null)
+        {
+            
+            var subscriber = new Subscriber()
+            {
+                ActivatedStatus = EntityStatusEnum.Active,
+                BrandNameOrNickName = user.FullName,
+                City = user.City,
+                Country = user.Country,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                IsTenant = true,
+                Username = user.UserName,
+                RefererCode = refereerCode
+
+            };
+
+            await _subscriberService.Insert(subscriber);
+            return true;
+        }
     }
+
+    
 }

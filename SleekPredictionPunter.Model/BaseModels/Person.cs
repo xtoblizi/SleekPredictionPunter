@@ -13,6 +13,7 @@ namespace SleekPredictionPunter.Model.BaseModels
 			IsTenant = false;
 
 			TenantUniqueName = IsTenant ? Username : string.Empty;
+			Gender = GenderEnum.Male;
 		}
 
 		/// <summary>

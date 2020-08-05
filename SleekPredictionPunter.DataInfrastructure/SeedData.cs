@@ -25,13 +25,13 @@ namespace SleekPredictionPunter.DataInfrastructure
 				ApplicationUser user = null;
 				bool isUserCreated = false;
 
-				if (!context.Users.Any(x => x.UserName.Equals("systemadmin")))
+				if (!context.Users.Any(x => x.UserName.Equals("systemadmin@predictivepower.com")))
 				{
 					user = new ApplicationUser()
 					{
 						Email = $"systemadmin@predictivepower.com",
 						SecurityStamp = Guid.NewGuid().ToString(),
-						UserName = "systemadmin",
+						UserName = "systemadmin@predictivepower.com",
 						LastName = "Admin",
 						FirstName = "Total Prediction Admin",
 						Status = EntityStatusEnum.Active,

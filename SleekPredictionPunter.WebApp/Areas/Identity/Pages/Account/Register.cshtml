@@ -34,9 +34,19 @@
 					</ul>
 				</div>
 				<div class="all-form">
+                    @if(ViewData["RegStatus"] == null)
+                    {
                     <div class="single-form" id="first-step">
 
                         <form class="form-inline" method="post">
+                            @if (ViewData["userType"] == "2")
+                            {
+                                <div class="form-group col-md-6">
+                                    <input asp-for="Input.ReferrerCode" type="text" value="" id="referrercode" required>
+                                    <label for="referrercode">Referrer Code</label>
+                                </div>
+                            }
+
                             <div class="form-group col-md-6">
                                 <input asp-for="Input.FirstName" type="text" value="" id="firstName" required>
                                 <label for="firstName">First Name</label>
@@ -70,11 +80,25 @@
                                 <input asp-for="Input.DateOfBirth" type="date" value="" id="dOb" required>
                                 <label for="dOb">Date Of Birth</label>
                             </div><p>By clicking "NEXT", you confirm that you have read and understood the Bettix <a href="#">Privacy & Coockie Policy</a>, and agree to its terms.</p>
-                            
-							<button class="next" type="submit">Continue <i class="fa fa-mail-forward"></i></button>
-						</form>
+
+                            <button class="btn btn-danger" type="submit">Submit <i class="fa fa-mail-forward"></i></button>
+                        </form>
 
                     </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <p class="text">
+                                <h3>@ViewData["RegStatus"]</h3>
+                                @if(ViewData["RefCode"] != null)
+                                {
+                                    <h3>Refferral Code : @ViewData["RefCode"]</h3>
+                                }
+                            </p>
+                        </div>
+                    }
+                    
 				</div>
 			</div>
 		</div>
