@@ -12,11 +12,11 @@ namespace SleekPredictionPunter.DataInfrastructure
 {
 	public class PredictionDbFactory : IDesignTimeDbContextFactory<PredictionDbContext>
 	{
-		//const string  connectionstring = "Data Source=.;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
+		const string connectionstring = "Data Source=.;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
+			" Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; password=passlock;User Id=sa; Encrypt=False;TrustServerCertificate=True";
+
+		//const string  connectionstring = "Data Source=DESKTOP-JBDM8G2\\SQLEXPRESS;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
 		//	" Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
-		
-		const string  connectionstring = "Data Source=DESKTOP-JBDM8G2\\SQLEXPRESS;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
-			" Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
 		public PredictionDbContext CreateDbContext(string[] args)
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<PredictionDbContext>();
@@ -39,7 +39,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 		public DbSet<AgentRefereeMap> AgentRefereeMaps { get; set; } 
 		public DbSet<Prediction> Predictions { get; set; }
 		public DbSet<Predictor> Predictors { get; set; }
-		public DbSet<Package> Packages { get; set; }
+		//public DbSet<Package> Packages { get; set; }
 
 
 		/// <summary>
