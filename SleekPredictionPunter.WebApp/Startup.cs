@@ -11,6 +11,7 @@ using SleekPredictionPunter.AppService;
 using SleekPredictionPunter.DataInfrastructure;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.WebApp
 {
@@ -85,25 +86,11 @@ namespace SleekPredictionPunter.WebApp
 			app.UseSession();
 			app.UseAuthorization();
 			app.UseAuthentication();
-			//app.UseMvc();
-			//app.UseEndpoints(endpoints =>
-			//{
-			//	endpoints.MapAreaControllerRoute(
-			//			name:"adminarea",
-			//			areaName:"admin",
-			//			pattern:"{identity}/{controller=Home}/{action=Index}/{id?}");
 
-			//	endpoints.MapAreaControllerRoute(
-			//			name: "adminarea",
-			//			areaName: "admin",
-			//			pattern: "{admin}/{controller=Home}/{action=Index}/{id?}");
+			Task.Run(() =>
+			{_ = SeedData.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
 
-			//	endpoints.MapControllerRoute(
-			//		name: "default",
-			//		pattern: "{controller=Home}/{action=Index}/{id?}");
-			//});
-
-			_=SeedData.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
+			});
 
 			app.UseEndpoints(endpoints =>
 			{

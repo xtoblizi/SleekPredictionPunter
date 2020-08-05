@@ -13,7 +13,7 @@ using SleekPredictionPunter.WebApp.Models;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
-	public class HomeController : Controller
+	public class HomeController : BaseController
 	{
 		private readonly ILogger<HomeController> _logger;
 		private readonly IContactAppService _contactService;
@@ -42,6 +42,32 @@ namespace SleekPredictionPunter.WebApp.Controllers
 		{
 			ViewBag.IsBanner = false;
 			return View();
+		}
+
+		[HttpGet("error")]
+		public IActionResult Error(string exceptionMessage = null)
+		{
+			if (!string.IsNullOrEmpty(exceptionMessage))
+			{
+				ViewBag.ErrorMessage = exceptionMessage;
+				return View(ViewBag.ErrorMessage);
+			}
+
+			return View();
+			
+		}	
+		
+		[HttpGet("error")]
+		public IActionResult AdminHome(string exceptionMessage = null)
+		{
+			if (!string.IsNullOrEmpty(exceptionMessage))
+			{
+				ViewBag.ErrorMessage = exceptionMessage;
+				return View(ViewBag.ErrorMessage);
+			}
+
+			return View();
+			
 		}
 
 		[HttpPost]
