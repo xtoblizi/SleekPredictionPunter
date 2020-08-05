@@ -13,19 +13,20 @@ using SleekPredictionPunter.WebApp.Models;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
-	public class HomeController : Controller
+	public class HomeController : BaseController
 	{
 		private readonly ILogger<HomeController> _logger;
+		private readonly IContactAppService _contactService;
 		private readonly IPredictionService _predictionService;
 		private readonly IPredictorService _predictorService;
-		private readonly IContactAppService _contactService;
-
-        public HomeController(ILogger<HomeController> logger, IPredictionService predictionService, IPredictorService predictorService, IContactAppService contactService)
-        {
-            _logger = logger;
-            _predictionService = predictionService;
-            _predictorService = predictorService;
-			_contactService = contactService;
+		public HomeController(ILogger<HomeController> logger,
+			IPredictorService predictorService,IPredictionService predictionService,
+			IContactAppService contactAppService)
+		{
+			_contactService = contactAppService;
+			_predictionService = predictionService;
+			_predictorService = predictorService;
+			_logger = logger;
 		}
 
         public async Task<IActionResult> Index()
@@ -35,17 +36,49 @@ namespace SleekPredictionPunter.WebApp.Controllers
 			ViewBag.Predictions = gatePredictions;
 			return View();
 		}
+
+		[HttpGet("contact")]
 		public IActionResult Contact()
 		{
 			ViewBag.IsBanner = false;
 			return View();
 		}
 
+		[HttpGet("error")]
+		public IActionResult Error(string exceptionMessage = null)
+		{
+			if (!string.IsNullOrEmpty(exceptionMessage))
+			{
+				ViewBag.ErrorMessage = exceptionMessage;
+				return View(ViewBag.ErrorMessage);
+			}
+
+			return View();
+			
+		}	
+		
+		[HttpGet("error")]
+		public IActionResult AdminHome(string exceptionMessage = null)
+		{
+			if (!string.IsNullOrEmpty(exceptionMessage))
+			{
+				ViewBag.ErrorMessage = exceptionMessage;
+				return View(ViewBag.ErrorMessage);
+			}
+
+			return View();
+			
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> Contact(ContactDto contactDto)
 		{
 			if (contactDto == null)
-				return View("Contacts details cannot be empty");
+			{
+				ViewBag.Error = "Contacts details cannot be empty";
+				return View(ViewBag.Error);
+			}
+				
 
 			var result = await _contactService.Insert(contactDto);
 			return View("Contact succesfully saved");

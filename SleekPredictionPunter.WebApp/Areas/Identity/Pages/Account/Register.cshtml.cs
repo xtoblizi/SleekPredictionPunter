@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using SleekPredictionPunter.AppService;
+using SleekPredictionPunter.GeneralUtilsAndServices;
+using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.IdentityModels;
 
 namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
@@ -26,14 +28,17 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 		private readonly ISubscriberService _subscriberService;
+		private readonly RoleManager<ApplicationRole> _roleManager;
 
-        public RegisterModel(
+		public RegisterModel(
+			RoleManager<ApplicationRole> roleManager,
 			ISubscriberService susbscriberService,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
+			_roleManager = roleManager;
             _userManager = userManager;
 			_subscriberService = susbscriberService;
             _signInManager = signInManager;
@@ -88,59 +93,89 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+		/// <summary>
+		/// The register post method was extended to include the nullable role value from the route parameters
+		/// </summary>
+		/// <param name="returnUrl"></param>
+		/// <param name="role"></param>
+		/// <returns></returns>
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null,int? role = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser 
-                { 
-                    UserName = Input.Email,
-                    Email = Input.Email,
-                    FirstName = Input.FirstName,
-                    LastName = Input.LastName,
-                    City = Input.City,
-                    Country = Input.Country,
-                    //DateofBirth = Input.DateOfBirth,
-                    State = Input.State
-                };
-                var result = await _userManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded)
-                {
-					// add user to correct role
+			try
+			{
+				returnUrl = returnUrl ?? Url.Content("~/");
+				var roleName = string.Empty;
+				if (role == null)
+				{
+					roleName = RoleEnum.Subscriber.ToString();
+				}
+				else
+				{
+					roleName = ((RoleEnum)role.Value).ToString();
+				}
 
-                    _logger.LogInformation("User created a new account with password.");
+				ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+				if (ModelState.IsValid)
+				{
+					var user = new ApplicationUser
+					{
+						UserName = Input.Email,
+						Email = Input.Email,
+						FirstName = Input.FirstName,
+						LastName = Input.LastName,
+						City = Input.City,
+						Country = Input.Country,
+						//DateofBirth = Input.DateOfBirth,
+						State = Input.State
+					};
+					var result = await _userManager.CreateAsync(user, Input.Password);
+					if (result.Succeeded)
+					{
+						// add user to correct role
+						#region 
+						if (result.Succeeded && !(await _userManager.IsInRoleAsync(user, roleName)))
+						{
+							await _userManager.AddToRoleAsync(user, roleName);
+						}
+						#endregion
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code },
-                        protocol: Request.Scheme);
+						_logger.LogInformation("User created a new account with password.");
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+						var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+						code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+						var callbackUrl = Url.Page(
+							"/Account/ConfirmEmail",
+							pageHandler: null,
+							values: new { area = "Identity", userId = user.Id, code = code },
+							protocol: Request.Scheme);
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
-                    }
-                    else
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-            }
+						await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+							$"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-            // If we got this far, something failed, redisplay form
-            return Page();
+						if (_userManager.Options.SignIn.RequireConfirmedAccount)
+						{
+							return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
+						}
+						else
+						{
+							await _signInManager.SignInAsync(user, isPersistent: false);
+							return LocalRedirect(returnUrl);
+						}
+					}
+					foreach (var error in result.Errors)
+					{
+						ModelState.AddModelError(string.Empty, error.Description);
+					}
+				}
+
+				// If we got this far, something failed, redisplay form
+				return Page();
+			}
+			catch (Exception ex)
+			{
+				return Page();
+				throw ex;
+			}
         }
     }
 }

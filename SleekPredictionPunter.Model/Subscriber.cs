@@ -12,5 +12,7 @@ namespace SleekPredictionPunter.Model
 		{
 			IsTenant = false;
 		}
+
+		public string RefererCode { get; set; }
 	}
 }

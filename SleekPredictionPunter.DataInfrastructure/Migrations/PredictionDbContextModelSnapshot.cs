@@ -441,7 +441,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Predictor");
+                    b.ToTable("Predictors");
                 });
 
             modelBuilder.Entity("SleekPredictionPunter.Model.SubcriberPredictorMap", b =>

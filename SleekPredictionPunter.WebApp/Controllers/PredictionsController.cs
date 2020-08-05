@@ -64,12 +64,19 @@ namespace SleekPredictionPunter.WebApp.Controllers
             if (prediction.FileA == null || prediction.FileA.Length == 0)
                 return Content("file not selected");
             var pathA = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ClubLogo", Path.GetFileName(genNumberA + prediction.FileA.FileName));
-            using (var stream = new FileStream(pathA, FileMode.Create)) { await prediction.FileA.CopyToAsync(stream); }
+            using(var stream = new FileStream(pathA, FileMode.Create))
+			{ 
+				await prediction.FileA.CopyToAsync(stream); 
+				await stream.FlushAsync();
+			}
 
             if (prediction.FileB == null || prediction.FileB.Length == 0)
                 return Content("file not selected");
             var pathB = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ClubLogo", Path.GetFileName(genNumberB + prediction.FileB.FileName));
-            using (var stream = new FileStream(pathB, FileMode.Create)) { await prediction.FileB.CopyToAsync(stream); }
+            using (var stream = new FileStream(pathB, FileMode.Create)) { 
+				await prediction.FileB.CopyToAsync(stream); 
+				await stream.FlushAsync(); 
+			}
 
             Prediction predictionModel = new Prediction()
             {

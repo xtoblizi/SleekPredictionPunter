@@ -161,31 +161,38 @@
 											<a class="nav-link" href="#" role="button" data-toggle="dropdown">
 												Home
 											</a>
-											@*<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-													<a class="dropdown-item" href="index.html">Home One</a>
-													<a class="dropdown-item" href="index-2.html">Home Two</a>
-												</div>*@
 										</li>
 
 										<li class="nav-item">
-											<a class="nav-link" href="statics.html">Predictions</a>
+											<a class="nav-link" asp-controller="Predictions">Predictions</a>
 										</li>
 										<li class="nav-item dropdown">
 											<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-												Bets
+												Results
 											</a>
 											<div class="dropdown-menu" aria-labelledby="navbarDropdown3">
-												<a class="dropdown-item" href="result.html">Results</a>
-												<a class="dropdown-item" href="standing.html">Standings</a>
-												<a class="dropdown-item" href="standing.html">Check-Out</a>
-												<a class="dropdown-item" href="standing.html">Manage User</a>
+												<a class="dropdown-item" href="result.html">Predictions Results</a>
+												<a class="dropdown-item" href="standing.html">In House Games Results</a>
 											</div>
 										</li>
 										<li class="nav-item">
-											<a class="nav-link" href="about.html">About US</a>
+											<a class="nav-link" asp-controller="Home" asp-action="About">About US</a>
 										</li>
 										<li class="nav-item">
-											<a class="nav-link" href="home/contact.cshtml">Contact US</a>
+											<a class="nav-link" asp-controller="Home" asp-action="Contact">Contact US</a>
+										</li>
+										<li class="nav-item dropdown">
+											<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												Important
+											</a>
+											<div class="dropdown-menu" aria-labelledby="navbarDropdown3">
+												<a class="dropdown-item" href="result.html">Privacy Details</a>
+												<a class="dropdown-item" href="standing.html">Terms and Conditions Details</a>
+												<a class="dropdown-item" href="standing.html">Testimonials</a>
+											</div>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" asp-controller="Home" asp-action="Admin">Switch To AdminPanel</a>
 										</li>
 									</ul>
 								</div>
