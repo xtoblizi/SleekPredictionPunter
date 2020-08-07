@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using SleekPredictionPunter.AppService.Predictors;
 using SleekPredictionPunter.DataInfrastructure;
 using SleekPredictionPunter.Model;
+using SleekPredictionPunter.Model.Enums;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
@@ -57,12 +58,18 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Predictor predictor)
         {
+            predictor.ActivatedStatus = EntityStatusEnum.Active;
+            predictor.Username = User.Identity.Name;
+            predictor.IsTenant = true;
+            predictor.DateCreated = DateTime.UtcNow;
+            predictor.DateUpdated = DateTime.UtcNow;
+
             if (ModelState.IsValid)
             {
                 await _predictorService.Insert(predictor);
                 return RedirectToAction(nameof(Index));
             }
-            return View(predictor);
+            return RedirectToAction("Index","Admin");
         }
 
         // GET: Predictors/Edit/5

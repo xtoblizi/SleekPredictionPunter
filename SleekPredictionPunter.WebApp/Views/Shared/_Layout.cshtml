@@ -1,452 +1,433 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Http
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-	<!-- Header section Peredion-->
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>@ViewData["Title"] - Predictive Power </title>
-	<!-- favicon -->
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-	<!-- bootstrap -->
-	<link rel="stylesheet" href="~/FrontendTheme/assets/css/bootstrap.min.css">
-	<!-- fontawesome icon  -->
-	<link rel="stylesheet" href="~/FrontendTheme/assets/css/fontawesome.min.css">
-	<!-- flaticon css -->
-	<link rel="stylesheet" href="~/FrontendTheme/assets/fonts/flaticon.css">
-	<!-- animate.css -->
-	<link rel="stylesheet" href="~/FrontendTheme/assets/css/animate.css">
-	<!-- Owl Carousel -->
-	<link rel="stylesheet" href="~/FrontendTheme/assets/css/owl.carousel.min.css">
-	<!-- magnific popup -->
-	<link rel="stylesheet" href="~/FrontendTheme/assets/css/magnific-popup.css">
-	<link rel="stylesheet" href="~/FrontendTheme/assets/css/odometer.min.css">
-	<!-- stylesheet -->
-	<link rel="stylesheet" href="~/FrontendTheme/assets/css/style.css">
-	<!-- responsive -->
-	<link rel="stylesheet" href="~/FrontendTheme/assets/css/responsive.css">
+    <!-- Header section Peredion-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Predictive Power </title>
+    <!-- favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="~/FrontendTheme/assets/css/bootstrap.min.css">
+    <!-- fontawesome icon  -->
+    <link rel="stylesheet" href="~/FrontendTheme/assets/css/fontawesome.min.css">
+    <!-- flaticon css -->
+    <link rel="stylesheet" href="~/FrontendTheme/assets/fonts/flaticon.css">
+    <!-- animate.css -->
+    <link rel="stylesheet" href="~/FrontendTheme/assets/css/animate.css">
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="~/FrontendTheme/assets/css/owl.carousel.min.css">
+    <!-- magnific popup -->
+    <link rel="stylesheet" href="~/FrontendTheme/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/FrontendTheme/assets/css/odometer.min.css">
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="~/FrontendTheme/assets/css/style.css">
+    <!-- responsive -->
+    <link rel="stylesheet" href="~/FrontendTheme/assets/css/responsive.css">
 
-	<link rel="stylesheet" href="~/FrontendTheme/assets/css/register-page-responsive.css">
+    <link rel="stylesheet" href="~/FrontendTheme/assets/css/register-page-responsive.css">
 </head>
 
 <body>
-	<!-- preloader begin -->
-	<div class="preloader">
-		<img src="~/FrontendTheme/assets/img/preloader.gif" alt="Loading application">
-		<span>Predictive Power Loading </span>
-	</div>
+    <!-- preloader begin -->
+    <div class="preloader">
+        <img src="~/FrontendTheme/assets/img/preloader.gif" alt="Loading application">
+        <span>Predictive Power Loading </span>
+    </div>
 
-	<!-- bet modal begin -->
-	<div class="bet-modal-bg">
-		<div class="bet-modal">
-			<div class="bet-header">
-				<span class="title">Predict a game</span>
-				<button class="cls-btn"><i class="fas fa-times"></i></button>
-			</div>
-			<div class="bet-body">
-				<div class="place-of-bet">
-					<span class="place-of-bet-title">real madrid</span>
-					<input class="place-of-bet-number" type="number" value="1" readonly>
-				</div>
-				<div class="bet-descr">
-					<span class="team-name team-name-1st">america</span>
-					<span class="img-ic"><img src="~/FrontendTheme/assets/img/vs-icon.png" alt=""></span>
-					<span class="team-name team-name-2nd">iran</span>
-					<div class="team-score">[<span class="team-first-score">1</span>:<span class="team-second-score">1</span>] 1X2 Live Prediction</div>
-				</div>
-				<div class="ctrl-buttons">
-					<div class="butto-shadow">
-						<button class="ctrl-button-for-number minus-number">-</button>
-						<input type="number" value="1" max="99" min="1" class="number-of-stake" placeholder="stake">
-						<button class="ctrl-button-for-number plus-number">+</button>
-					</div>
-				</div>
-				<div class="bet-total">
-					<ul>
-						<li>
-							<span class="number-of-stake-title">stake :</span>
-							<input class="number-of-stake-count" type="number" value="1" readonly>
-						</li>
-						<li>
-							<span class="number-of-bet">Total Est. Returns :</span>
-							<span class="number-of-bet-count">82</span>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="bet-footer">
-				<button>Predict Now</button>
-			</div>
-		</div>
-	</div>
-	<!-- bet modal end -->
-	<!-- header begin -->
-	<div class="header">
-		<div class="header-top">
-			<div class="container">
-				<div class="row">
-					<div class="col-xl-6 col-lg-6 col-sm-6">
-						<div class="left-area">
-							<ul>
-								<li>
-									<span class="icon">
-										<i class="far fa-calendar-alt"></i>
-									</span>
-									<span class="text">
-										<span id="date"></span>
-										<span id="month"></span>
-										<span id="year"></span>
-									</span>
-								</li>
-								<li>
-									<span class="icon">
-										<i class="far fa-clock"></i>
-									</span>
-									<span class="text clocks">
-										<span id="hours"></span>:<span id="minutes"></span>:<span id="seconds"></span>
-									</span>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-xl-6 col-lg-6 col-sm-6">
-						@*<div class="right-area">
-								<div class="row">
-									<div class="col-xl-3 col-md-3 col-sm-3">
-										<select>
-											<option>EN</option>
-											<option>FR</option>
-											<option>ES</option>
-										</select>
-									</div>
-									<div class="col-xl-3 col-md-3 col-sm-3">
-										<partial name="_LoginPartial" />
-									</div>
-								</div>
-							</div>*@
-						<div class="right-area">
-									<partial name="_LoginPartial" />
-							
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id="navbar" class="header-bottom">
-			<div class="container">
-				<div class="row">
-					<div class="col-xl-3 col-lg-3 d-xl-flex d-lg-flex d-block align-items-center">
-						<div class="row">
-							<div class="col-xl-12 col-lg-12 col-6 d-xl-block d-lg-block d-flex align-items-center">
-								<div class="logo">
-									<a href="index.html">
-										<img src="~/FrontendTheme/assets/img/logo.png" alt="logo">
-									</a>
-								</div>
-							</div>
-							<div class="col-6 d-xl-none d-lg-none d-block">
-								<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-									<i class="fas fa-bars"></i>
-								</button>
-							</div>
-						</div>
-					</div>
-					<div class="col-xl-9 col-lg-9">
-						<div class="mainmenu">
-							<nav class="navbar navbar-expand-lg">
-								<div class="collapse navbar-collapse" id="navbarSupportedContent">
-									<ul class="navbar-nav ml-auto">
-										<li class="nav-item">
-											<a class="nav-link" href="#" role="button" data-toggle="dropdown">
-												Home
-											</a>
-										</li>
+    <!-- bet modal begin -->
+    <div class="bet-modal-bg">
+        <div class="bet-modal">
+            <div class="bet-header">
+                <span class="title">Predict a game</span>
+                <button class="cls-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="bet-body">
+                <div class="place-of-bet">
+                    <span class="place-of-bet-title">real madrid</span>
+                    <input class="place-of-bet-number" type="number" value="1" readonly>
+                </div>
+                <div class="bet-descr">
+                    <span class="team-name team-name-1st">america</span>
+                    <span class="img-ic"><img src="~/FrontendTheme/assets/img/vs-icon.png" alt=""></span>
+                    <span class="team-name team-name-2nd">iran</span>
+                    <div class="team-score">[<span class="team-first-score">1</span>:<span class="team-second-score">1</span>] 1X2 Live Prediction</div>
+                </div>
+                <div class="ctrl-buttons">
+                    <div class="butto-shadow">
+                        <button class="ctrl-button-for-number minus-number">-</button>
+                        <input type="number" value="1" max="99" min="1" class="number-of-stake" placeholder="stake">
+                        <button class="ctrl-button-for-number plus-number">+</button>
+                    </div>
+                </div>
+                <div class="bet-total">
+                    <ul>
+                        <li>
+                            <span class="number-of-stake-title">stake :</span>
+                            <input class="number-of-stake-count" type="number" value="1" readonly>
+                        </li>
+                        <li>
+                            <span class="number-of-bet">Total Est. Returns :</span>
+                            <span class="number-of-bet-count">82</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bet-footer">
+                <button>Predict Now</button>
+            </div>
+        </div>
+    </div>
+    <!-- bet modal end -->
+    <!-- header begin -->
+    <div class="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-sm-6">
+                        <div class="left-area">
+                            <ul>
+                                <li>
+                                    <span class="icon">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </span>
+                                    <span class="text">
+                                        <span id="date"></span>
+                                        <span id="month"></span>
+                                        <span id="year"></span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="icon">
+                                        <i class="far fa-clock"></i>
+                                    </span>
+                                    <span class="text clocks">
+                                        <span id="hours"></span>:<span id="minutes"></span>:<span id="seconds"></span>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-sm-6">
+                        <div class="right-area">
+                            <partial name="_LoginPartial" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-										<li class="nav-item">
-											<a class="nav-link" asp-controller="Predictions">Predictions</a>
-										</li>
-										<li class="nav-item dropdown">
-											<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-												Results
-											</a>
-											<div class="dropdown-menu" aria-labelledby="navbarDropdown3">
-												<a class="dropdown-item" href="result.html">Predictions Results</a>
-												<a class="dropdown-item" href="standing.html">In House Games Results</a>
-											</div>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link" asp-controller="Home" asp-action="About">About US</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link" asp-controller="Home" asp-action="Contact">Contact US</a>
-										</li>
-										<li class="nav-item dropdown">
-											<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-												Important
-											</a>
-											<div class="dropdown-menu" aria-labelledby="navbarDropdown3">
-												<a class="dropdown-item" href="result.html">Privacy Details</a>
-												<a class="dropdown-item" href="standing.html">Terms and Conditions Details</a>
-												<a class="dropdown-item" href="standing.html">Testimonials</a>
-											</div>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link" asp-controller="Home" asp-action="Admin">Switch To AdminPanel</a>
-										</li>
-									</ul>
-								</div>
-							</nav>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- header end -->
-	<!-- Banner section . Note include the section content being the content
-		in the partialview with name _bannerPartial.cs>
-	@RenderSection("bannersection", false)
+        <div id="navbar" class="header-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-3 d-xl-flex d-lg-flex d-block align-items-center">
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-6 d-xl-block d-lg-block d-flex align-items-center">
+                                <div class="logo">
+                                    <a href="index.html">
+                                        <img src="~/FrontendTheme/assets/img/logo.png" alt="logo">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-6 d-xl-none d-lg-none d-block">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                    <i class="fas fa-bars"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-9 col-lg-9">
+                        <div class="mainmenu">
+                            <nav class="navbar navbar-expand-lg">
+                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                    <ul class="navbar-nav ml-auto">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="../../Home/Index">Home</a>
+                                        </li>
 
-	<!-- current Page Content Begin-->
-	<div>
-		@RenderBody()
+                                        @if (Context.Session.GetString("userEmail") == null)
+                                        {
+                                            <li class="nav-item">
+                                                <a asp-page="/Account/Register" asp-area="Identity" asp-route-userType="4" class="nav-link">Become an Agent</a>
+                                            </li>
+                                        }
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="../../Home/Index">Predictions</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="../../Packages/FrontEndIndex">Packages</a>
+                                        </li>
 
-	</div>
-	<!-- current page body end-->
-	<!--Footer section-->
-	<div class="footer" id="contact">
-		<div class="container">
-			<div class="row justify-content-between">
-				<div class="col-xl-4 col-lg-5 col-md-10">
-					<div class="about-widget">
-						<a class="logo" href="index.html">
-							<img src="~/FrontendTheme/assets/img/logo.png" alt="Predictive Power">
-						</a>
-						<p>PerediOn offers you all the best online prediction from every corner of the planet with thousands of online prediction markets.</p>
-						<div class="social">
-							<ul>
-								<li>
-									<a href="#" class="social-icon">
-										<i class="fab fa-facebook-f"></i>
-									</a>
-									<a href="#" class="social-icon">
-										<i class="fab fa-twitter"></i>
-									</a>
-									<a href="#" class="social-icon">
-										<i class="fab fa-instagram"></i>
-									</a>
-									<a href="#" class="social-icon">
-										<i class="fab fa-pinterest-p"></i>
-									</a>
-									<a href="#" class="social-icon">
-										<i class="fab fa-facebook-f"></i>
-									</a>
-								</li>
-							</ul>
-						</div>
-						<div class="support">
-							<ul>
-								<li>
-									<span class="icon">
-										<img src="~/FrontendTheme/assets/img/svg/email.svg" alt="">
-									</span>
-									<span class="text">
-										<span class="title">Mail Us</span>
-										<span class="descr">don't@reply.com</span>
-									</span>
-								</li>
-								<li>
-									<span class="icon">
-										<img src="~/FrontendTheme/assets/img/svg/phone-call.svg" alt="">
-									</span>
-									<span class="text">
-										<span class="title">Get In Touch</span>
-										<span class="descr">+88 015 00 00 00</span>
-									</span>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<div class="col-xl-2 col-lg-2 col-md-3">
-					<div class="useful-links">
-						<h3>Useful links</h3>
-						<ul>
-							<li>
-								<a href="#">IN-PLAY</a>
-							</li>
-							<li>
-								<a href="#">PROMOTIONS</a>
-							</li>
-							<li>
-								<a href="#">STATICS</a>
-							</li>
-							<li>
-								<a href="#">RESULTS</a>
-							</li>
-							<li>
-								<a href="#">Predict now</a>
-							</li>
-							<li>
-								<a href="#">GAME RESULTS</a>
-							</li>
-							<li>
-								<a href="#">STANDINGS</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-xl-2 col-lg-3 col-md-3">
-					<div class="useful-links">
-						<h3>Connect With Us</h3>
-						<ul>
-							<li>
-								<a href="#">About Us</a>
-							</li>
-							<li>
-								<a href="#">Blog</a>
-							</li>
-							<li>
-								<a href="#">Blog Details</a>
-							</li>
-							<li>
-								<a href="#">Service</a>
-							</li>
-							<li>
-								<a href="#">Contact us</a>
-							</li>
-							<li>
-								<a href="#">TEAM OVERVIEW</a>
-							</li>
-							<li>
-								<a href="#">SCHEDULE</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-xl-2 col-lg-2 col-md-3">
-					<div class="useful-links">
-						<h3>All Sports</h3>
-						<ul>
-							<li>
-								<a href="#">FOOTBALL</a>
-							</li>
-							<li>
-								<a href="#">TENNIS</a>
-							</li>
-							<li>
-								<a href="#">BASKETBALL</a>
-							</li>
-							<li>
-								<a href="#">ICE HOCKEY</a>
-							</li>
-							<li>
-								<a href="#">VOLLEYBALL</a>
-							</li>
-							<li>
-								<a href="#">BADMINTON</a>
-							</li>
-							<li>
-								<a href="#">BASEBALL</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="container">
-					<div class="row">
-						<div class="col-xl-12 col-lg-12">
-							<div class="payment-method">
-								<h6 class="payment-method-title">
-									Payment methods are We accept
-								</h6>
-								<div class="all-method">
-									<div class="single-method">
-										<img src="~/FrontendTheme/assets/img/flutterlogo.png" height="80" width="39" alt="">
-									</div>
-									<div class="single-method">
-										<img src="~/FrontendTheme/assets/img/paystack.png" height="80" width="39" alt="">
-									</div>
-									<div class="single-method">
-										<img src="~/FrontendTheme/assets/img/visacard.jpg" height="80" width="39" alt="">
-									</div>
-									<div class="single-method">
-										<img src="~/FrontendTheme/assets/img/mastercard.png" height="80" width="39" alt="">
-									</div>
-									<div class="single-method">
-										<img src="~/FrontendTheme/assets/img/vervecard.png" height="80" width="39" alt="">
-									</div>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="../../Home/Contact">Contact US</a>
+                                        </li>
+                                        @if (Context.Session.GetString("userEmail") != null)
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="../../Admin/Index">Admin Dashboard</a>
+                                            </li>
+                                        }
 
-									<div class="single-method">
-										<img src="~/FrontendTheme/assets/img/payoneer.png" height="80" width="39" alt="">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header end -->
+    <!-- Banner section . Note include the section content being the content
+        in the partialview with name _bannerPartial.cs>
+    @RenderSection("bannersection", false)
 
-	<!-- footer Notes section -->
-	<!-- notes begin -->
-	<div class="notes">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-xl-10 col-lg-10">
-					PerediOn is a sports prediction html template, published by autworks throgh envato marketplace. You can use this template on any kind of sports prediction in the world. as like football, baseball, soccer, cricket etc. all rights reserved by autworks © 2020.
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- notes end -->
-	<!-- copyright footer begin -->
-	<div class="copyright-footer">
-		<div class="container">
-			<div class="row justify-content-between">
-				<div class="col-xl-5 col-md-6 col-lg-6 d-lg-flex d-lg-flex d-block align-items-center">
-					<p class="copyright-text">
-						<a href="#">Predictive Power</a> © 2020. PRIVACY POLICY
-					</p>
-				</div>
-				<div class="text-right col-md-6 col-xl-4 col-lg-6 d-xl-flex d-lg-flex d-block align-items-center">
-					<p class="copyright-text">
-						Powerd By <a href="">Capable Minds Group</a>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- copyright footer end -->
-	<!-- jquery -->
-	<!-- <script src="assets/js/jquery.js"></script> -->
-	<script src="~/FrontendTheme/assets/js/jquery-3.4.1.min.js"></script>
-	<!-- bootstrap -->
-	<script src="~/FrontendTheme/assets/js/bootstrap.min.js"></script>
-	<!-- owl carousel -->
-	<script src="~/FrontendTheme/assets/js/owl.carousel.js"></script>
-	<!-- magnific popup -->
-	<script src="~/FrontendTheme/assets/js/jquery.magnific-popup.js"></script>
-	<!-- filterizr js -->
-	<script src="~/FrontendTheme/assets/js/jquery.filterizr.min.js"></script>
-	<!-- wow js-->
-	<script src="~/FrontendTheme/assets/js/wow.min.js"></script>
-	<!-- clock js -->
-	<script src="~/FrontendTheme/assets/js/clock.min.js"></script>
-	<!-- main -->
-	<script src="~/FrontendTheme/assets/js/main.js"></script>
-	<!-- Home / Index based js-->
-	<script src="~/FrontendTheme/assets/js/jquery.appear.min.js"></script>
-	<script src="~/FrontendTheme/assets/js/odometer.min.js"></script>
-	<script src="~/FrontendTheme/assets/js/oddometer-active.js"></script>
-	<script src="~/FrontendTheme/assets/js/step-signup.js"></script>
+    <!-- current Page Content Begin-->
+    <div>
+        @RenderBody()
 
-	@*<script src="~/lib/jquery/dist/jquery.min.js"></script>
-		<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="~/js/site.js" asp-append-version="true"></script>*@
-	@RenderSection("Scripts", required: false)
+    </div>
+    <!-- current page body end-->
+    <!--Footer section-->
+    <div class="footer" id="contact">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-xl-4 col-lg-5 col-md-10">
+                    <div class="about-widget">
+                        <a class="logo" href="index.html">
+                            <img src="~/FrontendTheme/assets/img/logo.png" alt="Predictive Power">
+                        </a>
+                        <p>PerediOn offers you all the best online prediction from every corner of the planet with thousands of online prediction markets.</p>
+                        <div class="social">
+                            <ul>
+                                <li>
+                                    <a href="#" class="social-icon">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="social-icon">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="social-icon">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                    <a href="#" class="social-icon">
+                                        <i class="fab fa-pinterest-p"></i>
+                                    </a>
+                                    <a href="#" class="social-icon">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="support">
+                            <ul>
+                                <li>
+                                    <span class="icon">
+                                        <img src="~/FrontendTheme/assets/img/svg/email.svg" alt="">
+                                    </span>
+                                    <span class="text">
+                                        <span class="title">Mail Us</span>
+                                        <span class="descr">don't@reply.com</span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="icon">
+                                        <img src="~/FrontendTheme/assets/img/svg/phone-call.svg" alt="">
+                                    </span>
+                                    <span class="text">
+                                        <span class="title">Get In Touch</span>
+                                        <span class="descr">+88 015 00 00 00</span>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-3">
+                    <div class="useful-links">
+                        <h3>Useful links</h3>
+                        <ul>
+                            <li>
+                                <a href="#">IN-PLAY</a>
+                            </li>
+                            <li>
+                                <a href="#">PROMOTIONS</a>
+                            </li>
+                            <li>
+                                <a href="#">STATICS</a>
+                            </li>
+                            <li>
+                                <a href="#">RESULTS</a>
+                            </li>
+                            <li>
+                                <a href="#">Predict now</a>
+                            </li>
+                            <li>
+                                <a href="#">GAME RESULTS</a>
+                            </li>
+                            <li>
+                                <a href="#">STANDINGS</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-3">
+                    <div class="useful-links">
+                        <h3>Connect With Us</h3>
+                        <ul>
+                            <li>
+                                <a href="#">About Us</a>
+                            </li>
+                            <li>
+                                <a href="#">Blog</a>
+                            </li>
+                            <li>
+                                <a href="#">Blog Details</a>
+                            </li>
+                            <li>
+                                <a href="#">Service</a>
+                            </li>
+                            <li>
+                                <a href="#">Contact us</a>
+                            </li>
+                            <li>
+                                <a href="#">TEAM OVERVIEW</a>
+                            </li>
+                            <li>
+                                <a href="#">SCHEDULE</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-3">
+                    <div class="useful-links">
+                        <h3>All Sports</h3>
+                        <ul>
+                            <li>
+                                <a href="#">FOOTBALL</a>
+                            </li>
+                            <li>
+                                <a href="#">TENNIS</a>
+                            </li>
+                            <li>
+                                <a href="#">BASKETBALL</a>
+                            </li>
+                            <li>
+                                <a href="#">ICE HOCKEY</a>
+                            </li>
+                            <li>
+                                <a href="#">VOLLEYBALL</a>
+                            </li>
+                            <li>
+                                <a href="#">BADMINTON</a>
+                            </li>
+                            <li>
+                                <a href="#">BASEBALL</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="payment-method">
+                                <h6 class="payment-method-title">
+                                    Payment methods are We accept
+                                </h6>
+                                <div class="all-method">
+                                    <div class="single-method">
+                                        <img src="~/FrontendTheme/assets/img/flutterlogo.png" height="80" width="39" alt="">
+                                    </div>
+                                    <div class="single-method">
+                                        <img src="~/FrontendTheme/assets/img/paystack.png" height="80" width="39" alt="">
+                                    </div>
+                                    <div class="single-method">
+                                        <img src="~/FrontendTheme/assets/img/visacard.jpg" height="80" width="39" alt="">
+                                    </div>
+                                    <div class="single-method">
+                                        <img src="~/FrontendTheme/assets/img/mastercard.png" height="80" width="39" alt="">
+                                    </div>
+                                    <div class="single-method">
+                                        <img src="~/FrontendTheme/assets/img/vervecard.png" height="80" width="39" alt="">
+                                    </div>
+
+                                    <div class="single-method">
+                                        <img src="~/FrontendTheme/assets/img/payoneer.png" height="80" width="39" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer Notes section -->
+    <!-- notes begin -->
+    <div class="notes">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-10 col-lg-10">
+                    PerediOn is a sports prediction html template, published by autworks throgh envato marketplace. You can use this template on any kind of sports prediction in the world. as like football, baseball, soccer, cricket etc. all rights reserved by autworks © 2020.
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- notes end -->
+    <!-- copyright footer begin -->
+    <div class="copyright-footer">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-xl-5 col-md-6 col-lg-6 d-lg-flex d-lg-flex d-block align-items-center">
+                    <p class="copyright-text">
+                        <a href="#">Predictive Power</a> © 2020. PRIVACY POLICY
+                    </p>
+                </div>
+                <div class="text-right col-md-6 col-xl-4 col-lg-6 d-xl-flex d-lg-flex d-block align-items-center">
+                    <p class="copyright-text">
+                        Powerd By <a href="">Capable Minds Group</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- copyright footer end -->
+    <!-- jquery -->
+    <!-- <script src="assets/js/jquery.js"></script> -->
+    <script src="~/FrontendTheme/assets/js/jquery-3.4.1.min.js"></script>
+    <!-- bootstrap -->
+    <script src="~/FrontendTheme/assets/js/bootstrap.min.js"></script>
+    <!-- owl carousel -->
+    <script src="~/FrontendTheme/assets/js/owl.carousel.js"></script>
+    <!-- magnific popup -->
+    <script src="~/FrontendTheme/assets/js/jquery.magnific-popup.js"></script>
+    <!-- filterizr js -->
+    <script src="~/FrontendTheme/assets/js/jquery.filterizr.min.js"></script>
+    <!-- wow js-->
+    <script src="~/FrontendTheme/assets/js/wow.min.js"></script>
+    <!-- clock js -->
+    <script src="~/FrontendTheme/assets/js/clock.min.js"></script>
+    <!-- main -->
+    <script src="~/FrontendTheme/assets/js/main.js"></script>
+    <!-- Home / Index based js-->
+    <script src="~/FrontendTheme/assets/js/jquery.appear.min.js"></script>
+    <script src="~/FrontendTheme/assets/js/odometer.min.js"></script>
+    <script src="~/FrontendTheme/assets/js/oddometer-active.js"></script>
+    <script src="~/FrontendTheme/assets/js/step-signup.js"></script>
+
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>*@
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

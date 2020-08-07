@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SleekPredictionPunter.Model.Packages;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -30,5 +31,9 @@ namespace SleekPredictionPunter.Model
 		/// </summary>
 		public Subscriber Subscriber { get; set; }
 		public Predictor Predictor { get; set; }
+
+		public Package Package { get; set; }
 	}
+
+	
 }

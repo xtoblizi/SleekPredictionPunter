@@ -17,7 +17,7 @@ namespace SleekPredictionPunter.Model.Enums
 	public enum RoleEnum
 	{
 		[Description("SuperAdmin")]
-		SystemAdmin = 1,
+		SuperAdmin = 1,
 		[Description("Subscriber")]
 		Subscriber = 2,
 		[Description("Predictor")]
