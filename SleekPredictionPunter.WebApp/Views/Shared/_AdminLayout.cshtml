@@ -252,7 +252,7 @@
                 <ul class="sidebar-menu" id="nav-accordion">
                     <p class="centered"><a href="profile.html"><img src="~/AdminTheme/img/ui-sam.jpg" class="img-circle" width="80"></a></p>
                     <h5 class="centered">Sam Soffes</h5>
-					@if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.SystemAdmin.ToString()))
+					@if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.SuperAdmin.ToString()))
 					{
 						<li class="mt">
 							<a class="@ViewBag.AdminIndex" asp-area="" asp-controller="Home" asp-action="Index">

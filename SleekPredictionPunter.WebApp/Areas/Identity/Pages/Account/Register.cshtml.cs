@@ -84,6 +84,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 			[DataType(DataType.Date)]
 			[Required]
 			public DateTime DateOfBirth { get; set; }
+			public string ReferrerCode { get; set; }
 		}
 
         public async Task OnGetAsync(string returnUrl = null)
