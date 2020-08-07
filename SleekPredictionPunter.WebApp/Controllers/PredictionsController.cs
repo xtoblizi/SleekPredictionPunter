@@ -19,11 +19,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
     public class PredictionsController : Controller
     { 
         private readonly IPredictionService _predictionService;
-        private readonly IPackageAppService _packageAppService;
-        public PredictionsController(IPredictionService predictionService, IPackageAppService  packageAppService)
+        private readonly IPackageAppService _packageService;
+        public PredictionsController(IPredictionService predictionService, IPackageAppService packageService)
         { 
             _predictionService = predictionService;
-            _packageAppService = packageAppService;
+            _packageService = packageService;
         }
 
         // GET: Predictions
@@ -55,8 +55,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.Predictions = "active";
-            ViewData["PackageId"] = new SelectList(await _packageAppService.GetPackages(), "Id", "PackageName");
-        
+            ViewBag.PackageId = new SelectList(await _packageService.GetPackages(), "Id", "PackageName");
             return View();
         }
 
@@ -89,7 +88,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 				await stream.FlushAsync(); 
 			}
 
-            var getpackage = await _packageAppService.GetPackageById(prediction.PackgeId);
+            var getpackage = await _packageService.GetPackageById(prediction.PackgeId);
             Prediction predictionModel = new Prediction()
             {
                 ClubA = prediction.ClubA,
@@ -111,7 +110,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 await _predictionService.InsertPrediction(predictionModel);
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.PackageId = new SelectList(await _packageAppService.GetPackages(), "Id", "PackageName", prediction.PackgeId);
+            ViewBag.PackageId = new SelectList(await _packageService.GetPackages(), "Id", "PackageName", prediction.PackgeId);
             return View(prediction);
         }
 

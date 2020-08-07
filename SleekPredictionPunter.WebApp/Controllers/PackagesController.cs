@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SleekPredictionPunter.AppService.Packages;
 using SleekPredictionPunter.Model;
-using SleekPredictionPunter.Model.Enums;
-using SleekPredictionPunter.Model.Packages;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
@@ -21,16 +19,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // GET: Packages
         public async Task<IActionResult> Index(int startIndex= 0, int count = int.MaxValue)
         {
-            ViewBag.Package = "active";
-            var result = await _packageAppService.GetPackages();
-
-            return View(result);
-        }
-        
-        public async Task<IActionResult> FrontEndIndex(int startIndex= 0, int count = int.MaxValue)
-        {
-            ViewBag.Package = "active";
-            var result = await _packageAppService.GetPackages();
+			var result = await _packageAppService.GetPackages();
 
             return View(result);
         }
@@ -38,15 +27,13 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // GET: Packages/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            ViewBag.Package = "active";
-            var result = await _packageAppService.GetPackageById(id);
+			var result = await _packageAppService.GetPackageById(id);
             return View(result);
         }
 
         // GET: Packages/Create
         public async Task<IActionResult> Create()
         {
-            ViewBag.Package = "active";
             return View();
         }
 
@@ -55,11 +42,6 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public  async Task<IActionResult> Create(PackageDto package)
         {
-            ViewBag.Package = "active";
-            package.DateCreated = DateTime.UtcNow;
-            package.DateUpdated = DateTime.UtcNow;
-            package.EntityStatus = EntityStatusEnum.Active;
-           
             try
             {
                 // TODO: Add insert logic here
@@ -76,7 +58,6 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // GET: Packages/Edit/5
         public ActionResult Edit(int id)
         {
-            ViewBag.Package = "active";
             return View();
         }
 
@@ -85,7 +66,6 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, PackageDto model)
         {
-            ViewBag.Package = "active";
             try
             {
                 // TODO: Add update logic here
@@ -101,7 +81,6 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // GET: Packages/Delete/5
         public ActionResult Delete(int id)
         {
-            ViewBag.Package = "active";
             return View();
         }
 

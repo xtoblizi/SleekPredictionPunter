@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SleekPredictionPunter.Model.Packages
+namespace SleekPredictionPunter.Model
 {
-    public class PackageDto:Package
-    {
-    }
+	public class PackageDto : Package
+	{
+
+	}
 }
