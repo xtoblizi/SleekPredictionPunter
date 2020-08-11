@@ -27,9 +27,19 @@ namespace SleekPredictionPunter.WebApp.Controllers
         }
 
         // GET: Predictions
+		/// <summary>
+		/// This is the admin view page for predictions
+		/// </summary>
+		/// <returns></returns>
         public async Task<IActionResult> Index()
         {
             ViewBag.Predictions = "active";
+            return View(await _predictionService.GetPredictions());
+        } 
+		public async Task<IActionResult> FrontEndIndex()
+        {
+            ViewBag.Predictions = "active";
+
             return View(await _predictionService.GetPredictions());
         }
 
@@ -150,4 +160,12 @@ namespace SleekPredictionPunter.WebApp.Controllers
             return checkIfExist.Any(e => e.Id == id);
         }
     }
+
+	public class PredictionViewModel
+	{
+		public IEnumerable<Prediction> Predictions  { get; set; }
+
+		public IEnumerable<IDictionary<string,IEnumerable<Prediction>>> GrouppedPredictions { get; set; }
+
+	}
 }
