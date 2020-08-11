@@ -38,9 +38,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
         } 
 		public async Task<IActionResult> FrontEndIndex()
         {
-            ViewBag.Predictions = "active";
+			var result = await _predictionService.GetPredictions();
 
-            return View(await _predictionService.GetPredictions());
+			ViewBag.Predictions = result;
+
+            return View(result);
         }
 
         // GET: Predictions/Details/5

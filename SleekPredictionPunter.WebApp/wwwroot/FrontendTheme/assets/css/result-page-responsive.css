@@ -2,6 +2,9 @@
 @media only screen and (min-width: 320px) and (max-width: 991px) {
     .result {
         padding: 60px 0;
+    } 
+	.result-modified {
+        padding: 60px 0;
     }
     .result .result-sheet-cover {
         overflow-x: scroll;

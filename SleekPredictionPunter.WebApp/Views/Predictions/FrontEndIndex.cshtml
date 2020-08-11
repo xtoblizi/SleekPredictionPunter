@@ -6,54 +6,62 @@
 	int sn = 1;
 }
 
-<h2>FrontEndIndex</h2>
 
-<div class="result">
-	<div class="container">
-		<div class="result-sheet-cover">
-			<div class="result-sheet">
-				<h4 class="result-title">Latest Predictions</h4>
-				<table class="table">
-					<thead>
+<div class="result">	
+<div class="container">
+	<div class="result-sheet-cover">
+		<div class="result-sheet">
+			<h4 class="result-title">Latest Predictions</h4>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>S/N</th>
+						<th scope="col"></th>
+						<th scope="col">Date & Time</th>
+						<th scope="col">Match</th>
+						<th scope="col">Prediction</th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var prediction in Model)
+					{
 						<tr>
-							<th>S/N</th>
-							<th scope="col"></th>
-							<th scope="col">Date & Time</th>
-							<th scope="col">Match</th>
-							<th scope="col">Prediction</th>
-							<th scope="col"></th>
-						</tr>
-					</thead>
-					<tbody>
-						@foreach (var prediction in ViewBag.Predictions)
-						{
-							<tr>
-								<td>@(sn++)</td>
-								<th scope="row">
-									<span class="icon">
-										<i class="flaticon-football"></i>
+							<td>@(sn++)</td>
+							<th scope="row">
+								<span class="icon">
+									<i class="flaticon-football"></i>
+								</span>
+							</th>
+							<td class="date">@prediction.DateCreated</td>
+							<td class="team-name">
+								<img src="~/ClubLogo/@(System.IO.Path.GetFileName(prediction.ClubALogoPath))" style="width:30px;height:30px" />
+								@prediction.ClubA <span class="versace">vs</span> @prediction.ClubB <img src="~/ClubLogo/@(System.IO.Path.GetFileName(prediction.ClubBLogoPath))" style="width:30px;height:30px" />
+							</td>
+							<td class="score">@prediction.PredictionValue</td>
+							<td>
+								<a>
+									<span class="view-icon">
+										<i class="fas fa-ellipsis-v"></i>
 									</span>
-								</th>
-								<td class="date">@prediction.DateCreated</td>
-								<td class="team-name">
-									<img src="~/ClubLogo/@(System.IO.Path.GetFileName(prediction.ClubALogoPath))" style="width:30px;height:30px" />
-									@prediction.ClubA <span class="versace">vs</span> @prediction.ClubB <img src="~/ClubLogo/@(System.IO.Path.GetFileName(prediction.ClubBLogoPath))" style="width:30px;height:30px" />
-								</td>
-								<td class="score">@prediction.PredictionValue</td>
-								<td>
-									<a>
-										<span class="view-icon">
-											<i class="fas fa-ellipsis-v"></i>
-										</span>
-									</a>
-								</td>
-							</tr>
-						}
+								</a>
+							</td>
+						</tr>
+					}
 
 
-					</tbody>
-				</table>
-			</div>
+				</tbody>
+			</table>
 		</div>
 	</div>
+</div>	
 </div>
+
+
+
+
+
+@*<div class="result">
+		<div class="container">
+		</div>
+	</div>*@
