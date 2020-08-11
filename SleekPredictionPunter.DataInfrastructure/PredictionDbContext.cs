@@ -16,7 +16,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 		//const string  connectionstring = "Data Source=.;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
 		//	" Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
 
-		const string connectionstring = "Server=(localdb)\\mssqllocaldb;Database=SleekPredictionPunterDb;Trusted_Connection=True;MultipleActiveResultSets=true";
+		const string connectionstring = "Server=DESKTOP-JBDM8G2\\SQLEXPRESS;Database=SleekPredictionPunterDb;Trusted_Connection=True;MultipleActiveResultSets=true";
 		public PredictionDbContext CreateDbContext(string[] args)
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<PredictionDbContext>();
@@ -27,7 +27,8 @@ namespace SleekPredictionPunter.DataInfrastructure
 	}
 	public class PredictionDbContext : IdentityDbContext<ApplicationUser,ApplicationRole,string>
 	{
-		public PredictionDbContext(DbContextOptions<PredictionDbContext> options) : base(options) 
+		public PredictionDbContext(DbContextOptions<PredictionDbContext> options) 
+			: base(options) 
 		{
 		}
 

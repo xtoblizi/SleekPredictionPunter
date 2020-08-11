@@ -26,7 +26,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
         public void OnGet()
         {
         }
-        public async Task<IActionResult> Logout2()
+        public IActionResult Logout2()
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
