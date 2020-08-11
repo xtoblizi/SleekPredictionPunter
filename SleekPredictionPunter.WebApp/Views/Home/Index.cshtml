@@ -1,227 +1,214 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
-    int sn = 1;
+	ViewData["Title"] = "Home Page";
+	int sn = 1;
+}
+@if (ViewBag.ShowBreadCum)
+{
+	<!-- breadcrumb begin -->
+	<div class="breadcrumb-bettix">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-7 col-lg-7">
+					<div class="breadcrumb-content">
+						<h2>Home </h2>
+						@*<ul>
+							<li>
+								<a href="#">Home</a>
+							</li>
+							<li>
+								Match Statics
+							</li>
+						</ul>*@
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- breadcrumb end -->
 }
 
 <!-- about begin -->
 <div class="about">
-    <div class="container">
-        <div class="row no-gutters">
-            <div class="col-xl-8 col-lg-8">
-                <div class="part-img">
-                    <img src="assets/img/about.jpg" alt="">
-                </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 d-xl-flex d-lg-flex d-block align-items-center">
-                <div>
-                    <div class="part-text">
-                        <h2>Introducing Our Words</h2>
-                        <p>The bigger the sports event the more interest, excitement and media attention on the action. And the more betting markets we have available here at Peredion to turn your opinions into winning bets. And few events come any bigger than the World Cup and the Olympics.</p>
-                    </div>
-                    <a href="#" class="about-btn">Predict Now</a>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="row no-gutters">
+			<div class="col-xl-8 col-lg-8">
+				<div class="part-img">
+					<img src="~/FrontendTheme/assets/img/about.jpg" alt="">
+				</div>
+			</div>
+			<div class="col-xl-4 col-lg-4 d-xl-flex d-lg-flex d-block align-items-center">
+				<div>
+					<div class="part-text">
+						<h2>Introducing Our Words</h2>
+						<p>The bigger the sports event the more interest, excitement and media attention on the action. And the more betting markets we have available here at Peredion to turn your opinions into winning bets. And few events come any bigger than the World Cup and the Olympics.</p>
+					</div>
+					<a href="#" class="about-btn">Predict Now</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- about end -->
 <!-- cta begin -->
-<div class="cta">
-    <div class="container">
-        <h3>Predictive Power shows real time odds for betting with the higher stakes you can get.</h3>
-        <div class="cta-btn-group">
-            <a href="#" class="bet-btn bet-btn-base">Predict Now</a>
-            <a href="#" class="bet-btn bet-btn-border">Explore More</a>
-        </div>
-    </div>
+<div class="line">
+	<hr/>	
 </div>
 <!-- cta end -->
 <!-- feature begin -->
 <div class="feature" id="feature_section">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-6 col-lg-6 col-md-8">
-                <div class="section-title">
-                    <h2>Predictive Power Features</h2>
-                    <p>Predictive Power shows real time odds for betting with the higher stakes you can get. We place your bets in various bMakers to do highest liquidity</p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xl-4 col-lg-4 col-md-6">
-                <div class="single-feature">
-                    <div class="part-icon">
-                        <img src="~/FrontendTheme/assets/img/svg/music-and-multimedia.svg" alt="">
-                    </div>
-                    <div class="part-text">
-                        <h3 class="title">Live Prediction</h3>
-                        <p>Predictive Power has a quality in-play Prediction service and the live console has extensive coverage from sporting events and prediction markets.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-6">
-                <div class="single-feature">
-                    <div class="part-icon">
-                        <img src="~/FrontendTheme/assets/img/svg/announcement.svg" alt="">
-                    </div>
-                    <div class="part-text">
-                        <h3 class="title">Daily Promotions</h3>
-                        <p>Predictive Power offers a huge range of different promotions, every day. These include money-back offers when your horse is beaten by a nose.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-6">
-                <div class="single-feature">
-                    <div class="part-icon">
-                        <img src="~/FrontendTheme/assets/img/svg/usability.svg" alt="">
-                    </div>
-                    <div class="part-text">
-                        <h3 class="title">Clean Usability</h3>
-                        <p>More than a single feature, usability is an aspect that affects the whole product. For us, that means an intuitive interface that is easy to use.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-6">
-                <div class="single-feature">
-                    <div class="part-icon">
-                        <img src="~/FrontendTheme/assets/img/svg/browser.svg" alt="">
-                    </div>
-                    <div class="part-text">
-                        <h3 class="title">Prediction browser</h3>
-                        <p>Predictive Power on an arbitrage or value predict is extremely easy. All the information you need is gathered on one single Prediction Browser using the software.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-6">
-                <div class="single-feature">
-                    <div class="part-icon">
-                        <img src="~/FrontendTheme/assets/img/svg/exchange.svg" alt="">
-                    </div>
-                    <div class="part-text">
-                        <h3 class="title">Currency Conversion</h3>
-                        <p>Automatic currency conversion is built in. You can use different currencies on different bookmakers and we’ll do all the math for you.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-6">
-                <div class="single-feature">
-                    <div class="part-icon">
-                        <img src="~/FrontendTheme/assets/img/svg/key-card.svg" alt="">
-                    </div>
-                    <div class="part-text">
-                        <h3 class="title">High Security</h3>
-                        <p>Our security measures are way above the norm in the software industry. First, starting the program requires a master password.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-xl-6 col-lg-6 col-md-8">
+				<div class="section-title">
+					<h2>Predictive Power Features</h2>
+					<p>Predictive Power shows real time odds for betting with the higher stakes you can get. We place your bets in various bMakers to do highest liquidity</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xl-4 col-lg-4 col-md-6">
+				<div class="single-feature">
+					<div class="part-icon">
+						<img src="~/FrontendTheme/assets/img/svg/music-and-multimedia.svg" alt="Quality Predictions">
+					</div>
+					<div class="part-text">
+						<h3 class="title">Quality Predictions</h3>
+						<p>Predictive Power has a quality in-play Prediction service with a good percentage of correct result on predictions.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-4 col-lg-4 col-md-6">
+				<div class="single-feature">
+					<div class="part-icon">
+						<img src="~/FrontendTheme/assets/img/svg/browser.svg" alt="Prediction Categories">
+					</div>
+					<div class="part-text">
+						<h3 class="title">Prediction Categories</h3>
+						<p>
+							Predictive Power has punters in different categories and variations,
+							giving you the privilege to browse and make take choiced prediction from different category.
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-4 col-lg-4 col-md-6">
+				<div class="single-feature">
+					<div class="part-icon">
+						<img src="~/FrontendTheme/assets/img/svg/usability.svg" alt="Clean Usability">
+					</div>
+					<div class="part-text">
+						<h3 class="title">Clean Usability</h3>
+						<p> For one: predictive holds a record of good user and friendly navigation of our platform. Simplicity and effectiveness </p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
 </div>
 <!-- feature end -->
-
 <!-- breadcrumb begin -->
 <div class="breadcrumb-bettix result-page">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-7 col-lg-7">
-                <div class="breadcrumb-content">
-                    <h2>Prediction</h2>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="row">
+			<div class="col-xl-7 col-lg-7">
+				<div class="breadcrumb-content">
+					<h2>Predictions</h2>
+
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- breadcrumb end -->
 <!-- result begin -->
 <div class="result">
-    <div class="container">
-        @*<div class="filter-menu">
-            <div class="row">
-                <div class="col-xl-4 col-lg-4 col-md-4">
-                    <div class="form-group">
-                        <select class="form-control">
-                            <option>Last 7 days</option>
-                            <option>Last 24 hours</option>
-                            <option>Last 12 hours</option>
-                            <option>Last 6 hours</option>
-                            <option>Last 1 hours</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-4">
-                    <div class="form-group">
-                        <select class="form-control">
-                            <option>All Sports</option>
-                            <option>Football</option>
-                            <option>Ice Hocky</option>
-                            <option>Badminton</option>
-                            <option>Baseball</option>
-                            <option>Basketball</option>
-                            <option>Tennis</option>
-                            <option>Cycling</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-4">
-                    <div class="form-group">
-                        <select class="form-control">
-                            <option>Bangla Cricket League</option>
-                            <option>Indian Football Federation</option>
-                            <option>English premier league</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>*@
+	<div class="container">
+		@*<div class="filter-menu">
+				<div class="row">
+					<div class="col-xl-4 col-lg-4 col-md-4">
+						<div class="form-group">
+							<select class="form-control">
+								<option>Last 7 days</option>
+								<option>Last 24 hours</option>
+								<option>Last 12 hours</option>
+								<option>Last 6 hours</option>
+								<option>Last 1 hours</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-xl-4 col-lg-4 col-md-4">
+						<div class="form-group">
+							<select class="form-control">
+								<option>All Sports</option>
+								<option>Football</option>
+								<option>Ice Hocky</option>
+								<option>Badminton</option>
+								<option>Baseball</option>
+								<option>Basketball</option>
+								<option>Tennis</option>
+								<option>Cycling</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-xl-4 col-lg-4 col-md-4">
+						<div class="form-group">
+							<select class="form-control">
+								<option>Bangla Cricket League</option>
+								<option>Indian Football Federation</option>
+								<option>English premier league</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>*@
 
-        <div class="result-sheet-cover">
-            <div class="result-sheet">
-                <h4 class="result-title">Latest Predictions</h4>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>S/N</th>
-                            <th scope="col"></th>
-                            <th scope="col">Date & Time</th>
-                            <th scope="col">Match</th>
-                            <th scope="col">Prediction</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach(var prediction in ViewBag.Predictions)
-                        {
-                        <tr>
-                            <td>@(sn++)</td>
-                            <th scope="row">
-                                <span class="icon">
-                                    <i class="flaticon-football"></i>
-                                </span>
-                            </th>
-                            <td class="date">@prediction.DateCreated</td>
-                            <td class="team-name">
-                            <img src="~/ClubLogo/@(System.IO.Path.GetFileName(prediction.ClubALogoPath))" style="width:30px;height:30px" />  
-                            @prediction.ClubA <span class="versace">vs</span> @prediction.ClubB <img src="~/ClubLogo/@(System.IO.Path.GetFileName(prediction.ClubBLogoPath))" style="width:30px;height:30px" /></td>
-                            <td class="score">@prediction.PredictionValue</td>
-                            <td>
-                                <a >
-                                    <span class="view-icon">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </span>
-                                </a>
-                            </td>
-                        </tr>
-                        }
-                        
-                       
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        
-    </div>
+		<div class="result-sheet-cover">
+			<div class="result-sheet">
+				<h4 class="result-title">Latest Predictions</h4>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>S/N</th>
+							<th scope="col"></th>
+							<th scope="col">Date & Time</th>
+							<th scope="col">Match</th>
+							<th scope="col">Prediction</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var prediction in ViewBag.Predictions)
+						{
+							<tr>
+								<td>@(sn++)</td>
+								<th scope="row">
+									<span class="icon">
+										<i class="flaticon-football"></i>
+									</span>
+								</th>
+								<td class="date">@prediction.DateCreated</td>
+								<td class="team-name">
+									<img src="~/ClubLogo/@(System.IO.Path.GetFileName(prediction.ClubALogoPath))" style="width:30px;height:30px" />
+									@prediction.ClubA <span class="versace">vs</span> @prediction.ClubB <img src="~/ClubLogo/@(System.IO.Path.GetFileName(prediction.ClubBLogoPath))" style="width:30px;height:30px" />
+								</td>
+								<td class="score">@prediction.PredictionValue</td>
+								<td>
+									<a>
+										<span class="view-icon">
+											<i class="fas fa-ellipsis-v"></i>
+										</span>
+									</a>
+								</td>
+							</tr>
+						}
+
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
 </div>
 <!-- result end -->
-
-

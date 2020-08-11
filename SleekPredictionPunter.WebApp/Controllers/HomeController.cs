@@ -32,6 +32,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Index()
 		{
 			ViewBag.IsBanner = true;
+			base.ShowBreadCumBannerSetter(true);
+
 			var gatePredictions = await _predictionService.GetPredictions();
 			ViewBag.Predictions = gatePredictions;
 			return View();
