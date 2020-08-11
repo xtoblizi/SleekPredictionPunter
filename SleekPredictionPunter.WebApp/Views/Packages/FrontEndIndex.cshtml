@@ -1,0 +1,96 @@
+﻿@model IEnumerable<SleekPredictionPunter.Model.Packages.Package>
+
+@{
+    ViewData["Title"] = "FrontEndIndex";
+}
+
+
+<!-- schedule begin -->
+<div class="schedule">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model.ToList())
+            {
+            <div class="col-xl-6 col-lg-6">
+                <div class="single-match">
+                    <div class="part-head">
+                        <h5 class="match-title">@item.PackageName</h5>
+                        <span class="match-venue">@item.Description</span>
+                    </div>
+                    <div class="part-team">
+                        <div class="single-team">
+                            <div class="logo">
+                                <img src="~/FrontendTheme/assets/img/team-1.png" alt="">
+                            </div>
+                            <span class="team-name"></span>
+                        </div>
+                        <div class="match-details">
+                            <div class="match-time">
+                                <span class="date"></span>
+                                <span class="time">@item.Price</span>
+                            </div> 
+                            <div class="buttons">
+                                <a href="#" class="buy-ticket bet-btn bet-btn-dark-light">Subcribe</a>
+                            </div>
+                        </div>
+                        <div class="single-team">
+                            <div class="logo">
+                                <img src="~/FrontendTheme/assets/img/team-2.png" alt="">
+                            </div>
+                            <span class="team-name"></span>
+                        </div>
+                    </div>
+                    <span class="to-begin-time">
+                        Starting on
+                    </span>
+                    <div class="part-timer timer" data-date="30 April 2020 9:56:00 GMT+01:00">
+                        <div class="single-time">
+                            @*<span class="number day">01</span>
+                            <span class="title">Days</span>*@
+                        </div>
+                        <div class="single-time">
+                            @*<span class="number hour">24</span>
+                            <span class="title">Hours</span>*@
+                        </div>
+                        <div class="single-time">
+                            @*<span class="number minute">48</span>
+                            <span class="title">Minutes</span>*@
+                        </div>
+                        <div class="single-time">
+                            @*<span class="number second">11</span>
+                            <span class="title">Seconds</span>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+
+            
+           
+        </div>
+        <div class="bettix-pagination">
+            <ul>
+                <li>
+                    <a href="#" class="active">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">1</a>
+                </li>
+                @*<li>
+                    <a href="#">2</a>
+                </li>
+                <li>
+                    <a href="#">3</a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </li>*@
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- schedule end -->
