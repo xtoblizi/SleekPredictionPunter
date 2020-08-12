@@ -12,5 +12,6 @@ namespace SleekPredictionPunter.AppService.Agents
         Task<Agent>GetAgentById(long id);
         Task<long>CreateAgent(Agent model);
         Task RemoveAgentById(Agent owner, bool savechage = true);
+        Task<long> GetMonthlySummaryForNewAgents();
     }
 }

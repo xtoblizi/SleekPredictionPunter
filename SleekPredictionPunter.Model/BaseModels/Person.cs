@@ -12,6 +12,7 @@ namespace SleekPredictionPunter.Model.BaseModels
 			ActivatedStatus = EntityStatusEnum.NotActive;
 			IsTenant = false;
 			TenantUniqueName = IsTenant ? Username : string.Empty;
+			Gender = GenderEnum.Male;
 		}
 
 		/// <summary>

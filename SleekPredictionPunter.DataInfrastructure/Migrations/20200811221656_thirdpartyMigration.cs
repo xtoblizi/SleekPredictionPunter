@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
-    public partial class PackageTableAdded : Migration
+    public partial class thirdpartyMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,6 +40,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     Email = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     Gender = table.Column<int>(nullable: false),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
                     BrandNameOrNickName = table.Column<string>(nullable: true),
                     ActivatedStatus = table.Column<int>(nullable: false),
                     IsTenant = table.Column<bool>(nullable: false),
@@ -63,6 +64,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     DateCreated = table.Column<DateTime>(nullable: false),
                     EntityStatus = table.Column<int>(nullable: false),
                     DateUpdated = table.Column<DateTime>(nullable: true),
+                    PackageId = table.Column<long>(nullable: false),
                     PackageName = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(nullable: false),
                     Description = table.Column<string>(nullable: true)
@@ -88,6 +90,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     Email = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     Gender = table.Column<int>(nullable: false),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
                     BrandNameOrNickName = table.Column<string>(nullable: true),
                     ActivatedStatus = table.Column<int>(nullable: false),
                     IsTenant = table.Column<bool>(nullable: false),
@@ -148,6 +151,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     Email = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     Gender = table.Column<int>(nullable: false),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
                     BrandNameOrNickName = table.Column<string>(nullable: true),
                     ActivatedStatus = table.Column<int>(nullable: false),
                     IsTenant = table.Column<bool>(nullable: false),
@@ -160,6 +164,32 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Subscribers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ThirdPartyUsers",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: true),
+                    AuthId = table.Column<long>(nullable: false),
+                    EmailAddress = table.Column<string>(nullable: true),
+                    PhoneNumbers = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Username = table.Column<string>(nullable: true),
+                    UserRole = table.Column<int>(nullable: false),
+                    UserRoleName = table.Column<string>(nullable: true),
+                    ProviderName = table.Column<string>(nullable: true),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    DateTimeCreated = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ThirdPartyUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -188,7 +218,8 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     Country = table.Column<string>(nullable: true),
                     State = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
-                    DateCreated = table.Column<DateTime>(nullable: false)
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateofBirth = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -233,11 +264,18 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     PredictionValue = table.Column<string>(nullable: true),
                     TimeofFixture = table.Column<DateTime>(nullable: false),
                     SubscriberId = table.Column<long>(nullable: true),
-                    PredictorId = table.Column<long>(nullable: true)
+                    PredictorId = table.Column<long>(nullable: true),
+                    PackageId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Predictions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Predictions_Packages_PackageId",
+                        column: x => x.PackageId,
+                        principalTable: "Packages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Predictions_Predictors_PredictorId",
                         column: x => x.PredictorId,
@@ -338,6 +376,11 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Predictions_PackageId",
+                table: "Predictions",
+                column: "PackageId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Predictions_PredictorId",
                 table: "Predictions",
                 column: "PredictorId");
@@ -396,9 +439,6 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 name: "AgentUsers");
 
             migrationBuilder.DropTable(
-                name: "Packages");
-
-            migrationBuilder.DropTable(
                 name: "Predictions");
 
             migrationBuilder.DropTable(
@@ -406,6 +446,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "SubcriberPredictorMaps");
+
+            migrationBuilder.DropTable(
+                name: "ThirdPartyUsers");
 
             migrationBuilder.DropTable(
                 name: "UserClaims");
@@ -418,6 +461,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Packages");
 
             migrationBuilder.DropTable(
                 name: "Predictors");

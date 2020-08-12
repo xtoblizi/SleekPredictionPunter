@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    int sn = 1;
 }
 
 <!-- about begin -->
@@ -26,1833 +27,201 @@
 <!-- about end -->
 <!-- cta begin -->
 <div class="cta">
-	<div class="container">
-		<h3>Predictive Power shows real time odds for betting with the higher stakes you can get.</h3>
-		<div class="cta-btn-group">
-			<a href="#" class="bet-btn bet-btn-base">Predict Now</a>
-			<a href="#" class="bet-btn bet-btn-border">Explore More</a>
-		</div>
-	</div>
+    <div class="container">
+        <h3>Predictive Power shows real time odds for betting with the higher stakes you can get.</h3>
+        <div class="cta-btn-group">
+            <a href="#" class="bet-btn bet-btn-base">Predict Now</a>
+            <a href="#" class="bet-btn bet-btn-border">Explore More</a>
+        </div>
+    </div>
 </div>
 <!-- cta end -->
 <!-- feature begin -->
 <div class="feature" id="feature_section">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-xl-6 col-lg-6 col-md-8">
-				<div class="section-title">
-					<h2>Predictive Power Features</h2>
-					<p>Predictive Power shows real time odds for betting with the higher stakes you can get. We place your bets in various bMakers to do highest liquidity</p>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-xl-4 col-lg-4 col-md-6">
-				<div class="single-feature">
-					<div class="part-icon">
-						<img src="~/FrontendTheme/assets/img/svg/music-and-multimedia.svg" alt="">
-					</div>
-					<div class="part-text">
-						<h3 class="title">Live Prediction</h3>
-						<p>Predictive Power has a quality in-play Prediction service and the live console has extensive coverage from sporting events and prediction markets.</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-xl-4 col-lg-4 col-md-6">
-				<div class="single-feature">
-					<div class="part-icon">
-						<img src="~/FrontendTheme/assets/img/svg/announcement.svg" alt="">
-					</div>
-					<div class="part-text">
-						<h3 class="title">Daily Promotions</h3>
-						<p>Predictive Power offers a huge range of different promotions, every day. These include money-back offers when your horse is beaten by a nose.</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-xl-4 col-lg-4 col-md-6">
-				<div class="single-feature">
-					<div class="part-icon">
-						<img src="~/FrontendTheme/assets/img/svg/usability.svg" alt="">
-					</div>
-					<div class="part-text">
-						<h3 class="title">Clean Usability</h3>
-						<p>More than a single feature, usability is an aspect that affects the whole product. For us, that means an intuitive interface that is easy to use.</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-xl-4 col-lg-4 col-md-6">
-				<div class="single-feature">
-					<div class="part-icon">
-						<img src="~/FrontendTheme/assets/img/svg/browser.svg" alt="">
-					</div>
-					<div class="part-text">
-						<h3 class="title">Prediction browser</h3>
-						<p>Predictive Power on an arbitrage or value predict is extremely easy. All the information you need is gathered on one single Prediction Browser using the software.</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-xl-4 col-lg-4 col-md-6">
-				<div class="single-feature">
-					<div class="part-icon">
-						<img src="~/FrontendTheme/assets/img/svg/exchange.svg" alt="">
-					</div>
-					<div class="part-text">
-						<h3 class="title">Currency Conversion</h3>
-						<p>Automatic currency conversion is built in. You can use different currencies on different bookmakers and we’ll do all the math for you.</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-xl-4 col-lg-4 col-md-6">
-				<div class="single-feature">
-					<div class="part-icon">
-						<img src="~/FrontendTheme/assets/img/svg/key-card.svg" alt="">
-					</div>
-					<div class="part-text">
-						<h3 class="title">High Security</h3>
-						<p>Our security measures are way above the norm in the software industry. First, starting the program requires a master password.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-6 col-lg-6 col-md-8">
+                <div class="section-title">
+                    <h2>Predictive Power Features</h2>
+                    <p>Predictive Power shows real time odds for betting with the higher stakes you can get. We place your bets in various bMakers to do highest liquidity</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <div class="single-feature">
+                    <div class="part-icon">
+                        <img src="~/FrontendTheme/assets/img/svg/music-and-multimedia.svg" alt="">
+                    </div>
+                    <div class="part-text">
+                        <h3 class="title">Live Prediction</h3>
+                        <p>Predictive Power has a quality in-play Prediction service and the live console has extensive coverage from sporting events and prediction markets.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <div class="single-feature">
+                    <div class="part-icon">
+                        <img src="~/FrontendTheme/assets/img/svg/announcement.svg" alt="">
+                    </div>
+                    <div class="part-text">
+                        <h3 class="title">Daily Promotions</h3>
+                        <p>Predictive Power offers a huge range of different promotions, every day. These include money-back offers when your horse is beaten by a nose.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <div class="single-feature">
+                    <div class="part-icon">
+                        <img src="~/FrontendTheme/assets/img/svg/usability.svg" alt="">
+                    </div>
+                    <div class="part-text">
+                        <h3 class="title">Clean Usability</h3>
+                        <p>More than a single feature, usability is an aspect that affects the whole product. For us, that means an intuitive interface that is easy to use.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <div class="single-feature">
+                    <div class="part-icon">
+                        <img src="~/FrontendTheme/assets/img/svg/browser.svg" alt="">
+                    </div>
+                    <div class="part-text">
+                        <h3 class="title">Prediction browser</h3>
+                        <p>Predictive Power on an arbitrage or value predict is extremely easy. All the information you need is gathered on one single Prediction Browser using the software.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <div class="single-feature">
+                    <div class="part-icon">
+                        <img src="~/FrontendTheme/assets/img/svg/exchange.svg" alt="">
+                    </div>
+                    <div class="part-text">
+                        <h3 class="title">Currency Conversion</h3>
+                        <p>Automatic currency conversion is built in. You can use different currencies on different bookmakers and we’ll do all the math for you.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <div class="single-feature">
+                    <div class="part-icon">
+                        <img src="~/FrontendTheme/assets/img/svg/key-card.svg" alt="">
+                    </div>
+                    <div class="part-text">
+                        <h3 class="title">High Security</h3>
+                        <p>Our security measures are way above the norm in the software industry. First, starting the program requires a master password.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- feature end -->
-<!-- betting begin -->
-<div class="betting" id="in_play">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-xl-6 col-lg-8 col-md-8">
-				<div class="section-title">
-					<h2>Predict & Playing Now</h2>
-					<p>Predictive Power shows real time odds for betting with the higher stakes you can get. We place your bets in various bMakers to do highest liquidity</p>
-				</div>
-			</div>
-		</div>
-		<div class="betting-table">
-			<div class="row">
-				<div class="col-xl-2 col-lg-2">
-					<div class="bett-menu">
-						<ul class="nav nav-tabs" id="myTab" role="tablist">
-							<li class="nav-item">
-								<a class="nav-link active" id="all-sports-tab" data-toggle="tab" href="#all-sports" role="tab" aria-controls="all-sports" aria-selected="true">
-									<i class="flaticon-medal"></i>
-									<span class="text">
-										all sports
-									</span>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" id="football-tab" data-toggle="tab" href="#football" role="tab" aria-controls="football" aria-selected="false">
-									<i class="flaticon-football"></i>
-									<span class="text">
-										football
-									</span>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" id="tennis-tab" data-toggle="tab" href="#tennis" role="tab" aria-controls="tennis" aria-selected="false">
-									<i class="flaticon-tennis-ball"></i>
-									<span class="text">
-										tennis
-									</span>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" id="basketball-tab" data-toggle="tab" href="#basketball" role="tab" aria-controls="basketball" aria-selected="false">
-									<i class="flaticon-basketball-ball-variant"></i>
-									<span class="text">
-										Basketball
-									</span>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" id="hockey-tab" data-toggle="tab" href="#hockey" role="tab" aria-controls="hockey" aria-selected="false">
-									<i class="flaticon-ice-hockey"></i>
-									<span class="text">
-										Ice hockey
-									</span>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" id="volleyball-tab" data-toggle="tab" href="#volleyball" role="tab" aria-controls="volleyball" aria-selected="false">
-									<i class="flaticon-volleyball"></i>
-									<span class="text">
-										VOLLEYBALL
-									</span>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" id="badminton-tab" data-toggle="tab" href="#badminton" role="tab" aria-controls="badminton" aria-selected="false">
-									<i class="flaticon-badminton"></i>
-									<span class="text">
-										BADMINTON
-									</span>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" id="baseball-tab" data-toggle="tab" href="#baseball" role="tab" aria-controls="baseball" aria-selected="false">
-									<i class="flaticon-baseball"></i>
-									<span class="text">
-										BASEBALL
-									</span>
-								</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-xl-10 col-lg-10">
-					<div class="tab-content bet-tab-content" id="myTabContent">
-						<div class="tab-pane fade show active" id="all-sports" role="tabpanel" aria-labelledby="all-sports-tab">
-							<div class="sport-content-title">
-								<h3>
-									All Sports
-									<span class="sport-content-conter">[30]</span>
-								</h3>
-							</div>
-							<div class="sports-list">
-								<h4 class="title">England International League</h4>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-football"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													arsenal
-												</span>
-												<span class="score-number">
-													2
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													everton
-												</span>
-												<span class="score-number">
-													4
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.00</span>
-												<span class="result-for-final">
-													arsenal
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">4.30</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">5.75</span>
-												<span class="result-for-final">
-													everton
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-football"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Aston Villa
-												</span>
-												<span class="score-number">
-													4
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Norwich City
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.52</span>
-												<span class="result-for-final">
-													Aston Villa
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.35</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">3.65</span>
-												<span class="result-for-final">
-													Norwich City
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-football"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													West Ham United
-												</span>
-												<span class="score-number">
-													1
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Bournemouth
-												</span>
-												<span class="score-number">
-													6
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.50</span>
-												<span class="result-for-final">
-													West Ham United
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">4.45</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.75</span>
-												<span class="result-for-final">
-													Bournemouth
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-							</div>
-							<div class="sports-list">
-								<h4 class="title">France National tennis</h4>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-tennis-ball"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Kenny Schepper
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Quentin Robert
-												</span>
-												<span class="score-number">
-													6
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">3.25</span>
-												<span class="result-for-final">
-													Kenny Schepper
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.62</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.44</span>
-												<span class="result-for-final">
-													Quentin Robert
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-tennis-ball"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Christian Langmo
-												</span>
-												<span class="score-number">
-													5
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Manuel Pena Lopez
-												</span>
-												<span class="score-number">
-													2
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.70</span>
-												<span class="result-for-final">
-													Christian Langmo
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.30</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.05</span>
-												<span class="result-for-final">
-													Manuel Pena Lopez
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-tennis-ball"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Stade Bordelais
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Nantes II
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">3.22</span>
-												<span class="result-for-final">
-													Stade Bordelais
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">4.00</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.45</span>
-												<span class="result-for-final">
-													Nantes II
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-							</div>
-							<div class="sports-list">
-								<h4 class="title">League of europe</h4>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-basketball-ball-variant"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Kenny Schepper
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Quentin Robert
-												</span>
-												<span class="score-number">
-													6
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">3.25</span>
-												<span class="result-for-final">
-													Kenny Schepper
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.62</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.44</span>
-												<span class="result-for-final">
-													Quentin Robert
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-basketball-ball-variant"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Christian Langmo
-												</span>
-												<span class="score-number">
-													5
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Manuel Pena Lopez
-												</span>
-												<span class="score-number">
-													2
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.70</span>
-												<span class="result-for-final">
-													Christian Langmo
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.30</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.05</span>
-												<span class="result-for-final">
-													Manuel Pena Lopez
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-basketball-ball-variant"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Stade Bordelais
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Nantes II
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">3.22</span>
-												<span class="result-for-final">
-													Stade Bordelais
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">4.00</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.45</span>
-												<span class="result-for-final">
-													Nantes II
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="tab-pane fade" id="football" role="tabpanel" aria-labelledby="football-tab">
-							<div class="sport-content-title">
-								<h3>
-									Football
-									<span class="sport-content-conter">[3]</span>
-								</h3>
-							</div>
-							<div class="sports-list">
-								<h4 class="title">England International League</h4>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-football"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													arsenal
-												</span>
-												<span class="score-number">
-													2
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													everton
-												</span>
-												<span class="score-number">
-													4
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.00</span>
-												<span class="result-for-final">
-													arsenal
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">4.30</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">5.75</span>
-												<span class="result-for-final">
-													everton
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-football"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Aston Villa
-												</span>
-												<span class="score-number">
-													4
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Norwich City
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.52</span>
-												<span class="result-for-final">
-													Aston Villa
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.35</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">3.65</span>
-												<span class="result-for-final">
-													Norwich City
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-football"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													West Ham United
-												</span>
-												<span class="score-number">
-													1
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Bournemouth
-												</span>
-												<span class="score-number">
-													6
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.50</span>
-												<span class="result-for-final">
-													West Ham United
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">4.45</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.75</span>
-												<span class="result-for-final">
-													Bournemouth
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="tab-pane fade" id="tennis" role="tabpanel" aria-labelledby="tennis-tab">
-							<div class="sport-content-title">
-								<h3>
-									tennis
-									<span class="sport-content-conter">[3]</span>
-								</h3>
-							</div>
-							<div class="sports-list">
-								<h4 class="title">France National tennis</h4>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-tennis-ball"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Kenny Schepper
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Quentin Robert
-												</span>
-												<span class="score-number">
-													6
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">3.25</span>
-												<span class="result-for-final">
-													Kenny Schepper
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.62</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.44</span>
-												<span class="result-for-final">
-													Quentin Robert
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-tennis-ball"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Christian Langmo
-												</span>
-												<span class="score-number">
-													5
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Manuel Pena Lopez
-												</span>
-												<span class="score-number">
-													2
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.70</span>
-												<span class="result-for-final">
-													Christian Langmo
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.30</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.05</span>
-												<span class="result-for-final">
-													Manuel Pena Lopez
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-tennis-ball"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Stade Bordelais
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Nantes II
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">3.22</span>
-												<span class="result-for-final">
-													Stade Bordelais
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">4.00</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.45</span>
-												<span class="result-for-final">
-													Nantes II
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="tab-pane fade" id="basketball" role="tabpanel" aria-labelledby="basketball-tab">
-							<div class="sport-content-title">
-								<h3>
-									basketball
-									<span class="sport-content-conter">[3]</span>
-								</h3>
-							</div>
-							<div class="sports-list">
-								<h4 class="title">League of europe</h4>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-basketball-ball-variant"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Kenny Schepper
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Quentin Robert
-												</span>
-												<span class="score-number">
-													6
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">3.25</span>
-												<span class="result-for-final">
-													Kenny Schepper
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.62</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.44</span>
-												<span class="result-for-final">
-													Quentin Robert
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-basketball-ball-variant"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Christian Langmo
-												</span>
-												<span class="score-number">
-													5
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Manuel Pena Lopez
-												</span>
-												<span class="score-number">
-													2
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.70</span>
-												<span class="result-for-final">
-													Christian Langmo
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.30</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.05</span>
-												<span class="result-for-final">
-													Manuel Pena Lopez
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-basketball-ball-variant"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Stade Bordelais
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Nantes II
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">3.22</span>
-												<span class="result-for-final">
-													Stade Bordelais
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">4.00</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.45</span>
-												<span class="result-for-final">
-													Nantes II
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="tab-pane fade" id="hockey" role="tabpanel" aria-labelledby="hockey-tab">
-							<div class="sport-content-title">
-								<h3>
-									ice hockey
-									<span class="sport-content-conter">[3]</span>
-								</h3>
-							</div>
 
-							<div class="sports-list">
-								<h4 class="title">Hocky Tour'20</h4>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-ice-hockey"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Kenny Schepper
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Quentin Robert
-												</span>
-												<span class="score-number">
-													6
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">3.25</span>
-												<span class="result-for-final">
-													Kenny Schepper
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.62</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.44</span>
-												<span class="result-for-final">
-													Quentin Robert
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-ice-hockey"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Christian Langmo
-												</span>
-												<span class="score-number">
-													5
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Manuel Pena Lopez
-												</span>
-												<span class="score-number">
-													2
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.70</span>
-												<span class="result-for-final">
-													Christian Langmo
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.30</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.05</span>
-												<span class="result-for-final">
-													Manuel Pena Lopez
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-ice-hockey"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Stade Bordelais
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Nantes II
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">3.22</span>
-												<span class="result-for-final">
-													Stade Bordelais
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">4.00</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.45</span>
-												<span class="result-for-final">
-													Nantes II
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="tab-pane fade" id="volleyball" role="tabpanel" aria-labelledby="volleyball-tab">
-							<div class="sport-content-title">
-								<h3>
-									volleyball
-									<span class="sport-content-conter">[3]</span>
-								</h3>
-							</div>
-							<div class="sports-list">
-								<h4 class="title">Hocky Tour'20</h4>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-volleyball"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Kenny Schepper
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Quentin Robert
-												</span>
-												<span class="score-number">
-													6
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">3.25</span>
-												<span class="result-for-final">
-													Kenny Schepper
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.62</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.44</span>
-												<span class="result-for-final">
-													Quentin Robert
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-volleyball"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Christian Langmo
-												</span>
-												<span class="score-number">
-													5
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Manuel Pena Lopez
-												</span>
-												<span class="score-number">
-													2
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.70</span>
-												<span class="result-for-final">
-													Christian Langmo
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.30</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.05</span>
-												<span class="result-for-final">
-													Manuel Pena Lopez
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-volleyball"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Stade Bordelais
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Nantes II
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">3.22</span>
-												<span class="result-for-final">
-													Stade Bordelais
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">4.00</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.45</span>
-												<span class="result-for-final">
-													Nantes II
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="tab-pane fade" id="badminton" role="tabpanel" aria-labelledby="badminton-tab">
-							<div class="sport-content-title">
-								<h3>
-									badminton
-									<span class="sport-content-conter">[3]</span>
-								</h3>
-							</div>
+<!-- breadcrumb begin -->
+<div class="breadcrumb-bettix result-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-7 col-lg-7">
+                <div class="breadcrumb-content">
+                    <h2>Prediction</h2>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb end -->
+<!-- result begin -->
+<div class="result">
+    <div class="container">
+        @*<div class="filter-menu">
+            <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-4">
+                    <div class="form-group">
+                        <select class="form-control">
+                            <option>Last 7 days</option>
+                            <option>Last 24 hours</option>
+                            <option>Last 12 hours</option>
+                            <option>Last 6 hours</option>
+                            <option>Last 1 hours</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4">
+                    <div class="form-group">
+                        <select class="form-control">
+                            <option>All Sports</option>
+                            <option>Football</option>
+                            <option>Ice Hocky</option>
+                            <option>Badminton</option>
+                            <option>Baseball</option>
+                            <option>Basketball</option>
+                            <option>Tennis</option>
+                            <option>Cycling</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4">
+                    <div class="form-group">
+                        <select class="form-control">
+                            <option>Bangla Cricket League</option>
+                            <option>Indian Football Federation</option>
+                            <option>English premier league</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>*@
 
-<!-- betting end -->
-<!-- upcoming match begin -->
-<div class="upcoming-match" id="upcoming_match">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-xl-6 col-lg-6 col-md-8">
-				<div class="section-title">
-					<h2>Upcoming Match</h2>
-					<p>Predictive Power shows real time odds for betting with the higher stakes you can get. We place your bets in various bMakers to do highest liquidity</p>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-xl-6 col-lg-6">
-				<div class="single-match">
-					<div class="part-head">
-						<h5 class="match-title">BBPL 2019 Semi Final</h5>
-						<span class="match-venue">Venue : Sher-e-Bangla National Stadium. Mirpur, Dhaka</span>
-					</div>
-					<div class="part-team">
-						<div class="single-team">
-							<div class="logo">
-								<img src="~/FrontendTheme/assets/img/team-1.png" alt="">
-							</div>
-							<span class="team-name">Khulna Tigers</span>
-						</div>
-						<div class="match-details">
-							<div class="match-time">
-								<span class="date">Fri 09 Oct 2019</span>
-								<span class="time">09:00 am</span>
-							</div>
-							<span class="versase">vs</span>
-							<div class="buttons">
-								<a href="#" class="buy-ticket bet-btn bet-btn-dark-light">buy ticket</a>
-							</div>
-						</div>
-						<div class="single-team">
-							<div class="logo">
-								<img src="~/FrontendTheme/assets/img/team-2.png" alt="">
-							</div>
-							<span class="team-name">Dhaka Platoon</span>
-						</div>
-					</div>
-					<span class="to-begin-time">
-						Starting on
-					</span>
-					<div class="part-timer timer" data-date="30 April 2020 9:56:00 GMT+01:00">
-						<div class="single-time">
-							<span class="number day">01</span>
-							<span class="title">Days</span>
-						</div>
-						<div class="single-time">
-							<span class="number hour">24</span>
-							<span class="title">Hours</span>
-						</div>
-						<div class="single-time">
-							<span class="number minute">48</span>
-							<span class="title">Minutes</span>
-						</div>
-						<div class="single-time">
-							<span class="number second">11</span>
-							<span class="title">Seconds</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xl-6 col-lg-6">
-				<div class="upcoming-match-list">
-					<div class="single-upcoming-match">
-						<div class="single-team">
-							<div class="part-logo">
-								<img src="~/FrontendTheme/assets/img/team-1.png" alt="">
-							</div>
-							<div class="part-text">
-								<span class="team-name">
-									Khulna tigers
-								</span>
-							</div>
-						</div>
-						<span class="versase">vs</span>
-						<div class="single-team">
-							<div class="part-text">
-								<span class="team-name">
-									dhaka platoon
-								</span>
-							</div>
-							<div class="part-logo">
-								<img src="~/FrontendTheme/assets/img/team-2.png" alt="">
-							</div>
-						</div>
-					</div>
-					<div class="single-upcoming-match">
-						<div class="single-team">
-							<div class="part-logo">
-								<img src="~/FrontendTheme/assets/img/team-3.png" alt="">
-							</div>
-							<div class="part-text">
-								<span class="team-name">
-									Cumilla Viking
-								</span>
-							</div>
-						</div>
-						<span class="versase">vs</span>
-						<div class="single-team">
-							<div class="part-text">
-								<span class="team-name">
-									Barishal Bulls
-								</span>
-							</div>
-							<div class="part-logo">
-								<img src="~/FrontendTheme/assets/img/team-4.png" alt="">
-							</div>
-						</div>
-					</div>
-					<div class="single-upcoming-match">
-						<div class="single-team">
-							<div class="part-logo">
-								<img src="~/FrontendTheme/assets/img/team-5.png" alt="">
-							</div>
-							<div class="part-text">
-								<span class="team-name">
-									CG challenge
-								</span>
-							</div>
-						</div>
-						<span class="versase">vs</span>
-						<div class="single-team">
-							<div class="part-text">
-								<span class="team-name">
-									r.shahi royals
-								</span>
-							</div>
-							<div class="part-logo">
-								<img src="~/FrontendTheme/assets/img/team-6.png" alt="">
-							</div>
-						</div>
-					</div>
-					<div class="single-upcoming-match">
-						<div class="single-team">
-							<div class="part-logo">
-								<img src="~/FrontendTheme/assets/img/team-7.png" alt="">
-							</div>
-							<div class="part-text">
-								<span class="team-name">
-									Khulna tigers
-								</span>
-							</div>
-						</div>
-						<span class="versase">vs</span>
-						<div class="single-team">
-							<div class="part-text">
-								<span class="team-name">
-									dhaka platoon
-								</span>
-							</div>
-							<div class="part-logo">
-								<img src="~/FrontendTheme/assets/img/team-8.png" alt="">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="text-center">
-			<a href="#" class="vew-more-news bet-btn bet-btn-dark-light">
-				<i class="fas fa-redo"></i> See More match
-			</a>
-		</div>
-		<span class="text-special">
-			<b>Note:</b>  The timing of each match will depend on the weather conditions.
-		</span>
-	</div>
+        <div class="result-sheet-cover">
+            <div class="result-sheet">
+                <h4 class="result-title">Latest Predictions</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th scope="col"></th>
+                            <th scope="col">Date & Time</th>
+                            <th scope="col">Match</th>
+                            <th scope="col">Prediction</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var prediction in ViewBag.Predictions)
+                        {
+                        <tr>
+                            <td>@(sn++)</td>
+                            <th scope="row">
+                                <span class="icon">
+                                    <i class="flaticon-football"></i>
+                                </span>
+                            </th>
+                            <td class="date">@prediction.DateCreated</td>
+                            <td class="team-name">
+                            <img src="~/ClubLogo/@(System.IO.Path.GetFileName(prediction.ClubALogoPath))" style="width:30px;height:30px" />  
+                            @prediction.ClubA <span class="versace">vs</span> @prediction.ClubB <img src="~/ClubLogo/@(System.IO.Path.GetFileName(prediction.ClubBLogoPath))" style="width:30px;height:30px" /></td>
+                            <td class="score">@prediction.PredictionValue</td>
+                            <td>
+                                <a >
+                                    <span class="view-icon">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </span>
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                        
+                       
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </div>
 </div>
-<!-- upcoming match end -->
-<!-- statics begin -->
-<div class="statics">
-	<div class="container">
-		<div class="row">
-			<div class="col-xl-3 col-lg-3 col-md-6">
-				<div class="single-counter">
-					<span class="number odometer" data-count="1854">0000</span>
-					<span class="title">Project Finished</span>
-				</div>
-			</div>
-			<div class="col-xl-3 col-lg-3 col-md-6">
-				<div class="single-counter">
-					<span class="number odometer" data-count="3254">0000</span>
-					<span class="title">Line Of Coding</span>
-				</div>
-			</div>
-			<div class="col-xl-3 col-lg-3 col-md-6">
-				<div class="single-counter">
-					<span class="number odometer" data-count="584">000</span>
-					<span class="title">Award Won</span>
-				</div>
-			</div>
-			<div class="col-xl-3 col-lg-3 col-md-6">
-				<div class="single-counter">
-					<span class="number odometer" data-count="1731">0000</span>
-					<span class="title">Satisfied Clients</span>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- statics end -->
-<!-- testimonial begin -->
-<div class="testimonial" id="testimonial">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-xl-7 col-lg-7">
-				<div class="section-title">
-					<h2>Feedback to Predictive Power</h2>
-					<!-- <p>Predictive Power shows real time odds for betting with the higher stakes you can get. We place your bets in various bMakers to do highest liquidity</p> -->
-				</div>
-			</div>
-		</div>
-		<div class="row justify-content-center">
-			<div class="col-xl-8 col-lg-8">
-				<div class="testimonial-slider owl-carousel owl-theme">
-					<div class="single-testimonial">
-						<div class="part-img">
-							<img src="~/FrontendTheme/assets/img/testi-user-1.jpg" alt="">
-						</div>
-						<div class="part-text">
-							<i class="icon-for-quot fas fa-quote-left"></i>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint nesciunt dignissimos laborum praesentium illo dolorem, fuga commodi? Laudantium totam porro quod nihil eius!</p>
-							<span class="position">
-								Player
-							</span>
-							<span class="user-name">
-								Illustino Calibia
-							</span>
-						</div>
-					</div>
-					<div class="single-testimonial">
-						<div class="part-img">
-							<img src="~/FrontendTheme/assets/img/testi-user-1.jpg" alt="">
-						</div>
-						<div class="part-text">
-							<i class="icon-for-quot fas fa-quote-left"></i>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint nesciunt dignissimos laborum praesentium illo dolorem, fuga commodi? Laudantium totam porro quod nihil eius!</p>
-							<span class="position">
-								Player
-							</span>
-							<span class="user-name">
-								Illustino Calibia
-							</span>
-						</div>
-					</div>
-					<div class="single-testimonial">
-						<div class="part-img">
-							<img src="~/FrontendTheme/assets/img/testi-user-1.jpg" alt="">
-						</div>
-						<div class="part-text">
-							<i class="icon-for-quot fas fa-quote-left"></i>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint nesciunt dignissimos laborum praesentium illo dolorem, fuga commodi? Laudantium totam porro quod nihil eius!</p>
-							<span class="position">
-								Player
-							</span>
-							<span class="user-name">
-								Illustino Calibia
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- testimonial end -->
+<!-- result end -->
 
-<div>
-    @section bannersection{
-        <partial name="_BannerPartial" />
-    }
-</div>
+

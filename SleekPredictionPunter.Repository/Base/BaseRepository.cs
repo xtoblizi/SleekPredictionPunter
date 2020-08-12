@@ -77,6 +77,7 @@ namespace SleekPredictionPunter.Repository.Base
 			return await _entity.Skip(startIndex).Take(count).ToListAsync(); 
 		}
 
+
 		/// <summary>
 		/// Extended methods of the findby method to get entity by id irrespective of the id type
 		/// </summary>

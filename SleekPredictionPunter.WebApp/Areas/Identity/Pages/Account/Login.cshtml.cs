@@ -83,15 +83,17 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null,string loginType = null, string provider = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && loginType=="1")
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                 
+              
                 if (result.Succeeded)
                 {
                     //Get user details by email then, pass user successful to httpcontextaccessor then, use on UI....
@@ -117,6 +119,15 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();
                 }
+            }
+
+            else if (loginType == "2")
+            {
+                var redirectUrl = Url.Action("ThirdPartyLoginCallback", "ThirdPartyCallBack", new { returnUrl = returnUrl });
+                redirectUrl.Replace("/Identity/ThirdPartyCallBack/ThirdPartyLoginCallback?returnUrl=%2F", "/ThirdPartyCallBack/ThirdPartyLoginCallback?returnUrl=%2F");
+
+                var prop = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+                return new ChallengeResult(provider, prop);
             }
 
             // If we got this far, something failed, redisplay form

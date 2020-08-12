@@ -12,5 +12,6 @@ namespace SleekPredictionPunter.AppService.PredictionAppService
         Task<Prediction> GetPredictionByPredictor(long id);
         Task<long> InsertPrediction(Prediction model);
         Task RemovePredictionBy(Prediction phoneOwner, bool savechage = true);
+        Task<long> GetMonthlySummaryForPredictions();
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -19,14 +21,17 @@ namespace SleekPredictionPunter.WebApp.Controllers
         private readonly PredictionDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAgentService _agentService;
-
-        public AgentsController(PredictionDbContext context, IAgentService agentService, UserManager<ApplicationUser> userManager)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        public AgentsController(PredictionDbContext context, IAgentService agentService,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
             _agentService = agentService;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
-
+        public IList<AuthenticationScheme> ExternalLogins { get; set; }
         // GET: Agents
         public async Task<IActionResult> Index()
         {
@@ -106,8 +111,6 @@ namespace SleekPredictionPunter.WebApp.Controllers
                             var role = RoleEnum.Agent;
                            
                             //add to roles table
-                            // add user to correct role
-                        
                             if (insertToUser.Succeeded && !(await _userManager.IsInRoleAsync(user, role.ToString())))
                             {
                                 await _userManager.AddToRoleAsync(user,role.ToString());
@@ -163,6 +166,57 @@ namespace SleekPredictionPunter.WebApp.Controllers
         {
             var checkIfExist = await _agentService.GetAgents();
             return checkIfExist.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> ThirdPartySignUpCallback(string returnUrl = null)
+        {
+            returnUrl = returnUrl ?? Url.Content("~/");
+
+           // ReturnUrl = returnUrl;
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            //if(remoteError != null)
+            //         {
+            //	ModelState.AddModelError(string.Empty, $"An error just occurred while signingin with google. \n See issues: {remoteError}");
+            //	//write the exception out using a view bag
+            //	//ViewBag.Error = remoteError;
+            //	return Page();
+            //         }
+
+            var getRemoteInfo = await _signInManager.GetExternalLoginInfoAsync();
+            if (ModelState.IsValid && getRemoteInfo != null)
+            {
+                var externalUserModelBuilder = new ApplicationUser
+                {
+                    UserName = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Email),
+                    Email = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Email),
+                    FirstName = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.GivenName),
+                    LastName = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Surname),
+                    City = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.StreetAddress),
+                    Country = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Country),
+                    DateofBirth = Convert.ToDateTime(getRemoteInfo.Principal.FindFirstValue(ClaimTypes.DateOfBirth)),
+                    State = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.StateOrProvince),
+                };
+                var password = "1234567890";
+                var result = await _userManager.CreateAsync(externalUserModelBuilder,password);
+
+                if (result.Succeeded)
+                {
+                    // add user to correct role
+                    var roleName = string.Empty;
+
+                    roleName = RoleEnum.Subscriber.ToString();
+
+                    #region 
+                    if (result.Succeeded && !(await _userManager.IsInRoleAsync(externalUserModelBuilder, roleName)))
+                    {
+                        await _userManager.AddToRoleAsync(externalUserModelBuilder, roleName);
+                    }
+                    #endregion
+                    return RedirectToPage("index");
+                }
+            }
+            return View();
         }
     }
 }

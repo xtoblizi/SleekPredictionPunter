@@ -23,5 +23,6 @@ namespace SleekPredictionPunter.AppService
 			int startIndex = 0, int count = int.MaxValue);
 
 		Task<Subscriber> GetById(long id);
+		Task<long> GetMonthlySummaryForPredictions();
 	}
 }

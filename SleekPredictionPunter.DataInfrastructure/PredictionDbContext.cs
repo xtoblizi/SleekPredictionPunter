@@ -39,14 +39,15 @@ namespace SleekPredictionPunter.DataInfrastructure
 		public DbSet<AgentRefereeMap> AgentRefereeMaps { get; set; } 
 		public DbSet<Prediction> Predictions { get; set; }
 		public DbSet<Predictor> Predictors { get; set; }
-		//public DbSet<Package> Packages { get; set; }
+		public DbSet<ThirdPartyUsersModel> ThirdPartyUsers { get; set; }
+        public DbSet<Package> Packages { get; set; }
 
 
-		/// <summary>
-		/// Override method on creation of the tables of the database
-		/// </summary>
-		/// <param name="modelBuilder"></param>
-		protected override void OnModelCreating(ModelBuilder builder)
+        /// <summary>
+        /// Override method on creation of the tables of the database
+        /// </summary>
+        /// <param name="modelBuilder"></param>
+        protected override void OnModelCreating(ModelBuilder builder)
 		{		
 			base.OnModelCreating(builder);
 
