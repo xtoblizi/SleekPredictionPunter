@@ -49,7 +49,7 @@ else
 {
     <ul>
         <li>
-            <a class="nav-link" style="color:white;" id="register" asp-area="Identity" asp-route-userType="2" asp-page="/Account/Register"><b>Register</b></a>
+            <a class="nav-link" style="color:white;" id="register"  asp-area="Identity" asp-route-userType="2"  asp-route-returnUrl="@ViewBag.Context"  asp-page="/Account/Register"><b>Register</b></a>
         </li>
         <li>
             <a class="nav-link" id="login" style="color:white;" asp-area="Identity" asp-page="/Account/Login"><b>Login</b></a>

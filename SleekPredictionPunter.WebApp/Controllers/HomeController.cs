@@ -10,6 +10,7 @@ using SleekPredictionPunter.Model;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.Predictors;
 using SleekPredictionPunter.WebApp.Models;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
@@ -19,11 +20,14 @@ namespace SleekPredictionPunter.WebApp.Controllers
 		private readonly IContactAppService _contactService;
 		private readonly IPredictionService _predictionService;
 		private readonly IPredictorService _predictorService;
+		private readonly Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor;
 		public HomeController(ILogger<HomeController> logger,
 			IPredictorService predictorService,IPredictionService predictionService,
+			Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor,
 			IContactAppService contactAppService)
 		{
 			_contactService = contactAppService;
+			_httpContextAccessor = httpContextAccessor;
 			_predictionService = predictionService;
 			_predictorService = predictorService;
 			_logger = logger;
@@ -31,9 +35,12 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
         public async Task<IActionResult> Index()
 		{
+			
 			ViewBag.IsBanner = true;
 			var gatePredictions = await _predictionService.GetPredictions();
 			ViewBag.Predictions = gatePredictions;
+
+			ViewBag.Context = base.returnUrl;
 			return View();
 		}
 

@@ -17,6 +17,9 @@
     <title>Dashio - Bootstrap Admin Template</title>
 
     <!-- Favicons -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+
     <link href="~/AdminTheme/img/favicon.png" rel="icon">
     <link href="~/AdminTheme/img/apple-touch-icon.png" rel="apple-touch-icon">
 
@@ -30,6 +33,12 @@
     <link href="~/AdminTheme/css/style.css" rel="stylesheet">
     <link href="~/AdminTheme/css/style-responsive.css" rel="stylesheet">
     <script src="~/AdminTheme/lib/chart-master/Chart.js"></script>
+
+    <link href="~/AdminTheme/lib/advanced-datatable/css/demo_page.css" rel="stylesheet" />
+    <link href="~/AdminTheme/lib/advanced-datatable/css/demo_table.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/AdminTheme/lib/advanced-datatable/css/DT_bootstrap.css" />
+    <link href="~/AdminTheme/css/style.css" rel="stylesheet">
+    <link href="~/AdminTheme/css/style-responsive.css" rel="stylesheet">
 
     <!-- =======================================================
       Template Name: Dashio
@@ -252,15 +261,15 @@
                 <ul class="sidebar-menu" id="nav-accordion">
                     <p class="centered"><a href="profile.html"><img src="~/AdminTheme/img/ui-sam.jpg" class="img-circle" width="80"></a></p>
                     <h5 class="centered">Sam Soffes</h5>
-					@if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.SuperAdmin.ToString()))
-					{
-						<li class="mt">
-							<a class="@ViewBag.AdminIndex" asp-area="" asp-controller="Home" asp-action="Index">
-								<i class="fa fa-home"></i>
-								<span>Switch FrontEnd</span>
-							</a>
-						</li>
-					}
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.SuperAdmin.ToString()))
+                    {
+                        <li class="mt">
+                            <a class="@ViewBag.AdminIndex" asp-area="" asp-controller="Home" asp-action="Index">
+                                <i class="fa fa-home"></i>
+                                <span>Switch FrontEnd</span>
+                            </a>
+                        </li>
+                    }
                     <li class="mt">
                         <a class="@ViewBag.AdminIndex" href="../Admin/Index">
                             <i class="fa fa-dashboard"></i>
@@ -288,66 +297,66 @@
                         </a>
                     </li>
 
-					<li>
-						<a href="inbox.html">
-							<i class="fa fa-envelope"></i>
-							<span>Predictions </span>
-							<span class="label label-theme pull-right mail-info">2</span>
-						</a>
-					</li>
+                    <li>
+                        <a href="inbox.html">
+                            <i class="fa fa-envelope"></i>
+                            <span>Predictions </span>
+                            <span class="label label-theme pull-right mail-info">2</span>
+                        </a>
+                    </li>
 
 
-					<li>
-						<a href="google_maps.html">
-							<i class="fa fa-map-marker"></i>
-							<span>Contact Tickets </span>
-						</a>
-					</li>
-					@*<li class="sub-menu">
-			<a href="javascript:;">
-				<i class="fa fa-book"></i>
-				<span>Extra Pages</span>
-			</a>
-			<ul class="sub">
-				<li><a href="blank.html">Blank Page</a></li>
-				<li><a href="login.html">Login</a></li>
-				<li><a href="lock_screen.html">Lock Screen</a></li>
-				<li><a href="profile.html">Profile</a></li>
-				<li><a href="invoice.html">Invoice</a></li>
-				<li><a href="pricing_table.html">Pricing Table</a></li>
-				<li><a href="faq.html">FAQ</a></li>
-				<li><a href="404.html">404 Error</a></li>
-				<li><a href="500.html">500 Error</a></li>
-			</ul>
-		</li>*@
-					@*<li class="sub-menu">
-			<a href="javascript:;">
-				<i class="fa fa-tasks"></i>
-				<span>Forms</span>
-			</a>
-			<ul class="sub">
-				<li><a href="form_component.html">Form Components</a></li>
-				<li><a href="advanced_form_components.html">Advanced Components</a></li>
-				<li><a href="form_validation.html">Form Validation</a></li>
-				<li><a href="contactform.html">Contact Form</a></li>
-			</ul>
-		</li>
-		<li class="sub-menu">
-			<a href="javascript:;">
-				<i class="fa fa-th"></i>
-				<span>Data Tables</span>
-			</a>
-			<ul class="sub">
-				<li><a href="basic_table.html">Basic Table</a></li>
-				<li><a href="responsive_table.html">Responsive Table</a></li>
-				<li><a href="advanced_table.html">Advanced Table</a></li>
-			</ul>
-		</li>*@
-				</ul>
-				<!-- sidebar menu end-->
-			</div>
-		</aside>
-		<!--sidebar end-->
+                    <li>
+                        <a href="google_maps.html">
+                            <i class="fa fa-map-marker"></i>
+                            <span>Contact Tickets </span>
+                        </a>
+                    </li>
+                    @*<li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span>Extra Pages</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="blank.html">Blank Page</a></li>
+                                <li><a href="login.html">Login</a></li>
+                                <li><a href="lock_screen.html">Lock Screen</a></li>
+                                <li><a href="profile.html">Profile</a></li>
+                                <li><a href="invoice.html">Invoice</a></li>
+                                <li><a href="pricing_table.html">Pricing Table</a></li>
+                                <li><a href="faq.html">FAQ</a></li>
+                                <li><a href="404.html">404 Error</a></li>
+                                <li><a href="500.html">500 Error</a></li>
+                            </ul>
+                        </li>*@
+                    @*<li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-tasks"></i>
+                                <span>Forms</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="form_component.html">Form Components</a></li>
+                                <li><a href="advanced_form_components.html">Advanced Components</a></li>
+                                <li><a href="form_validation.html">Form Validation</a></li>
+                                <li><a href="contactform.html">Contact Form</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-th"></i>
+                                <span>Data Tables</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="basic_table.html">Basic Table</a></li>
+                                <li><a href="responsive_table.html">Responsive Table</a></li>
+                                <li><a href="advanced_table.html">Advanced Table</a></li>
+                            </ul>
+                        </li>*@
+                </ul>
+                <!-- sidebar menu end-->
+            </div>
+        </aside>
+        <!--sidebar end-->
 
         <section id="main-content">
             @RenderBody()
@@ -383,6 +392,18 @@
     <!--script for this page-->
     <script src="~/AdminTheme/lib/sparkline-chart.js"></script>
     <script src="~/AdminTheme/lib/zabuto_calendar.js"></script>
+
+    <script type="text/javascript" language="javascript" src="~/AdminTheme/lib/advanced-datatable/js/jquery.js"></script>
+ 
+    <script class="include" type="text/javascript" src="~/AdminTheme/lib/jquery.dcjqaccordion.2.7.js"></script>
+
+    <script type="text/javascript" language="javascript" src="~/AdminTheme/lib/advanced-datatable/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="~/AdminTheme/lib/advanced-datatable/js/DT_bootstrap.js"></script>
+    <!--common script for all pages-->
+    <script src="~/AdminTheme/lib/common-scripts.js"></script>
+
+    <!--script for this page-->
+
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -447,6 +468,8 @@
           console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
         }
     </script>
+
+   
     @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
 		public string LoggedInUserFullName { get; set; }
 
-	}
+        public string returnUrl { get { var context = HttpContext; return context.Request.GetDisplayUrl(); } }
+
+    }
 }

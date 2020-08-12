@@ -57,10 +57,22 @@ namespace SleekPredictionPunter.WebApp
 				options.ExpireTimeSpan = TimeSpan.FromMinutes(10500);
 			});
 			services.AddSession(x => { x.IdleTimeout = TimeSpan.FromHours(24); });
-			
+
 			services.AddUserIdentityServices();
 			services.AddPredictionApplicationServices();
 			services.AddRazorPages();
+
+			services.AddAuthentication()
+				//.AddFacebook(opt =>
+				//{
+				//	opt.ClientSecret = "";
+				//});
+
+				.AddGoogle(opt =>
+				{
+					opt.ClientId = "232216909561-l8q4np7q0pd711i5gplqv8fq9aijurla.apps.googleusercontent.com";
+					opt.ClientSecret = "rYjORJBnSLg5l51eiynfGkwJ";
+				});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -3,15 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SleekPredictionPunter.AppService;
+using SleekPredictionPunter.AppService.Agents;
+using SleekPredictionPunter.AppService.PredictionAppService;
+using SleekPredictionPunter.AppService.SubscriberPredictorMap;
+using SleekPredictionPunter.WebApp.Models;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
     public class AdminController : Controller
     {
-        public IActionResult Index()
+        private readonly IPredictionService _predictionService;
+        private readonly IAgentService _agentService;
+        private readonly ISubscriberService _subscriberService;
+
+        public AdminController(IPredictionService predictionService, IAgentService agentService, ISubscriberService subscriberService)
         {
-            ViewBag.AdminIndex = "active";
-            return View();
+            _predictionService = predictionService;
+            _agentService = agentService;
+            _subscriberService = subscriberService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            try
+            {
+                ViewBag.AdminIndex = "active";
+                var subscriberCount = await _subscriberService.GetMonthlySummaryForPredictions();
+                var agentCount = await _agentService.GetMonthlySummaryForNewAgents();
+                var predictionCount = await _predictionService.GetMonthlySummaryForPredictions();
+
+                var dashboardViewModel = new DashboardViewModel
+                {
+                    NewSubscribers = subscriberCount,
+                    NewAgents = agentCount,
+                    NewPredictions = predictionCount
+                };
+                return View(dashboardViewModel);
+            }
+            catch (Exception ex)
+            {
+                return View($"Dear user, an error occurred. Please, retry!!");
+            }
         }
     }
 }

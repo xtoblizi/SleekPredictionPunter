@@ -41,6 +41,7 @@
             <div class="col-xl-5 col-lg-5 col-md-6">
                 <div class="login-form">
                     <form id="account" method="post">
+                        <input type="hidden" id="loginType" name="loginType" value="1" />
                         <div class="form-group">
                             <input type="email" asp-for="Input.Email" placeholder="Enter Your Mail/ Username">
                             <span asp-validation-for="Input.Email" class="text-danger"></span>
@@ -49,7 +50,7 @@
                             <input type="password" asp-for="Input.Password" placeholder="Enter Your Password">
                             <span asp-validation-for="Input.Password" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group justify-content-center">
                             &nbsp;&nbsp;
                             <button type="submit">Sign-In</button>
                             &nbsp;|&nbsp;
@@ -57,7 +58,24 @@
                         </div>
                     </form>
                 </div>
+                <div class="login-form">
+                    <form class="form-inline" method="post">
+                        <div>
+
+                            <input type="hidden" id="loginType" name="loginType" value="2" />
+                            @foreach (var provider in Model.ExternalLogins)
+                            {
+                                <span> </span>
+                                <button type="submit" style="background-color:white; color: black;" name="provider" value="@provider.Name">Sign in with @provider.DisplayName</button>
+                                <span> </span>
+                                <button type="submit" style="background-color:white; color: black;" name="provider" value="Facebook">Sign In With Facebook</button>
+
+                            }
+                        </div>
+                    </form>
+                </div>
             </div>
+
         </div>
     </div>
 </div>

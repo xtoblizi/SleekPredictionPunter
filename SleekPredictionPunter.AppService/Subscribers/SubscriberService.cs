@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SleekPredictionPunter.Model;
@@ -109,6 +110,16 @@ namespace SleekPredictionPunter.AppService
 
 			return await _repo.GetFirstOrDefault(predicate);
 		}
+		public async Task<long> GetMonthlySummaryForPredictions()
+		{
+			var dateFrom = DateTime.Now;
+			var firstDayOfTheMonth = new DateTime(dateFrom.Year, dateFrom.Month, 1);
+			var dateTo = DateTime.Now;
 
+			var getAllSubscriber = await _repo.GetAllQueryable();
+
+			var filter = getAllSubscriber.Where(x => x.DateCreated >= firstDayOfTheMonth && x.DateCreated <= dateTo);
+			return filter.LongCount();
+		}
 	}
 }

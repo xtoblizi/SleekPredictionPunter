@@ -5,6 +5,7 @@ using SleekPredictionPunter.AppService.Contacts;
 //using SleekPredictionPunter.AppService.Packages;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.Predictors;
+using SleekPredictionPunter.AppService.ThirdPartyAppService;
 using SleekPredictionPunter.Repository;
 
 namespace SleekPredictionPunter.AppService
@@ -18,6 +19,7 @@ namespace SleekPredictionPunter.AppService
 			services.AddTransient<IAgentService, AgentService>();
 			services.AddTransient<IPredictorService, PredictorService>();
 			services.AddTransient<IContactAppService, ContactAppService>();
+			services.AddTransient<IThirdPartyUsersAppService, ThirdPartyUsersAppService>();
 			//services.AddTransient<IPackageAppService, PackageAppService>();
 
 			// repository DI registration
