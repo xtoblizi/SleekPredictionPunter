@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace SleekPredictionPunter.WebApp.Controllers
 {
     //[Authorize]
-    public class PredictionsController : Controller
+    public class PredictionsController : BaseController
     { 
         private readonly IPredictionService _predictionService;
         private readonly IPackageAppService _packageAppService;
@@ -38,6 +38,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         } 
 		public async Task<IActionResult> FrontEndIndex()
         {
+			base.AddLinkScriptforPackageSetter(true);
 			var result = await _predictionService.GetPredictions();
 
 			ViewBag.Predictions = result;

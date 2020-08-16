@@ -11,7 +11,7 @@ using SleekPredictionPunter.Model.Packages;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
-    public class PackagesController : Controller
+    public class PackagesController : BaseController
     {
 		private readonly IPackageAppService _packageAppService;
 		public PackagesController(IPackageAppService packageAppService)
@@ -31,8 +31,23 @@ namespace SleekPredictionPunter.WebApp.Controllers
         {
             ViewBag.Package = "active";
             var result = await _packageAppService.GetPackages();
+			var resultDto = new List<PackageDto>();
 
-            return View(result);
+			base.AddLinkScriptforPackageSetter(true);
+
+			resultDto.AddRange(result.OrderByDescending(x => x.DateCreated).Select(x => new PackageDto
+			{
+				DateCreated = x.DateCreated,
+				DateUpdated = x.DateUpdated,
+				Description = x.Description,
+				EntityStatus = x.EntityStatus,
+				Id = x.Id,
+				PackageName = x.PackageName,
+				PackageParameters = x.PackageParameters,
+				Price = x.Price,
+			}));
+
+            return View(resultDto);
         }
 
         // GET: Packages/Details/5

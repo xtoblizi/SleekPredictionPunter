@@ -33,6 +33,8 @@ namespace SleekPredictionPunter.Model
 		public Predictor Predictor { get; set; }
 
 		public Package Package { get; set; }
+
+		public virtual ICollection<PredictionCategory> PredictionCategories { get; set; }
 	}
 
 	
