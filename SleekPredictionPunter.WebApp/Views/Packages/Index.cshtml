@@ -1,76 +1,532 @@
-﻿@model IEnumerable<SleekPredictionPunter.Model.Packages.Package>
+﻿@model IEnumerable<SleekPredictionPunter.Model.PackageDto>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+<h2>Index</h2>
 
-<div class="row mt">
-    <div class="col-sm-8 col-md-8 col-lg-8" style="margin-left:50px; margin-top:70px">
-        <hr />
-        <h3>
-            <i class="fa fa-angle-right">
-            </i>
-            Packages
-        </h3>
-        <p>
-            <a asp-action="Create" class="btn btn-success">Create New</a>
-        </p>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.PackageName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Price)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Description)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.DateCreated)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.EntityStatus)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.DateUpdated)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.PackageName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Price)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DateCreated)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EntityStatus)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DateUpdated)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        </div>
+
+<link rel="stylesheet" href="assets/css/schedule-page-responsive.css">
+
+<div class="schedule">
+	<div class="container">
+		<div class="row">
+			<div class="col-xl-6 col-lg-6">
+				<div class="single-match">
+					<div class="part-head">
+						<h5 class="match-title">BBPL 2019 Semi Final</h5>
+						<span class="match-venue">Venue : Sher-e-Bangla National Stadium. Mirpur, Dhaka</span>
+					</div>
+					<div class="part-team">
+						<div class="single-team">
+							<div class="logo">
+								<img src="assets/img/team-1.png" alt="">
+							</div>
+							<span class="team-name">Khulna Tigers</span>
+						</div>
+						<div class="match-details">
+							<div class="match-time">
+								<span class="date">Fri 09 Oct 2019</span>
+								<span class="time">09:00 am</span>
+							</div>
+							<span class="versase">vs</span>
+							<div class="buttons">
+								<a href="#" class="buy-ticket bet-btn bet-btn-dark-light">buy ticket</a>
+							</div>
+						</div>
+						<div class="single-team">
+							<div class="logo">
+								<img src="assets/img/team-2.png" alt="">
+							</div>
+							<span class="team-name">Dhaka Platoon</span>
+						</div>
+					</div>
+					<span class="to-begin-time">
+						Starting on
+					</span>
+
+					<div class="part-timer timer" data-date="30 April 2020 9:56:00 GMT+01:00">
+						<div class="single-time">
+							<span class="number day">01</span>
+							<span class="title">Days</span>
+						</div>
+						<div class="single-time">
+							<span class="number hour">24</span>
+							<span class="title">Hours</span>
+						</div>
+						<div class="single-time">
+							<span class="number minute">48</span>
+							<span class="title">Minutes</span>
+						</div>
+						<div class="single-time">
+							<span class="number second">11</span>
+							<span class="title">Seconds</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-6 col-lg-6">
+				<div class="single-match">
+					<div class="part-head four">
+						<h5 class="match-title">English Premier League</h5>
+						<span class="match-venue">Venue : Camp Randall Stadium. Madison, Wisconsin</span>
+					</div>
+					<div class="part-team">
+						<div class="single-team">
+							<div class="logo">
+								<img src="assets/img/team-3.png" alt="">
+							</div>
+							<span class="team-name">Manc. United</span>
+						</div>
+						<div class="match-details">
+							<div class="match-time">
+								<span class="date">Fri 09 Oct 2019</span>
+								<span class="time">09:00 am</span>
+							</div>
+							<span class="versase">vs</span>
+							<div class="buttons">
+								<a href="#" class="buy-ticket bet-btn bet-btn-dark-light">buy ticket</a>
+							</div>
+						</div>
+						<div class="single-team">
+							<div class="logo">
+								<img src="assets/img/team-4.png" alt="">
+							</div>
+							<span class="team-name">Manc. City</span>
+						</div>
+					</div>
+					<span class="to-begin-time">
+						Starting on
+					</span>
+					<div class="part-timer timer" data-date="30 April 2020 9:56:00 GMT+01:00">
+						<div class="single-time">
+							<span class="number day">01</span>
+							<span class="title">Days</span>
+						</div>
+						<div class="single-time">
+							<span class="number hour">24</span>
+							<span class="title">Hours</span>
+						</div>
+						<div class="single-time">
+							<span class="number minute">48</span>
+							<span class="title">Minutes</span>
+						</div>
+						<div class="single-time">
+							<span class="number second">11</span>
+							<span class="title">Seconds</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-6 col-lg-6">
+				<div class="single-match">
+					<div class="part-head three">
+						<h5 class="match-title">Spanish P División 2020</h5>
+						<span class="match-venue">Venue : Notre Dame Stadium. South Bend, Indiana</span>
+					</div>
+					<div class="part-team">
+						<div class="single-team">
+							<div class="logo">
+								<img src="assets/img/team-5.png" alt="">
+							</div>
+							<span class="team-name">Real Valladolid</span>
+						</div>
+						<div class="match-details">
+							<div class="match-time">
+								<span class="date">Fri 09 Oct 2019</span>
+								<span class="time">09:00 am</span>
+							</div>
+							<span class="versase">vs</span>
+							<div class="buttons">
+								<a href="#" class="buy-ticket bet-btn bet-btn-dark-light">buy ticket</a>
+							</div>
+						</div>
+						<div class="single-team">
+							<div class="logo">
+								<img src="assets/img/team-6.png" alt="">
+							</div>
+							<span class="team-name">Athletic Bilbao</span>
+						</div>
+					</div>
+					<span class="to-begin-time">
+						Starting on
+					</span>
+					<div class="part-timer timer" data-date="30 April 2020 9:56:00 GMT+01:00">
+						<div class="single-time">
+							<span class="number day">01</span>
+							<span class="title">Days</span>
+						</div>
+						<div class="single-time">
+							<span class="number hour">24</span>
+							<span class="title">Hours</span>
+						</div>
+						<div class="single-time">
+							<span class="number minute">48</span>
+							<span class="title">Minutes</span>
+						</div>
+						<div class="single-time">
+							<span class="number second">11</span>
+							<span class="title">Seconds</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-6 col-lg-6">
+				<div class="single-match">
+					<div class="part-head two">
+						<h5 class="match-title">Chinese Super League 2020</h5>
+						<span class="match-venue">Venue : Arrowhead Stadium. Kansas City, Missouri</span>
+					</div>
+					<div class="part-team">
+						<div class="single-team">
+							<div class="logo">
+								<img src="assets/img/team-7.png" alt="">
+							</div>
+							<span class="team-name">Beijing Renhe</span>
+						</div>
+						<div class="match-details">
+							<div class="match-time">
+								<span class="date">Fri 09 Oct 2019</span>
+								<span class="time">09:00 am</span>
+							</div>
+							<span class="versase">vs</span>
+							<div class="buttons">
+								<a href="#" class="buy-ticket bet-btn bet-btn-dark-light">buy ticket</a>
+							</div>
+						</div>
+						<div class="single-team">
+							<div class="logo">
+								<img src="assets/img/team-8.png" alt="">
+							</div>
+							<span class="team-name">Shenzhen FC</span>
+						</div>
+					</div>
+					<span class="to-begin-time">
+						Starting on
+					</span>
+					<div class="part-timer timer" data-date="30 April 2020 9:56:00 GMT+01:00">
+						<div class="single-time">
+							<span class="number day">01</span>
+							<span class="title">Days</span>
+						</div>
+						<div class="single-time">
+							<span class="number hour">24</span>
+							<span class="title">Hours</span>
+						</div>
+						<div class="single-time">
+							<span class="number minute">48</span>
+							<span class="title">Minutes</span>
+						</div>
+						<div class="single-time">
+							<span class="number second">11</span>
+							<span class="title">Seconds</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-6 col-lg-6">
+				<div class="single-match">
+					<div class="part-head">
+						<h5 class="match-title">BBPL 2019 Semi Final</h5>
+						<span class="match-venue">Venue : Sher-e-Bangla National Stadium. Mirpur, Dhaka</span>
+					</div>
+					<div class="part-team">
+						<div class="single-team">
+							<div class="logo">
+								<img src="assets/img/team-1.png" alt="">
+							</div>
+							<span class="team-name">Khulna Tigers</span>
+						</div>
+						<div class="match-details">
+							<div class="match-time">
+								<span class="date">Fri 09 Oct 2019</span>
+								<span class="time">09:00 am</span>
+							</div>
+							<span class="versase">vs</span>
+							<div class="buttons">
+								<a href="#" class="buy-ticket bet-btn bet-btn-dark-light">buy ticket</a>
+							</div>
+						</div>
+						<div class="single-team">
+							<div class="logo">
+								<img src="assets/img/team-2.png" alt="">
+							</div>
+							<span class="team-name">Dhaka Platoon</span>
+						</div>
+					</div>
+					<span class="to-begin-time">
+						Starting on
+					</span>
+					<div class="part-timer timer" data-date="30 April 2020 9:56:00 GMT+01:00">
+						<div class="single-time">
+							<span class="number day">01</span>
+							<span class="title">Days</span>
+						</div>
+						<div class="single-time">
+							<span class="number hour">24</span>
+							<span class="title">Hours</span>
+						</div>
+						<div class="single-time">
+							<span class="number minute">48</span>
+							<span class="title">Minutes</span>
+						</div>
+						<div class="single-time">
+							<span class="number second">11</span>
+							<span class="title">Seconds</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-6 col-lg-6">
+				<div class="single-match">
+					<div class="part-head four">
+						<h5 class="match-title">English Premier League</h5>
+						<span class="match-venue">Venue : Camp Randall Stadium. Madison, Wisconsin</span>
+					</div>
+					<div class="part-team">
+						<div class="single-team">
+							<div class="logo">
+								<img src="assets/img/team-3.png" alt="">
+							</div>
+							<span class="team-name">Manc. United</span>
+						</div>
+						<div class="match-details">
+							<div class="match-time">
+								<span class="date">Fri 09 Oct 2019</span>
+								<span class="time">09:00 am</span>
+							</div>
+							<span class="versase">vs</span>
+							<div class="buttons">
+								<a href="#" class="buy-ticket bet-btn bet-btn-dark-light">buy ticket</a>
+							</div>
+						</div>
+						<div class="single-team">
+							<div class="logo">
+								<img src="assets/img/team-4.png" alt="">
+							</div>
+							<span class="team-name">Manc. City</span>
+						</div>
+					</div>
+					<span class="to-begin-time">
+						Starting on
+					</span>
+					<div class="part-timer timer" data-date="30 April 2020 9:56:00 GMT+01:00">
+						<div class="single-time">
+							<span class="number day">01</span>
+							<span class="title">Days</span>
+						</div>
+						<div class="single-time">
+							<span class="number hour">24</span>
+							<span class="title">Hours</span>
+						</div>
+						<div class="single-time">
+							<span class="number minute">48</span>
+							<span class="title">Minutes</span>
+						</div>
+						<div class="single-time">
+							<span class="number second">11</span>
+							<span class="title">Seconds</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-6 col-lg-6">
+				<div class="single-match">
+					<div class="part-head three">
+						<h5 class="match-title">Spanish P División 2020</h5>
+						<span class="match-venue">Venue : Notre Dame Stadium. South Bend, Indiana</span>
+					</div>
+					<div class="part-team">
+						<div class="single-team">
+							<div class="logo">
+								<img src="assets/img/team-5.png" alt="">
+							</div>
+							<span class="team-name">Real Valladolid</span>
+						</div>
+						<div class="match-details">
+							<div class="match-time">
+								<span class="date">Fri 09 Oct 2019</span>
+								<span class="time">09:00 am</span>
+							</div>
+							<span class="versase">vs</span>
+							<div class="buttons">
+								<a href="#" class="buy-ticket bet-btn bet-btn-dark-light">buy ticket</a>
+							</div>
+						</div>
+						<div class="single-team">
+							<div class="logo">
+								<img src="assets/img/team-6.png" alt="">
+							</div>
+							<span class="team-name">Athletic Bilbao</span>
+						</div>
+					</div>
+					<span class="to-begin-time">
+						Starting on
+					</span>
+					<div class="part-timer timer" data-date="30 April 2020 9:56:00 GMT+01:00">
+						<div class="single-time">
+							<span class="number day">01</span>
+							<span class="title">Days</span>
+						</div>
+						<div class="single-time">
+							<span class="number hour">24</span>
+							<span class="title">Hours</span>
+						</div>
+						<div class="single-time">
+							<span class="number minute">48</span>
+							<span class="title">Minutes</span>
+						</div>
+						<div class="single-time">
+							<span class="number second">11</span>
+							<span class="title">Seconds</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-6 col-lg-6">
+				<div class="single-match">
+					<div class="part-head two">
+						<h5 class="match-title">Chinese Super League 2020</h5>
+						<span class="match-venue">Venue : Arrowhead Stadium. Kansas City, Missouri</span>
+					</div>
+					<div class="part-team">
+						<div class="single-team">
+							<div class="logo">
+								<img src="assets/img/team-7.png" alt="">
+							</div>
+							<span class="team-name">Beijing Renhe</span>
+						</div>
+						<div class="match-details">
+							<div class="match-time">
+								<span class="date">Fri 09 Oct 2019</span>
+								<span class="time">09:00 am</span>
+							</div>
+							<span class="versase">vs</span>
+							<div class="buttons">
+								<a href="#" class="buy-ticket bet-btn bet-btn-dark-light">buy ticket</a>
+							</div>
+						</div>
+						<div class="single-team">
+							<div class="logo">
+								<img src="assets/img/team-8.png" alt="">
+							</div>
+							<span class="team-name">Shenzhen FC</span>
+						</div>
+					</div>
+					<span class="to-begin-time">
+						Starting on
+					</span>
+					<div class="part-timer timer" data-date="30 April 2020 9:56:00 GMT+01:00">
+						<div class="single-time">
+							<span class="number day">01</span>
+							<span class="title">Days</span>
+						</div>
+						<div class="single-time">
+							<span class="number hour">24</span>
+							<span class="title">Hours</span>
+						</div>
+						<div class="single-time">
+							<span class="number minute">48</span>
+							<span class="title">Minutes</span>
+						</div>
+						<div class="single-time">
+							<span class="number second">11</span>
+							<span class="title">Seconds</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="bettix-pagination">
+			<ul>
+				<li>
+					<a href="#" class="active">
+						<i class="fas fa-chevron-left"></i>
+					</a>
+				</li>
+				<li>
+					<a href="#">1</a>
+				</li>
+				<li>
+					<a href="#">2</a>
+				</li>
+				<li>
+					<a href="#">3</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="fas fa-chevron-right"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
 </div>
+
+<p>
+	<a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.PackageName)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Price)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Description)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Id)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.DateCreated)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.EntityStatus)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.DateUpdated)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.PackageName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Price)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Description)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Id)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.DateCreated)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.EntityStatus)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.DateUpdated)
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+					@Html.ActionLink("Details", "Details", new { id = item.Id }) |
+					@Html.ActionLink("Delete", "Delete", new { id = item.Id })
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

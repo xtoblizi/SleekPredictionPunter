@@ -23,7 +23,7 @@ namespace SleekPredictionPunter.Model.IdentityModels
 		public string State { get; set; }
 		public string City { get; set; }
 		public DateTime DateCreated { get; set; }
-		//public DateTime DateofBirth { get; set; }
+		public DateTime DateofBirth { get; set; }
 
 	}
 }
