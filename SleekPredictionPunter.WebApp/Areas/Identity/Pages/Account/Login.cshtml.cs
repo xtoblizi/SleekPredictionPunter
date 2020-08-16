@@ -83,7 +83,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null,string loginType = null, string provider = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null,string loginType = null, string userType = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
@@ -123,11 +123,11 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 
             else if (loginType == "2")
             {
-                var redirectUrl = Url.Action("ThirdPartyLoginCallback", "ThirdPartyCallBack", new { returnUrl = returnUrl });
-                redirectUrl.Replace("/Identity/ThirdPartyCallBack/ThirdPartyLoginCallback?returnUrl=%2F", "/ThirdPartyCallBack/ThirdPartyLoginCallback?returnUrl=%2F");
+                HttpContext.Session.SetString(userRole, userType);
+                var redirectUrl = Url.Action("ThirdPartyLoginCallback", "ThirdPartyCallBack", new {returnUrl });
 
-                var prop = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-                return new ChallengeResult(provider, prop);
+                var prop = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+                return new ChallengeResult("Google", prop);
             }
 
             // If we got this far, something failed, redisplay form

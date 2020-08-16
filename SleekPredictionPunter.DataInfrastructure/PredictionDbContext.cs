@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Model.IdentityModels;
+using SleekPredictionPunter.Model.PricingPlan;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,6 +42,9 @@ namespace SleekPredictionPunter.DataInfrastructure
 		public DbSet<Predictor> Predictors { get; set; }
 		public DbSet<ThirdPartyUsersModel> ThirdPartyUsers { get; set; }
         public DbSet<Package> Packages { get; set; }
+        public DbSet<PlanBenefitQuestionsModel> PricePlanQuestions { get; set; }
+        public DbSet<PlanPricingBenefitsModel> PricePlanBenefits { get; set; }
+        public DbSet<PricingPlanModel> PricePlans { get; set; }
 
 
         /// <summary>

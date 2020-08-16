@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using SleekPredictionPunter.AppService.Agents;
 using SleekPredictionPunter.AppService.Contacts;
+using SleekPredictionPunter.AppService.Packages;
+using SleekPredictionPunter.AppService.Plans;
 //using SleekPredictionPunter.AppService.Packages;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.Predictors;
@@ -20,10 +22,11 @@ namespace SleekPredictionPunter.AppService
 			services.AddTransient<IPredictorService, PredictorService>();
 			services.AddTransient<IContactAppService, ContactAppService>();
 			services.AddTransient<IThirdPartyUsersAppService, ThirdPartyUsersAppService>();
-			//services.AddTransient<IPackageAppService, PackageAppService>();
+            services.AddTransient<IPackageAppService, PackageAppService>();
+            services.AddTransient<IPricingPlanAppService, PricingPlanAppService>();
 
-			// repository DI registration
-			services.AddPredictionRepositories();
+            // repository DI registration
+            services.AddPredictionRepositories();
 		}
 	}
 }

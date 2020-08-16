@@ -27,7 +27,7 @@
 </div>
 <!-- breadcrumb end -->
 <!-- login begin -->
-<div class="login">
+<div class="register">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-6 col-lg-6 col-md-8">
@@ -58,21 +58,24 @@
                         </div>
                     </form>
                 </div>
-                <div class="login-form">
+                <div class="all-form">
                     <form class="form-inline" method="post">
-                        <div>
-
+                        <div class="dropdown">
                             <input type="hidden" id="loginType" name="loginType" value="2" />
                             @foreach (var provider in Model.ExternalLogins)
                             {
-                                <span> </span>
-                                <button type="submit" style="background-color:white; color: black;" name="provider" value="@provider.Name">Sign in with @provider.DisplayName</button>
-                                <span> </span>
-                                <button type="submit" style="background-color:white; color: black;" name="provider" value="Facebook">Sign In With Facebook</button>
-
+                                <button class="btn btn-success dropdown-toggle" type="button" name="provider" value="@provider.Name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @provider.DisplayName
+                                </button>
                             }
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <button value="2" class="dropdown-item" name="userType">As Subscriber</button>
+                                <button value="4" class="dropdown-item" name="userType">As Agent</button>
+                                <button value="3" class="dropdown-item" name="userType">As Predictor</button>
+                            </div>
                         </div>
                     </form>
+
                 </div>
             </div>
 
@@ -158,6 +161,7 @@
         </div>
     </div>*@
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

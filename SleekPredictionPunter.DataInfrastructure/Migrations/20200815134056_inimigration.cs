@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
-    public partial class thirdpartyMigration : Migration
+    public partial class inimigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -102,6 +102,63 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Predictors", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PricePlanBenefits",
+                columns: table => new
+                {
+                    BenefitId = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QuestionId = table.Column<long>(nullable: false),
+                    Question = table.Column<string>(nullable: true),
+                    Answer = table.Column<bool>(nullable: false),
+                    PlanPricingId = table.Column<long>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: true),
+                    DateTimeCreated = table.Column<DateTime>(nullable: false),
+                    DateTimeDeleted = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PricePlanBenefits", x => x.BenefitId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PricePlanQuestions",
+                columns: table => new
+                {
+                    QuestionId = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Question = table.Column<string>(nullable: true),
+                    DateTimeCreated = table.Column<DateTime>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: true),
+                    DateTimeDeleted = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PricePlanQuestions", x => x.QuestionId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PricePlans",
+                columns: table => new
+                {
+                    PlanId = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PlanName = table.Column<string>(nullable: true),
+                    PlanType = table.Column<int>(nullable: false),
+                    Duration = table.Column<string>(nullable: true),
+                    Price = table.Column<decimal>(nullable: false),
+                    DateTimeCreated = table.Column<DateTime>(nullable: false),
+                    DateTimeUpdated = table.Column<DateTime>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PricePlans", x => x.PlanId);
                 });
 
             migrationBuilder.CreateTable(
@@ -440,6 +497,15 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Predictions");
+
+            migrationBuilder.DropTable(
+                name: "PricePlanBenefits");
+
+            migrationBuilder.DropTable(
+                name: "PricePlanQuestions");
+
+            migrationBuilder.DropTable(
+                name: "PricePlans");
 
             migrationBuilder.DropTable(
                 name: "RoleClaims");

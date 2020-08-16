@@ -42,7 +42,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 };
                 return View(dashboardViewModel);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View($"Dear user, an error occurred. Please, retry!!");
             }

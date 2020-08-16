@@ -8,6 +8,7 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 		private readonly IEmailSender _emailSender;
 		private readonly ISubscriberService _subscriberService;
 		private readonly RoleManager<ApplicationRole> _roleManager;
-
+		const string userRole = "userRole";
 		public RegisterModel(
 			RoleManager<ApplicationRole> roleManager,
 			ISubscriberService susbscriberService,
@@ -104,7 +105,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 		/// <param name="returnUrl"></param>
 		/// <param name="role"></param>
 		/// <returns></returns>
-		public async Task<IActionResult> OnPostAsync(int registrationType, string returnUrl = null, int? role = null, string provider = null)
+		public async Task<IActionResult> OnPostAsync(int registrationType, string returnUrl = null, int? role = null, string provider = null, string userType=null)
 		{
 			try
 			{
@@ -197,10 +198,11 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 				}
 				else if (registrationType == 2)
 				{
-					var redirectUrl = Url.Action("ThirdPartyLoginCallback", "ThirdPartyCallBack", new {returnUrl});
-
-					var prop = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-					return new ChallengeResult(provider, prop);
+					HttpContext.Session.SetString(userRole,userType);
+					var redirectUrl = Url.Action("ThirdPartyLoginCallback", "ThirdPartyCallBack", new { returnUrl });
+					
+					var prop = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+					return new ChallengeResult("Google", prop);
 				}
 
 				// If we got this far, something failed, redisplay form

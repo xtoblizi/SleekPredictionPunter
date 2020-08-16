@@ -10,7 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
+using SleekPredictionPunter.AppService;
 using SleekPredictionPunter.AppService.Agents;
+using SleekPredictionPunter.AppService.Predictors;
 using SleekPredictionPunter.AppService.ThirdPartyAppService;
 using SleekPredictionPunter.DataInfrastructure;
 using SleekPredictionPunter.Model;
@@ -25,6 +27,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IThirdPartyUsersAppService _thirdPartyUsersAppService;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IAgentService _agentService;
+        private readonly ISubscriberService _subscriberService;
+        private readonly IPredictorService _predictorService;
 
         //assigned variables..
         const string userEmail = "userEmail";
@@ -33,17 +38,20 @@ namespace SleekPredictionPunter.WebApp.Controllers
         const string userId = "userId";
         const string userPhoneNumber = "userPhoneNumber";
         public ThirdPartyCallBackController(PredictionDbContext context, IThirdPartyUsersAppService thirdPartyUsersAppService,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
+            IAgentService agentService, ISubscriberService subscriberService, IPredictorService predictorService)
         {
             _context = context;
             _thirdPartyUsersAppService = thirdPartyUsersAppService;
             _userManager = userManager;
             _signInManager = signInManager;
+            _subscriberService = subscriberService;
+            _predictorService = predictorService;
+            _agentService = agentService;
         }
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
         // GET: Agents
-        public async Task<IActionResult> ThirdPartySignUpCallback(string returnUrl = null)
+        public async Task<IActionResult> ThirdPartySubscriberLoginCallback(string returnUrl = null)
         {
             //returnUrl = returnUrl ?? Url.Content("~/");
 
@@ -199,6 +207,62 @@ namespace SleekPredictionPunter.WebApp.Controllers
                         UserRole = roleEnum,
                         UserRoleName = roleEnum.ToString()
                     };
+
+                    //agent model builder
+                    var agent = new Agent
+                    {
+                        FirstName = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Name),
+                        LastName = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Surname),
+                        Email = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Email),
+                        State = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.StateOrProvince),
+                        Street = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.StreetAddress),
+                        DateCreated = DateTime.Now,
+                        DateOfBirth = Convert.ToDateTime(getRemoteInfo.Principal.FindFirstValue(ClaimTypes.DateOfBirth)),
+                        City = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Locality),
+                        Country = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Country),
+                        Gender = (GenderEnum)Convert.ToInt32(getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Gender)),
+                        PhoneNumber = getPhoneNumber,
+                        IsTenant = true,
+                        Username = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Email)
+
+                    };
+
+                    // subscriber model builder
+                    var subscriber = new Subscriber
+                    {
+                       FirstName = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Name),
+                        LastName = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Surname),
+                        Email = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Email),
+                        State = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.StateOrProvince),
+                        Street = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.StreetAddress),
+                        DateCreated = DateTime.Now,
+                        DateOfBirth = Convert.ToDateTime(getRemoteInfo.Principal.FindFirstValue(ClaimTypes.DateOfBirth)),
+                        City = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Locality),
+                        Country = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Country),
+                        Gender = (GenderEnum)Convert.ToInt32(getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Gender)),
+                        PhoneNumber = getPhoneNumber,
+                        IsTenant = true,
+                        Username = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Email)
+                    };
+
+                    //predictor model builder
+                    var predictor = new Predictor
+                    {
+                        FirstName = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Name),
+                        LastName = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Surname),
+                        Email = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Email),
+                        State = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.StateOrProvince),
+                        Street = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.StreetAddress),
+                        DateCreated = DateTime.Now,
+                        DateOfBirth = Convert.ToDateTime(getRemoteInfo.Principal.FindFirstValue(ClaimTypes.DateOfBirth)),
+                        City = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Locality),
+                        Country = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Country),
+                        Gender = (GenderEnum)Convert.ToInt32(getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Gender)),
+                        PhoneNumber = getPhoneNumber,
+                        IsTenant = true,
+                        Username = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Email)
+
+                    };
                     #endregion
 
                     var password = "1234567890";
@@ -223,10 +287,42 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
                             if (insert > 0)
                             {
-                                HttpContext.Session.SetString(userEmail, modelBuilder.EmailAddress);
-                                HttpContext.Session.SetString(userId, modelBuilder.Id.ToString());
-                                HttpContext.Session.SetString(userName, modelBuilder.Username);
-                                return LocalRedirect(returnUrl);
+                                if (userRole == "4")
+                                {
+                                    var inserts = await _agentService.CreateAgent(agent);
+                                    if (inserts > 0)
+                                    {
+                                        HttpContext.Session.SetString(userEmail, modelBuilder.EmailAddress);
+                                        HttpContext.Session.SetString(userId, modelBuilder.Id.ToString());
+                                        HttpContext.Session.SetString(userName, modelBuilder.Username);
+
+                                        //here, if some info ain't gotten from google, we'd  redirect the user to where he/she could fill in those important info..
+                                        //so, for now, lemme just redirect the agent to the return url respectively..
+                                        return LocalRedirect(returnUrl);
+                                    }
+                                }
+                                else if (userRole == "2")
+                                {
+                                    var inserts = await _subscriberService.Insert(subscriber);
+                                    if (inserts > 0)
+                                    {
+                                        HttpContext.Session.SetString(userEmail, modelBuilder.EmailAddress);
+                                        HttpContext.Session.SetString(userId, modelBuilder.Id.ToString());
+                                        HttpContext.Session.SetString(userName, modelBuilder.Username);
+                                        return LocalRedirect(returnUrl);
+                                    }
+                                }
+                                else if (userRole == "3")
+                                {
+                                    var inserts = await _predictorService.Insert(predictor);
+                                    if (inserts > 0)
+                                    {
+                                        HttpContext.Session.SetString(userEmail, modelBuilder.EmailAddress);
+                                        HttpContext.Session.SetString(userId, modelBuilder.Id.ToString());
+                                        HttpContext.Session.SetString(userName, modelBuilder.Username);
+                                        return LocalRedirect(returnUrl);
+                                    }
+                                }
                             }
                         }
                     }
