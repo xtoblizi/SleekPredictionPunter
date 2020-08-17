@@ -10,7 +10,6 @@ namespace SleekPredictionPunter.Model.Packages
         public string PackageName { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
-		[NotMapped]
-		public string PackageParameters { get; set; }
+		//public string PackageParameters { get; set; }
 	}
 }

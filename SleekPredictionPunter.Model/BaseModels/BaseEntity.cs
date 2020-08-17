@@ -17,10 +17,10 @@ namespace SleekPredictionPunter.Model
 		[Key]
 		public long Id { get; set; }
 
-		public DateTime DateCreated { get; set; }
+		public virtual DateTime DateCreated { get; set; }
 
-		public EntityStatusEnum EntityStatus { get; set; }
+		public virtual EntityStatusEnum EntityStatus { get; set; }
 
-		public DateTime? DateUpdated { get; set; }
+		public virtual DateTime? DateUpdated { get; set; }
 	}
 }

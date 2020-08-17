@@ -13,11 +13,13 @@ namespace SleekPredictionPunter.Model
 		/// </summary>
 		public string PredictorUserName { get; set; }
 		public string ClubA { get; set; }
+		public string ClubAOdd { get; set; }
 
 		
 		public string ClubALogoPath { get; set; }
 
 		public string ClubB { get; set; }
+		public string ClubBOdd { get; set; }
 
 		public string ClubBLogoPath { get; set; }
 
@@ -34,7 +36,6 @@ namespace SleekPredictionPunter.Model
 
 		public Package Package { get; set; }
 
-		public virtual ICollection<PredictionCategory> PredictionCategories { get; set; }
 	}
 
 	
