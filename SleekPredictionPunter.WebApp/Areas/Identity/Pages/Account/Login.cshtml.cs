@@ -13,6 +13,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using SleekPredictionPunter.Model.IdentityModels;
 using Microsoft.AspNetCore.Http;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 {
@@ -89,36 +93,58 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid && loginType=="1")
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
-                 
-              
-                if (result.Succeeded)
-                {
-                    //Get user details by email then, pass user successful to httpcontextaccessor then, use on UI....
-                    var getUser = await _userManager.FindByEmailAsync(Input.Email);
-                    HttpContext.Session.SetString(userEmail, getUser.Email);
-                    HttpContext.Session.SetString(userId, getUser.Id);
-                    HttpContext.Session.SetString(userName, getUser.UserName);
+				// This doesn't count login failures towards account lockout
+				// To enable password failures to trigger account lockout, set lockoutOnFailure: true
 
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
-                }
-                else if(result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                }
-                else if(result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
-                }
+				var user = await _userManager.FindByEmailAsync(Input.Email);
+				if (user != null && await _userManager.CheckPasswordAsync(user, Input.Password))
+				{
+					#region SignIn using token
+					var claims = new[]{
+					new Claim(JwtRegisteredClaimNames.Sub,user.UserName),
+					new Claim (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())};
+
+					var signInKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("PredictivePowerSecurityTokens"));
+					var token = new JwtSecurityToken(
+						expires: DateTime.UtcNow.AddHours(24*3),
+						claims: claims,
+						signingCredentials: new SigningCredentials(signInKey, SecurityAlgorithms.HmacSha256));
+
+					#endregion
+					var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+					var userRolesList = await _userManager.GetRolesAsync(user);
+					var userRoles = string.Join(",", userRolesList);
+
+					if (result.Succeeded)
+					{
+						//Get user details by email then, pass user successful to httpcontextaccessor then, use on UI....
+						//var getUser = await _userManager.FindByEmailAsync(Input.Email);
+						HttpContext.Session.SetString(userEmail, user.Email);
+						HttpContext.Session.SetString(userId, user.Id);
+						HttpContext.Session.SetString(userName, user.UserName);
+						HttpContext.Session.SetString("isAuthenticated", "true");
+						HttpContext.Session.SetString("fullName", user.FullName);
+						HttpContext.Session.SetString("roles", userRoles);
+						HttpContext.Session.SetString("token", new JwtSecurityTokenHandler().WriteToken(token));
+
+						_logger.LogInformation("User logged in.");
+						return LocalRedirect(returnUrl);
+					}
+					else if (result.RequiresTwoFactor)
+					{
+						return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+					}
+					else if (result.IsLockedOut)
+					{
+						_logger.LogWarning("User account locked out.");
+						return RedirectToPage("./Lockout");
+					}
+					else
+					{
+						ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+						return Page();
+					}
+				}
             }
 
             else if (loginType == "2")

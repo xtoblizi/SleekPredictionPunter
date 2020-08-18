@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SleekPredictionPunter.AppService.Packages;
 using SleekPredictionPunter.Model;
+using SleekPredictionPunter.Model.Enums;
+using SleekPredictionPunter.Model.Packages;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
-    public class PackagesController : Controller
+    public class PackagesController : BaseController
     {
 		private readonly IPackageAppService _packageAppService;
 		public PackagesController(IPackageAppService packageAppService)
@@ -19,9 +21,32 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // GET: Packages
         public async Task<IActionResult> Index(int startIndex= 0, int count = int.MaxValue)
         {
-			var result = await _packageAppService.GetPackages();
+            ViewBag.Package = "active";
+            var result = await _packageAppService.GetPackages();
 
             return View(result);
+        }
+        
+        public async Task<IActionResult> FrontEndIndex(int startIndex= 0, int count = int.MaxValue)
+        {
+            ViewBag.Package = "active";
+            var result = await _packageAppService.GetPackages();
+			var resultDto = new List<PackageDto>();
+
+			base.AddLinkScriptforPackageSetter(true);
+
+			resultDto.AddRange(result.OrderByDescending(x => x.DateCreated).Select(x => new PackageDto
+			{
+				DateCreated = x.DateCreated,
+				DateUpdated = x.DateUpdated,
+				Description = x.Description,
+				EntityStatus = x.EntityStatus,
+				Id = x.Id,
+				PackageName = x.PackageName,
+				Price = x.Price,
+			}));
+
+            return View(resultDto);
         }
 
         // GET: Packages/Details/5

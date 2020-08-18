@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace SleekPredictionPunter.WebApp.Controllers
 {
     //[Authorize]
-    public class PredictionsController : Controller
+    public class PredictionsController : BaseController
     { 
         private readonly IPredictionService _predictionService;
         private readonly IPackageAppService _packageService;
@@ -27,10 +27,23 @@ namespace SleekPredictionPunter.WebApp.Controllers
         }
 
         // GET: Predictions
+		/// <summary>
+		/// This is the admin view page for predictions
+		/// </summary>
+		/// <returns></returns>
         public async Task<IActionResult> Index()
         {
             ViewBag.Predictions = "active";
             return View(await _predictionService.GetPredictions());
+        } 
+		public async Task<IActionResult> FrontEndIndex()
+        {
+			base.AddLinkScriptforPackageSetter(true);
+			var result = await _predictionService.GetPredictions();
+
+			ViewBag.Predictions = result;
+
+            return View(result);
         }
 
         // GET: Predictions/Details/5
@@ -88,19 +101,19 @@ namespace SleekPredictionPunter.WebApp.Controllers
 				await stream.FlushAsync(); 
 			}
 
-            var getpackage = await _packageService.GetPackageById(prediction.PackgeId);
+            var getpackage = await _packageAppService.GetPackageById(prediction.PackgeId);
             Prediction predictionModel = new Prediction()
             {
                 ClubA = prediction.ClubA,
                 ClubALogoPath = pathA,
                 ClubB = prediction.ClubB,
                 ClubBLogoPath = pathB,
+
                 DateCreated = DateTime.UtcNow,
                 DateUpdated = DateTime.UtcNow,
                 PredictionValue = prediction.PredictionValue,
                 Predictor = prediction.Predictor,
                 PredictorUserName = User.Identity.Name,
-                Subscriber = prediction.Subscriber,
                 TimeofFixture = prediction.TimeofFixture,
                 Package=getpackage
             };
@@ -149,4 +162,12 @@ namespace SleekPredictionPunter.WebApp.Controllers
             return checkIfExist.Any(e => e.Id == id);
         }
     }
+
+	public class PredictionViewModel
+	{
+		public IEnumerable<Prediction> Predictions  { get; set; }
+
+		public IEnumerable<IDictionary<string,IEnumerable<Prediction>>> GrouppedPredictions { get; set; }
+
+	}
 }

@@ -7,33 +7,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Header section Peredion-->
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"] - Predictive Power </title>
-    <!-- favicon -->
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <!-- bootstrap -->
-    <link rel="stylesheet" href="~/FrontendTheme/assets/css/bootstrap.min.css">
-    <!-- fontawesome icon  -->
-    <link rel="stylesheet" href="~/FrontendTheme/assets/css/fontawesome.min.css">
-    <!-- flaticon css -->
-    <link rel="stylesheet" href="~/FrontendTheme/assets/fonts/flaticon.css">
-    <!-- animate.css -->
-    <link rel="stylesheet" href="~/FrontendTheme/assets/css/animate.css">
-    <!-- Owl Carousel -->
-    <link rel="stylesheet" href="~/FrontendTheme/assets/css/owl.carousel.min.css">
-    <!-- magnific popup -->
-    <link rel="stylesheet" href="~/FrontendTheme/assets/css/magnific-popup.css">
-    <link rel="stylesheet" href="~/FrontendTheme/assets/css/odometer.min.css">
-    <!-- stylesheet -->
-    <link rel="stylesheet" href="~/FrontendTheme/assets/css/style.css">
-    <!-- responsive -->
-    <link rel="stylesheet" href="~/FrontendTheme/assets/css/responsive.css">
+	<!-- Header section Peredion-->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>@ViewData["Title"] - Predictive Power </title>
 
-    <link rel="stylesheet" href="~/FrontendTheme/assets/css/register-page-responsive.css">
+	@*@if (ViewBag.AddLinkScriptforPackage != null && ViewBag.AddLinkScriptforPackage == true)
+	{
+		<link href="~/AdminTheme/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+		<link href="~/AdminTheme/css/style.css" rel="stylesheet">
+		<link href="~/AdminTheme/css/style-responsive.css" rel="stylesheet">
+	}*@
+
+	<!-- favicon -->
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="~/FrontendTheme/assets/css/bootstrap.min.css">
+	<!-- fontawesome icon  -->
+	<link rel="stylesheet" href="~/FrontendTheme/assets/css/fontawesome.min.css">
+	<!-- flaticon css -->
+	<link rel="stylesheet" href="~/FrontendTheme/assets/fonts/flaticon.css">
+	<!-- animate.css -->
+	<link rel="stylesheet" href="~/FrontendTheme/assets/css/animate.css">
+	<!-- Owl Carousel -->
+	<link rel="stylesheet" href="~/FrontendTheme/assets/css/owl.carousel.min.css">
+	<!-- magnific popup -->
+	<link rel="stylesheet" href="~/FrontendTheme/assets/css/magnific-popup.css">
+	<link rel="stylesheet" href="~/FrontendTheme/assets/css/odometer.min.css">
+	<!-- stylesheet -->
+	<link rel="stylesheet" href="~/FrontendTheme/assets/css/style.css">
+	<!-- responsive -->
+	<link rel="stylesheet" href="~/FrontendTheme/assets/css/responsive.css">
+
+	<link rel="stylesheet" href="~/FrontendTheme/assets/css/register-page-responsive.css">
 </head>
 
 <body>
@@ -117,28 +125,14 @@
 						</div>
 					</div>
 					<div class="col-xl-6 col-lg-6 col-sm-6">
-						@*<div class="right-area">
-								<div class="row">
-									<div class="col-xl-3 col-md-3 col-sm-3">
-										<select>
-											<option>EN</option>
-											<option>FR</option>
-											<option>ES</option>
-										</select>
-									</div>
-									<div class="col-xl-3 col-md-3 col-sm-3">
-										<partial name="_LoginPartial" />
-									</div>
-								</div>
-							</div>*@
 						<div class="right-area">
-									<partial name="_LoginPartial" />
-							
+							<partial name="_LoginPartial" />
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
 		<div id="navbar" class="header-bottom">
 			<div class="container">
 				<div class="row">
@@ -162,47 +156,35 @@
 						<div class="mainmenu">
 							<nav class="navbar navbar-expand-lg">
 								<div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                    <ul class="navbar-nav ml-auto">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#" role="button" data-toggle="dropdown">
-                                                Home
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="/PricingPlan/Index">Pricing Plans</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="Predictions">Predictions</a>
-                                        </li>
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Results
-                                            </a>
-                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
-                                                <a class="dropdown-item" href="result.html">Predictions Results</a>
-                                                <a class="dropdown-item" href="standing.html">In House Games Results</a>
-                                            </div>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="Home" asp-action="About">About US</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="Home" asp-action="Contact">Contact US</a>
-                                        </li>
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Important
-                                            </a>
-                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
-                                                <a class="dropdown-item" href="result.html">Privacy Details</a>
-                                                <a class="dropdown-item" href="standing.html">Terms and Conditions Details</a>
-                                                <a class="dropdown-item" href="standing.html">Testimonials</a>
-                                            </div>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="Home" asp-action="Admin">Switch To AdminPanel</a>
-                                        </li>
-                                    </ul>
+									<ul class="navbar-nav ml-auto">
+										<li class="nav-item">
+											<a class="nav-link" href="../../Home/Index">Home</a>
+										</li>
+
+										@if (!User.Identity.IsAuthenticated && (!User.IsInRole("Agent") || !User.IsInRole("SuperAdmin")))
+										{
+											<li class="nav-item">
+												<a asp-page="/Account/Register" asp-area="Identity" asp-route-userType="4" class="nav-link">Become an Agent</a>
+											</li>
+										}
+										<li class="nav-item">
+											<a class="nav-link" href="../../Predictions/FrontEndIndex">Predictions</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" href="../../Packages/FrontEndIndex">Packages</a>
+										</li>
+
+										<li class="nav-item">
+											<a class="nav-link" href="../../Home/Contact">Contact US</a>
+										</li>
+										@if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin"))
+										{
+											<li class="nav-item">
+												<a class="nav-link" href="../../Admin/Index">Admin Dashboard</a>
+											</li>
+										}
+
+									</ul>
 								</div>
 							</nav>
 						</div>
@@ -211,6 +193,8 @@
 			</div>
 		</div>
 	</div>
+
+
 	<!-- header end -->
 	<!-- Banner section . Note include the section content being the content
 		in the partialview with name _bannerPartial.cs>
@@ -228,10 +212,10 @@
 			<div class="row justify-content-between">
 				<div class="col-xl-4 col-lg-5 col-md-10">
 					<div class="about-widget">
-						<a class="logo" href="index.html">
+						<a class="logo" href="../../Home/Index">
 							<img src="~/FrontendTheme/assets/img/logo.png" alt="Predictive Power">
 						</a>
-						<p>PerediOn offers you all the best online prediction from every corner of the planet with thousands of online prediction markets.</p>
+						<p>Predictive Power offers you all the best online predictions from different corner sports and fotball, with up to date punters and result as it flows.</p>
 						<div class="social">
 							<ul>
 								<li>
@@ -244,12 +228,12 @@
 									<a href="#" class="social-icon">
 										<i class="fab fa-instagram"></i>
 									</a>
-									<a href="#" class="social-icon">
-										<i class="fab fa-pinterest-p"></i>
-									</a>
-									<a href="#" class="social-icon">
-										<i class="fab fa-facebook-f"></i>
-									</a>
+									@*<a href="#" class="social-icon">
+											<i class="fab fa-pinterest-p"></i>
+										</a>*@
+									@*<a href="#" class="social-icon">
+											<i class="fab fa-facebook-f"></i>
+										</a>*@
 								</li>
 							</ul>
 						</div>
@@ -281,24 +265,24 @@
 					<div class="useful-links">
 						<h3>Useful links</h3>
 						<ul>
-							<li>
-								<a href="#">IN-PLAY</a>
-							</li>
+							@*<li>
+									<a href="#">IN-PLAY</a>
+								</li>*@
 							<li>
 								<a href="#">PROMOTIONS</a>
 							</li>
 							<li>
-								<a href="#">STATICS</a>
+								<a href="#">STATS</a>
 							</li>
 							<li>
 								<a href="#">RESULTS</a>
 							</li>
-							<li>
-								<a href="#">Predict now</a>
-							</li>
-							<li>
-								<a href="#">GAME RESULTS</a>
-							</li>
+							@*<li>
+									<a href="#">Lastest Predictions</a>
+								</li>*@
+							@*<li>
+									<a href="#">GAME RESULTS</a>
+								</li>*@
 							<li>
 								<a href="#">STANDINGS</a>
 							</li>
@@ -310,56 +294,53 @@
 						<h3>Connect With Us</h3>
 						<ul>
 							<li>
-								<a href="#">About Us</a>
+								<a href="#">ABOUT US</a>
+							</li>
+							@*<li>
+									<a href="#">Blog</a>
+								</li>*@
+							@*<li>
+									<a href="#">Blog Details</a>
+								</li>*@
+							<li>
+								<a href="#">MAKE MONEY</a>
 							</li>
 							<li>
-								<a href="#">Blog</a>
+								<a href="#">CONTACT US</a>
 							</li>
 							<li>
-								<a href="#">Blog Details</a>
-							</li>
-							<li>
-								<a href="#">Service</a>
-							</li>
-							<li>
-								<a href="#">Contact us</a>
-							</li>
-							<li>
-								<a href="#">TEAM OVERVIEW</a>
-							</li>
-							<li>
-								<a href="#">SCHEDULE</a>
+								<a href="#">REGISTER</a>
 							</li>
 						</ul>
 					</div>
 				</div>
 				<div class="col-xl-2 col-lg-2 col-md-3">
-					<div class="useful-links">
-						<h3>All Sports</h3>
-						<ul>
-							<li>
-								<a href="#">FOOTBALL</a>
-							</li>
-							<li>
-								<a href="#">TENNIS</a>
-							</li>
-							<li>
-								<a href="#">BASKETBALL</a>
-							</li>
-							<li>
-								<a href="#">ICE HOCKEY</a>
-							</li>
-							<li>
-								<a href="#">VOLLEYBALL</a>
-							</li>
-							<li>
-								<a href="#">BADMINTON</a>
-							</li>
-							<li>
-								<a href="#">BASEBALL</a>
-							</li>
-						</ul>
-					</div>
+					@*<div class="useful-links">
+							<h3>All Sports</h3>
+							<ul>
+								<li>
+									<a href="#">FOOTBALL</a>
+								</li>
+								<li>
+									<a href="#">TENNIS</a>
+								</li>
+								<li>
+									<a href="#">BASKETBALL</a>
+								</li>
+								<li>
+									<a href="#">ICE HOCKEY</a>
+								</li>
+								<li>
+									<a href="#">VOLLEYBALL</a>
+								</li>
+								<li>
+									<a href="#">BADMINTON</a>
+								</li>
+								<li>
+									<a href="#">BASEBALL</a>
+								</li>
+							</ul>
+						</div>*@
 				</div>
 			</div>
 			<div class="row">
@@ -404,9 +385,9 @@
 	<div class="notes">
 		<div class="container">
 			<div class="row justify-content-center">
-				<div class="col-xl-10 col-lg-10">
-					PerediOn is a sports prediction html template, published by autworks throgh envato marketplace. You can use this template on any kind of sports prediction in the world. as like football, baseball, soccer, cricket etc. all rights reserved by autworks © 2020.
-				</div>
+				@*<div class="col-xl-10 col-lg-10">
+					Predictive Power is a sports prediction html template, published by autworks throgh envato marketplace. You can use this template on any kind of sports prediction in the world. as like football, baseball, soccer, cricket etc. all rights reserved by autworks © 2020.
+				</div>*@
 			</div>
 		</div>
 	</div>

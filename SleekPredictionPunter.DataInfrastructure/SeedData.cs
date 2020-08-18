@@ -69,7 +69,6 @@ namespace SleekPredictionPunter.DataInfrastructure
 						await userManager.AddToRoleAsync(user, RoleEnum.SuperAdmin.GetDescription());
 					}
 				}
-
 				#endregion
 			}
 			catch (Exception ex)

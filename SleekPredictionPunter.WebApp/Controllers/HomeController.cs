@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SleekPredictionPunter.AppService.Contacts;
-using SleekPredictionPunter.Model;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.Predictors;
+using SleekPredictionPunter.Model;
 using SleekPredictionPunter.WebApp.Models;
-using Microsoft.AspNetCore.Http.Extensions;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
@@ -33,10 +29,16 @@ namespace SleekPredictionPunter.WebApp.Controllers
 			_logger = logger;
 		}
 
+
         public async Task<IActionResult> Index()
 		{
 			
 			ViewBag.IsBanner = true;
+
+			// this is used to conditionally show or hide breadcumbanner in the view of the concerned page
+			// pass the value true or false in the base method "ShowBreadCumBannerSetter"
+			base.ShowBreadCumBannerSetter(true);
+
 			var gatePredictions = await _predictionService.GetPredictions();
 			ViewBag.Predictions = gatePredictions;
 
@@ -82,6 +84,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
 			TempData["ContactCreation"] = "Your contact request has successfully been received and your would be responded to in less than 48hours. Thanks for your reach : Predictive Power";
 			return View();
 		}
+
+		/// <summary>
+		/// This is the view for the admin to view all contacts tickets
+		/// </summary>
+		/// <returns></returns>
 		public async Task<IActionResult> ContactIndex()
 		{
 			ViewBag.IsBanner = false;
@@ -89,7 +96,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
 			return View(result);
 		}
 
-		[HttpGet("error")]
+		/// <summary>
+		/// this is the home page of the admin
+		/// </summary>
+		/// <param name="exceptionMessage"></param>
+		/// <returns></returns>
 		public IActionResult AdminHome(string exceptionMessage = null)
 		{
 			if (!string.IsNullOrEmpty(exceptionMessage))

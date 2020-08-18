@@ -261,15 +261,15 @@
                 <ul class="sidebar-menu" id="nav-accordion">
                     <p class="centered"><a href="profile.html"><img src="~/AdminTheme/img/ui-sam.jpg" class="img-circle" width="80"></a></p>
                     <h5 class="centered">Sam Soffes</h5>
-                    @if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.SuperAdmin.ToString()))
-                    {
-                        <li class="mt">
-                            <a class="@ViewBag.AdminIndex" asp-area="" asp-controller="Home" asp-action="Index">
-                                <i class="fa fa-home"></i>
-                                <span>Switch FrontEnd</span>
-                            </a>
-                        </li>
-                    }
+					@if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.SuperAdmin.ToString()))
+					{
+						<li class="mt">
+							<a class="@ViewBag.AdminIndex" asp-area="" asp-controller="Home" asp-action="Index">
+								<i class="fa fa-home"></i>
+								<span>Switch FrontEnd</span>
+							</a>
+						</li>
+					}
                     <li class="mt">
                         <a class="@ViewBag.AdminIndex" href="../Admin/Index">
                             <i class="fa fa-dashboard"></i>

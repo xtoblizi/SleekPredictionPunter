@@ -9,10 +9,8 @@ namespace SleekPredictionPunter.Model
 	{
 		public string CategoryName { get; set; }
 		public string CategoryDescription { get; set; }
-
 		public string CreatorUserName { get; set; }
-
-		public ApplicationUser ApplicationUser { get; set; }
+		public virtual ICollection<Prediction> Predictions { get; set; }
 
 	}
 }

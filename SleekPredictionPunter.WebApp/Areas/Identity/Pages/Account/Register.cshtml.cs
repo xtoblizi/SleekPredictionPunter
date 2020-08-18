@@ -22,31 +22,35 @@ using SleekPredictionPunter.Model.IdentityModels;
 
 namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 {
-	[AllowAnonymous]
-	public class RegisterModel : PageModel
-	{
-		private readonly SignInManager<ApplicationUser> _signInManager;
-		private readonly UserManager<ApplicationUser> _userManager;
-		private readonly ILogger<RegisterModel> _logger;
-		private readonly IEmailSender _emailSender;
-		private readonly ISubscriberService _subscriberService;
-		private readonly RoleManager<ApplicationRole> _roleManager;
-		const string userRole = "userRole";
-		public RegisterModel(
-			RoleManager<ApplicationRole> roleManager,
-			ISubscriberService susbscriberService,
-			UserManager<ApplicationUser> userManager,
-			SignInManager<ApplicationUser> signInManager,
-			ILogger<RegisterModel> logger,
-			IEmailSender emailSender)
-		{
+    [AllowAnonymous]
+    public class RegisterModel : PageModel
+    {
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger<RegisterModel> _logger;
+        private readonly IEmailSender _emailSender;
+        private readonly ISubscriberService _subscriberService;
+        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly IAgentService _agentService;
+
+
+        public RegisterModel(
+            RoleManager<ApplicationRole> roleManager,
+            ISubscriberService susbscriberService,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            ILogger<RegisterModel> logger,
+            IEmailSender emailSender,
+            IAgentService agentService)
+        {
 			_roleManager = roleManager;
 			_userManager = userManager;
 			_subscriberService = susbscriberService;
-			_signInManager = signInManager;
-			_logger = logger;
-			_emailSender = emailSender;
-		}
+            _signInManager = signInManager;
+            _logger = logger;
+            _emailSender = emailSender;
+            _agentService = agentService;
+        }
 
 		[BindProperty]
 		public InputModel Input { get; set; }
@@ -92,12 +96,12 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 			public string ReferrerCode { get; set; }
 		}
 
-		public async Task OnGetAsync(string returnUrl = null)
-		{
-			ReturnUrl = returnUrl;
-			ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-		}
+        public async Task OnGetAsync(string returnUrl = null, int? userType = null)
+        {
+            ViewData["userType"] = userType.ToString();
+            ReturnUrl = returnUrl;
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+        }
 
 		/// <summary>
 		/// The register post method was extended to include the nullable role value from the route parameters
@@ -265,5 +269,28 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 			return Page();
         }
 
-	}
+        private async Task<bool> CreateSubscriber(ApplicationUser user,string refereerCode = null)
+        {
+            
+            var subscriber = new Subscriber()
+            {
+                ActivatedStatus = EntityStatusEnum.Active,
+                BrandNameOrNickName = user.FullName,
+                City = user.City,
+                Country = user.Country,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                IsTenant = true,
+                Username = user.UserName,
+                RefererCode = refereerCode
+
+            };
+
+            await _subscriberService.Insert(subscriber);
+            return true;
+        }
+    }
+
+    
 }
