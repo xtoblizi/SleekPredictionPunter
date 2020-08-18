@@ -41,30 +41,33 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-xl-5 col-lg-5 col-md-6">
+            <div class="col-sm-11 col-xs-11 col-xl-5 col-lg-6 col-md-7">
                 <div class="login-form">
 					<form id="account" method="post">
 						<div class="form-group">
+							@*<label class="col-md-3 col-xl-3 label"> Enter Email </label>*@
 							<input type="email" asp-for="Input.Email" placeholder="Enter Your Mail">
 							<span asp-validation-for="Input.Email" class="text-danger"></span>
-						</div>
+						</div> 
 						<div class="form-group">
+							@*<label class="col-md-3 col-xl-3 label" > Enter Password </label>*@
 							<input type="password" asp-for="Input.Password" placeholder="Enter Your Password">
 							<span asp-validation-for="Input.Password" class="text-danger"></span>
 						</div>
-						<div class="form-group">
-							<div class="checkbox">
-								<label asp-for="Input.RememberMe">
-									<input asp-for="Input.RememberMe" />
-									@Html.DisplayNameFor(m => m.Input.RememberMe)
-								</label>
+						@*<div class="form-group">
+							<span class="label-default"><strong>Remember Me </strong> </span> &nbsp;&nbsp;&nbsp;&nbsp;
+							<input asp-for="Input.RememberMe" type="checkbox" />
+							<div class="col-md-2">
+								<input asp-for="Input.RememberMe" type="checkbox" />
 							</div>
-						</div>
+						</div>*@
 						<div class="form-group">
 							&nbsp;&nbsp;
-							<button type="submit">Sign-In</button>
+							<button type="submit" style="background-color:green">Sign-In</button>
 							&nbsp;|&nbsp;
-							<button type="submit"><a style="color:white" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Sign-Up</a></button>
+							<button type="submit">
+							<a style="color:white" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Sign-Up</a>
+							</button>
 						</div>
 					</form>
                 </div>

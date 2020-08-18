@@ -9,5 +9,6 @@ namespace SleekPredictionPunter.Model
 	{
 		public string RefererCode { get; set; }
 
+		public virtual Wallet Wallet { get; set; }
 	}
 }

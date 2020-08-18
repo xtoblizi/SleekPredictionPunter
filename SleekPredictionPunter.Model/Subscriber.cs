@@ -17,7 +17,8 @@ namespace SleekPredictionPunter.Model
 		public string RefererCode { get; set; }
 
 		// Navigation properties
-		public ICollection<Prediction> Predictions { get; set; }
-		public ICollection<Package> Packages { get; set; }
+		public virtual ICollection<Package> Packages { get; set; }
+
+		public virtual Wallet Wallet { get; set; }
 	}
 }

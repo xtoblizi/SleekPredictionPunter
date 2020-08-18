@@ -109,12 +109,12 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 ClubALogoPath = pathA,
                 ClubB = prediction.ClubB,
                 ClubBLogoPath = pathB,
+
                 DateCreated = DateTime.UtcNow,
                 DateUpdated = DateTime.UtcNow,
                 PredictionValue = prediction.PredictionValue,
                 Predictor = prediction.Predictor,
                 PredictorUserName = User.Identity.Name,
-                Subscriber = prediction.Subscriber,
                 TimeofFixture = prediction.TimeofFixture,
                 Package=getpackage
             };

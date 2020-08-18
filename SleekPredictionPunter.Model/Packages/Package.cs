@@ -11,5 +11,6 @@ namespace SleekPredictionPunter.Model.Packages
         public decimal Price { get; set; }
         public string Description { get; set; }
 		//public string PackageParameters { get; set; }
+		public virtual ICollection<Prediction> Predictions { get; set; }
 	}
 }

@@ -43,7 +43,6 @@ namespace SleekPredictionPunter.WebApp.Controllers
 				EntityStatus = x.EntityStatus,
 				Id = x.Id,
 				PackageName = x.PackageName,
-				PackageParameters = x.PackageParameters,
 				Price = x.Price,
 			}));
 
