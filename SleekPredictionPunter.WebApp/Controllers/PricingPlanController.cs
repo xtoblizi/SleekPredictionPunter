@@ -17,11 +17,10 @@ namespace SleekPredictionPunter.WebApp.Controllers
             _pricingPlanAppService = pricingPlanAppService;
         }
 
-
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var getForSubscriber = await _pricingPlanAppService.GetAllPlansForSubscriber();
+            var getForSubscriber = await _pricingPlanAppService.GetAllPlansWithBenefits();
             return View(getForSubscriber);
         }
 
@@ -64,6 +63,13 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
         #region Pricing Plan region
         [HttpGet]
+        public async Task<IActionResult> ListofPlans()
+        {
+            var result = await _pricingPlanAppService.GetAllPlans();
+            return View(result);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> CreateNewPlan()
         {
             try
@@ -72,10 +78,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 var model = new PlanPricingDto
                 {
                     planBenefitQuestionsModels = getAllQquestions,
-                    planPricingBenefitsModels = null,
                     PricingPlanModel = null,
-                    BenefitsModels = null
                 };
+
+                var benefitmodel = new List<BenefitOutlines>();
+
                 return View(model);
             }
             catch (Exception ex)
@@ -85,14 +92,12 @@ namespace SleekPredictionPunter.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateNewPlan(PlanPricingDto model, List<int> answer = null, List<long> questionId = null)
+        public async Task<IActionResult> CreateNewPlan(PlanPricingDto model, int[] answers , long[] questionId)
         {
 
             try
             {
-                var answers = 0;
                 var result = false;
-                var getQuestionById = new PlanBenefitQuestionsModel();
                 var planModelBuilder = new PricingPlanModel
                 {
                     DateTimeCreated = DateTime.UtcNow,
@@ -102,46 +107,49 @@ namespace SleekPredictionPunter.WebApp.Controllers
                     Duration = model.PricingPlanModel.Duration,
                     Price = model.PricingPlanModel.Price
                 };
-                var insertPlan = await _pricingPlanAppService.InsertPricingPlan(planModelBuilder);
-                if(insertPlan!=null && insertPlan.PlanId > 0)
+                var benefits = new List<BenefitOutlines>();
+
+                Func<PricingPlanModel, bool> predicate = (x => x.PlanName == planModelBuilder.PlanName);
+
+                var checkExistingplanProperties = await _pricingPlanAppService.GetFirstOfDefault(predicate);
+                if (checkExistingplanProperties ==null)
                 {
-                    foreach (var item in questionId)
+                    var insertPlan = await _pricingPlanAppService.InsertPricingPlan(planModelBuilder);
+                    if (insertPlan != null && insertPlan.PlanId > 0)
                     {
-                        getQuestionById = await _pricingPlanAppService.GetQuestionById(item);
+                        for (int i = 0; i < questionId.Length; i++)
+                        {
+                            var questionindex = questionId[i];
+                            var getQuestionById = await _pricingPlanAppService.GetQuestionById(questionindex);
+                            var insertToPlanBenefits = new PlanPricingBenefitsModel
+                            {
+                                Answer = Convert.ToBoolean(answers[i]),
+                                Question = getQuestionById.Question,
+                                QuestionId = getQuestionById.QuestionId,
+                                DateTimeCreated = DateTime.UtcNow,
+                                IsActive = true,
+                                PlanPricingId = insertPlan.PlanId
+                            };
+                            
+                            result = await _pricingPlanAppService.InsertPricePlanBenefit(insertToPlanBenefits);
+                        }
+
+                        if (result == true)
+                        {
+                            return RedirectToAction("ListofPlans", "Pricingplan");
+                        }
+
+                        //means. an error occurred if it reaches this point..
+                        var getAllQquestions = await _pricingPlanAppService.GetAllQuestion();
+                        var dtoModel = new PlanPricingDto
+                        {
+                            planBenefitQuestionsModels = getAllQquestions,
+                            PricingPlanModel = null,
+                        };
+                        return View(dtoModel);
                     }
-                    foreach (var ans in answer)
-                    {
-                        answers = ans;
-                    }
-
-                    var insertToPlanBenefits = new PlanPricingBenefitsModel
-                    {
-                        Answer = Convert.ToBoolean(answers),
-                        Question = getQuestionById.Question,
-                        QuestionId = getQuestionById.QuestionId,
-                        DateTimeCreated = DateTime.UtcNow,
-                        IsActive = true,
-                        PlanPricingId = insertPlan.PlanId,
-
-                    };
-                    result = await _pricingPlanAppService.InsertPricePlanBenefit(insertToPlanBenefits);
-
-                    if (result == true)
-                    {
-                        return RedirectToAction();
-                    }
-
-                    //means. an error occurred if it reaches this point..
-                    var getAllQquestions = await _pricingPlanAppService.GetAllQuestion();
-                    var dtoModel = new PlanPricingDto
-                    {
-                        planBenefitQuestionsModels = getAllQquestions,
-                        planPricingBenefitsModels = null,
-                        PricingPlanModel = null,
-                        BenefitsModels = null
-                    };
-                    return View(dtoModel);
                 }
+                ViewBag.Errors = "";
                 return View(model);
             }
             catch (Exception ex)
@@ -150,5 +158,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
             }
         }
         #endregion
+    }
+
+    public class BenefitOutlines
+    {
+        public long QuestionId { get; set; }
+        public int AnswerId { get; set; }
     }
 }

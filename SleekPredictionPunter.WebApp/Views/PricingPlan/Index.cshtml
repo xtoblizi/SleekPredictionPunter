@@ -1,132 +1,170 @@
-﻿@model SleekPredictionPunter.Model.PricingPlan.PlanPricingCreateDto
+﻿@model IEnumerable<SleekPredictionPunter.Model.PricingPlan.PlanWithBenefitsDto>
 @{
     ViewData["Title"] = "Create";
     //Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <style>
-   .pricingTable{
-    font-family: 'Lato', sans-serif;
-    text-align: center;
-    margin: 0 15px;
-    border-radius: 20px 20px 0 0;
-}
-.pricingTable .pricingTable-header{
-    background: linear-gradient(to right,#6e38c4,#59a1ed);
-    padding: 15px;
-    border-radius: 20px 20px 0 0;
-}
-.pricingTable .title{
-    color: #fff;
-    font-size: 30px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin: 0;
-}
-.pricingTable .pricing-content{
-    background-color: #fff;
-    padding: 25px 0 30px;
-}
-.pricingTable .price-value{
-    color: #222;
-    margin: 0 0 30px;
-}
-.pricingTable .price-value .amount{
-    font-size: 60px;
-    font-weight: 800;
-    line-height: 60px;
-    margin: 0 0 10px;
-    display: inline-block;
-}
-.pricingTable .price-value .amount-sm{
-    font-size: 30px;
-    vertical-align: top;
-    display: inline-block;
-}
-.pricingTable .price-value .duration{
-    background-color: #c1deff;
-    font-size: 18px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 11px 10px 9px;
-    display: block;
-}
-.pricingTable .content-list{
-    padding: 0;
-    margin: 0 ;
-    list-style: none;
-    display: inline-block;
-}
-.pricingTable .content-list li{
-    color: #222;
-    font-size: 17px;
-    font-weight: 600;
-    text-transform: capitalize;
-    text-align: left;
-    padding: 0 0 0 30px;
-    margin: 0 0 15px;
-    position: relative;
-}
-.pricingTable .content-list li:last-child{ margin-bottom: 0; }
-.pricingTable .content-list li:before{
-    content: "\f00c";
-    color: #fff;
-    background: #58f4cd;
-    font-family: "Font Awesome 5 Free";
-    font-size: 13px;
-    font-weight: 900;
-    text-align: center;
-    line-height: 20px;
-    height: 20px;
-    width: 20px;
-    border-radius: 20px;
-    position: absolute;
-    left: 0;
-    top: 3px;
-}
-.pricingTable .content-list li.disable:before{
-    content: "\f00d";
-    background: #ff737e;
-}
-.pricingTable .pricingTable-signup{
-    background: linear-gradient(to right,#6e38c4,#59a1ed);
-    padding: 30px 0;
-    margin: 0 15px;
-    border-radius: 0 0 25px 25px;
-    box-shadow: 0px 15px 2px -5px rgba(0,0,0,0.3) inset;
-}
-.pricingTable .pricingTable-signup a{
-    color: #222;
-    background: #fff;
-    font-size: 20px;
-    text-transform: uppercase;
-    padding: 6px 15px;
-    border-radius: 50px;
-    box-shadow: 0 5px 1px rgba(0,0,0,0.3);
-    transition: all 0.3s ease 0s;
-}
-.pricingTable .pricingTable-signup a:hover{
-    text-shadow: 0 2px 1px #999;
-    box-shadow: none;
-}
-.pricingTable.pink .pricingTable-header,
-.pricingTable.pink .pricingTable-signup{
-    background:linear-gradient(to right,#e93074,#e47fc3);
-}
-.pricingTable.pink .price-value .duration{ background-color: #ffccea; }
-.pricingTable.green .pricingTable-header,
-.pricingTable.green .pricingTable-signup{
-    background:linear-gradient(to right,#75ce46,#57e0b5);
-}
-.pricingTable.green .price-value .duration{ background-color: #aaffe2; }
-media only screen and (max-width: 990px){
-    .pricingTable{ margin-bottom: 30px; }
-}
-media only screen and (max-width: 576px){
-    .pricingTable{ margin: 0 0 30px; }
-}
+    .pricingTable {
+        font-family: 'Lato', sans-serif;
+        text-align: center;
+        margin: 0 7px;
+    }
+
+        .pricingTable .pricingTable-header {
+            background: linear-gradient(to right,black,black);
+            padding: 20px;
+        }
+
+        .pricingTable .title {
+            color: #fff;
+            font-size: 17px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        .pricingTable .pricing-content {
+            background-color: white;
+            padding: 18px 0 22px;
+        }
+
+        .pricingTable .price-value {
+            color:red;
+            margin: 0 0 30px;
+        }
+
+        .pricingTable .price-value .amount {
+            font-size: 25px;
+            font-weight: 800;
+            margin: 0 0 10px;
+            display: inline-block;
+        }
+
+        .pricingTable .price-value .amount-sm {
+            font-size: 2530px;
+            vertical-align: top;
+            display: inline-block;
+        }
+
+        .pricingTable .price-value .duration {
+            background-color: #2a2a2a;
+            font-size: 18px;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+        }
+
+        .pricingTable .content-list {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            display: inline-block;
+            text-align:left;
+            align-content:flex-start;
+            float: left;
+        }
+
+        .pricingTable .content-list li {
+            color: #222;
+            font-size: 15px;
+            float:left;
+            font-weight: 300;
+            text-align: left;
+            padding: 0 0 0 60px;
+            margin: 0 0 15px;
+            margin-left: 7px;
+            position: relative;
+        }
+
+                .pricingTable .content-list li:last-child {
+                    margin-bottom: 0;
+                }
+
+                .pricingTable .content-list li:before {
+                    content: "\f00c";
+                    color: #fff;
+                    background: #58f4cd;
+                    font-family: "Font Awesome 5 Free";
+                    font-size: 13px;
+                    font-weight: 900;
+                    text-align: center;
+                    line-height: 20px;
+                    height: 20px;
+                    width: 20px;
+                    border-radius: 20px;
+                    position: absolute;
+                    left: 0;
+                    top: 3px;
+                }
+
+                .pricingTable .content-list li.disable:before {
+                    content: "\f00d";
+                    background: #ff737e;
+                }
+
+        .pricingTable .pricingTable-signup {
+            background: linear-gradient(to right,White,White);
+            padding: 30px 0;
+            margin: 0 15px;
+            box-shadow: 0px 15px 2px -5px rgba(0,0,0,0.3) inset;
+            border:1px solid darkgray;
+        }
+
+            .pricingTable .pricingTable-signup a {
+                background: #fff;
+                font-size: 15px;
+                font-weight: bold;
+                color : royalblue;
+                text-transform: uppercase;
+                padding: 6px 15px;
+                border-radius: 50px;
+                box-shadow: 0 5px 1px rgba(0,0,0,0.3);
+                transition: all 0.3s ease 0s;
+            }
+
+                .pricingTable .pricingTable-signup a:hover {
+                    text-shadow: 0 2px 1px #999;
+                    box-shadow: none;
+                }
+
+        .pricingTable.pink .pricingTable-header,
+        .pricingTable.pink .pricingTable-signup {
+            background: linear-gradient(to right,#e93074,#e47fc3);
+        }
+
+        .pricingTable.pink .price-value .duration {
+            background-color: #ffccea;
+        }
+
+        .pricingTable.green .pricingTable-header,
+        .pricingTable.green .pricingTable-signup {
+            background: linear-gradient(to right,#75ce46,#57e0b5);
+        }
+
+        .pricingTable.green .price-value .duration {
+            background-color: #aaffe2;
+        }
+
+    media only screen and (max-width: 990px) {
+        .pricingTable
+
+    {
+        margin-bottom: 30px;
+    }
+
+    }
+
+    media only screen and (max-width: 576px) {
+        .pricingTable
+
+    {
+        margin: 0 0 30px;
+    }
+    }
 </style>
 
 <!-- breadcrumb begin -->
@@ -155,43 +193,52 @@ media only screen and (max-width: 576px){
 <div class="demo">
     <div class="container">
         <div class="row">
-            @if (Model.PricingPlanModel.Any())
+            @if (Model.Any())
             {
-                @foreach (var item in Model.PricingPlanModel)
-                 {
+                @foreach (var item in Model)
+                {
                     <div class="col-md-4 col-sm-6 col--6">
                         <div class="pricingTable">
                             <div class="pricingTable-header">
-                                <h3 class="title">@item.PlanName</h3>
+                                <h3 class="title">@item.PricingPlanModel.PlanName</h3>
                             </div>
                             <div class="pricing-content">
                                 <div class="price-value">
-                                    <span class="amount">N @item.Price</span>
-                                    <span class="duration">per month</span>
+                                    <span class="amount">&#8358;@item.PricingPlanModel.Price</span>
+                                    @*<span class="duration">Benefits</span>*@
+                                    <hr style="background-color:darkgray;" />
                                 </div>
-                                @foreach (var itemm in Model.planPricingBenefitsModels)
-                                {
-                                    @if (itemm.Answer == true)
+                                <div id="benefit" class="justify-content-start">
+                                    @foreach (var itemm in item.planPricingBenefitsModels)
                                     {
-                                        <ul class="content-list">
-                                            <li>@itemm.Question</li>
-                                        </ul>
+                                        @if (itemm.Answer == true)
+                                        {
+                                            <ul class="content-list">
+                                                <li>@itemm.Question</li>
+                                            </ul>
+                                            <br />
+                                        }
+                                        else
+                                        {
+                                            <ul class="content-list aligncenter">
+                                                <li class="disable">@itemm.Question</li>
+                                            </ul>
+                                            <br />
+                                        }
                                     }
-                                    else
-                                    {
-                                        <ul class="content-list">
-                                            <li class="disable">@itemm.Question</li>
-                                        </ul>
-                                    }
-                                }
+                                </div>
+                                
                             </div>
                             <div class="pricingTable-signup">
                                 <a href="#">Subscribe</a>
                             </div>
                         </div>
                     </div>
-                 }
+                }
             }
         </div>
     </div>
 </div>
+<br />
+<br />
+<br />

@@ -8,6 +8,7 @@ namespace SleekPredictionPunter.Model.PricingPlan
 {
     public class PricingPlanModel
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public long PlanId { get; set; }
         public string PlanName { get; set; }

@@ -284,23 +284,11 @@
                         </a>
                     </li>
 
-                    <li class="mt dropright">
-                        <a class="@ViewBag.Plan-Setup dropdown-toggle" href="../../pricingplan/createnewquestion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <li class="mt">
+                        <a class="@ViewBag.Plan-Setup" href="../../pricingplan/listofplans">
                             <i class=" fa fa-bar-chart-o"></i>
                             <span>Plan-Setup</span>
                         </a>
-                    </li>
-
-                    <li class="sub-menu">
-                        <a href="javascript:;">
-                            <i class="fa fa-cogs"></i>
-                            <span>Plan-Setup</span>
-                        </a>
-                        <ul class="sub">
-                            <li><a href="grids.html">Plans</a></li>
-                            <li><a href="../../pricingplan/createnewquestion"></a>New Price Plan</li>
-                            <li><a href="../../pricingplan/CreateNewQuestion">Plan Questions</a></li>
-                        </ul>
                     </li>
 
                     <li class="mt">
@@ -377,11 +365,11 @@
         </aside>
         <!--sidebar end-->
 
-        <section id="main-content">
+        <section id="main-content" style="padding:70px;">
             @RenderBody()
         </section>
 
-        <footer class="site-footer">
+        <footer class="site-footer" style="padding-top:70px; background-color:#22242a; color:white; font-size:medium;">
             <div class="text-center">
                 <p>
                     &copy; Copyrights <strong>Predictive Power</strong>. All Rights Reserved

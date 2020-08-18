@@ -8,6 +8,7 @@ namespace SleekPredictionPunter.Repository.Base
 	public interface IBaseRepository<T> where T : class
 	{
 		Task<long> Insert(T phoneOwner, bool savechage = true);
+		Task<T> Inserts(T model, bool savechage = true);
 		Task Update(T phoneOwner, bool savechage = true) ;
 
 		Task Delete(T phoneOwner, bool savechage = true) ;

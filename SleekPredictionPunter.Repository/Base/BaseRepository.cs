@@ -5,6 +5,7 @@ using SleekPredictionPunter.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,10 +31,36 @@ namespace SleekPredictionPunter.Repository.Base
 			if (model == null)
 				throw new ArgumentNullException("The model passed into the repository is empty and null");
 
-			var result = _entity.AddAsync(model);
+			var add = await _entity.AddAsync(model);
+
+			//var entry = ChangeTracker.Entries().Where(x => x.Entity is BaseEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+			
+			//if the savechange flag is set then the entity was added and a new id was generated
+			var result = savechage? await SaveChangesAsync() : 0 ;
+			return result;
+		}
+
+		public async virtual Task<T> Inserts(T model, bool savechage = true)
+		{
+			if (model == null)
+				throw new ArgumentNullException("The model passed into the repository is empty and null");
+
+			var add = await _entity.AddAsync(model);
+
+			//var entry = ChangeTracker.Entries().Where(x => x.Entity is BaseEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+			T propertyInfo = add.Entity;
 
 			//if the savechange flag is set then the entity was added and a new id was generated
-			return savechage? await SaveChangesAsync() : 0 ;
+
+			var result = savechage;
+
+			if (result == true)
+			{
+				await SaveChangesAsync();
+				return propertyInfo;
+			}
+			else
+				return null;
 		}
 
 		public async virtual Task Update(T model, bool savechange = true)

@@ -85,11 +85,11 @@ namespace SleekPredictionPunter.AppService.Plans
         #region Pricing Plan region
         public async Task<PricingPlanModel> InsertPricingPlan(PricingPlanModel model)
         {
-            var insert = await _planBaseRepository.Insert(model, true);
-            if (insert > 0)
+            var insert = await _planBaseRepository.Inserts(model, true);
+            if (insert!=null)
             {
-                var getById = await _planBaseRepository.GetById(insert);
-                return getById;
+                //var getById = await _planBaseRepository.GetById(insert.PlanId);
+                return insert;
             }
             return null;
         }
@@ -100,6 +100,26 @@ namespace SleekPredictionPunter.AppService.Plans
             return getAllPlans;
         }
 
+        public async Task<IEnumerable<PlanWithBenefitsDto>> GetAllPlansWithBenefits()
+        {
+            var getAllPlans = await _planBaseRepository.GetAllQueryable();
+
+          
+            var dtos = new List<PlanWithBenefitsDto>();
+
+            foreach (var item in getAllPlans)
+            {
+
+                Func<PlanPricingBenefitsModel, bool> predicate = (x => x.PlanPricingId == item.PlanId);
+                var getAllBenefit = await _benefitBaseRepository.GetAllQueryable(predicate);
+
+                var dto = new PlanWithBenefitsDto { PricingPlanModel = item, planPricingBenefitsModels = getAllBenefit };
+                dtos.Add(dto);
+            }
+
+            return dtos;
+        }
+
         public async Task<PlanPricingCreateDto> GetAllPlansForSubscriber()
         {
             var getAllPlans = await _planBaseRepository.GetAllQueryable();
@@ -108,15 +128,25 @@ namespace SleekPredictionPunter.AppService.Plans
 
             foreach (var item in getAllPlans)
             {
-                var filter = getAllBenefit.Where(x=>x.PlanPricingId == item.PlanId);
-
+                var filter = getAllBenefit.Where(x => x.PlanPricingId == item.PlanId);
+                var list = getAllBenefit.Union(filter).ToList();
                 dto = new PlanPricingCreateDto
                 {
-                    PricingPlanModel = getAllPlans,
-                    planPricingBenefitsModels = getAllBenefit
+                    PricingPlanModel = getAllPlans.Distinct(),
+                    planPricingBenefitsModels = /*getAllBenefit*/ list
                 };
             }
             return dto;
+        }
+
+        /// <summary>
+        /// Create your func queryable filter and pass in here.
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public async Task<PricingPlanModel> GetFirstOfDefault(Func<PricingPlanModel,bool> func = null)
+        {
+            return await _planBaseRepository.GetFirstOrDefault(func);
         }
         #endregion
     }
