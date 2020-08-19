@@ -12,5 +12,6 @@ namespace SleekPredictionPunter.Model
 		public string CreatorUserName { get; set; }
 		public virtual ICollection<Prediction> Predictions { get; set; }
 
+		public string GetNameAndDescription { get { return $"{CategoryName} [ {CategoryDescription} ]"; } }
 	}
 }

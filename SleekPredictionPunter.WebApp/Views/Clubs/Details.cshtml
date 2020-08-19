@@ -1,0 +1,60 @@
+﻿@model SleekPredictionPunter.Model.Club
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row mt">
+    <div class="col-sm-8 col-md-8 col-lg-8" style="margin-left:50px; margin-top:70px">
+        <hr />
+        <h3>
+            <i class="fa fa-angle-right">
+            </i>
+            Club/Details
+        </h3>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ClubName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ClubName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ClubLogRelativePath)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ClubLogRelativePath)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateCreated)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.EntityStatus)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.EntityStatus)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DateUpdated)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateUpdated)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+    </div>

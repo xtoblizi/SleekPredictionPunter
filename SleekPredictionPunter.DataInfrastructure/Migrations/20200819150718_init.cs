@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +17,8 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     EntityStatus = table.Column<int>(nullable: false),
                     DateUpdated = table.Column<DateTime>(nullable: true),
                     AgentUsername = table.Column<string>(nullable: true),
-                    RefereeUsername = table.Column<string>(nullable: true)
+                    RefereeUsername = table.Column<string>(nullable: true),
+                    RefereerCode = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -215,7 +216,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     EntityStatus = table.Column<int>(nullable: false),
                     DateUpdated = table.Column<DateTime>(nullable: true),
                     UserName = table.Column<string>(nullable: true),
-                    Balance = table.Column<decimal>(nullable: false)
+                    Balance = table.Column<decimal>(type: "decimal(18, 6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -414,7 +415,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     EntityStatus = table.Column<int>(nullable: false),
                     DateUpdated = table.Column<DateTime>(nullable: true),
                     PackageName = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18, 6)", nullable: false),
                     Description = table.Column<string>(nullable: true),
                     SubscriberId = table.Column<long>(nullable: true)
                 },
@@ -465,7 +466,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     PlanName = table.Column<string>(nullable: true),
                     PlanType = table.Column<int>(nullable: false),
                     Duration = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18, 6)", nullable: false),
                     SubcriptionId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>

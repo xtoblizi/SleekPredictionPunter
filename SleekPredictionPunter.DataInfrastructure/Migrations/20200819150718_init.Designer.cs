@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SleekPredictionPunter.DataInfrastructure;
 
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
     [DbContext(typeof(PredictionDbContext))]
-    partial class PredictionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200819150718_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,36 +229,6 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.ToTable("AgentRefereeMaps");
                 });
 
-            modelBuilder.Entity("SleekPredictionPunter.Model.Club", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ClubLogRelativePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClubName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("EntityStatus")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Clubs");
-                });
-
             modelBuilder.Entity("SleekPredictionPunter.Model.Contact", b =>
                 {
                     b.Property<long>("Id")
@@ -469,9 +441,6 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<string>("ClubAOdd")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClubAScore")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ClubB")
                         .HasColumnType("nvarchar(max)");
 
@@ -479,9 +448,6 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClubBOdd")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClubBScore")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreated")

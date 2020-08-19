@@ -35,19 +35,22 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateNewQuestion()
         {
+            ViewBag.Questions = await _pricingPlanAppService.GetAllQuestion();
             return View(new PlanBenefitQuestionsModel { });
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateNewQuestion(PlanBenefitQuestionsModel model)
         {
+            ViewBag.Questions = await _pricingPlanAppService.GetAllQuestion();
             try
             {
                 var insert = await _pricingPlanAppService.insertPanQuestions(model);
                 if (insert == true)
                 {
                     ViewBag.Message = "Record successfully inserted..";
-                    return View(new PlanBenefitQuestionsModel { });
+                    // return View(new PlanBenefitQuestionsModel { });
+                    return RedirectToAction("CreateNewQuestion");
                 }
                 {
                     ViewBag.Messsage = "Could create Pricing Plan question. Please, retry!";

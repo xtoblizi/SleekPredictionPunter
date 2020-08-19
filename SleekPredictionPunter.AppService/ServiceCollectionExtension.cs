@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 using SleekPredictionPunter.AppService.Agents;
+using SleekPredictionPunter.AppService.Clubs;
 using SleekPredictionPunter.AppService.Contacts;
 using SleekPredictionPunter.AppService.Packages;
 using SleekPredictionPunter.AppService.Plans;
@@ -27,6 +28,7 @@ namespace SleekPredictionPunter.AppService
 			services.AddTransient<IThirdPartyUsersAppService, ThirdPartyUsersAppService>();
 			services.AddTransient<ICategoryService, CategoryService>();
 			services.AddTransient<IAgentRefereeMapService, AgentRefereeMapService>();
+			services.AddTransient<IClubService, ClubService>();
 
             // repository DI registration
             services.AddPredictionRepositories();

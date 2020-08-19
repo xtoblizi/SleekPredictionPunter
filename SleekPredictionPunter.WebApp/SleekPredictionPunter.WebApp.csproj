@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\ClubLogo\" />
+    <Folder Include="wwwroot\TeamLogo\" />
   </ItemGroup>
 
 </Project>

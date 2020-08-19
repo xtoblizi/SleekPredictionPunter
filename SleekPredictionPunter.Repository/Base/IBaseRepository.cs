@@ -9,9 +9,9 @@ namespace SleekPredictionPunter.Repository.Base
 	{
 		Task<long> Insert(T phoneOwner, bool savechage = true);
 		Task<T> Inserts(T model, bool savechage = true);
-		Task Update(T phoneOwner, bool savechage = true) ;
+		Task Update(T owner, bool savechage = true) ;
 
-		Task Delete(T phoneOwner, bool savechage = true) ;
+		Task Delete(T owner, bool savechage = true) ;
 
 		Task<T> GetFirstOrDefault(Func<T, bool> predicate);
 

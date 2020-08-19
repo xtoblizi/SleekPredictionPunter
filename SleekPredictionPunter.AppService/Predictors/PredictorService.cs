@@ -72,7 +72,13 @@ namespace SleekPredictionPunter.AppService.Predictors
 
 			return await _repo.GetFirstOrDefault(predicate);
 		}
-		#endregion
 
-	}
+        public async Task<Predictor> GetByUserName(string userName)
+        {
+			Func<Predictor, bool> predicate = (x => x.Username == userName);
+			return await _repo.GetFirstOrDefault(predicate);
+        }
+        #endregion
+
+    }
 }

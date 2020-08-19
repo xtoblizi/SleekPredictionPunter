@@ -22,5 +22,6 @@ namespace SleekPredictionPunter.AppService.Predictors
 			int startIndex = 0, int count = int.MaxValue);
 
 		Task<Predictor> GetById(long id);
+		Task<Predictor> GetByUserName(string userName);
 	}
 }

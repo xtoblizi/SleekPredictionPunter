@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<SleekPredictionPunter.Model.Prediction>
+@inject SleekPredictionPunter.AppService.Clubs.IClubService _clubService
 
 @{
     ViewData["Title"] = "Index";
     Layout = "_AdminLayout";
+    int sn = 1;
 }
 
     <div class="row mt">
@@ -20,6 +22,9 @@
             <table class="table table-bordered table-striped table-hover">
                 <thead>
                     <tr>
+                        <th>
+                            S/N
+                        </th>
                         <th>
                             Predicted By
                         </th>
@@ -52,7 +57,12 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
+                        var getCluALogo = await _clubService.GetByName(item.ClubA);
+                        var getCluBLogo = await _clubService.GetByName(item.ClubB);
                         <tr>
+                            <td>
+                                @(sn++)
+                            </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.PredictorUserName)
                             </td>
@@ -60,7 +70,7 @@
                                 @Html.DisplayFor(modelItem => item.ClubA)
                             </td>
                             <td>
-                                <img src="~/ClubLogo/@(System.IO.Path.GetFileName(item.ClubALogoPath))" style="width:30px;height:30px" />
+                                <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluALogo.ClubLogRelativePath))" style="width:30px;height:30px" />
                             </td>
                             <td>
                                 VS
@@ -69,7 +79,7 @@
                                 @Html.DisplayFor(modelItem => item.ClubB)
                             </td>
                             <td>
-                                <img src="~/ClubLogo/@(System.IO.Path.GetFileName(item.ClubBLogoPath))" style="width:30px;height:30px" />
+                                <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluBLogo.ClubLogRelativePath))" style="width:30px;height:30px" />
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.PredictionValue)

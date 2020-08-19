@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using SleekPredictionPunter.GeneralUtilsAndServices;
+using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.IdentityModels;
 using System;
@@ -20,6 +21,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 				var context = serviceProvider.GetRequiredService<PredictionDbContext>();
 				var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 				var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+				//var predictor = serviceProvider.GetRequiredService<IPredictorService>();
 
 				context.Database.EnsureCreated();
 				ApplicationUser user = null;
@@ -43,6 +45,29 @@ namespace SleekPredictionPunter.DataInfrastructure
 					};
 					await userManager.CreateAsync(user, "password");
 					isUserCreated = true;
+
+
+					#region predictor
+					Predictor predictor = new Predictor()
+					{
+						ActivatedStatus = EntityStatusEnum.Active,
+						BrandNameOrNickName = "",
+						City = "Lagos",
+						Country = "Nigeria",
+						DateOfBirth = DateTime.UtcNow,
+						Email = user.Email,
+						FirstName = user.FirstName,
+						Gender = GenderEnum.Male,
+						IsTenant = false,
+						LastName = user.LastName,
+						PhoneNumber = user.PhoneNumber,
+						Street = "",
+						Username = user.UserName,
+						TenantUniqueName = user.Email
+					};
+					context.Add(predictor);
+					context.SaveChanges();
+					#endregion
 				}
 
 				// Seed Roles data from RolesEnum to Roles table 	
@@ -69,9 +94,12 @@ namespace SleekPredictionPunter.DataInfrastructure
 						await userManager.AddToRoleAsync(user, RoleEnum.SuperAdmin.GetDescription());
 					}
 				}
-				#endregion
-			}
-			catch (Exception ex)
+                #endregion
+
+                // seed predictor
+               
+            }
+            catch (Exception ex)
 			{
 				throw ex;
 			}

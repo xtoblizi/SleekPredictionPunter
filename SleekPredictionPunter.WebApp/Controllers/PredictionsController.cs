@@ -2,10 +2,13 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SleekPredictionPunter.AppService.Clubs;
 using SleekPredictionPunter.AppService.Packages;
 using SleekPredictionPunter.AppService.Plans;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.PredictionAppService.Dtos;
+using SleekPredictionPunter.AppService.PredictionCategoryService;
+using SleekPredictionPunter.AppService.Predictors;
 using SleekPredictionPunter.DataInfrastructure;
 using SleekPredictionPunter.Model;
 using System;
@@ -22,14 +25,23 @@ namespace SleekPredictionPunter.WebApp.Controllers
         private readonly IPredictionService _predictionService;
         private readonly IPackageAppService _packageService;
 		private readonly IPricingPlanAppService _pricingPlanservice;
+        private readonly IClubService _clubService;
+        private readonly ICategoryService _categoryService;
+        private readonly IPredictorService _predictorService; 
 
-		public PredictionsController(IPredictionService predictionService,
+        public PredictionsController(IPredictionService predictionService,
 			IPricingPlanAppService pricingPlanAppService,
-			IPackageAppService packageService)
+			IPackageAppService packageService,
+            IClubService clubService,
+            ICategoryService categoryService,
+            IPredictorService predictorService)
         { 
             _predictionService = predictionService;
             _packageService = packageService;
 			_pricingPlanservice = pricingPlanAppService;
+            _clubService = clubService;
+            _categoryService = categoryService;
+            _predictorService = predictorService;
         }
 
         // GET: Predictions
@@ -75,6 +87,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
         {
             ViewBag.Predictions = "active";
             ViewBag.PackageId = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName");
+            ViewBag.ClubA = new SelectList(await _clubService.GetAllQueryable(), "ClubName", "ClubName");
+            ViewBag.ClubB = new SelectList(await _clubService.GetAllQueryable(), "ClubName", "ClubName");
+            ViewBag.PredictionValue = new SelectList(await _categoryService.GetCategories(), "CategoryName", "GetNameAndDescription");
+            var plan = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName");
+            ViewBag.PricingPlanId = plan;
             return View();
         }
 
@@ -83,56 +100,34 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm]PredictionDto prediction)
+        public async Task<IActionResult> Create([FromForm] Prediction prediction)
         {
             ViewBag.Predictions = "active";
-            System.Random random = new System.Random();
-            int genNumberA = random.Next(1234567890);
-            int genNumberB = random.Next(0987654321);
+            var getPredictor = await _predictorService.GetByUserName(User.Identity.Name);
 
-            if (prediction.FileA == null || prediction.FileA.Length == 0)
-                return Content("file not selected");
-            var pathA = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ClubLogo", Path.GetFileName(genNumberA + prediction.FileA.FileName));
-            using(var stream = new FileStream(pathA, FileMode.Create))
-			{ 
-				await prediction.FileA.CopyToAsync(stream); 
-				await stream.FlushAsync();
-			}
+            var pricingPlan = await _pricingPlanservice.GetById(prediction.PricingPlanId);
 
-            if (prediction.FileB == null || prediction.FileB.Length == 0)
-                return Content("file not selected");
-            var pathB = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ClubLogo", Path.GetFileName(genNumberB + prediction.FileB.FileName));
-            using (var stream = new FileStream(pathB, FileMode.Create)) { 
-				await prediction.FileB.CopyToAsync(stream); 
-				await stream.FlushAsync(); 
-			}
+            prediction.DateCreated = DateTime.UtcNow;
+            prediction.DateUpdated = DateTime.UtcNow;
+            prediction.PredictionValue = prediction.PredictionValue;
+            prediction.Predictor = prediction.Predictor;
+            prediction.PredictorUserName = User.Identity.Name;
+            prediction.TimeofFixture = prediction.TimeofFixture;
+            prediction.PricingPlan = pricingPlan;
+            prediction.PredictorId = getPredictor.Id;
 
-            var pricingPlan = await _pricingPlanservice.GetById(prediction.PackgeId);
-            Prediction predictionModel = new Prediction()
-            {
-                ClubA = prediction.ClubA,
-                ClubALogoPath = pathA,
-				ClubAOdd = prediction.ClubAOdd,
-			
-                ClubB = prediction.ClubB,
-                ClubBLogoPath = pathB,
-				ClubBOdd = prediction.ClubAOdd,
-
-				DateCreated = DateTime.UtcNow,
-                DateUpdated = DateTime.UtcNow,
-                PredictionValue = prediction.PredictionValue,
-                Predictor = prediction.Predictor,
-                PredictorUserName = User.Identity.Name,
-                TimeofFixture = prediction.TimeofFixture,
-                PricingPlan=pricingPlan
-            };
 
             if (ModelState.IsValid)
             {
-                await _predictionService.InsertPrediction(predictionModel);
+                await _predictionService.InsertPrediction(prediction);
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.PackageId = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName", prediction.PackgeId);
+
+            ViewBag.ClubA = new SelectList(await _clubService.GetAllQueryable(), "ClubName", "ClubName", prediction.ClubA);
+            ViewBag.ClubB = new SelectList(await _clubService.GetAllQueryable(), "ClubName", "ClubName", prediction.ClubB);
+            ViewBag.PredictionValue = new SelectList(await _categoryService.GetCategories(), "CategoryName", "GetNameAndDescription", prediction.PredictionValue);
+            ViewBag.PricingPlanId = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName", prediction.PricingPlanId);
+
             return View(prediction);
         }
 

@@ -10,8 +10,8 @@ using SleekPredictionPunter.DataInfrastructure;
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
     [DbContext(typeof(PredictionDbContext))]
-    [Migration("20200819052700_Init")]
-    partial class Init
+    [Migration("20200819163133_init1")]
+    partial class init1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -221,9 +221,42 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<string>("RefereeUsername")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RefereerCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("AgentRefereeMaps");
+                });
+
+            modelBuilder.Entity("SleekPredictionPunter.Model.Club", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClubLogRelativePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClubName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clubs");
                 });
 
             modelBuilder.Entity("SleekPredictionPunter.Model.Contact", b =>
@@ -410,7 +443,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18, 6)");
 
                     b.Property<long?>("SubscriberId")
                         .HasColumnType("bigint");
@@ -675,7 +708,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18, 6)");
 
                     b.Property<long?>("SubcriptionId")
                         .HasColumnType("bigint");
@@ -855,7 +888,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18, 6)");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");

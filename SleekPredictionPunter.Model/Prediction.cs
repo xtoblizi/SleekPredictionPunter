@@ -36,6 +36,8 @@ namespace SleekPredictionPunter.Model
 
 		public virtual long PricingPlanId { get; set; }
 		public virtual PricingPlanModel PricingPlan { get; set; }
+		public string ClubAScore { get; set; }
+		public string ClubBScore { get; set; }
 
 	}
 
