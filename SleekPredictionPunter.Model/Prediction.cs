@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SleekPredictionPunter.Model.PricingPlan;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -31,9 +32,10 @@ namespace SleekPredictionPunter.Model
 		/// This design creates a one to many relationship between the below entity and the named entity: Prediction.
 		/// </summary>
 		public virtual Predictor Predictor { get; set; }
+		public virtual long  PredictorId { get; set; }
 
-		public virtual long PackageId { get; set; }
-		public virtual Package Package { get; set; }
+		public virtual long PricingPlanId { get; set; }
+		public virtual PricingPlanModel PricingPlan { get; set; }
 
 	}
 

@@ -100,10 +100,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 var result = false;
                 var planModelBuilder = new PricingPlanModel
                 {
-                    DateTimeCreated = DateTime.UtcNow,
                     PlanName = model.PricingPlanModel.PlanName,
                     PlanType = model.PricingPlanModel.PlanType,
-                    IsActive = true,
                     Duration = model.PricingPlanModel.Duration,
                     Price = model.PricingPlanModel.Price
                 };
@@ -115,7 +113,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 if (checkExistingplanProperties ==null)
                 {
                     var insertPlan = await _pricingPlanAppService.InsertPricingPlan(planModelBuilder);
-                    if (insertPlan != null && insertPlan.PlanId > 0)
+                    if (insertPlan != null && insertPlan.Id > 0)
                     {
                         for (int i = 0; i < questionId.Length; i++)
                         {
@@ -128,7 +126,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                                 QuestionId = getQuestionById.QuestionId,
                                 DateTimeCreated = DateTime.UtcNow,
                                 IsActive = true,
-                                PlanPricingId = insertPlan.PlanId
+                                PlanPricingId = insertPlan.Id
                             };
                             
                             result = await _pricingPlanAppService.InsertPricePlanBenefit(insertToPlanBenefits);

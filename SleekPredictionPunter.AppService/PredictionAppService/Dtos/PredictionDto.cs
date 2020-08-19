@@ -12,11 +12,11 @@ namespace SleekPredictionPunter.AppService.PredictionAppService.Dtos
 		public string ClubA { get; set; }
 
 
-		//public string ClubALogoPath { get; set; }
+		public string ClubAOdd { get; set; }
 
 		public string ClubB { get; set; }
 
-		//public string ClubBLogoPath { get; set; }
+		public string ClubBOdd { get; set; }
 
 		public string PredictionValue { get; set; }
 

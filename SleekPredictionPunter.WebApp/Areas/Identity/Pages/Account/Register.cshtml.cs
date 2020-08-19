@@ -16,7 +16,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using SleekPredictionPunter.AppService;
+using SleekPredictionPunter.AppService.Agents;
 using SleekPredictionPunter.GeneralUtilsAndServices;
+using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.IdentityModels;
 
@@ -30,12 +32,14 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 		private readonly ILogger<RegisterModel> _logger;
 		private readonly IEmailSender _emailSender;
 		private readonly ISubscriberService _subscriberService;
+		private readonly IAgentService _agentService;
 		private readonly RoleManager<ApplicationRole> _roleManager;
 		const string userRole = "userRole";
 		public RegisterModel(
 			RoleManager<ApplicationRole> roleManager,
 			ISubscriberService susbscriberService,
 			UserManager<ApplicationUser> userManager,
+			IAgentService agentService,
 			SignInManager<ApplicationUser> signInManager,
 			ILogger<RegisterModel> logger,
 			IEmailSender emailSender)

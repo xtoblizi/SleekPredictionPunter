@@ -42,11 +42,9 @@ namespace SleekPredictionPunter.DataInfrastructure
 		public DbSet<Prediction> Predictions { get; set; }
 		public DbSet<Predictor> Predictors { get; set; }
 		public DbSet<ThirdPartyUsersModel> ThirdPartyUsers { get; set; }
-        public DbSet<Package> Packages { get; set; }
         public DbSet<PlanBenefitQuestionsModel> PricePlanQuestions { get; set; }
         public DbSet<PlanPricingBenefitsModel> PricePlanBenefits { get; set; }
         public DbSet<PricingPlanModel> PricePlans { get; set; }
-		public DbSet<Package> Packages { get; set; }
 		public DbSet<Contact> Contacts { get; set; }
 		public DbSet<PredictionCategory> PredictionCategories { get; set; }
 

@@ -110,7 +110,7 @@ namespace SleekPredictionPunter.AppService.Plans
             foreach (var item in getAllPlans)
             {
 
-                Func<PlanPricingBenefitsModel, bool> predicate = (x => x.PlanPricingId == item.PlanId);
+                Func<PlanPricingBenefitsModel, bool> predicate = (x => x.PlanPricingId == item.Id);
                 var getAllBenefit = await _benefitBaseRepository.GetAllQueryable(predicate);
 
                 var dto = new PlanWithBenefitsDto { PricingPlanModel = item, planPricingBenefitsModels = getAllBenefit };
@@ -128,7 +128,7 @@ namespace SleekPredictionPunter.AppService.Plans
 
             foreach (var item in getAllPlans)
             {
-                var filter = getAllBenefit.Where(x => x.PlanPricingId == item.PlanId);
+                var filter = getAllBenefit.Where(x => x.PlanPricingId == item.Id);
                 var list = getAllBenefit.Union(filter).ToList();
                 dto = new PlanPricingCreateDto
                 {
@@ -148,6 +148,21 @@ namespace SleekPredictionPunter.AppService.Plans
         {
             return await _planBaseRepository.GetFirstOrDefault(func);
         }
-        #endregion
-    }
+
+		public async Task<PricingPlanModel> GetById(long packgeId)
+		{
+			return await _planBaseRepository.GetById(packgeId);
+		}
+
+		public async Task DeletePricingPlan(long packgeId)
+		{
+			var obj = await GetById(packgeId);
+			if(obj != null)
+			{
+				// delete the obj
+				await _planBaseRepository.Delete(obj);
+			}
+		}
+		#endregion
+	}
 }

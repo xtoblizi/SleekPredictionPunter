@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SleekPredictionPunter.AppService.Packages;
+using SleekPredictionPunter.AppService.Plans;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.PredictionAppService.Dtos;
 using SleekPredictionPunter.DataInfrastructure;
@@ -20,10 +21,15 @@ namespace SleekPredictionPunter.WebApp.Controllers
     { 
         private readonly IPredictionService _predictionService;
         private readonly IPackageAppService _packageService;
-        public PredictionsController(IPredictionService predictionService, IPackageAppService packageService)
+		private readonly IPricingPlanAppService _pricingPlanservice;
+
+		public PredictionsController(IPredictionService predictionService,
+			IPricingPlanAppService pricingPlanAppService,
+			IPackageAppService packageService)
         { 
             _predictionService = predictionService;
             _packageService = packageService;
+			_pricingPlanservice = pricingPlanAppService;
         }
 
         // GET: Predictions
@@ -68,7 +74,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.Predictions = "active";
-            ViewBag.PackageId = new SelectList(await _packageService.GetPackages(), "Id", "PackageName");
+            ViewBag.PackageId = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName");
             return View();
         }
 
@@ -101,21 +107,24 @@ namespace SleekPredictionPunter.WebApp.Controllers
 				await stream.FlushAsync(); 
 			}
 
-            var getpackage = await _packageService.GetPackageById(prediction.PackgeId);
+            var pricingPlan = await _pricingPlanservice.GetById(prediction.PackgeId);
             Prediction predictionModel = new Prediction()
             {
                 ClubA = prediction.ClubA,
                 ClubALogoPath = pathA,
+				ClubAOdd = prediction.ClubAOdd,
+			
                 ClubB = prediction.ClubB,
                 ClubBLogoPath = pathB,
+				ClubBOdd = prediction.ClubAOdd,
 
-                DateCreated = DateTime.UtcNow,
+				DateCreated = DateTime.UtcNow,
                 DateUpdated = DateTime.UtcNow,
                 PredictionValue = prediction.PredictionValue,
                 Predictor = prediction.Predictor,
                 PredictorUserName = User.Identity.Name,
                 TimeofFixture = prediction.TimeofFixture,
-                Package=getpackage
+                PricingPlan=pricingPlan
             };
 
             if (ModelState.IsValid)
@@ -123,7 +132,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 await _predictionService.InsertPrediction(predictionModel);
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.PackageId = new SelectList(await _packageService.GetPackages(), "Id", "PackageName", prediction.PackgeId);
+            ViewBag.PackageId = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName", prediction.PackgeId);
             return View(prediction);
         }
 
