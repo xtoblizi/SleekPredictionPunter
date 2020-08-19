@@ -15,9 +15,29 @@ namespace SleekPredictionPunter.AppService.Agents
             _repo = baseRepository;
         }
 
-        public async Task<long> CreateAgent(Agent model)
+        public async Task<long> CreateAgent(Agent agent)
         {
-            return await _repo.Insert(model);
+            try
+            {
+                if (!string.IsNullOrEmpty(agent.Email))
+                {
+                    agent.Username = agent.Email;
+                }
+                if (!string.IsNullOrEmpty(agent.TenantUniqueName))
+                {
+                    agent.TenantUniqueName = $"{agent.FirstName}-{agent.BrandNameOrNickName}";
+                }
+                agent.EntityStatus = Model.Enums.EntityStatusEnum.NotActive;
+                agent.DateCreated = DateTime.Now;
+                agent.IsTenant = true;
+                agent.RefererCode = "generateRandomNumberHere";
+
+                return await _repo.Insert(agent);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<Agent> GetAgentById(long id)

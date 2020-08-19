@@ -13,6 +13,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 		{
 			ShowBreadCumBanner = false;
 			ViewBag.ShowBreadCum = ShowBreadCumBanner;
+			ViewBag.AddLinkScriptforPackage = false;
 		}
 
 		public bool ShowBreadCumBanner { get; set; }
@@ -27,6 +28,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
 		{
 			ViewBag.ShowBreadCum = showBreadCumBanner;
 			ShowBreadCumBanner = showBreadCumBanner;
+		}
+		public  void AddLinkScriptforPackageSetter(bool addscript)
+		{
+			ViewBag.AddLinkScriptforPackage = addscript; ;
+			
 		}
 
 	}

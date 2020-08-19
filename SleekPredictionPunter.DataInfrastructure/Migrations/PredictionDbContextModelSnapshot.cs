@@ -145,6 +145,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("DateUpdated")
                         .HasColumnType("datetime2");
 
@@ -306,6 +309,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DateofBirth")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -399,7 +405,12 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<long?>("SubscriberId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SubscriberId");
 
                     b.ToTable("Packages");
                 });
@@ -417,10 +428,16 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<string>("ClubALogoPath")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ClubAOdd")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ClubB")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClubBLogoPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClubBOdd")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreated")
@@ -433,6 +450,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<long?>("PackageId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("PredictionCategoryId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("PredictionValue")
@@ -454,11 +474,43 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
                     b.HasIndex("PackageId");
 
+                    b.HasIndex("PredictionCategoryId");
+
                     b.HasIndex("PredictorId");
 
                     b.HasIndex("SubscriberId");
 
                     b.ToTable("Predictions");
+                });
+
+            modelBuilder.Entity("SleekPredictionPunter.Model.PredictionCategory", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CategoryDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatorUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PredictionCategories");
                 });
 
             modelBuilder.Entity("SleekPredictionPunter.Model.Predictor", b =>
@@ -481,6 +533,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DateUpdated")
@@ -571,6 +626,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DateUpdated")
@@ -668,18 +726,29 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SleekPredictionPunter.Model.Packages.Package", b =>
+                {
+                    b.HasOne("SleekPredictionPunter.Model.Subscriber", null)
+                        .WithMany("Packages")
+                        .HasForeignKey("SubscriberId");
+                });
+
             modelBuilder.Entity("SleekPredictionPunter.Model.Prediction", b =>
                 {
                     b.HasOne("SleekPredictionPunter.Model.Packages.Package", "Package")
                         .WithMany()
                         .HasForeignKey("PackageId");
 
+                    b.HasOne("SleekPredictionPunter.Model.PredictionCategory", null)
+                        .WithMany("Predictions")
+                        .HasForeignKey("PredictionCategoryId");
+
                     b.HasOne("SleekPredictionPunter.Model.Predictor", "Predictor")
                         .WithMany()
                         .HasForeignKey("PredictorId");
 
                     b.HasOne("SleekPredictionPunter.Model.Subscriber", "Subscriber")
-                        .WithMany()
+                        .WithMany("Predictions")
                         .HasForeignKey("SubscriberId");
                 });
 #pragma warning restore 612, 618

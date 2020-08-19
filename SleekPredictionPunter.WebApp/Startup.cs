@@ -24,10 +24,9 @@ namespace SleekPredictionPunter.WebApp
 			 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
 			 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
 			 .AddEnvironmentVariables()
-			 .Build(); 
+			 .Build();
 		}
-
-		public IConfiguration Configuration { get; } 
+		public IConfiguration Configuration { get; }
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
@@ -84,11 +83,8 @@ namespace SleekPredictionPunter.WebApp
 			app.UseSession();
 			app.UseAuthorization();
 			app.UseAuthentication();
-
-			Task.Run(() =>
-			{_ = SeedData.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
-
-			});
+			
+			_ = SeedData.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
 
 			app.UseEndpoints(endpoints =>
 			{

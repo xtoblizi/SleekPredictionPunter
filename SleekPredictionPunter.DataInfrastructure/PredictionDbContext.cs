@@ -13,10 +13,10 @@ namespace SleekPredictionPunter.DataInfrastructure
 {
 	public class PredictionDbFactory : IDesignTimeDbContextFactory<PredictionDbContext>
 	{
-		//const string  connectionstring = "Data Source=.;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
-		//	" Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
+		//const string connectionstring = "Data Source=.;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
+		//	" Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; password=passlock;User Id=sa; Encrypt=False;TrustServerCertificate=True";
 
-		const string connectionstring = "Server=DESKTOP-JBDM8G2\\SQLEXPRESS;Database=SleekPredictionPunterDb;Trusted_Connection=True;MultipleActiveResultSets=true";
+		const string  connectionstring = "Data Source=DESKTOP-JBDM8G2\\SQLEXPRESS;Initial Catalog=SleekPredictionPunterDb;Integrated Security=True;Persist Security Info=False;MultipleActiveResultSets=True;TrustServerCertificate=True";
 		public PredictionDbContext CreateDbContext(string[] args)
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<PredictionDbContext>();
@@ -42,6 +42,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 		public DbSet<Predictor> Predictors { get; set; }
 		public DbSet<Package> Packages { get; set; }
 		public DbSet<Contact> Contacts { get; set; }
+		public DbSet<PredictionCategory> PredictionCategories { get; set; }
 
 
 		/// <summary>
@@ -91,7 +92,6 @@ namespace SleekPredictionPunter.DataInfrastructure
 				entity.ToTable("UserTokens");
 				//in case you chagned the TKey type
 				// entity.HasKey(key => new { key.UserId, key.LoginProvider, key.Name });
-
 			});
 
 		}

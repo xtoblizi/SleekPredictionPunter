@@ -2,6 +2,9 @@
 	ViewData["Title"] = "Home Page";
 	int sn = 1;
 }
+
+@* This is used to conditionally show the breadcum banner To see how to view and hide this. 
+	goto to the controller index action method*@
 @if (ViewBag.ShowBreadCum)
 {
 	<!-- breadcrumb begin -->
@@ -28,26 +31,28 @@
 }
 
 <!-- about begin -->
-<div class="about">
+
+@*<div class="about">
 	<div class="container">
 		<div class="row no-gutters">
 			<div class="col-xl-8 col-lg-8">
-				<div class="part-img">
-					<img src="~/FrontendTheme/assets/img/about.jpg" alt="">
+				<div style="background-color:transparent" class="part-img">
+					<img src="~/FrontendTheme/assets/img/home-power.jpg" alt="">
 				</div>
 			</div>
 			<div class="col-xl-4 col-lg-4 d-xl-flex d-lg-flex d-block align-items-center">
 				<div>
 					<div class="part-text">
 						<h2>Introducing Our Words</h2>
-						<p>The bigger the sports event the more interest, excitement and media attention on the action. And the more betting markets we have available here at Peredion to turn your opinions into winning bets. And few events come any bigger than the World Cup and the Olympics.</p>
+						<p>The bigger the sports event the more we feed you with powerful predictions, excitement and media attention on the action. And the more betting markets we have available here at Predictive Power to turn your choices and options into winning bets.</p>
 					</div>
-					<a href="#" class="about-btn">Predict Now</a>
+					
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
+</div>*@
+
 <!-- about end -->
 <!-- cta begin -->
 <div class="line">
