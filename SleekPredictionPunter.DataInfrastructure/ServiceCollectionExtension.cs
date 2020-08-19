@@ -28,9 +28,9 @@ namespace SleekPredictionPunter.DataInfrastructure
 
 			services.AddAuthentication(options =>
 			{
-				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-				options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+				//options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				//options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+				//options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 			}).AddJwtBearer(options =>
 			{
 				options.SaveToken = true;

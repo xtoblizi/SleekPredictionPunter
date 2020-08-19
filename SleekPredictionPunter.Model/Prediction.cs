@@ -12,11 +12,13 @@ namespace SleekPredictionPunter.Model
 		/// </summary>
 		public string PredictorUserName { get; set; }
 		public string ClubA { get; set; }
+		public string ClubAOdd { get; set; }
 
 		
 		public string ClubALogoPath { get; set; }
 
 		public string ClubB { get; set; }
+		public string ClubBOdd { get; set; }
 
 		public string ClubBLogoPath { get; set; }
 
@@ -28,9 +30,11 @@ namespace SleekPredictionPunter.Model
 		/// These below are foreign key entities that can have multiple collections of predictions.
 		/// This design creates a one to many relationship between the below entity and the named entity: Prediction.
 		/// </summary>
-		public Subscriber Subscriber { get; set; }
-		public Predictor Predictor { get; set; }
-		public Package Package { get; set; }
+		public virtual Predictor Predictor { get; set; }
+
+		public virtual long PackageId { get; set; }
+		public virtual Package Package { get; set; }
+
 	}
 
 	

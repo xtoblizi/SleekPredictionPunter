@@ -41,12 +41,13 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 			IEmailSender emailSender)
 		{
 			_roleManager = roleManager;
-			_userManager = userManager;
+            _userManager = userManager;
 			_subscriberService = susbscriberService;
-			_signInManager = signInManager;
-			_logger = logger;
-			_emailSender = emailSender;
-		}
+            _signInManager = signInManager;
+            _logger = logger;
+            _emailSender = emailSender;
+            _agentService = agentService;
+        }
 
 		[BindProperty]
 		public InputModel Input { get; set; }
@@ -92,12 +93,12 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 			public string ReferrerCode { get; set; }
 		}
 
-		public async Task OnGetAsync(string returnUrl = null)
-		{
-			ReturnUrl = returnUrl;
-			ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-		}
+        public async Task OnGetAsync(string returnUrl = null, int? userType = null)
+        {
+            ViewData["userType"] = userType.ToString();
+            ReturnUrl = returnUrl;
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+        }
 
 		/// <summary>
 		/// The register post method was extended to include the nullable role value from the route parameters
@@ -215,6 +216,30 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 			}
 		}
 
+        private async Task<string> CreateAgent(ApplicationUser user)
+        {
+            var now = DateTime.Now;
+            var refCode = Guid.NewGuid().ToString().Substring(0, 4);
+            refCode += $"{now.Year}{now.Month}{now.Day}{now.Millisecond}";
+
+            var agent = new Agent()
+            {
+                ActivatedStatus = EntityStatusEnum.Active,
+                BrandNameOrNickName = user.FullName,
+                City = user.City,
+                Country = user.Country,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                IsTenant = true,
+                Username = user.UserName,
+                RefererCode = refCode
+                
+            };
+
+            await _agentService.CreateAgent(agent);
+            return refCode;
+        }
 		public async Task<IActionResult> ThirdPartySignUpCallback(string returnUrl = null)
         {
 			returnUrl = returnUrl ?? Url.Content("~/");
@@ -265,5 +290,28 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 			return Page();
         }
 
-	}
+        private async Task<bool> CreateSubscriber(ApplicationUser user,string refereerCode = null)
+        {
+            
+            var subscriber = new Subscriber()
+            {
+                ActivatedStatus = EntityStatusEnum.Active,
+                BrandNameOrNickName = user.FullName,
+                City = user.City,
+                Country = user.Country,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                IsTenant = true,
+                Username = user.UserName,
+                RefererCode = refereerCode
+
+            };
+
+            await _subscriberService.Insert(subscriber);
+            return true;
+        }
+    }
+
+    
 }

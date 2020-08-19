@@ -28,7 +28,8 @@ namespace SleekPredictionPunter.DataInfrastructure
 	}
 	public class PredictionDbContext : IdentityDbContext<ApplicationUser,ApplicationRole,string>
 	{
-		public PredictionDbContext(DbContextOptions<PredictionDbContext> options) : base(options) 
+		public PredictionDbContext(DbContextOptions<PredictionDbContext> options) 
+			: base(options) 
 		{
 		}
 
@@ -45,6 +46,9 @@ namespace SleekPredictionPunter.DataInfrastructure
         public DbSet<PlanBenefitQuestionsModel> PricePlanQuestions { get; set; }
         public DbSet<PlanPricingBenefitsModel> PricePlanBenefits { get; set; }
         public DbSet<PricingPlanModel> PricePlans { get; set; }
+		public DbSet<Package> Packages { get; set; }
+		public DbSet<Contact> Contacts { get; set; }
+		public DbSet<PredictionCategory> PredictionCategories { get; set; }
 
 
         /// <summary>
@@ -94,7 +98,6 @@ namespace SleekPredictionPunter.DataInfrastructure
 				entity.ToTable("UserTokens");
 				//in case you chagned the TKey type
 				// entity.HasKey(key => new { key.UserId, key.LoginProvider, key.Name });
-
 			});
 
 		}

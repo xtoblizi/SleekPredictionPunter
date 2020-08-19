@@ -21,9 +21,7 @@ namespace SleekPredictionPunter.AppService
 			services.AddTransient<IAgentService, AgentService>();
 			services.AddTransient<IPredictorService, PredictorService>();
 			services.AddTransient<IContactAppService, ContactAppService>();
-			services.AddTransient<IThirdPartyUsersAppService, ThirdPartyUsersAppService>();
-            services.AddTransient<IPackageAppService, PackageAppService>();
-            services.AddTransient<IPricingPlanAppService, PricingPlanAppService>();
+			services.AddTransient<IPackageAppService, PackageAppService>();
 
             // repository DI registration
             services.AddPredictionRepositories();

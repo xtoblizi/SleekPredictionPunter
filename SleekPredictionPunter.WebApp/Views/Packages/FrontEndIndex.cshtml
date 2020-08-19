@@ -1,0 +1,124 @@
+﻿@model IEnumerable<SleekPredictionPunter.Model.Packages.PackageDto>
+
+@{
+	ViewData["Title"] = "FrontEndIndex";
+}
+
+
+
+
+
+<div class="schedule">
+	<div class="container">
+		<section id="main-content">
+			<section class="wrapper site-min-height">
+				<div class="row">
+					<div class="col-lg-12">
+						@foreach (var item in Model.ToList())
+						{
+							<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+								<div class="custom-box">
+									<div class="servicetitle">
+										<h4>@item.PackageName</h4>
+										<hr style="color:red; background-color:red">
+									</div>
+									<div class="icn-main-container">
+										<span class="icn-container"> <span> &#8358;</span>@item.Price</span>
+									</div>
+									<p>@item.Description </p>
+
+									<ul class="pricing">
+										<span>150 Mb Storage</span>
+										<li>1 Domain</li>
+										<li>2 Sub Domains</li>
+										<li>3 MySQL DBs</li>
+										<li>2 Emails</li>
+										<li>WordPress Installation</li>
+										<li>24/7 Support</li>
+									</ul>
+									<a class="btn btn-theme" href="#">Subscribe Now</a>
+								</div>
+								<!-- end custombox -->
+							</div>
+						}
+
+						<!-- end col-4 -->
+
+					</div>
+					<!--  /col-lg-12 -->
+				</div>
+				<!--  /row -->
+			</section>
+			<!-- /wrapper -->
+		</section>
+
+	</div>
+</div>
+
+
+
+
+		<!-- schedule begin -->
+		@*<div class="schedule">
+				<div class="container">
+					<div class="row">
+						@foreach (var item in Model.ToList())
+						{
+							<div class="col-xl-6 col-lg-6">
+								<div class="single-match">
+									<div class="part-head">
+										<h5 class="match-title">@item.PackageName</h5>
+										<span class="match-venue">@item.Description</span>
+									</div>
+									<div class="part-team">
+										<div class="single-team">
+											<div class="logo">
+												<img src="~/FrontendTheme/assets/img/team-1.png" alt="">
+											</div>
+											<span class="team-name"></span>
+										</div>
+										<div class="match-details">
+											<div class="match-time">
+												<span class="time">Price :</span>
+												<span class="time"> &#8358; @item.Price</span>
+											</div>
+											<div class="buttons">
+												<a href="#" class="buy-ticket bet-btn bet-btn-dark-light">Subcribe</a>
+											</div>
+										</div>
+										<div class="single-team">
+											<div class="logo">
+												<img src="~/FrontendTheme/assets/img/team-2.png" alt="">
+											</div>
+											<span class="team-name"></span>
+										</div>
+									</div>
+									<span class="to-begin-time">
+										Starting on
+									</span>
+									<div class="part-timer timer" data-date="30 April 2020 9:56:00 GMT+01:00">
+
+									</div>
+								</div>
+							</div>
+						}
+
+
+
+					</div>
+					<div class="bettix-pagination">
+						<ul>
+							<li>
+								<a href="#" class="active">
+									<i class="fas fa-chevron-left"></i>
+								</a>
+							</li>
+							<li>
+								<a href="#">1</a>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+			</div>*@
+		<!-- schedule end -->
