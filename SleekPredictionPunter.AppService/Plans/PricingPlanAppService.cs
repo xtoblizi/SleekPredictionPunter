@@ -139,6 +139,12 @@ namespace SleekPredictionPunter.AppService.Plans
             return dto;
         }
 
+        public async Task<PricingPlanModel> GetPlanById(long id)
+        {
+            var result = await _planBaseRepository.GetById(id);
+            return result;
+        }
+
         /// <summary>
         /// Create your func queryable filter and pass in here.
         /// </summary>

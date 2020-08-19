@@ -17,5 +17,6 @@ namespace SleekPredictionPunter.AppService.Plans
         Task<PlanPricingCreateDto> GetAllPlansForSubscriber();
         Task<IEnumerable<PricingPlanModel>> GetAllPlans();
         Task<PricingPlanModel> GetFirstOfDefault(Func<PricingPlanModel, bool> func = null);
+        Task<PricingPlanModel> GetPlanById(long id);
     }
 }

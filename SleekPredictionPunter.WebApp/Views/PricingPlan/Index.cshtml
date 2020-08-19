@@ -31,54 +31,54 @@
         }
 
         .pricingTable .price-value {
-            color:red;
+            color: red;
             margin: 0 0 30px;
         }
 
-        .pricingTable .price-value .amount {
-            font-size: 25px;
-            font-weight: 800;
-            margin: 0 0 10px;
-            display: inline-block;
-        }
+            .pricingTable .price-value .amount {
+                font-size: 25px;
+                font-weight: 800;
+                margin: 0 0 10px;
+                display: inline-block;
+            }
 
-        .pricingTable .price-value .amount-sm {
-            font-size: 2530px;
-            vertical-align: top;
-            display: inline-block;
-        }
+            .pricingTable .price-value .amount-sm {
+                font-size: 2530px;
+                vertical-align: top;
+                display: inline-block;
+            }
 
-        .pricingTable .price-value .duration {
-            background-color: #2a2a2a;
-            font-size: 18px;
-            color: white;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: block;
-        }
+            .pricingTable .price-value .duration {
+                background-color: #2a2a2a;
+                font-size: 18px;
+                color: white;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                display: block;
+            }
 
         .pricingTable .content-list {
             padding: 0;
             margin: 0;
             list-style: none;
             display: inline-block;
-            text-align:left;
-            align-content:flex-start;
+            text-align: left;
+            align-content: flex-start;
             float: left;
         }
 
-        .pricingTable .content-list li {
-            color: #222;
-            font-size: 15px;
-            float:left;
-            font-weight: 300;
-            text-align: left;
-            padding: 0 0 0 60px;
-            margin: 0 0 15px;
-            margin-left: 7px;
-            position: relative;
-        }
+            .pricingTable .content-list li {
+                color: #222;
+                font-size: 15px;
+                float: left;
+                font-weight: 300;
+                text-align: left;
+                padding: 0 0 0 60px;
+                margin: 0 0 15px;
+                margin-left: 7px;
+                position: relative;
+            }
 
                 .pricingTable .content-list li:last-child {
                     margin-bottom: 0;
@@ -111,14 +111,14 @@
             padding: 30px 0;
             margin: 0 15px;
             box-shadow: 0px 15px 2px -5px rgba(0,0,0,0.3) inset;
-            border:1px solid darkgray;
+            border: 1px solid darkgray;
         }
 
             .pricingTable .pricingTable-signup a {
                 background: #fff;
                 font-size: 15px;
                 font-weight: bold;
-                color : royalblue;
+                color: royalblue;
                 text-transform: uppercase;
                 padding: 6px 15px;
                 border-radius: 50px;
@@ -173,13 +173,13 @@
         <div class="row">
             <div class="col-xl-7 col-lg-7">
                 <div class="breadcrumb-content">
-                    <h2>Register</h2>
+                    <h2>Home</h2>
                     <ul>
                         <li>
                             <a href="/">Home</a>
                         </li>
                         <li>
-                            Subscription
+                            Plans
                         </li>
                     </ul>
                 </div>
@@ -190,55 +190,63 @@
 <br />
 <br />
 <br />
-<div class="demo">
-    <div class="container">
-        <div class="row">
-            @if (Model.Any())
-            {
-                @foreach (var item in Model)
+@using (Html.BeginForm("MyWallet", "Wallet", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="demo">
+        <div class="container">
+            <div class="row">
+                @if (Model.Any())
                 {
-                    <div class="col-md-4 col-sm-6 col--6">
-                        <div class="pricingTable">
-                            <div class="pricingTable-header">
-                                <h3 class="title">@item.PricingPlanModel.PlanName</h3>
-                            </div>
-                            <div class="pricing-content">
-                                <div class="price-value">
-                                    <span class="amount">&#8358;@item.PricingPlanModel.Price</span>
-                                    @*<span class="duration">Benefits</span>*@
-                                    <hr style="background-color:darkgray;" />
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-4 col-sm-6 col--6">
+                            <div class="pricingTable">
+                                <div class="pricingTable-header">
+                                    <h3 class="title">@item.PricingPlanModel.PlanName</h3>
                                 </div>
-                                <div id="benefit" class="justify-content-start">
-                                    @foreach (var itemm in item.planPricingBenefitsModels)
-                                    {
-                                        @if (itemm.Answer == true)
+                                <div class="pricing-content">
+                                    <div class="price-value">
+                                        <span class="amount">&#8358;@item.PricingPlanModel.Price</span>
+                                        @*<span class="duration">Benefits</span>*@
+                                        <hr style="background-color:darkgray;" />
+                                    </div>
+                                    <div id="benefit" class="justify-content-start">
+                                        @foreach (var itemm in item.planPricingBenefitsModels)
                                         {
-                                            <ul class="content-list">
-                                                <li>@itemm.Question</li>
-                                            </ul>
-                                            <br />
+                                            @if (itemm.Answer == true)
+                                            {
+                                                <ul class="content-list">
+                                                    <li>@itemm.Question</li>
+                                                </ul>
+                                                <br />
+                                            }
+                                            else
+                                            {
+                                                <ul class="content-list aligncenter">
+                                                    <li class="disable">@itemm.Question</li>
+                                                </ul>
+                                                <br />
+                                            }
                                         }
-                                        else
-                                        {
-                                            <ul class="content-list aligncenter">
-                                                <li class="disable">@itemm.Question</li>
-                                            </ul>
-                                            <br />
-                                        }
-                                    }
+                                    </div>
                                 </div>
-                                
-                            </div>
-                            <div class="pricingTable-signup">
-                                <a href="#">Subscribe</a>
+                                <div class="pricingTable-signup">
+                                    <a href="/subscription/subscribetoplan?id=@item.PricingPlanModel.PlanId">Subscribe</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 }
-            }
+                else
+                {
+                    <p class="aligncenter">No plans</p>
+                }
+            </div>
         </div>
     </div>
-</div>
-<br />
-<br />
-<br />
+    <br />
+    <br />
+    <br />
+}

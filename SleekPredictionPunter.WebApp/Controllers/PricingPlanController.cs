@@ -47,11 +47,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 if (insert == true)
                 {
                     ViewBag.Message = "Record successfully inserted..";
-                    return View(new PlanBenefitQuestionsModel { });
+                    return RedirectToAction("CreateNewQuestion", "Pricingplan");
                 }
                 {
                     ViewBag.Messsage = "Could create Pricing Plan question. Please, retry!";
-                    return View(model);
+                    return View(new PlanBenefitQuestionsModel { });
                 }
             }
             catch (Exception ex)

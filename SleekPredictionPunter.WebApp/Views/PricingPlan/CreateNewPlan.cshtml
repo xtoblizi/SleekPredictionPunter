@@ -99,13 +99,20 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <th scope="row" id="serialnumber">0</th>
+                                                            <th scope="row" id="serialnumber">#</th>
                                                             <td>
                                                                 <select type="text" name="questionId[]" class="form-control">
                                                                     <option value="">... Select Option ...</option>
-                                                                    @foreach (var item in Model.planBenefitQuestionsModels)
+                                                                    @if (Model.planBenefitQuestionsModels.Any())
                                                                     {
-                                                                        <option value="@item.QuestionId">@item.Question</option>
+                                                                        @foreach (var item in Model.planBenefitQuestionsModels)
+                                                                        {
+                                                                            <option value="@item.QuestionId">@item.Question</option>
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="" class="disabled">No data</option>
                                                                     }
                                                                 </select>
                                                             </td>
