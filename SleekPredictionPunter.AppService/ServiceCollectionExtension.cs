@@ -6,6 +6,7 @@ using SleekPredictionPunter.AppService.Packages;
 using SleekPredictionPunter.AppService.Plans;
 //using SleekPredictionPunter.AppService.Packages;
 using SleekPredictionPunter.AppService.PredictionAppService;
+using SleekPredictionPunter.AppService.PredictionCategoryService;
 using SleekPredictionPunter.AppService.Predictors;
 using SleekPredictionPunter.AppService.ThirdPartyAppService;
 using SleekPredictionPunter.Repository;
@@ -22,6 +23,10 @@ namespace SleekPredictionPunter.AppService
 			services.AddTransient<IPredictorService, PredictorService>();
 			services.AddTransient<IContactAppService, ContactAppService>();
 			services.AddTransient<IPackageAppService, PackageAppService>();
+			services.AddTransient<IPricingPlanAppService, PricingPlanAppService>();
+			services.AddTransient<IThirdPartyUsersAppService, ThirdPartyUsersAppService>();
+			services.AddTransient<ICategoryService, CategoryService>();
+			services.AddTransient<IAgentRefereeMapService, AgentRefereeMapService>();
 
             // repository DI registration
             services.AddPredictionRepositories();

@@ -5,5 +5,10 @@
 		public string AgentUsername { get; set; }
 
 		public string RefereeUsername { get; set; }
+
+		/// <summary>
+		/// This is the refereercode of the agent
+		/// </summary>
+		public string RefereerCode { get; set; }
 	}
 }

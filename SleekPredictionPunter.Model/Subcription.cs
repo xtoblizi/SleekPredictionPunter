@@ -16,5 +16,6 @@ namespace SleekPredictionPunter.Model
 		/// This should not be null at anypoint of creating a new subcription 
 		/// </summary>
 		public DateTime ExpirationDateTime { get; set; }
+		public int NumberOfMonths { get; set; }
 	}
 }

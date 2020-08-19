@@ -36,8 +36,8 @@ namespace SleekPredictionPunter.DataInfrastructure
 		// add tables of the database as the dbcontext properties here.
 
 		public DbSet<Agent> AgentUsers { get; set; }
-		public DbSet<SubcriberPredictorMap> SubcriberPredictorMaps { get; set; }
 		public DbSet<Subscriber> Subscribers { get; set; }
+		public DbSet<Subcription> Subcriptions { get; set; }
 		public DbSet<AgentRefereeMap> AgentRefereeMaps { get; set; } 
 		public DbSet<Prediction> Predictions { get; set; }
 		public DbSet<Predictor> Predictors { get; set; }
@@ -97,6 +97,21 @@ namespace SleekPredictionPunter.DataInfrastructure
 				//in case you chagned the TKey type
 				// entity.HasKey(key => new { key.UserId, key.LoginProvider, key.Name });
 			});
+
+			foreach (var property in builder.Model.GetEntityTypes()
+				   .SelectMany(t => t.GetProperties())
+				   .Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
+			{
+				// EF Core 1 & 2
+				//property.Relational().ColumnType = "decimal(18, 6)";
+
+				// EF Core 3
+				property.SetColumnType("decimal(18, 6)");
+
+				// EF Core 5
+				//property.SetPrecision(18);
+				//property.SetScale(6);
+			}
 
 		}
 
