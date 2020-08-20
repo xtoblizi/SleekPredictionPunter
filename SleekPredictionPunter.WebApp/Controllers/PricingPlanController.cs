@@ -56,7 +56,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 }
                 {
                     ViewBag.Messsage = "Could create Pricing Plan question. Please, retry!";
-                    return View(model);
+                    return View(new PlanBenefitQuestionsModel { });
                 }
             }
             catch (Exception ex)

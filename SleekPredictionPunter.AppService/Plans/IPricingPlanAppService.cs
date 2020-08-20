@@ -20,4 +20,6 @@ namespace SleekPredictionPunter.AppService.Plans
 		Task<PricingPlanModel> GetById(long packgeId);
 		Task DeletePricingPlan(long packgeId);
 	}
+        Task<PricingPlanModel> GetPlanById(long id);
+    }
 }

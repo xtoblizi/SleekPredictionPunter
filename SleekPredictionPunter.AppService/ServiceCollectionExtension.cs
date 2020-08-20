@@ -4,12 +4,14 @@ using SleekPredictionPunter.AppService.Agents;
 using SleekPredictionPunter.AppService.Clubs;
 using SleekPredictionPunter.AppService.Contacts;
 using SleekPredictionPunter.AppService.Packages;
+using SleekPredictionPunter.AppService.PaymentService;
 using SleekPredictionPunter.AppService.Plans;
 //using SleekPredictionPunter.AppService.Packages;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.PredictionCategoryService;
 using SleekPredictionPunter.AppService.Predictors;
 using SleekPredictionPunter.AppService.ThirdPartyAppService;
+using SleekPredictionPunter.AppService.Wallet;
 using SleekPredictionPunter.Repository;
 
 namespace SleekPredictionPunter.AppService
@@ -29,6 +31,8 @@ namespace SleekPredictionPunter.AppService
 			services.AddTransient<ICategoryService, CategoryService>();
 			services.AddTransient<IAgentRefereeMapService, AgentRefereeMapService>();
 			services.AddTransient<IClubService, ClubService>();
+            services.AddTransient<IWalletAppService, WalletAppService>();
+            services.AddTransient<IPaymentAppService, PaymentAppService>();
 
             // repository DI registration
             services.AddPredictionRepositories();
