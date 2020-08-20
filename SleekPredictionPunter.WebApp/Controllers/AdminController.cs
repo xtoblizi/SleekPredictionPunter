@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SleekPredictionPunter.AppService;
 using SleekPredictionPunter.AppService.Agents;
@@ -11,7 +12,7 @@ using SleekPredictionPunter.WebApp.Models;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
         private readonly IPredictionService _predictionService;
         private readonly IAgentService _agentService;

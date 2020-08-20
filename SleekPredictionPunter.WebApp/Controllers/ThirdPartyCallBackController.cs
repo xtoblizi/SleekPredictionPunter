@@ -21,7 +21,7 @@ using SleekPredictionPunter.Model.IdentityModels;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
-    public class ThirdPartyCallBackController : Controller
+    public class ThirdPartyCallBackController : BaseController
     {
         private readonly PredictionDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;

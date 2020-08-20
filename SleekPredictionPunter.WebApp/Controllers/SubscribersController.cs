@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
-    public class SubscribersController : Controller
+    public class SubscribersController : BaseController
     {
         private readonly PredictionDbContext _context;
         private readonly ISubscriberService _subscriberService;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SleekPredictionPunter.AppService.Contacts;
 using SleekPredictionPunter.AppService.PredictionAppService;
@@ -55,6 +56,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
 			return View();
 			
 		}
+
+		
 		public IActionResult Contact(string message = null)
 		{
 			ViewBag.IsBanner = false;

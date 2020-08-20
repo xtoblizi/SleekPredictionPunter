@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SleekPredictionPunter.AppService.Packages;
@@ -57,6 +58,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         }
 
         // GET: Packages/Create
+		[Authorize]
         public async Task<IActionResult> Create()
         {
             return View();

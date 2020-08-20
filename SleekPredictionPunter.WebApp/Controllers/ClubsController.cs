@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,7 @@ using SleekPredictionPunter.Model.Enums;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
-    public class ClubsController : Controller
+    public class ClubsController : BaseController
     {
         private readonly IClubService _context;
 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,6 +23,24 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AgentRefereeMaps", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Clubs",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: true),
+                    ClubName = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    ClubLogRelativePath = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clubs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -500,6 +518,8 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     TimeofFixture = table.Column<DateTime>(nullable: false),
                     PredictorId = table.Column<long>(nullable: false),
                     PricingPlanId = table.Column<long>(nullable: false),
+                    ClubAScore = table.Column<string>(nullable: true),
+                    ClubBScore = table.Column<string>(nullable: true),
                     PackageId = table.Column<long>(nullable: true),
                     PredictionCategoryId = table.Column<long>(nullable: true)
                 },
@@ -624,6 +644,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AgentUsers");
+
+            migrationBuilder.DropTable(
+                name: "Clubs");
 
             migrationBuilder.DropTable(
                 name: "Contacts");

@@ -12,7 +12,7 @@ using SleekPredictionPunter.Model.Enums;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
-    public class PredictorsController : Controller
+    public class PredictorsController : BaseController
     {
         private readonly PredictionDbContext _context;
         private readonly IPredictorService _predictorService;

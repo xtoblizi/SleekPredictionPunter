@@ -5,11 +5,11 @@
 }
 
 <style>
-    .pricingTable {
-        font-family: 'Lato', sans-serif;
-        text-align: center;
-        margin: 0 7px;
-    }
+		.pricingTable {
+			font-family: 'Lato', sans-serif;
+			text-align: center;
+			margin: 0 7px;
+		}
 
         .pricingTable .pricingTable-header {
             background: linear-gradient(to right,black,black);
@@ -27,7 +27,7 @@
 
         .pricingTable .pricing-content {
             background-color: white;
-            padding: 18px 0 22px;
+            padding:18px 2px 22px 4px;
         }
 
         .pricingTable .price-value {
@@ -48,15 +48,14 @@
             display: inline-block;
         }
 
-        .pricingTable .price-value .duration {
-            background-color: #2a2a2a;
+        /*.pricingTable .price-value .duration {
             font-size: 18px;
             color: white;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
             display: block;
-        }
+        }*/
 
         .pricingTable .content-list {
             padding: 0;
@@ -80,9 +79,9 @@
             position: relative;
         }
 
-                .pricingTable .content-list li:last-child {
+                /*.pricingTable .content-list li:last-child {
                     margin-bottom: 0;
-                }
+                }*/
 
                 .pricingTable .content-list li:before {
                     content: "\f00c";
@@ -110,8 +109,7 @@
             background: linear-gradient(to right,White,White);
             padding: 30px 0;
             margin: 0 15px;
-            box-shadow: 0px 15px 2px -5px rgba(0,0,0,0.3) inset;
-            border:1px solid darkgray;
+            /*box-shadow: 0px 15px 2px -5px rgba(0,0,0,0.3) inset;*/
         }
 
             .pricingTable .pricingTable-signup a {
@@ -154,17 +152,15 @@
 
     {
         margin-bottom: 30px;
-    }
-
-    }
+    }    }
 
     media only screen and (max-width: 576px) {
         .pricingTable
 
     {
         margin: 0 0 30px;
-    }
-    }
+    } }
+
 </style>
 
 <!-- breadcrumb begin -->
@@ -173,15 +169,8 @@
         <div class="row">
             <div class="col-xl-7 col-lg-7">
                 <div class="breadcrumb-content">
-                    <h2>Register</h2>
-                    <ul>
-                        <li>
-                            <a href="/">Home</a>
-                        </li>
-                        <li>
-                            Subscription
-                        </li>
-                    </ul>
+                    <h3>Pricing Plans</h3>
+                    
                 </div>
             </div>
         </div>
@@ -197,7 +186,7 @@
             {
                 @foreach (var item in Model)
                 {
-                    <div class="col-md-4 col-sm-6 col--6">
+                    <div class="col-md-4 col-sm-6 col--6" style="margin-bottom:35px">
                         <div class="pricingTable">
                             <div class="pricingTable-header">
                                 <h3 class="title">@item.PricingPlanModel.PlanName</h3>
@@ -220,7 +209,7 @@
                                         }
                                         else
                                         {
-                                            <ul class="content-list aligncenter">
+                                            <ul class="content-list">
                                                 <li class="disable">@itemm.Question</li>
                                             </ul>
                                             <br />

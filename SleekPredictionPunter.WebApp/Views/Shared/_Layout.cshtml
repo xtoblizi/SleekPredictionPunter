@@ -164,23 +164,23 @@
 										@if (!User.Identity.IsAuthenticated && (!User.IsInRole("Agent") || !User.IsInRole("SuperAdmin")))
 										{
 											<li class="nav-item">
-												<a asp-page="/Account/Register" asp-area="Identity" asp-route-userType="4" class="nav-link">Become an Agent</a>
+												<a asp-page="/account/register" asp-area="identity" asp-route-userType="4" class="nav-link">Become an Agent</a>
 											</li>
 										}
 										<li class="nav-item">
-											<a class="nav-link" href="../../Predictions/FrontEndIndex">Predictions</a>
+											<a class="nav-link" href="../../predictions/frontEndIndex">Predictions</a>
 										</li>
 										<li class="nav-item">
-											<a class="nav-link" href="../../Packages/FrontEndIndex">Packages</a>
+											<a class="nav-link" href="../../pricingplan/index">Packages</a>
 										</li>
 
 										<li class="nav-item">
-											<a class="nav-link" href="../../Home/Contact">Contact US</a>
+											<a class="nav-link" href="../../home/contact">Contact</a>
 										</li>
 										@if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin"))
 										{
 											<li class="nav-item">
-												<a class="nav-link" href="../../Admin/Index">Admin Dashboard</a>
+												<a class="nav-link" href="../../admin/index">Admin Dashboard</a>
 											</li>
 										}
 
@@ -294,7 +294,7 @@
 						<h3>Connect With Us</h3>
 						<ul>
 							<li>
-								<a href="">ABOUT US</a>
+								<a href="">Privacy Terms and Conditions</a>
 							</li>
 							@*<li>
 									<a href="#">Blog</a>
@@ -309,7 +309,7 @@
 								<a href="../../Home/Contact">CONTACT US</a>
 							</li>
 							<li>
-								<a href="#">REGISTER</a>
+								<a asp-page="/Account/Register" asp-area="Identity" asp-route-userType="2">REGISTER</a>
 							</li>
 						</ul>
 					</div>
@@ -352,9 +352,7 @@
 									Payment methods are We accept
 								</h6>
 								<div class="all-method">
-									<div class="single-method">
-										<img src="~/FrontendTheme/assets/img/flutterlogo.png" height="80" width="39" alt="">
-									</div>
+									
 									<div class="single-method">
 										<img src="~/FrontendTheme/assets/img/paystack.png" height="80" width="39" alt="">
 									</div>
@@ -366,10 +364,6 @@
 									</div>
 									<div class="single-method">
 										<img src="~/FrontendTheme/assets/img/vervecard.png" height="80" width="39" alt="">
-									</div>
-
-									<div class="single-method">
-										<img src="~/FrontendTheme/assets/img/payoneer.png" height="80" width="39" alt="">
 									</div>
 								</div>
 							</div>

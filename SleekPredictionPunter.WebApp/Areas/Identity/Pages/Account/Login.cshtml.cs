@@ -106,7 +106,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 
 					var signInKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("PredictivePowerSecurityTokens"));
 					var token = new JwtSecurityToken(
-						expires: DateTime.UtcNow.AddHours(24*3),
+						expires: DateTime.UtcNow.AddHours(24*2),
 						claims: claims,
 						signingCredentials: new SigningCredentials(signInKey, SecurityAlgorithms.HmacSha256));
 

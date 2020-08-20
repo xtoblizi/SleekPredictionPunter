@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SleekPredictionPunter.AppService.Plans;
 using SleekPredictionPunter.Model.PricingPlan;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
-    public class PricingPlanController : Controller
+    public class PricingPlanController : BaseController
     {
         private readonly IPricingPlanAppService _pricingPlanAppService;
 
@@ -33,6 +34,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
         #region question region
         [HttpGet]
+		[Authorize]
         public async Task<IActionResult> CreateNewQuestion()
         {
             ViewBag.Questions = await _pricingPlanAppService.GetAllQuestion();

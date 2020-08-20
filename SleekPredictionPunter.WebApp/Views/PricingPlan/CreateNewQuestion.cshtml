@@ -6,45 +6,51 @@
     int sn = 1;
 }
 
-<h2>CreateNewQuestion</h2>
+<h2>Create Plan's Benefits</h2>
 
-<h4>PlanBenefitQuestionsModel</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <p class="text-success" style="font-size:1.3em">@ViewBag.Message</p>
         <form id="CreateNewQuestion" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Question" class="control-label">Enter Question</label>
-                <textarea asp-for="Question" class="form-control"  autofocus placeholder="Example: Full Access or Extra month"></textarea>
+                <label asp-for="Question" class="control-label">Enter Plan's Benefit</label>
+                <textarea asp-for="Question" class="form-control" rows="3" cols="5" autofocus placeholder="Example: Full Access or Extra month"></textarea>
                 <span asp-validation-for="Question" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </form>
-        <table class="table table-hover table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>S/N</th>
-                    <th>Question</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach(var item in ViewBag.Questions)
-                {
-                    <tr>
-                        <td>@(sn++)</td>
-                        <td>@item.Question</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+		<div class="table table-responsive" style="height:400px">
+			<table class="table table-hover table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>S/N</th>
+						<th>Question</th>
+						<th>Date Created</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in ViewBag.Questions)
+					{
+						<tr>
+							<td>@(sn++)</td>
+							<td>@item.Question</td>
+							<td> @item.DateTimeCreated</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+        
     </div>
+
+	<br /> <br />
+	<div class="main-body-footer" style="margin:30px 2px 20px 2px">
+		<a href="../../pricingplan/listofplans" class="link"> Proceed to Plan Creation</a>
+	</div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
