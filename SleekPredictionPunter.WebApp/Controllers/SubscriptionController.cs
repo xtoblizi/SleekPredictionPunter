@@ -11,11 +11,11 @@ using SleekPredictionPunter.AppService.Wallet;
 using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.IdentityModels;
 using SleekPredictionPunter.Model.PricingPlan;
-using SleekPredictionPunter.Model.Wallet;
+using SleekPredictionPunter.Model.Wallets;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
-    public class SubscriptionController : Controller
+    public class SubscriptionController : BaseController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IPaymentAppService _paymentAppService;
@@ -43,11 +43,23 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 /*Check if user session exist. if exist, continue else, redirect to login and return back to same page after login is successful.*/
                 if (string.IsNullOrEmpty(HttpContext.Session.GetString("userEmail")))
                 {
-                    var returnUrl = "subscription/SubscribeToPlan";
+                    var returnUrl = "subscription/subscribeToPlan";
                     return Redirect("/Identity/Account/Login?returnUrl=" +returnUrl);
                 }
                 var userRole = HttpContext.Session.GetString("userRole");
-                RoleEnum roleEnum = userRole == "4" ? RoleEnum.Agent : userRole == "3" ? RoleEnum.Predictor : RoleEnum.Subscriber;
+
+                RoleEnum roleEnum = userRole == ((int)RoleEnum.Agent).ToString() ? RoleEnum.Agent
+												: userRole == ((int)RoleEnum.Subscriber).ToString() ? RoleEnum.Subscriber 
+												: userRole == ((int)RoleEnum.Predictor).ToString() ? RoleEnum.Predictor
+												: userRole == ((int)RoleEnum.SuperAdmin).ToString() ? RoleEnum.SuperAdmin
+												: RoleEnum.Subscriber;
+
+				if(roleEnum != RoleEnum.Subscriber)
+				{
+					ViewBag.ProcessingMessage = $"Only a subscriber can subscribe to a pcakages. Your role is that of an {roleEnum.ToString()}";
+					return View();
+				}
+
                 string callbackUrl = "/pricePlan/index";
                 //check i user has money in his/her wallet. if first and foremost, any transaction records exist, check wallet else just redirect to payment platform.
                 var getUserDetails = await _userManager.FindByEmailAsync(HttpContext.Session.GetString("userEmail"));

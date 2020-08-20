@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SleekPredictionPunter.Model.Wallet
+namespace SleekPredictionPunter.Model.Wallets
 {
     public class WalletModel:BaseEntity
     {

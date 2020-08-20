@@ -1,4 +1,4 @@
-﻿using SleekPredictionPunter.Model.Wallet;
+﻿using SleekPredictionPunter.Model.Wallets;
 using SleekPredictionPunter.Repository.Base;
 using System;
 using System.Collections.Generic;

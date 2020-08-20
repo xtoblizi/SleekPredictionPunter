@@ -4,7 +4,7 @@ using SleekPredictionPunter.AppService.Wallet;
 using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.IdentityModels;
-using SleekPredictionPunter.Model.Wallet;
+using SleekPredictionPunter.Model.Wallets;
 using SleekPredictionPunter.Repository.Base;
 using System;
 using System.Collections.Generic;

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Model.IdentityModels;
 using SleekPredictionPunter.Model.PricingPlan;
-using SleekPredictionPunter.Model.Wallet;
+using SleekPredictionPunter.Model.Wallets;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

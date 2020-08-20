@@ -1,6 +1,6 @@
 ﻿using PayStack.Net;
 using SleekPredictionPunter.Model.IdentityModels;
-using SleekPredictionPunter.Model.Wallet;
+using SleekPredictionPunter.Model.Wallets;
 using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.AppService.PaymentService

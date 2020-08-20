@@ -19,7 +19,8 @@ namespace SleekPredictionPunter.AppService.Plans
         Task<PricingPlanModel> GetFirstOfDefault(Func<PricingPlanModel, bool> func = null);
 		Task<PricingPlanModel> GetById(long packgeId);
 		Task DeletePricingPlan(long packgeId);
+
+		Task<PricingPlanModel> GetPlanById(long id);
 	}
-        Task<PricingPlanModel> GetPlanById(long id);
-    }
+    
 }
