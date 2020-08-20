@@ -266,37 +266,38 @@
                 <ul class="sidebar-menu" id="nav-accordion">
                     <p class="centered"><a href="#">
 						<img src="~/AdminTheme/img/friends/fr-03.jpg" class="img-circle" width="80">
-						 </a></p>
+						 </a>
+					</p>
                     
                     @if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.SuperAdmin.ToString()))
                     {
-                        <li class="mt">
+                        <li>
                             <a class="" asp-area="" asp-controller="Home" asp-action="Index">
                                 <i class="fa fa-home"></i>
                                 <span>Switch FrontEnd</span>
                             </a>
                         </li>
                     }
-                    <li class="mt">
+                    <li>
                         <a class="@ViewBag.AdminIndex" href="../Admin/Index">
                             <i class="fa fa-dashboard"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="mt">
+                    <li>
                         <a class="@ViewBag.Clubs" href="../../Clubs/Index">
                             <i class=" fa fa-soccer-ball-o"></i>
                             <span>Clubs</span>
                         </a>
                     </li>
-                    <li class="mt">
+                    <li>
                         <a class="@ViewBag.PredictionCategories" href="../../PredictionCategories/Index">
                             <i class=" fa fa-umbrella-beach"></i>
                             <span>Prediction Categories</span>
                         </a>
                     </li>
 
-                    <li class="mt">
+                    <li>
                         <a class="@ViewBag.Predictions" href="../../Predictions/Index">
                             <i class=" fa fa-bar-chart-o"></i>
                             <span>Predictions</span>
@@ -304,81 +305,19 @@
                     </li>
 
 
-                    <li class="mt">
-                        <a class="@ViewBag.Plan-Setup" href="../../pricingplan/listofplans">
+                    <li>
+                        <a class="@ViewBag.PlanSetup" href="../../pricingplan/listofplans">
                             <i class=" fa fa-bar-chart-o"></i>
                             <span>Plan-Setup</span>
                         </a>
                     </li>
 
-                    <li class="mt">
-                        <a class="@ViewBag.Package" href="../../Packages/Index">
-                            <i class=" fa fa-suitcase"></i>
-                            <span>Packages</span>
-                        </a>
-                    </li>
-                    <li class="mt">
-                        <a class="@ViewBag.Package" href="../../Home/ContactIndex">
+                    <li>
+                        <a class="@ViewBag.Contact" href="../../Home/ContactIndex">
                             <i class=" fa fa-envelope"></i>
                             <span>Contact Tickets</span>
                         </a>
                     </li>
-
-                    <li>
-                        <a href="inbox.html">
-                            <i class="fa fa-envelope"></i>
-                            <span>Predictions </span>
-                            <span class="label label-theme pull-right mail-info">2</span>
-                        </a>
-                    </li>
-
-
-                    <li>
-                        <a href="google_maps.html">
-                            <i class="fa fa-map-marker"></i>
-                            <span>Contact Tickets </span>
-                        </a>
-                    </li>
-                    @*<li class="sub-menu">
-            <a href="javascript:;">
-                <i class="fa fa-book"></i>
-                <span>Extra Pages</span>
-            </a>
-            <ul class="sub">
-                <li><a href="blank.html">Blank Page</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="lock_screen.html">Lock Screen</a></li>
-                <li><a href="profile.html">Profile</a></li>
-                <li><a href="invoice.html">Invoice</a></li>
-                <li><a href="pricing_table.html">Pricing Table</a></li>
-                <li><a href="faq.html">FAQ</a></li>
-                <li><a href="404.html">404 Error</a></li>
-                <li><a href="500.html">500 Error</a></li>
-            </ul>
-        </li>*@
-                    @*<li class="sub-menu">
-            <a href="javascript:;">
-                <i class="fa fa-tasks"></i>
-                <span>Forms</span>
-            </a>
-            <ul class="sub">
-                <li><a href="form_component.html">Form Components</a></li>
-                <li><a href="advanced_form_components.html">Advanced Components</a></li>
-                <li><a href="form_validation.html">Form Validation</a></li>
-                <li><a href="contactform.html">Contact Form</a></li>
-            </ul>
-        </li>
-        <li class="sub-menu">
-            <a href="javascript:;">
-                <i class="fa fa-th"></i>
-                <span>Data Tables</span>
-            </a>
-            <ul class="sub">
-                <li><a href="basic_table.html">Basic Table</a></li>
-                <li><a href="responsive_table.html">Responsive Table</a></li>
-                <li><a href="advanced_table.html">Advanced Table</a></li>
-            </ul>
-        </li>*@
                 </ul>
                 <!-- sidebar menu end-->
             </div>

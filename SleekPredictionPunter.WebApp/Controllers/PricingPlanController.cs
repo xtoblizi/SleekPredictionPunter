@@ -70,7 +70,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> ListofPlans()
         {
-            var result = await _pricingPlanAppService.GetAllPlans();
+			ViewBag.PlanSetup = "active";
+			var result = await _pricingPlanAppService.GetAllPlans();
             return View(result);
         }
 

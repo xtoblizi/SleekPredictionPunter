@@ -1,19 +1,14 @@
 ﻿using Microsoft.Extensions.Options;
 using PayStack.Net;
-using SleekPredictionPunter.AppService.Wallet;
 using SleekPredictionPunter.Model;
-using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.IdentityModels;
 using SleekPredictionPunter.Model.Wallets;
-using SleekPredictionPunter.Repository.Base;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.AppService.PaymentService
 {
-    public class PaymentAppService : IPaymentAppService
+	public class PaymentAppService : IPaymentAppService
     {
        
         private readonly AppSettings _appSettings;
@@ -48,12 +43,9 @@ namespace SleekPredictionPunter.AppService.PaymentService
                     //save this ref, to the db record, 
                     walletModel.ReferenceNumber = response.Data.Reference;
                     walletModel.TransactionStatus = TransactionstatusEnum.Success;
-                    walletModel.TransactionStatusName = TransactionstatusEnum.Success.ToString();
                     walletModel.Amount = walletModel.Amount;
                     walletModel.TransactionType = TransactionTypeEnum.Credit;
-                    walletModel.TransactionTypeName = TransactionTypeEnum.Credit.ToString();
                     walletModel.MediumPaid = MediumUsedEnum.Paystack;
-                    walletModel.MediumPaidName = MediumUsedEnum.Paystack.ToString();
 
                     return (response,walletModel);
                 }

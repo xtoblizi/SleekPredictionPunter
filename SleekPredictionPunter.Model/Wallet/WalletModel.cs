@@ -10,17 +10,17 @@ namespace SleekPredictionPunter.Model.Wallets
         public string UserEmailAddress { get; set; }
         public RoleEnum UserRole { get; set; }
         public TransactionTypeEnum TransactionType { get; set; }
-        public string TransactionTypeName { get; set; }
+        public string TransactionTypeName { get { return TransactionType.ToString(); } }
         public MediumUsedEnum? MediumPaid { get; set; }
-        public string? MediumPaidName { get; set; }
+        public string MediumPaidName { get { return MediumPaid.Value.ToString(); } }
         public decimal Amount { get; set; }
         public string TransactionDescription { get; set; }
         public decimal? LastAmountTransacted { get; set; }
         public DateTime? DateTimeLastTransacted { get; set; }
         public TransactionstatusEnum TransactionStatus { get; set; }
-        public string TransactionStatusName { get; set; }
+        public string TransactionStatusName { get { return TransactionStatus.ToString(); } }
         public string ReferenceNumber { get; set; }
-        public string? ErrorDescription { get; set; }
+        public string ErrorDescription { get; set; }
 
     }
 

@@ -89,6 +89,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 		public async Task<IActionResult> ContactIndex()
 		{
 			ViewBag.IsBanner = false;
+			ViewBag.Contact = "active";
 			var result = await _contactService.GetAllQueryable();
 			return View(result);
 		}
