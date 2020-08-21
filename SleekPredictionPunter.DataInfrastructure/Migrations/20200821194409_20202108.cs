@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
-    public partial class inimigration : Migration
+    public partial class _20202108 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -154,7 +154,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     DateTimeCreated = table.Column<DateTime>(nullable: false),
                     DateTimeUpdated = table.Column<DateTime>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: true)
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -250,6 +250,35 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TransactionLogs",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: true),
+                    UserEmailAddress = table.Column<string>(nullable: true),
+                    UserRole = table.Column<int>(nullable: false),
+                    TransactionType = table.Column<int>(nullable: false),
+                    TransactionTypeName = table.Column<string>(nullable: true),
+                    MediumPaid = table.Column<int>(nullable: true),
+                    MediumPaidName = table.Column<string>(nullable: true),
+                    CurrentAmount = table.Column<decimal>(nullable: false),
+                    TransactionDescription = table.Column<string>(nullable: true),
+                    LastAmountTransacted = table.Column<decimal>(nullable: true),
+                    DateTimeOfLastTransacted = table.Column<DateTime>(nullable: true),
+                    TransactionStatus = table.Column<int>(nullable: false),
+                    TransactionStatusName = table.Column<string>(nullable: true),
+                    ReferenceNumber = table.Column<string>(nullable: true),
+                    ErrorDescription = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TransactionLogs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -281,6 +310,26 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Wallets",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: true),
+                    UserEmailAddress = table.Column<string>(nullable: true),
+                    UserRole = table.Column<int>(nullable: false),
+                    Amount = table.Column<decimal>(nullable: false),
+                    LastAmountTransacted = table.Column<decimal>(nullable: true),
+                    DateTimeLastTransacted = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Wallets", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -517,6 +566,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 name: "ThirdPartyUsers");
 
             migrationBuilder.DropTable(
+                name: "TransactionLogs");
+
+            migrationBuilder.DropTable(
                 name: "UserClaims");
 
             migrationBuilder.DropTable(
@@ -529,19 +581,8 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 name: "UserTokens");
 
             migrationBuilder.DropTable(
-                name: "Packages");
+                name: "Wallets");
 
-            migrationBuilder.DropTable(
-                name: "Predictors");
-
-            migrationBuilder.DropTable(
-                name: "Subscribers");
-
-            migrationBuilder.DropTable(
-                name: "Roles");
-
-            migrationBuilder.DropTable(
-                name: "Users");
         }
     }
 }

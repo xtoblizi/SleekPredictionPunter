@@ -149,6 +149,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                         HttpContext.Session.SetString(userEmail, getUser.EmailAddress);
                         HttpContext.Session.SetString(userId, getUser.Id.ToString());
                         HttpContext.Session.SetString(userName, getUser.Username);
+                        HttpContext.Session.SetString(userRole,getUser.UserRole.ToString());
                         return LocalRedirect(returnUrl);
                     }
                 }
@@ -164,6 +165,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                             HttpContext.Session.SetString(userEmail, getUser.EmailAddress);
                             HttpContext.Session.SetString(userId, getUser.Id.ToString());
                             HttpContext.Session.SetString(userName, getUser.Username);
+                            HttpContext.Session.SetString(userRole, getUser.UserRole.ToString());
                             return LocalRedirect(returnUrl);
                         }
                     }

@@ -576,7 +576,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("PlanName")
@@ -741,6 +741,105 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ThirdPartyUsers");
+                });
+
+            modelBuilder.Entity("SleekPredictionPunter.Model.TransactionLogs.TransactionLogModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("CurrentAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeOfLastTransacted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ErrorDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("LastAmountTransacted")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("MediumPaid")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MediumPaidName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReferenceNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TransactionDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TransactionStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TransactionStatusName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TransactionTypeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserEmailAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserRole")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TransactionLogs");
+                });
+
+            modelBuilder.Entity("SleekPredictionPunter.Model.Wallet.WalletModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeLastTransacted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("LastAmountTransacted")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("UserEmailAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserRole")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Wallets");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
