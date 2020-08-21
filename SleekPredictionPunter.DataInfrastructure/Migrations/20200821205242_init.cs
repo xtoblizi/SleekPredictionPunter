@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -63,6 +63,41 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Contacts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CustomCategories",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: true),
+                    CategoryName = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    IsFree = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CustomCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MatchCategories",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: true),
+                    CategoryName = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MatchCategories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -233,12 +268,38 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     DateCreated = table.Column<DateTime>(nullable: false),
                     EntityStatus = table.Column<int>(nullable: false),
                     DateUpdated = table.Column<DateTime>(nullable: true),
+                    UserEmailAddress = table.Column<string>(nullable: true),
+                    UserRole = table.Column<int>(nullable: false),
+                    TransactionType = table.Column<int>(nullable: false),
+                    MediumPaid = table.Column<int>(nullable: true),
+                    Amount = table.Column<decimal>(type: "decimal(18, 6)", nullable: false),
+                    TransactionDescription = table.Column<string>(nullable: true),
+                    LastAmountTransacted = table.Column<decimal>(type: "decimal(18, 6)", nullable: true),
+                    DateTimeLastTransacted = table.Column<DateTime>(nullable: true),
+                    TransactionStatus = table.Column<int>(nullable: false),
+                    ReferenceNumber = table.Column<string>(nullable: true),
+                    ErrorDescription = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Wallet", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Wallet1",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: true),
                     UserName = table.Column<string>(nullable: true),
                     Balance = table.Column<decimal>(type: "decimal(18, 6)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Wallet", x => x.Id);
+                    table.PrimaryKey("PK_Wallet1", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -378,9 +439,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 {
                     table.PrimaryKey("PK_AgentUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AgentUsers_Wallet_WalletId",
+                        name: "FK_AgentUsers_Wallet1_WalletId",
                         column: x => x.WalletId,
-                        principalTable: "Wallet",
+                        principalTable: "Wallet1",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -416,9 +477,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Subscribers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Subscribers_Wallet_WalletId",
+                        name: "FK_Subscribers_Wallet1_WalletId",
                         column: x => x.WalletId,
-                        principalTable: "Wallet",
+                        principalTable: "Wallet1",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -517,6 +578,8 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     PredictionValue = table.Column<string>(nullable: true),
                     TimeofFixture = table.Column<DateTime>(nullable: false),
                     PredictorId = table.Column<long>(nullable: false),
+                    CustomCategoryId = table.Column<long>(nullable: true),
+                    MatchCategoryId = table.Column<long>(nullable: true),
                     PricingPlanId = table.Column<long>(nullable: false),
                     ClubAScore = table.Column<string>(nullable: true),
                     ClubBScore = table.Column<string>(nullable: true),
@@ -526,6 +589,18 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Predictions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Predictions_CustomCategories_CustomCategoryId",
+                        column: x => x.CustomCategoryId,
+                        principalTable: "CustomCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Predictions_MatchCategories_MatchCategoryId",
+                        column: x => x.MatchCategoryId,
+                        principalTable: "MatchCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Predictions_Package_PackageId",
                         column: x => x.PackageId,
@@ -561,6 +636,16 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 name: "IX_Package_SubscriberId",
                 table: "Package",
                 column: "SubscriberId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Predictions_CustomCategoryId",
+                table: "Predictions",
+                column: "CustomCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Predictions_MatchCategoryId",
+                table: "Predictions",
+                column: "MatchCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Predictions_PackageId",
@@ -679,6 +764,15 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 name: "UserTokens");
 
             migrationBuilder.DropTable(
+                name: "Wallet");
+
+            migrationBuilder.DropTable(
+                name: "CustomCategories");
+
+            migrationBuilder.DropTable(
+                name: "MatchCategories");
+
+            migrationBuilder.DropTable(
                 name: "Package");
 
             migrationBuilder.DropTable(
@@ -703,7 +797,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 name: "Subscribers");
 
             migrationBuilder.DropTable(
-                name: "Wallet");
+                name: "Wallet1");
         }
     }
 }

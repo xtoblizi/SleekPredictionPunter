@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SleekPredictionPunter.AppService.Clubs;
+using SleekPredictionPunter.AppService.CustomCategory;
+using SleekPredictionPunter.AppService.MatchCategories;
 using SleekPredictionPunter.AppService.Packages;
 using SleekPredictionPunter.AppService.Plans;
 using SleekPredictionPunter.AppService.PredictionAppService;
@@ -27,14 +29,18 @@ namespace SleekPredictionPunter.WebApp.Controllers
 		private readonly IPricingPlanAppService _pricingPlanservice;
         private readonly IClubService _clubService;
         private readonly ICategoryService _categoryService;
-        private readonly IPredictorService _predictorService; 
+        private readonly IPredictorService _predictorService;
+        private readonly IMatchCategoryService _matchCategoryService;
+        private readonly ICustomCategoryService _customCategoryService;
 
         public PredictionsController(IPredictionService predictionService,
 			IPricingPlanAppService pricingPlanAppService,
 			IPackageAppService packageService,
             IClubService clubService,
             ICategoryService categoryService,
-            IPredictorService predictorService)
+            IPredictorService predictorService,
+            IMatchCategoryService matchCategoryService,
+            ICustomCategoryService customCategoryService)
         { 
             _predictionService = predictionService;
             _packageService = packageService;
@@ -42,6 +48,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
             _clubService = clubService;
             _categoryService = categoryService;
             _predictorService = predictorService;
+            _matchCategoryService = matchCategoryService;
+            _customCategoryService = customCategoryService;
         }
 
         // GET: Predictions
@@ -91,6 +99,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
             ViewBag.ClubB = new SelectList(await _clubService.GetAllQueryable(), "ClubName", "ClubName");
             ViewBag.PredictionValue = new SelectList(await _categoryService.GetCategories(), "CategoryName", "GetNameAndDescription");
             var plan = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName");
+            ViewBag.MatchCategoryId = new SelectList(await _matchCategoryService.GetAllQueryable(), "Id", "CategoryName");
+            ViewBag.CustomCategoryId = new SelectList(await _customCategoryService.GetAllQueryable(), "Id", "CategoryName");
+           
             ViewBag.PricingPlanId = plan;
             return View();
         }
@@ -127,6 +138,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
             ViewBag.ClubB = new SelectList(await _clubService.GetAllQueryable(), "ClubName", "ClubName", prediction.ClubB);
             ViewBag.PredictionValue = new SelectList(await _categoryService.GetCategories(), "CategoryName", "GetNameAndDescription", prediction.PredictionValue);
             ViewBag.PricingPlanId = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName", prediction.PricingPlanId);
+            ViewBag.MatchCategoryId = new SelectList(await _matchCategoryService.GetAllQueryable(), "Id", "CategoryName", prediction.MatchCategoryId);
+            ViewBag.CustomCategoryId = new SelectList(await _customCategoryService.GetAllQueryable(), "Id", "CategoryName", prediction.CustomCategoryId);
+            
 
             return View(prediction);
         }
