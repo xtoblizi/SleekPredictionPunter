@@ -14,7 +14,7 @@ using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.IdentityModels;
 using SleekPredictionPunter.Model.PricingPlan;
 using SleekPredictionPunter.Model.TransactionLogs;
-using SleekPredictionPunter.Model.Wallet;
+using SleekPredictionPunter.Model.Wallets;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
@@ -51,15 +51,27 @@ namespace SleekPredictionPunter.WebApp.Controllers
                     var returnUrl = "/subscription/SubscribeToPlan?id="+id;
                     return Redirect("/Identity/Account/Login?returnUrl=" +returnUrl);
                 }
+
                 var userRole = HttpContext.Session.GetString("userRole");
-                RoleEnum roleEnum = userRole == "4" ? RoleEnum.Agent : userRole == "3" ? RoleEnum.Predictor : RoleEnum.Subscriber;
+                RoleEnum roleEnum = userRole == ((int)RoleEnum.Agent).ToString() ? RoleEnum.Agent
+                                                : userRole == ((int)RoleEnum.Subscriber).ToString() ? RoleEnum.Subscriber
+                                                : userRole == ((int)RoleEnum.Predictor).ToString() ? RoleEnum.Predictor
+                                                : userRole == ((int)RoleEnum.SuperAdmin).ToString() ? RoleEnum.SuperAdmin
+                                                : RoleEnum.Subscriber;
+
+                if (roleEnum != RoleEnum.Subscriber)
+                {
+                    ViewBag.ProcessingMessage = $"Only a subscriber can subscribe to a pcakages. Your role is that of an {roleEnum.ToString()}";
+                    return View();
+                }
+                //to appsettings.json
                 string callbackUrl = "https://localhost:50012/subscription/PaymentCallBack";
                 //check i user has money in his/her wallet. if first and foremost, any transaction records exist, check wallet else just redirect to payment platform.
                 var getUserDetails = await _userManager.FindByEmailAsync(HttpContext.Session.GetString("userEmail"));
                 //check if user is already subscribed to plan
 
                 //get plan details here..
-                var getPlanDetails = await _pricingPlanAppService.GetPlanById(id);
+                var getPlanDetails = await _pricingPlanAppService.GetById(id);
                 
                 if (getUserDetails != null)
                 {

@@ -1,5 +1,5 @@
 ﻿using SleekPredictionPunter.Model.Enums;
-using SleekPredictionPunter.Model.Wallet;
+using SleekPredictionPunter.Model.Wallets;
 using System;
 using System.Collections.Generic;
 using System.Text;
