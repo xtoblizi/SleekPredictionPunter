@@ -64,7 +64,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 //check i user has money in his/her wallet. if first and foremost, any transaction records exist, check wallet else just redirect to payment platform.
                 var getUserDetails = await _userManager.FindByEmailAsync(HttpContext.Session.GetString("userEmail"));
 
-                var getPlanDetails = await _pricingPlanAppService.GetPlanById(id);
+                var getPlanDetails = await _pricingPlanAppService.GetById(id);
                 if (getUserDetails != null)
                 {
                     var walletModel = new WalletModel
