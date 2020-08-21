@@ -11,6 +11,7 @@ using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.PredictionCategoryService;
 using SleekPredictionPunter.AppService.Predictors;
 using SleekPredictionPunter.AppService.ThirdPartyAppService;
+using SleekPredictionPunter.AppService.TransactionLog;
 using SleekPredictionPunter.AppService.Wallet;
 using SleekPredictionPunter.Repository;
 
@@ -33,6 +34,7 @@ namespace SleekPredictionPunter.AppService
 			services.AddTransient<IClubService, ClubService>();
             services.AddTransient<IWalletAppService, WalletAppService>();
             services.AddTransient<IPaymentAppService, PaymentAppService>();
+            services.AddTransient<ITransactionLogAppService, TransactionLogAppService>();
 
             // repository DI registration
             services.AddPredictionRepositories();

@@ -6,6 +6,7 @@ using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Model.IdentityModels;
 using SleekPredictionPunter.Model.PricingPlan;
 using SleekPredictionPunter.Model.Wallets;
+using SleekPredictionPunter.Model.TransactionLogs;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,12 +15,10 @@ namespace SleekPredictionPunter.DataInfrastructure
 {
 	public class PredictionDbFactory : IDesignTimeDbContextFactory<PredictionDbContext>
 	{
-		//const string connectionstring = "Data Source=.;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
-		//	" Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; password=passlock;User Id=sa; Encrypt=False;TrustServerCertificate=True";
+		const string connectionstring = "Data Source=.;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
+				"Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; password=passlock;User Id=sa; Encrypt=False;TrustServerCertificate=True";
 
-		const string connectionstring = "Data Source=DESKTOP-JBDM8G2\\SQLEXPRESS;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
-			" Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
-		//const string connectionstring = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
+		//const string  connectionstring = "Data Source=DESKTOP-JBDM8G2\\SQLEXPRESS;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
 		//	" Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
         public PredictionDbContext CreateDbContext(string[] args)
 		{
@@ -48,6 +47,8 @@ namespace SleekPredictionPunter.DataInfrastructure
         public DbSet<PlanBenefitQuestionsModel> PricePlanQuestions { get; set; }
         public DbSet<PlanPricingBenefitsModel> PricePlanBenefits { get; set; }
         public DbSet<PricingPlanModel> PricePlans { get; set; }
+        public DbSet<WalletModel> Wallets { get; set; }
+        public DbSet<TransactionLogModel> TransactionLogs { get; set; }
 		public DbSet<Contact> Contacts { get; set; }
 		public DbSet<PredictionCategory> PredictionCategories { get; set; }
 		public DbSet<Club> Clubs { get; set; }

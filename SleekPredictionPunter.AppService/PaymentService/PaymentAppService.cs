@@ -1,14 +1,20 @@
 ﻿using Microsoft.Extensions.Options;
 using PayStack.Net;
+using SleekPredictionPunter.AppService.Wallet;
 using SleekPredictionPunter.Model;
+using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.IdentityModels;
-using SleekPredictionPunter.Model.Wallets;
+using SleekPredictionPunter.Model.TransactionLogs;
+using SleekPredictionPunter.Model.Wallet;
+using SleekPredictionPunter.Repository.Base;
 using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.AppService.PaymentService
 {
-	public class PaymentAppService : IPaymentAppService
+    public class PaymentAppService : IPaymentAppService
     {
        
         private readonly AppSettings _appSettings;
@@ -17,7 +23,7 @@ namespace SleekPredictionPunter.AppService.PaymentService
             _appSettings = options.Value;
         }
 
-        public async Task<(TransactionInitializeResponse, WalletModel)> PaystackPaymentOption(WalletModel walletModel, string callbackUrl, ApplicationUser userModel)
+        public async Task<(TransactionInitializeResponse, TransactionLogModel)> PaystackPaymentOption(TransactionLogModel walletModel, string callbackUrl, ApplicationUser userModel)
         {
             try
             {
@@ -25,11 +31,11 @@ namespace SleekPredictionPunter.AppService.PaymentService
                 string reference = Guid.NewGuid().ToString();
                 var transaction = new PayStackApi(secretKey);
 
-                walletModel.Amount = walletModel.Amount * 100;
+                walletModel.CurrentAmount = walletModel.CurrentAmount * 100;
                 walletModel.TransactionDescription = $"Subscription For {walletModel.TransactionDescription}";
                 var response = transaction.Transactions.Initialize(new TransactionInitializeRequest
                 {
-                    AmountInKobo = (int)walletModel.Amount,
+                    AmountInKobo = (int)walletModel.CurrentAmount,
                     Bearer = userModel.FirstName + " " + userModel.LastName,
                     Metadata = walletModel.TransactionDescription,
                     CallbackUrl = callbackUrl,
@@ -42,10 +48,12 @@ namespace SleekPredictionPunter.AppService.PaymentService
                     //successfully initialised, save paystack reference
                     //save this ref, to the db record, 
                     walletModel.ReferenceNumber = response.Data.Reference;
-                    walletModel.TransactionStatus = TransactionstatusEnum.Success;
-                    walletModel.Amount = walletModel.Amount;
+                    walletModel.TransactionStatus = TransactionstatusEnum.Pending;
+                    walletModel.TransactionStatusName = TransactionstatusEnum.Pending.ToString();
                     walletModel.TransactionType = TransactionTypeEnum.Credit;
+                    walletModel.TransactionTypeName = TransactionTypeEnum.Credit.ToString();
                     walletModel.MediumPaid = MediumUsedEnum.Paystack;
+                    walletModel.MediumPaidName = MediumUsedEnum.Paystack.ToString();
 
                     return (response,walletModel);
                 }
