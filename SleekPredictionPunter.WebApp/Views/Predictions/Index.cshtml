@@ -24,84 +24,93 @@
 			<div class="content-panel" style="padding:20px">
 				<div class="row">
 					<div class="col-xl-2 col-lg-2 col-md-3 col-sm-6">
-						<a asp-action="Create" class="btn btn-success">Add Odd Category</a>
+						<a asp-action="Create" class="btn btn-success">Add Prediction</a>
 					</div>
 				</div>
 				<br />
 				<table class="table table-bordered table-striped table-hover">
 					<thead>
-						<tr>
-							<th>
-								S/N
-							</th>
-							<th>
-								Predicted By
-							</th>
-							<th>
-								Club A
-							</th>
-							<th>
-								Club Logo
-							</th>
-							<th>
+                        <tr>
+                            <th>
+                                S/N
+                            </th>
+                            <th>
+                                Predicted By
+                            </th>
+                            <th>
+                                Club A
+                            </th>
+                            <th>
+                                Club Logo
+                            </th>
+                            <th>
 
-							</th>
-							<th>
-								Club B
-							</th>
-							<th>
-								Club Logo
-							</th>
-							<th>
-								Prediction
-							</th>
-							<th>
-								Time
-							</th>
-							<th>
-								Actions
-							</th>
-						</tr>
+                            </th>
+                            <th>
+                                Club B
+                            </th>
+                            <th>
+                                Club Logo
+                            </th>
+                            <th>
+                                Prediction
+                            </th>
+                           
+                            <th>
+                                Match Category
+                            </th>
+                            <th>
+                                Time
+                            </th>
+                            <th>
+                                Actions
+                            </th>
+                        </tr>
 					</thead>
 					<tbody>
 						@foreach (var item in Model)
 						{
 							var getCluALogo = await _clubService.GetByName(item.ClubA);
 							var getCluBLogo = await _clubService.GetByName(item.ClubB);
-							<tr>
-								<td>
-									@(sn++)
-								</td>
-								<td>
-									@Html.DisplayFor(modelItem => item.PredictorUserName)
-								</td>
-								<td>
-									@Html.DisplayFor(modelItem => item.ClubA)
-								</td>
-								<td>
-									<img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluALogo.ClubLogRelativePath))" style="width:30px;height:30px" />
-								</td>
-								<td>
-									VS
-								</td>
-								<td>
-									@Html.DisplayFor(modelItem => item.ClubB)
-								</td>
-								<td>
-									<img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluBLogo.ClubLogRelativePath))" style="width:30px;height:30px" />
-								</td>
-								<td>
-									@Html.DisplayFor(modelItem => item.PredictionValue)
-								</td>
-								<td>
-									@Html.DisplayFor(modelItem => item.TimeofFixture)
-								</td>
+                        <tr>
+                            <td>
+                                @(sn++)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PredictorUserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ClubA)
+                            </td>
+                            <td>
+                                <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluALogo.ClubLogRelativePath))" style="width:30px;height:30px" />
+                            </td>
+                            <td>
+                                VS
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ClubB)
+                            </td>
+                            <td>
+                                <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluBLogo.ClubLogRelativePath))" style="width:30px;height:30px" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PredictionValue)
+                            </td>
 
-								<td>
-									<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-									<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
-								</td>
-							</tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MatchCategory.CategoryName)
+                            </td>
+                         
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TimeofFixture)
+                            </td>
+
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
+                            </td>
+                        </tr>
 						}
 					</tbody>
 				</table>

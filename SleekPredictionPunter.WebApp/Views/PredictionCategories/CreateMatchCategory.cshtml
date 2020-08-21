@@ -1,0 +1,57 @@
+﻿@model SleekPredictionPunter.Model.MatchCategory
+
+@{
+    ViewData["Title"] = "CreateMatchCategory";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    int sn = 1;
+}
+
+<h2>CreateMatchCategory</h2>
+
+<h4>MatchCategory</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateMatchCategory">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CategoryName" class="control-label"></label>
+                <input asp-for="CategoryName" class="form-control" />
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div> 
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <td>S/N</td>
+                <td>Name</td>
+                <td>Description</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in ViewBag.MatchCategory)
+            {
+            <tr>
+                <td>@(sn++)</td>
+                <td>@item.CategoryName</td>
+                <td>@item.Description</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

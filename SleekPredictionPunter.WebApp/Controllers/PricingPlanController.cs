@@ -28,15 +28,16 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> AllPlans()
         {
+            ViewBag.PlanSetup = "active";
             var getAllPlans = await _pricingPlanAppService.GetAllPlans();
             return View();
         }
 
         #region question region
         [HttpGet]
-		[Authorize]
         public async Task<IActionResult> CreateNewQuestion()
         {
+            ViewBag.PlanSetup = "active";
             ViewBag.Questions = await _pricingPlanAppService.GetAllQuestion();
             return View(new PlanBenefitQuestionsModel { });
         }
@@ -44,6 +45,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateNewQuestion(PlanBenefitQuestionsModel model)
         {
+            ViewBag.PlanSetup = "active";
             ViewBag.Questions = await _pricingPlanAppService.GetAllQuestion();
             try
             {
@@ -78,6 +80,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateNewPlan()
         {
+            ViewBag.PlanSetup = "active";
             try
             {
                 var getAllQquestions = await _pricingPlanAppService.GetAllQuestion();
@@ -100,7 +103,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateNewPlan(PlanPricingDto model, int[] answers , long[] questionId)
         {
-
+            ViewBag.PlanSetup = "active";
             try
             {
                 var result = false;
