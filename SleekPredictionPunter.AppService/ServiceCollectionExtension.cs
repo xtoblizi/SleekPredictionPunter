@@ -12,6 +12,7 @@ using SleekPredictionPunter.AppService.Plans;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.PredictionCategoryService;
 using SleekPredictionPunter.AppService.Predictors;
+using SleekPredictionPunter.AppService.Subscriptions;
 using SleekPredictionPunter.AppService.ThirdPartyAppService;
 using SleekPredictionPunter.AppService.TransactionLog;
 using SleekPredictionPunter.AppService.Wallet;
@@ -38,7 +39,7 @@ namespace SleekPredictionPunter.AppService
             services.AddTransient<IPaymentAppService, PaymentAppService>();
 			services.AddTransient<ICustomCategoryService, CustomCategoryService>();
 			services.AddTransient<IMatchCategoryService, MatchCategoryService>();
-
+			services.AddTransient<ISubscriptionAppService, SubscriptionAppService>();
             services.AddTransient<ITransactionLogAppService, TransactionLogAppService>();
 
             // repository DI registration

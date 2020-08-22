@@ -1,4 +1,5 @@
-﻿using SleekPredictionPunter.Model.Enums;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.Wallets;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace SleekPredictionPunter.Model.TransactionLogs
     {
         public string UserEmailAddress { get; set; }
         public RoleEnum UserRole { get; set; }
+        public long PlanId { get; set; }
         public TransactionTypeEnum TransactionType { get; set; }
         public string TransactionTypeName { get; set; }
         public MediumUsedEnum? MediumPaid { get; set; }
