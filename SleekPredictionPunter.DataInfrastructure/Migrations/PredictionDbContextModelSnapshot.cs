@@ -766,6 +766,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<DateTime?>("DateUpdated")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Duration")
                         .HasColumnType("nvarchar(max)");
 
@@ -780,6 +783,12 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18, 6)");
+
+                    b.Property<int>("RateCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
