@@ -39,7 +39,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
 			var getPredictions = await _predictionService.GetPredictions();
 			ViewBag.TopTen = getPredictions.OrderByDescending(x => x.DateCreated);
 
-			return View();
+			var gatePredictions = await _predictionService.GetPredictions();
+			ViewBag.Predictions = gatePredictions;
+			return View(gatePredictions);
 		}
 
 		

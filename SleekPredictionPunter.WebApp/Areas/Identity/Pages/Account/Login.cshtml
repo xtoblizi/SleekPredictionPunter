@@ -4,162 +4,88 @@
 @{
     ViewData["Title"] = "Log in";
 }
+<link rel="stylesheet" href="~/FrontendTheme/assets/css/register-page-responsive.css">
 
-<!-- breadcrumb begin -->
-<div class="breadcrumb-bettix register-page">
+<div class="register">
     <div class="container">
-        <div class="row">
-            <div class="col-xl-7 col-lg-7">
-                <div class="breadcrumb-content">
-                    <h2>Login</h2>
+        <div class="row justify-content-center">
+            <div class="col-xl-7 col-lg-8 col-md-8">
+                <div class="section-title">
+                    <h2>Login To Predict Now</h2>
+                    <p>Bettix is the most advanced sports trading & affialiate platform and highest stakes across multiple bookmakers and exchanges.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-xl-7 col-lg-7 col-md-9 col-sm-12">
+                <div class="sign-up-step">
+                    <ul>
+                        <li class="active">
+                            <span class="icon">
+                                <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="user-circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="svg-inline--fa fa-user-circle fa-w-16 fa-fw fa-2x"><path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm128 421.6c-35.9 26.5-80.1 42.4-128 42.4s-92.1-15.9-128-42.4V416c0-35.3 28.7-64 64-64 11.1 0 27.5 11.4 64 11.4 36.6 0 52.8-11.4 64-11.4 35.3 0 64 28.7 64 64v13.6zm30.6-27.5c-6.8-46.4-46.3-82.1-94.6-82.1-20.5 0-30.4 11.4-64 11.4S204.6 320 184 320c-48.3 0-87.8 35.7-94.6 82.1C53.9 363.6 32 312.4 32 256c0-119.1 96.9-216 216-216s216 96.9 216 216c0 56.4-21.9 107.6-57.4 146.1zM248 120c-48.6 0-88 39.4-88 88s39.4 88 88 88 88-39.4 88-88-39.4-88-88-88zm0 144c-30.9 0-56-25.1-56-56s25.1-56 56-56 56 25.1 56 56-25.1 56-56 56z" class=""></path></svg>
+                            </span>
+                            <span class="text">Login</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="all-form">
+                    <div class="single-form" id="first-step">
+                        <form id="account" method="post">
+                            <input type="hidden" id="loginType" name="loginType" value="1" />
+                            <div class="form-group">
+                                <input type="email" asp-for="Input.Email" placeholder="Enter Your Mail/ Username">
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" asp-for="Input.Password" placeholder="Enter Your Password">
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group justify-content-center">
+                                &nbsp;&nbsp;
+                                <button type="submit" class="btn btn-success">Sign-In</button>
+                                &nbsp;|&nbsp;
+                                <button type="submit" class="btn btn-Primary"><a style="color:white" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Sign-Up</a></button>
+                                <br />
+                            </div>
+                        </form>
+                    </div>
                     
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- breadcrumb end -->
-<!-- login begin -->
-<div class="login">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-6 col-lg-6 col-md-8">
-				<div class="section-title">
-					<h2>Login</h2>
-					@if (Model.ErrorMessage != null)
-					{
-						<p> Error Message : <strong> @Model.ErrorMessage.ToString() </strong></p>
-					}
-				</div>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-sm-11 col-xs-11 col-xl-5 col-lg-6 col-md-7">
-                <div class="login-form">
-                    <form id="account" method="post">
-                        <input type="hidden" id="loginType" name="loginType" value="1" />
-                        <div class="form-group">
-                            <input type="email" asp-for="Input.Email" placeholder="Enter Your Mail/ Username">
-                            <span asp-validation-for="Input.Email" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <input type="password" asp-for="Input.Password" placeholder="Enter Your Password">
-                            <span asp-validation-for="Input.Password" class="text-danger"></span>
-                        </div>
-                        <div class="form-group justify-content-center">
-                            &nbsp;&nbsp;
-                            <button type="submit">Sign-In</button>
-                            &nbsp;|&nbsp;
-                            <button type="button"><a style="color:white" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Sign-Up</a></button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-xl-5 col-lg-5 col-md-6">
-                <div class="wrapper">
-                    <form id="account" method="post">
-                        <div class="dropdown center-align">
-                            <input type="hidden" id="loginType" name="loginType" value="2" />
-                            @foreach (var provider in Model.ExternalLogins)
-                            {
-                                <button class="btn btn-success dropdown-toggle" type="button" name="provider" value="@provider.Name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    @provider.DisplayName
-                                </button>
-                            }
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <button value="2" class="dropdown-item" name="userType">As Subscriber</button>
-                                <button value="4" class="dropdown-item" name="userType">As Agent</button>
-                                <button value="3" class="dropdown-item" name="userType">As Predictor</button>
-                            </div>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<!-- login end -->
-@*<div class="container">
-        <div class="col-12">
-            <div class="container-fluid">
-                <h1>@ViewData["Title"]</h1>
-                <div class="row justify-content-center">
-                    <div class="col-md-6 col-md-offset-2">
-                        <section>
+                <hr />
+                <div class="all-form">
+                    <div class="single-form" id="first-step">
+                        <p class=align-center> <b> --OR--  Sign-In with 3rd Party</b></p>
+                        <br />
+                        @if (Model.ExternalLogins.Count == 0)
+                        {
+                            <p class="aligncenter">No 3rd party Auth available. Please, check back!!!.</p>
+                        }
+                        else
+                        {
                             <form id="account" method="post">
-                                <h4>Use a local account to log in.</h4>
-                                <hr />
-                                <div class="form-group">
-                                    <label asp-for="Input.Email"></label>
-                                    <input asp-for="Input.Email" class="form-control" />
-                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="Input.Password"></label>
-                                    <input asp-for="Input.Password" class="form-control" />
-                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <div class="checkbox">
-                                        <label asp-for="Input.RememberMe">
-                                            <input asp-for="Input.RememberMe" />
-                                            @Html.DisplayNameFor(m => m.Input.RememberMe)
-                                        </label>
+                                <div class="dropdown center-align">
+                                    <input type="hidden" id="loginType" name="loginType" value="2" />
+                                    @foreach (var provider in Model.ExternalLogins)
+                                    {
+                                        <button class="btn btn-danger dropdown-toggle btn btn-dark" type="button" name="provider" value="@provider.Name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-google">@provider.DisplayName</i>
+                                        </button>
+                                    }
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <button value="2" class="dropdown-item" name="userType">As Subscriber</button>
+                                        <button value="4" class="dropdown-item" name="userType">As Agent</button>
+                                        <button value="3" class="dropdown-item" name="userType">As Predictor</button>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-outline-primary">Sign-In</button>
-                                    &nbsp;
-                                    <a class="btn btn-outline-secondary" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Sign-Up</a>
-                                </div>
-                                <div class="form-group">
-                                    <p>
-                                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot password?</a>
-                                    </p>
-
                                 </div>
                             </form>
-                        </section>
+                        }
                     </div>
-
-                    <div class="col-md-6 col-md-offset-2">
-                        <section>
-                            <h4>Use another service to log in.</h4>
-                            <hr />
-                            @{
-                                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                                {
-                                    <div>
-                                        <p>
-                                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                                            for details on setting up this ASP.NET application to support logging in via external services.
-                                        </p>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                                        <div>
-                                            <p>
-                                                @foreach (var provider in Model.ExternalLogins)
-                                                {
-                                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                                }
-                                            </p>
-                                        </div>
-                                    </form>
-                                }
-                            }
-                        </section>
-                    </div>
-                </div>
+                 </div>
             </div>
-        </div>
-    </div>*@
 
+        </div>
+    </div>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 
 @section Scripts {
