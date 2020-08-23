@@ -1,10 +1,13 @@
 ﻿@model IEnumerable<SleekPredictionPunter.Model.Prediction>
 @inject SleekPredictionPunter.AppService.Clubs.IClubService _clubService 
+@inject SleekPredictionPunter.AppService.ISubscriberService _subscriberService
+@inject SleekPredictionPunter.AppService.Subscriptions.ISubscriptionAppService _sub
+
 
 @{
 	ViewData["Title"] = "FrontEndIndex";
 	Layout = "~/Views/Shared/_Layout.cshtml";
-	int sn = 1;
+	int sn = 1; 
 }
 
 
@@ -20,7 +23,7 @@
                                 <th scope="col"></th>
                                 <th scope="col">Date & Time</th>
                                 <th scope="col">Match</th>
-                                <th scope="col">Prediction</th>
+                                <th scope="col">Tips</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -59,7 +62,9 @@
                 </div>
             </div>
         </div>
+        
         <div class="row"></div><br />
+
         <div class="container">
             <div class="result-sheet-cover">
                 <div class="result-sheet">
@@ -71,7 +76,7 @@
                                 <th scope="col"></th>
                                 <th scope="col">Date & Time</th>
                                 <th scope="col">Match</th>
-                                <th scope="col">Prediction</th>
+                                <th scope="col">Tips</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
