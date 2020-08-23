@@ -58,6 +58,11 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 
 		public string ReturnUrl { get; set; }
 
+		public string RefLink { get; set; }
+
+		[TempData]
+		public string RegistrationStatusMessge { get; set; }
+
 		public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
 		public class InputModel
@@ -97,11 +102,20 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 			public string ReferrerCode { get; set; }
 		}
 
-        public async Task OnGetAsync(string returnUrl = null, int? userType = null)
+        public async Task OnGetAsync(string returnUrl = null, int? userType = null, string refCode = null)
         {
-            ViewData["userType"] = userType.ToString();
-            ReturnUrl = returnUrl;
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            ViewData["userType"] =  userType == null ? "2" : userType.ToString() ;
+			ViewData["makeRefCodeHidden"] = "false";
+
+			ReturnUrl = returnUrl;
+			if (!string.IsNullOrEmpty(refCode))
+			{
+				ViewData["makeRefCodeHidden"] = "true";
+				ViewData["userType"] = "2";
+				ViewData["refCode"] = refCode; 
+			}
+
+			ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
 		/// <summary>
@@ -110,112 +124,126 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 		/// <param name="returnUrl"></param>
 		/// <param name="role"></param>
 		/// <returns></returns>
-		public async Task<IActionResult> OnPostAsync(int registrationType, string returnUrl = null, int? role = null, string provider = null, string userType=null)
+		public async Task<IActionResult> OnPostAsync(int registrationType, string returnUrl = null,
+			 string userType=null)
 		{
 			try
 			{
+				int role = 0;
+				var userTypeConvert = int.TryParse(userType, out role);
 
-				returnUrl = returnUrl ?? Url.Content("~/");
-				var roleName = string.Empty;
-				if (role == null)
+				if (userTypeConvert)
 				{
-					roleName = RoleEnum.Subscriber.ToString();
+					returnUrl = returnUrl ?? Url.Content("~/");
+					var roleName = string.Empty;
+					if (role == 0)
+					{
+						roleName = RoleEnum.Subscriber.ToString();
+					}
+					else
+					{
+						roleName = ((RoleEnum)role).ToString();
+					}
+
+					//ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+					if (registrationType == 1)
+					{
+						var user = new ApplicationUser
+						{
+							UserName = Input.Email,
+							Email = Input.Email,
+							FirstName = Input.FirstName,
+							LastName = Input.LastName,
+							City = Input.City,
+							Country = Input.Country,
+							DateofBirth = Input.DateOfBirth,
+							State = Input.State,
+						};
+
+						var result = await _userManager.CreateAsync(user, Input.Password);
+						if (result.Succeeded)
+						{
+							#region 
+							if (result.Succeeded && !(await _userManager.IsInRoleAsync(user, roleName)))
+							{
+								// add user to role
+								await _userManager.AddToRoleAsync(user, roleName);
+
+								// create entity based on role
+								if(role == (int)RoleEnum.Subscriber)
+								{
+									await CreateSubscriber(user, Input.ReferrerCode);
+									ViewData["RegistrationStatusMessge"] = $"Welcome {user.FullName}, Your registration was succesuful, " +
+										$"Guess what you can start making wins off our powerful predictions right way." +
+										$"\n  Login now and start making that wins. ";
+								}
+								else 
+								{ 
+									var refCode = await CreateAgent(user);
+									var refLink = Url.Page("/Account/Register",pageHandler: null,
+									values: new { area = "Identity", registrationType = "1", refCode = refCode },
+									protocol: Request.Scheme);
+
+									ViewData["RegistrationStatusMessge"] = $"Agent Registration Successful. \n Your RefererCode is {refCode}." +
+										$" \n \n Preferably use your refererlink to start refeering users to Predictive Power and make money " +
+		  $"							\n \n Referer Link : <span class='text-danger'>{refLink}";
+								}
+							}
+							else
+							{
+								ViewData["RegistrationStatusMessge"] = $"Registration was not successful at this time,please try again with your valid details. \n {result.Errors.FirstOrDefault().Description} .Thanks";
+							}
+							#endregion
+
+							#region if registration confirmation is needed
+							//var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+							//code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+							//var callbackUrl = Url.Page(
+							//	"/Account/ConfirmEmail",
+							//	pageHandler: null,
+							//	values: new { area = "Identity", userId = user.Id, code = code },
+							//	protocol: Request.Scheme);
+
+							//await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+							//	$"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+							#endregion
+
+							if (_userManager.Options.SignIn.RequireConfirmedAccount)
+							{
+								return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
+							}
+							else
+							{
+								await _signInManager.SignInAsync(user, isPersistent: false);
+								
+							}
+						}
+						foreach (var error in result.Errors)
+						{
+							ModelState.AddModelError(string.Empty, error.Description);
+						}
+					}
+					else if (registrationType == 2)
+					{
+						HttpContext.Session.SetString(userRole, userType);
+						var redirectUrl = Url.Action("ThirdPartyLoginCallback", "ThirdPartyCallBack", new { returnUrl });
+
+						var prop = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+						return new ChallengeResult("Google", prop);
+					}
 				}
 				else
 				{
-					roleName = ((RoleEnum)role.Value).ToString();
-				}
-
-				//ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-				if (/*ModelState.IsValid && */registrationType == 1)
-				{
-					var user = new ApplicationUser
-					{
-						UserName = Input.Email,
-						Email = Input.Email,
-						FirstName = Input.FirstName,
-						LastName = Input.LastName,
-						City = Input.City,
-						Country = Input.Country,
-						DateofBirth = Input.DateOfBirth,
-						State = Input.State,
-					};
-
-					var subscriberModel = new SleekPredictionPunter.Model.Subscriber
-					{
-						State = Input.State,
-						DateOfBirth = Input.DateOfBirth,
-						FirstName = Input.FirstName,
-						LastName = Input.LastName,
-						Email = Input.Email,
-						DateCreated = DateTime.Now,
-						IsTenant = true,
-						Street = Input.Street,
-						City = Input.City,
-						Country = Input.Country,
-						PhoneNumber = Input.PhoneNumber,
-						Gender=(GenderEnum)Input.Gender
-						
-					};
-
-					var result = await _userManager.CreateAsync(user, Input.Password);
-					if (result.Succeeded)
-					{
-						
-						// add user to correct role
-						#region 
-						if (result.Succeeded && !(await _userManager.IsInRoleAsync(user, roleName)))
-						{
-							await _userManager.AddToRoleAsync(user, roleName);
-
-							//add user to subscriber table..
-							var subsciber = await _subscriberService.Insert(subscriberModel);
-						}
-						#endregion
-
-						_logger.LogInformation("User created a new account with password.");
-
-						var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-						code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-						var callbackUrl = Url.Page(
-							"/Account/ConfirmEmail",
-							pageHandler: null,
-							values: new { area = "Identity", userId = user.Id, code = code },
-							protocol: Request.Scheme);
-
-						await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-							$"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-						if (_userManager.Options.SignIn.RequireConfirmedAccount)
-						{
-							return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
-						}
-						else
-						{
-							await _signInManager.SignInAsync(user, isPersistent: false);
-							return LocalRedirect(returnUrl);
-						}
-					}
-					foreach (var error in result.Errors)
-					{
-						ModelState.AddModelError(string.Empty, error.Description);
-					}
-				}
-				else if (registrationType == 2)
-				{
-					HttpContext.Session.SetString(userRole,userType);
-					var redirectUrl = Url.Action("ThirdPartyLoginCallback", "ThirdPartyCallBack", new { returnUrl });
-					
-					var prop = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
-					return new ChallengeResult("Google", prop);
+					RegistrationStatusMessge = "You can only register as a subscriber or an agent";
 				}
 
 				// If we got this far, something failed, redisplay form
+				ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 				return Page();
 			}
 			catch (Exception ex)
 			{
-				return Page();
 				throw ex;
 			}
 		}
@@ -223,8 +251,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
         private async Task<string> CreateAgent(ApplicationUser user)
         {
             var now = DateTime.Now;
-            var refCode = Guid.NewGuid().ToString().Substring(0, 4);
-            refCode += $"{now.Year}{now.Month}{now.Day}{now.Millisecond}";
+            var refCode =  $"{user.FirstName}{now.Hour}{now.Minute}{now.Second}{now.Millisecond}";
 
             var agent = new Agent()
             {
@@ -244,6 +271,28 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             await _agentService.CreateAgent(agent);
             return refCode;
         }
+
+		private async Task<bool> CreateSubscriber(ApplicationUser user, string refereerCode = null)
+		{
+
+			var subscriber = new Subscriber()
+			{
+				ActivatedStatus = EntityStatusEnum.Active,
+				BrandNameOrNickName = user.FullName,
+				City = user.City,
+				Country = user.Country,
+				Email = user.Email,
+				FirstName = user.FirstName,
+				LastName = user.LastName,
+				IsTenant = true,
+				Username = user.UserName,
+				RefererCode = refereerCode
+
+			};
+
+			await _subscriberService.Insert(subscriber);
+			return true;
+		}
 		public async Task<IActionResult> ThirdPartySignUpCallback(string returnUrl = null)
         {
 			returnUrl = returnUrl ?? Url.Content("~/");
@@ -294,27 +343,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 			return Page();
         }
 
-        private async Task<bool> CreateSubscriber(ApplicationUser user,string refereerCode = null)
-        {
-            
-            var subscriber = new Subscriber()
-            {
-                ActivatedStatus = EntityStatusEnum.Active,
-                BrandNameOrNickName = user.FullName,
-                City = user.City,
-                Country = user.Country,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                IsTenant = true,
-                Username = user.UserName,
-                RefererCode = refereerCode
-
-            };
-
-            await _subscriberService.Insert(subscriber);
-            return true;
-        }
+       
     }
 
     

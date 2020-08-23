@@ -87,7 +87,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null,string loginType = null, string userType = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null,string loginType = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
@@ -141,15 +141,19 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 					}
 					else
 					{
+						var notalloewd = result.IsNotAllowed == true ? "User trying to sign in is not allowed." : "";
+						ErrorMessage = $"Sign was not succesful at the time. {notalloewd} ";
 						ModelState.AddModelError(string.Empty, "Invalid login attempt.");
 						return Page();
 					}
 				}
-            }
+
+				ErrorMessage = "Invalid Username or password, could not find user, please try again with correct details";
+
+			}
 
             else if (loginType == "2")
             {
-                HttpContext.Session.SetString(userRole, userType);
                 var redirectUrl = Url.Action("ThirdPartyLoginCallback", "ThirdPartyCallBack", new {returnUrl });
 
                 var prop = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
@@ -157,6 +161,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             }
 
             // If we got this far, something failed, redisplay form
+			
             return Page();
         }
 
