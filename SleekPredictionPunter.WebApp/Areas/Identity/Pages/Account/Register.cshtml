@@ -24,17 +24,19 @@
 </div>
 <!-- breadcrumb end -->
 <!-- regsiter begin -->
-<div class="register">
+<div class="register"> 
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-xl-7 col-lg-8 col-md-8">
+            <div class="col-xl-7 col-lg-8 col-md-8 col-sm-12 col-xm-12">
                 <div class="section-title">
-                    <h2>Register</h2>
-                   @* <p>Bettix is the most advanced sports trading & affialiate platform and highest stakes across multiple bookmakers and exchanges.</p>*@
-                </div>
+					 @if (ViewData["RegistrationStatusMessge"] != null) {<h3 class="text-success"> @ViewData["RegistrationStatusMessge"]</h3>  }
+                   </div>
             </div>
         </div>
         <div class="row justify-content-center">
+			<div class="row">
+				
+			</div>
 			<div class="row">
 				@*<div class="row">
 					<div class="sign-up-step">
@@ -54,18 +56,25 @@
 					<div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
 
 						<div class="all-form">
-							@*@if (ViewData["RegStatus"] == null)
-				{}*@
+							
 							<div class="single-form" id="first-step">
 
 								<form class="form-inline" method="post">
-									@if (ViewData["userType"] == "2")
+									@if (ViewData["userType"] != null && ViewData["userType"].ToString() == "2")
 									{
 										<div class="form-group col-md-6 col-sm-12">
-											<input asp-for="Input.ReferrerCode" type="text" value="" id="referrercode" required>
-											<label for="referrercode">referrer code</label>
+
+											@if (ViewData["makeRefCodeHidden"] != null &&	ViewData["makeRefCodeHidden"].ToString() == "true")
+											{
+												<input asp-for="Input.ReferrerCode" value="@ViewData["refCode"]" readonly="readonly" type="text" id="referrercode" required>
+											}
+											else
+											{
+												<input asp-for="Input.ReferrerCode" type="text" id="referrercode" placeholder="Referer Code" value=""  required>
+											}
 										</div>
-									}
+									 }
+
 									<input type="hidden" id="registrationType" name="registrationType" value="1" />
 									<div class="form-group col-md-6 col-sm-12">
 										<input asp-for="Input.FirstName" type="text" value="" id="firstName" required>
@@ -95,7 +104,7 @@
 										<input asp-for="Input.ConfirmPassword" type="password" id="paswordconfirm">
 										<span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
 									</div>
-									
+
 									<div class="form-group col-md-6 col-sm-12">
 										<input type="date" asp-for="Input.DateOfBirth" id="dOb">
 										<label for="userName">Date Of Birth</label>
@@ -104,7 +113,7 @@
 
 									<hr />
 									<p>By clicking "Sign-up", you confirm that you have read and understood  and accept the Predictive Power  <a href="#">Privacy & Coockie Policy, as well as Terms and Aggreement.</a>.</p>
-									<br/>
+									<br />
 									<div class="form-group">
 										<button class="btn btn-outline-success">Sign-Up</button>
 									</div>
