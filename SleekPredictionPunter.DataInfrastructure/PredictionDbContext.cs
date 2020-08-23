@@ -18,8 +18,8 @@ namespace SleekPredictionPunter.DataInfrastructure
         //const string connectionstring = "Data Source=.;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
         //    " Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; password=passlock;User Id=sa; Encrypt=False;TrustServerCertificate=True";
 
-		const string connectionstring = "Data Source=DESKTOP-JBDM8G2\\SQLEXPRESS;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
-			" Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
+		//const string connectionstring = "Data Source=DESKTOP-JBDM8G2\\SQLEXPRESS;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
+		//	" Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
 
         const string connectionstring = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
             " Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";

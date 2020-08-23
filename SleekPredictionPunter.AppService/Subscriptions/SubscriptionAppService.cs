@@ -49,5 +49,10 @@ namespace SleekPredictionPunter.AppService.Subscriptions
         {
             await _baseRepository.Delete(subcription, true);
         }
+
+        public async Task<IEnumerable<Subcription>> GetAll(Func<Subcription, bool> predicate, int startIndex = 0, int count = int.MinValue)
+        {
+            return await _baseRepository.GetAllQueryable(predicate, startIndex, count);
+        }
     }
 }
