@@ -38,7 +38,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
 			var gatePredictions = await _predictionService.GetPredictions();
 			ViewBag.Predictions = gatePredictions;
-			return View();
+			return View(gatePredictions);
 		}
 
 		

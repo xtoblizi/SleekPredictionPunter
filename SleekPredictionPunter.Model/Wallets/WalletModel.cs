@@ -9,19 +9,9 @@ namespace SleekPredictionPunter.Model.Wallets
     {
         public string UserEmailAddress { get; set; }
         public RoleEnum UserRole { get; set; }
-        public TransactionTypeEnum TransactionType { get; set; }
-        public string TransactionTypeName { get { return TransactionType.ToString(); } }
-        public MediumUsedEnum? MediumPaid { get; set; }
-        public string MediumPaidName { get { return MediumPaid.Value.ToString(); } }
         public decimal Amount { get; set; }
-        public string TransactionDescription { get; set; }
         public decimal? LastAmountTransacted { get; set; }
         public DateTime? DateTimeLastTransacted { get; set; }
-        public TransactionstatusEnum TransactionStatus { get; set; }
-        public string TransactionStatusName { get { return TransactionStatus.ToString(); } }
-        public string ReferenceNumber { get; set; }
-        public string ErrorDescription { get; set; }
-
     }
 
     public enum TransactionTypeEnum:int
@@ -41,10 +31,11 @@ namespace SleekPredictionPunter.Model.Wallets
     public enum TransactionstatusEnum
     {
         Success=1,
-        Failed=2,
-        Exception=3,
-        InsuffucientFund = 4,
-        Cancelled=5,
-        None =6
+        Pending = 2,
+        Failed=3,
+        Exception=4,
+        InsuffucientFund = 5,
+        Cancelled=6,
+        None =7
     }
 }

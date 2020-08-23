@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SleekPredictionPunter.AppService.CustomCategory;
+using SleekPredictionPunter.AppService.MatchCategories;
 using SleekPredictionPunter.AppService.PredictionCategoryService;
 using SleekPredictionPunter.DataInfrastructure;
 using SleekPredictionPunter.Model;
@@ -15,12 +17,20 @@ namespace SleekPredictionPunter.WebApp.Controllers
     public class PredictionCategoriesController : Controller
     {
         private readonly ICategoryService _context;
+        private readonly IMatchCategoryService _matchCategoryService;
+        private readonly ICustomCategoryService _customCategoryService;
 
-        public PredictionCategoriesController(ICategoryService context)
+        public PredictionCategoriesController(
+            ICategoryService context, 
+            IMatchCategoryService matchCategoryService,
+            ICustomCategoryService customCategoryService)
         {
             _context = context;
+            _matchCategoryService = matchCategoryService;
+            _customCategoryService = customCategoryService;
         }
 
+        #region prediction category
         // GET: PredictionCategories
         public async Task<IActionResult> Index()
         {
@@ -72,9 +82,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             }
             return View(predictionCategory);
         }
-
-      
-       
+         
         // GET: PredictionCategories/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
@@ -102,6 +110,58 @@ namespace SleekPredictionPunter.WebApp.Controllers
             await _context.RemoveCategoryBy(predictionCategory);
             return RedirectToAction(nameof(Index));
         }
+
+        #endregion
+
+        #region match catgory
+        public async Task<IActionResult> CreateMatchCategory()
+        {
+            ViewBag.PredictionCategories = "active";
+            var getMatchCategory =  await _matchCategoryService.GetAllQueryable();
+            ViewBag.MatchCategory = getMatchCategory.OrderByDescending(x => x.Id);
+            return View();
+        }
+         
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateMatchCategory(MatchCategory model)
+        {
+            ViewBag.PredictionCategories = "active";  
+            if (ModelState.IsValid)
+            {
+                await _matchCategoryService.Insert(model);
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("CreateMatchCategory");
+            }
+            return View(model);
+        }
+
+        #endregion
+
+        #region custom catgory
+        public async Task<IActionResult> CreateCustomCategory()
+        {
+            ViewBag.PredictionCategories = "active";
+            var getCustomCategory = await _customCategoryService.GetAllQueryable();
+            ViewBag.CustomCategory = getCustomCategory.OrderByDescending(x => x.Id);
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateCustomCategory(CustomCategory model)
+        {
+            ViewBag.PredictionCategories = "active";
+            if (ModelState.IsValid)
+            {
+                await _customCategoryService.Insert(model);
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("CreateCustomCategory");
+            }
+            return View(model);
+        }
+
+        #endregion
 
         private bool PredictionCategoryExists(long id)
         {

@@ -113,7 +113,11 @@ namespace SleekPredictionPunter.AppService.Plans
                 Func<PlanPricingBenefitsModel, bool> predicate = (x => x.PlanPricingId == item.Id);
                 var getAllBenefit = await _benefitBaseRepository.GetAllQueryable(predicate);
 
-                var dto = new PlanWithBenefitsDto { PricingPlanModel = item, planPricingBenefitsModels = getAllBenefit };
+                var dto = new PlanWithBenefitsDto
+                { 
+                    PricingPlanModel = item, 
+                    planPricingBenefitsModels = getAllBenefit
+                };
                 dtos.Add(dto);
             }
 
