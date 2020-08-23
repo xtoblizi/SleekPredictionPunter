@@ -7,6 +7,7 @@ using SleekPredictionPunter.AppService.Predictors;
 using SleekPredictionPunter.Model;
 using SleekPredictionPunter.WebApp.Models;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.WebApp.Controllers
@@ -34,7 +35,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
 			// this is used to conditionally show or hide breadcumbanner in the view of the concerned page
 			// pass the value true or false in the base method "ShowBreadCumBannerSetter"
-			base.ShowBreadCumBannerSetter(true);
+			base.ShowBreadCumBannerSetter(true); 
+			var getPredictions = await _predictionService.GetPredictions();
+			ViewBag.TopTen = getPredictions.OrderByDescending(x => x.DateCreated);
 
 			var gatePredictions = await _predictionService.GetPredictions();
 			ViewBag.Predictions = gatePredictions;

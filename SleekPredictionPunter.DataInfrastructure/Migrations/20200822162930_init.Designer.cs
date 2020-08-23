@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SleekPredictionPunter.DataInfrastructure;
 
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
     [DbContext(typeof(PredictionDbContext))]
-    partial class PredictionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200822162930_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -766,9 +768,6 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<DateTime?>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Duration")
                         .HasColumnType("nvarchar(max)");
 
@@ -784,13 +783,12 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18, 6)");
 
-                    b.Property<int>("RateCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
+                    b.Property<long?>("SubcriptionId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SubcriptionId");
 
                     b.ToTable("PricePlans");
                 });
@@ -817,16 +815,12 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<int>("NumberOfMonths")
                         .HasColumnType("int");
 
-                    b.Property<long>("PricingPlanId")
+                    b.Property<long?>("SubscriberId")
                         .HasColumnType("bigint");
-
-                    b.Property<long>("SubscriberId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("SubscriberUsername")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SubscriberId");
 
                     b.ToTable("Subcriptions");
                 });
@@ -959,72 +953,6 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.ToTable("ThirdPartyUsers");
                 });
 
-            modelBuilder.Entity("SleekPredictionPunter.Model.TransactionLogs.TransactionLogModel", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<decimal>("CurrentAmount")
-                        .HasColumnType("decimal(18, 6)");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeOfLastTransacted")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("EntityStatus")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ErrorDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("LastAmountTransacted")
-                        .HasColumnType("decimal(18, 6)");
-
-                    b.Property<int?>("MediumPaid")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MediumPaidName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("PlanId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("ReferenceNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TransactionDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TransactionStatus")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TransactionStatusName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TransactionType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TransactionTypeName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserEmailAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserRole")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TransactionLogs");
-                });
-
             modelBuilder.Entity("SleekPredictionPunter.Model.Wallet", b =>
                 {
                     b.Property<long>("Id")
@@ -1049,7 +977,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Wallet");
+                    b.ToTable("Wallet1");
                 });
 
             modelBuilder.Entity("SleekPredictionPunter.Model.Wallets.WalletModel", b =>
@@ -1074,8 +1002,26 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
 
+                    b.Property<string>("ErrorDescription")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal?>("LastAmountTransacted")
                         .HasColumnType("decimal(18, 6)");
+
+                    b.Property<int?>("MediumPaid")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReferenceNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TransactionDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TransactionStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserEmailAddress")
                         .HasColumnType("nvarchar(max)");
@@ -1085,7 +1031,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WalletModel");
+                    b.ToTable("Wallet");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1188,6 +1134,20 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasForeignKey("PricingPlanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SleekPredictionPunter.Model.PricingPlan.PricingPlanModel", b =>
+                {
+                    b.HasOne("SleekPredictionPunter.Model.Subcription", null)
+                        .WithMany("Packages")
+                        .HasForeignKey("SubcriptionId");
+                });
+
+            modelBuilder.Entity("SleekPredictionPunter.Model.Subcription", b =>
+                {
+                    b.HasOne("SleekPredictionPunter.Model.Subscriber", "Subscriber")
+                        .WithMany()
+                        .HasForeignKey("SubscriberId");
                 });
 
             modelBuilder.Entity("SleekPredictionPunter.Model.Subscriber", b =>

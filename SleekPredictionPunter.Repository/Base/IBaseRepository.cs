@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,12 +19,16 @@ namespace SleekPredictionPunter.Repository.Base
 
 		Task<IEnumerable<T>> GetAllQueryable(Func<T, bool> predicate = null, int startIndex = 0, int count = int.MaxValue);
 
+		DbSet<T> ReturnDbSetForQuery();
+
 		Task<T> GetById(string id);
 
 		Task<T> GetById(long id);
 
 		Task<T> GetById(int id);
 		Task<long> SaveChangesAsync();
+
+		Task<dynamic> ReturnIncldedResult<T1, T2>(IIncludableQueryable<T1, T2> includeablequery) where T1 : class where T2 : class;
 
 		#region Obsolete 
 		//Task<long> Insert<T>(T phoneOwner, bool savechage = true) where T : class;
