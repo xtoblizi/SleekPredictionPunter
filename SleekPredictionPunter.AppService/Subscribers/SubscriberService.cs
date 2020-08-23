@@ -121,5 +121,7 @@ namespace SleekPredictionPunter.AppService
 			var filter = getAllSubscriber.Where(x => x.DateCreated >= firstDayOfTheMonth && x.DateCreated <= dateTo);
 			return filter.LongCount();
 		}
+
+		
 	}
 }

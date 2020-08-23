@@ -117,7 +117,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 				//property.Relational().ColumnType = "decimal(18, 6)";
 
 				// EF Core 3
-				property.SetColumnType("decimal(18, 6)");
+				property.SetColumnType("decimal(18, 2)");
 
 				// EF Core 5
 				//property.SetPrecision(18);

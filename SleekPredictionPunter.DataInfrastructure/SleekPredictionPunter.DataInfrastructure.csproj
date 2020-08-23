@@ -20,7 +20,4 @@
     <ProjectReference Include="..\SleekPredictionPunter.GeneralUtilsAndServices\SleekPredictionPunter.GeneralUtilsAndServices.csproj" />
     <ProjectReference Include="..\SleekPredictionPunter.Model\SleekPredictionPunter.Model.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
 </Project>

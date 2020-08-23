@@ -103,7 +103,8 @@ namespace SleekPredictionPunter.Repository.Base
 				return await Task.FromResult(dbSet);
 			} 
 			return await _entity.Skip(startIndex).Take(count).ToListAsync(); 
-		}
+		}	
+		
 
 
 		/// <summary>

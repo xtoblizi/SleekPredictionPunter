@@ -11,7 +11,7 @@ namespace SleekPredictionPunter.AppService.TransactionLog
         Task<IEnumerable<TransactionLogModel>> GetAllTransactionLogForAdmin(int skip = 0, int take = int.MaxValue);
         Task<TransactionLogModel> GetTransactionById(long id);
         Task<TransactionLogModel> InsertNewLog(TransactionLogModel model);
-        void UpdateTransactionLog(TransactionLogModel model);
+        Task  UpdateTransactionLog(TransactionLogModel model);
         Task<TransactionLogModel> GetPredicatedTransactionLog(Func<TransactionLogModel, bool> model);
     }
 }

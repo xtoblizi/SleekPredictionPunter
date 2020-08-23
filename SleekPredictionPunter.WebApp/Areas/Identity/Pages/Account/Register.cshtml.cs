@@ -181,12 +181,12 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 								{ 
 									var refCode = await CreateAgent(user);
 									var refLink = Url.Page("/Account/Register",pageHandler: null,
-									values: new { area = "Identity", registrationType = "1", refCode = refCode },
+									values: new { area = "Identity", registrationType = "1", userType = "2", refCode = refCode },
 									protocol: Request.Scheme);
 
 									ViewData["RegistrationStatusMessge"] = $"Agent Registration Successful. \n Your RefererCode is {refCode}." +
 										$" \n \n Preferably use your refererlink to start refeering users to Predictive Power and make money " +
-		  $"							\n \n Referer Link : <span class='text-danger'>{refLink}";
+		  $"							\n \n Referer Link : {refLink}";
 								}
 							}
 							else
