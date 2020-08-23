@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore; 
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
@@ -65,11 +66,42 @@ namespace SleekPredictionPunter.WebApp.Controllers
 		public async Task<IActionResult> FrontEndIndex()
         {
 			base.AddLinkScriptforPackageSetter(true);
-			var result = await _predictionService.GetPredictions();
+            var plans = await _pricingPlanservice.GetAllPlans();
+            var geteFreePlan = plans.FirstOrDefault(c => c.Price < 1);
+            
+            if(geteFreePlan != null)
+            {
+                Func<Prediction, bool> freePredicate = (p => p.PricingPlanId == geteFreePlan.Id);
+                Func<Prediction, bool> paidPredicate = (p => p.PricingPlanId != geteFreePlan.Id);
 
-			ViewBag.Predictions = result;
+                ViewBag.FreeTips = await _predictionService.GetPredictions(freePredicate, startIndex: 0, count: 5);
+                ViewBag.PaidTips = await _predictionService.GetPredictions(paidPredicate, startIndex: 0, count: 5); 
+            }
 
-            return View(result);
+            var groupedTipsByPredicationCategories = await _predictionService.ReturnRelationalData(null,groupByPredicateCategory:true);
+
+            ViewBag.GrouppedPredictionCategoryList = groupedTipsByPredicationCategories;
+             
+            var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(null,groupByMatchCategory:true);
+
+              var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(null,groupByCustomCategory:true);
+
+
+            ViewBag.GroupedTipsByCustomCategories = groupedTipsByCustomCategories;
+            ViewBag.GroupedTipsByMatchCategories = groupedTipsByMatchCategories;
+            ViewBag.GroupedTipsByPredicationCategories = groupedTipsByPredicationCategories;
+
+
+            foreach(var item in groupedTipsByPredicationCategories)
+            {
+                foreach(var keyvalue in item)
+                {
+                    
+                }
+            }
+            
+
+            return View();
         }
 
         // GET: Predictions/Details/5
@@ -94,10 +126,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.Predictions = "active";
+
             ViewBag.PackageId = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName");
             ViewBag.ClubA = new SelectList(await _clubService.GetAllQueryable(), "ClubName", "ClubName");
             ViewBag.ClubB = new SelectList(await _clubService.GetAllQueryable(), "ClubName", "ClubName");
-            ViewBag.PredictionValue = new SelectList(await _categoryService.GetCategories(), "CategoryName", "GetNameAndDescription");
+            ViewBag.PredictionCategoryId = new SelectList(await _categoryService.GetCategories(), "Id", "GetNameAndDescription");
             var plan = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName");
             ViewBag.MatchCategoryId = new SelectList(await _matchCategoryService.GetAllQueryable(), "Id", "CategoryName");
             ViewBag.CustomCategoryId = new SelectList(await _customCategoryService.GetAllQueryable(), "Id", "CategoryName");
@@ -114,9 +147,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Create([FromForm] Prediction prediction)
         {
             ViewBag.Predictions = "active";
-            var getPredictor = await _predictorService.GetByUserName(User.Identity.Name);
-
+            var getPredictor = await _predictorService.GetByUserName(User.Identity.Name); 
             var pricingPlan = await _pricingPlanservice.GetById(prediction.PricingPlanId);
+            var getcategory = await _categoryService.GetCategoryById(prediction.PredictionCategoryId);
+
+
 
             prediction.DateCreated = DateTime.UtcNow;
             prediction.DateUpdated = DateTime.UtcNow;
@@ -126,7 +161,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             prediction.TimeofFixture = prediction.TimeofFixture;
             prediction.PricingPlan = pricingPlan;
             prediction.PredictorId = getPredictor.Id;
-
+            prediction.PredictionValue = getcategory.CategoryName;
 
             if (ModelState.IsValid)
             {
@@ -136,7 +171,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
             ViewBag.ClubA = new SelectList(await _clubService.GetAllQueryable(), "ClubName", "ClubName", prediction.ClubA);
             ViewBag.ClubB = new SelectList(await _clubService.GetAllQueryable(), "ClubName", "ClubName", prediction.ClubB);
-            ViewBag.PredictionValue = new SelectList(await _categoryService.GetCategories(), "CategoryName", "GetNameAndDescription", prediction.PredictionValue);
+            ViewBag.PredictionCategoryId = new SelectList(await _categoryService.GetCategories(), "Id", "GetNameAndDescription", prediction.PredictionValue);
             ViewBag.PricingPlanId = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName", prediction.PricingPlanId);
             ViewBag.MatchCategoryId = new SelectList(await _matchCategoryService.GetAllQueryable(), "Id", "CategoryName", prediction.MatchCategoryId);
             ViewBag.CustomCategoryId = new SelectList(await _customCategoryService.GetAllQueryable(), "Id", "CategoryName", prediction.CustomCategoryId);

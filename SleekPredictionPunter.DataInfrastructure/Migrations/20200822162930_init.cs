@@ -578,13 +578,13 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     PredictionValue = table.Column<string>(nullable: true),
                     TimeofFixture = table.Column<DateTime>(nullable: false),
                     PredictorId = table.Column<long>(nullable: false),
-                    CustomCategoryId = table.Column<long>(nullable: true),
-                    MatchCategoryId = table.Column<long>(nullable: true),
+                    CustomCategoryId = table.Column<long>(nullable: false),
+                    MatchCategoryId = table.Column<long>(nullable: false),
+                    PredictionCategoryId = table.Column<long>(nullable: false),
                     PricingPlanId = table.Column<long>(nullable: false),
                     ClubAScore = table.Column<string>(nullable: true),
                     ClubBScore = table.Column<string>(nullable: true),
-                    PackageId = table.Column<long>(nullable: true),
-                    PredictionCategoryId = table.Column<long>(nullable: true)
+                    PackageId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -594,13 +594,13 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         column: x => x.CustomCategoryId,
                         principalTable: "CustomCategories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Predictions_MatchCategories_MatchCategoryId",
                         column: x => x.MatchCategoryId,
                         principalTable: "MatchCategories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Predictions_Package_PackageId",
                         column: x => x.PackageId,
@@ -612,7 +612,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         column: x => x.PredictionCategoryId,
                         principalTable: "PredictionCategories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Predictions_Predictors_PredictorId",
                         column: x => x.PredictorId,

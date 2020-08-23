@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<SleekPredictionPunter.Model.Prediction>
 @inject SleekPredictionPunter.AppService.Clubs.IClubService _clubService
+@inject SleekPredictionPunter.AppService.MatchCategories.IMatchCategoryService _matchCategory
 
 @{
 	ViewData["Title"] = "Index";
@@ -11,8 +12,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="form-panel">
-				<h2 class="title"> Predictions </h2>
-				@*<a asp-action="Create">Create New</a>*@
+				<h2 class="title"> Predictions </h2> 
 			</div>
 		</div>
 	</div>
@@ -24,7 +24,7 @@
 			<div class="content-panel" style="padding:20px">
 				<div class="row">
 					<div class="col-xl-2 col-lg-2 col-md-3 col-sm-6">
-						<a asp-action="Create" class="btn btn-success">Add Prediction</a>
+						<a asp-action="Create" class="btn btn-primary">Add Prediction</a>
 					</div>
 				</div>
 				<br />
@@ -72,6 +72,7 @@
 						{
 							var getCluALogo = await _clubService.GetByName(item.ClubA);
 							var getCluBLogo = await _clubService.GetByName(item.ClubB);
+                            var matchType = await _matchCategory.GetById(item.MatchCategoryId);
                         <tr>
                             <td>
                                 @(sn++)
@@ -99,7 +100,7 @@
                             </td>
 
                             <td>
-                                @Html.DisplayFor(modelItem => item.MatchCategory.CategoryName)
+                                @matchType.CategoryName
                             </td>
                          
                             <td>

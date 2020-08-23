@@ -10,8 +10,8 @@ using SleekPredictionPunter.DataInfrastructure;
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
     [DbContext(typeof(PredictionDbContext))]
-    [Migration("20200821215447_init1")]
-    partial class init1
+    [Migration("20200822162930_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -543,7 +543,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<string>("ClubBScore")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("CustomCategoryId")
+                    b.Property<long>("CustomCategoryId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("DateCreated")
@@ -555,13 +555,13 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
 
-                    b.Property<long?>("MatchCategoryId")
+                    b.Property<long>("MatchCategoryId")
                         .HasColumnType("bigint");
 
                     b.Property<long?>("PackageId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("PredictionCategoryId")
+                    b.Property<long>("PredictionCategoryId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("PredictionValue")
@@ -1103,11 +1103,15 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 {
                     b.HasOne("SleekPredictionPunter.Model.CustomCategory", "CustomCategory")
                         .WithMany()
-                        .HasForeignKey("CustomCategoryId");
+                        .HasForeignKey("CustomCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SleekPredictionPunter.Model.MatchCategory", "MatchCategory")
                         .WithMany()
-                        .HasForeignKey("MatchCategoryId");
+                        .HasForeignKey("MatchCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SleekPredictionPunter.Model.Packages.Package", null)
                         .WithMany("Predictions")
@@ -1115,7 +1119,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
                     b.HasOne("SleekPredictionPunter.Model.PredictionCategory", "PredictionCategory")
                         .WithMany("Predictions")
-                        .HasForeignKey("PredictionCategoryId");
+                        .HasForeignKey("PredictionCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SleekPredictionPunter.Model.Predictor", "Predictor")
                         .WithMany()
