@@ -47,26 +47,29 @@ namespace SleekPredictionPunter.DataInfrastructure
 					isUserCreated = true;
 
 
-					#region predictor
-					Predictor predictor = new Predictor()
-					{
-						ActivatedStatus = EntityStatusEnum.Active,
-						BrandNameOrNickName = "",
-						City = "Lagos",
-						Country = "Nigeria",
-						DateOfBirth = DateTime.UtcNow,
-						Email = user.Email,
-						FirstName = user.FirstName,
-						Gender = GenderEnum.Male,
-						IsTenant = false,
-						LastName = user.LastName,
-						PhoneNumber = user.PhoneNumber,
-						Street = "",
-						Username = user.UserName,
-						TenantUniqueName = user.Email
-					};
-					context.Add(predictor);
-					context.SaveChanges();
+                    #region predictor
+                    if (!context.Predictors.Any())
+                    {
+						Predictor predictor = new Predictor()
+						{
+							ActivatedStatus = EntityStatusEnum.Active,
+							BrandNameOrNickName = "",
+							City = "Lagos",
+							Country = "Nigeria",
+							DateOfBirth = DateTime.UtcNow,
+							Email = user.Email,
+							FirstName = user.FirstName,
+							Gender = GenderEnum.Male,
+							IsTenant = false,
+							LastName = user.LastName,
+							PhoneNumber = user.PhoneNumber,
+							Street = "",
+							Username = user.UserName,
+							TenantUniqueName = user.Email
+						};
+						context.Add(predictor);
+						context.SaveChanges();
+					} 
 					#endregion
 				}
 

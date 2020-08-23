@@ -71,14 +71,21 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
                 if (roleEnum != RoleEnum.Subscriber)
                 {
-                    ViewBag.ProcessingMessage = $"Only a subscriber can subscribe to a pcakages. Your role is that of an {roleEnum.ToString()}";
+                    TempData["ProcessingMessage"] = $"Only a subscriber can subscribe to a pcakages. Your role is that of an {roleEnum.ToString()}";
                     return View();
                 }
                 //to appsettings.json
-                string callbackUrl = "https://localhost:50012/subscription/PaymentCallBack";
-                //check i user has money in his/her wallet. if first and foremost, any transaction records exist, check wallet else just redirect to payment platform.
-                var getUserDetails = await _userManager.FindByEmailAsync(HttpContext.Session.GetString("userEmail"));
+                var actionLink = $"subscription/paymentcallback?reference=";
+                var callbackUrl = $"{Request.Scheme}://{Request.Host}/{actionLink}";
+               
+				//check i user has money in his/her wallet. if first and foremost, any transaction records exist, check wallet else just redirect to payment platform.
+				var getUserDetails = await _userManager.FindByEmailAsync(HttpContext.Session.GetString("userEmail"));
                 
+				if(getUserDetails == null)
+				{
+                    TempData["ProcessingMessage"] = "Your request cannot be completed, please relogin and try again. Your credential could not be validated";
+					return View();
+				}
                 //get plan details here..
                 var getPlanDetails = await _pricingPlanAppService.GetById(id);
 
@@ -89,7 +96,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
                 var getSubscribeddetails = await _subscriptionAppService.GetPredicateRecord(predicate);
 
-                if (getUserDetails != null && getSubscribeddetails == null)
+                if (getSubscribeddetails == null || getSubscribeddetails.ExpirationDateTime < DateTime.Now)
                 {
                     var transLog = new TransactionLogModel
                     {
@@ -108,9 +115,14 @@ namespace SleekPredictionPunter.WebApp.Controllers
                             return Redirect(paymentservice.Item1.Data.AuthorizationUrl);
                         } 
                     }
-                }
-                ViewBag.ProcessingMessage = "Subscription to this package was unsucessful. Please, retry.";
-                return View();
+				}
+				else
+				{
+					TempData["ProcessingMessage"] = $"Your Subscription for this package is still active. it expires on  {getSubscribeddetails?.ExpirationDateTime}";
+				}
+
+                TempData["ProcessingMessage"] = "Subscription to this package was unsucessful. Please, retry.";
+				return Redirect("/Pricingplan/index/");
             }
             catch (Exception e)
             {
@@ -155,7 +167,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                             LastAmountTransacted = walletModel.LastAmountTransacted,
                             DateTimeOfLastTransacted = walletModel.DateTimeLastTransacted
                         };
-                         _transactionLogAppService.UpdateTransactionLog(logModel);
+                         await _transactionLogAppService.UpdateTransactionLog(logModel);
 
                        var subscriptionModel = new Subcription
                         {
@@ -165,7 +177,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                             SubscriberUsername =email ,
                         };
 
-                        subscriptionModel.ExpirationDateTime = DateTime.Now.AddMonths(-subscriptionModel.NumberOfMonths);
+                        subscriptionModel.ExpirationDateTime = DateTime.Now.AddMonths(subscriptionModel.NumberOfMonths);
                         var insertIntoSubscription = await _subscriptionAppService.CreateSubscription(subscriptionModel);
 
                         ViewBag.Message = "Successfully Subscribed";
@@ -180,7 +192,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                     DateUpdated = DateTime.Now,
                     ErrorDescription = confirmation.Data.Message
                 };
-                _transactionLogAppService.UpdateTransactionLog(log);
+               await  _transactionLogAppService.UpdateTransactionLog(log);
                 ViewBag.Message = "Could not process payment. Please,try again!";
                 return View();
             }

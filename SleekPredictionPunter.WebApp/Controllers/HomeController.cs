@@ -2,11 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SleekPredictionPunter.AppService.Contacts;
+using SleekPredictionPunter.AppService.Plans;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.Predictors;
 using SleekPredictionPunter.Model;
 using SleekPredictionPunter.WebApp.Models;
+using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.WebApp.Controllers
@@ -17,14 +20,18 @@ namespace SleekPredictionPunter.WebApp.Controllers
 		private readonly IContactAppService _contactService;
 		private readonly IPredictionService _predictionService;
 		private readonly IPredictorService _predictorService;
+		private readonly IPricingPlanAppService _pricingPlanservice;
 		public HomeController(ILogger<HomeController> logger,
-			IPredictorService predictorService,IPredictionService predictionService,
-			IContactAppService contactAppService)
+			IPredictorService predictorService,
+			IPredictionService predictionService,
+			IContactAppService contactAppService,
+			IPricingPlanAppService pricingPlanAppService)
 		{
 			_contactService = contactAppService;
 			_predictionService = predictionService;
 			_predictorService = predictorService;
 			_logger = logger;
+			_pricingPlanservice = pricingPlanAppService;
 		}
 
 
@@ -36,8 +43,18 @@ namespace SleekPredictionPunter.WebApp.Controllers
 			// pass the value true or false in the base method "ShowBreadCumBannerSetter"
 			base.ShowBreadCumBannerSetter(true);
 
-			var gatePredictions = await _predictionService.GetPredictions();
-			ViewBag.Predictions = gatePredictions;
+			var plans = await _pricingPlanservice.GetAllPlans();
+			var geteFreePlan = plans.FirstOrDefault(c => c.Price < 1);
+
+			if (geteFreePlan != null)
+			{
+				Func<Prediction, bool> freePredicate = (p => p.PricingPlanId == geteFreePlan.Id);
+				Func<Prediction, bool> paidPredicate = (p => p.PricingPlanId != geteFreePlan.Id);
+
+				ViewBag.FreeTips = 
+					await _predictionService.GetPredictions(freePredicate, startIndex: 0, count: 10);
+			}
+
 			return View();
 		}
 

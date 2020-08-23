@@ -22,7 +22,7 @@ namespace SleekPredictionPunter.AppService.TransactionLog
             return insert;
         }
 
-        public async void UpdateTransactionLog(TransactionLogModel model)
+        public async Task UpdateTransactionLog(TransactionLogModel model)
         {
             await _baseRepository.Update(model, true);
         }

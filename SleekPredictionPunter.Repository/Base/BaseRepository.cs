@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Query;
 using SleekPredictionPunter.DataInfrastructure;
 using SleekPredictionPunter.Model;
 using System;
@@ -102,7 +103,8 @@ namespace SleekPredictionPunter.Repository.Base
 				return await Task.FromResult(dbSet);
 			} 
 			return await _entity.Skip(startIndex).Take(count).ToListAsync(); 
-		}
+		}	
+		
 
 
 		/// <summary>
@@ -138,6 +140,17 @@ namespace SleekPredictionPunter.Repository.Base
 			return await Task.FromResult(_entity.FirstOrDefault());
 			
 		}
+
+		public DbSet<T> ReturnDbSetForQuery()
+        {
+			return _predictionDbContext.Set<T>();
+		}
+
+		public async Task<dynamic> ReturnIncldedResult<T1, T2>(IIncludableQueryable<T1, T2> includeablequery) where T1 : class where T2 : class
+        {
+			throw new NotImplementedException();
+        }
+
 		#endregion
 
 	}

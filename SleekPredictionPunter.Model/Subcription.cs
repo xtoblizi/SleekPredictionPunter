@@ -9,6 +9,7 @@ namespace SleekPredictionPunter.Model
 	public class Subcription : BaseEntity
 	{
 		public virtual long PricingPlanId  { get; set; }
+		//public virtual string PricingPlanName { get; set; }
 
 		public virtual long SubscriberId { get; set; }
 

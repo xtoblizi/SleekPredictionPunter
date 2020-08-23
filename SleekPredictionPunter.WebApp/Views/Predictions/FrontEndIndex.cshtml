@@ -1,70 +1,129 @@
 ﻿@model IEnumerable<SleekPredictionPunter.Model.Prediction>
-@inject SleekPredictionPunter.AppService.Clubs.IClubService _clubService
+@inject SleekPredictionPunter.AppService.Clubs.IClubService _clubService  
+@inject SleekPredictionPunter.AppService.Subscriptions.ISubscriptionAppService _sub
+
 
 @{
-	ViewData["Title"] = "FrontEndIndex";
-	Layout = "~/Views/Shared/_Layout.cshtml";
-	int sn = 1;
+    ViewData["Title"] = "FrontEndIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int sn = 1;
+    Func<Subcription, bool> predicate = (x => x.SubscriberUsername == User.Identity.Name && x.ExpirationDateTime > DateTime.Now);
+    var getsubscriptions = await _sub.GetAll(predicate,0,5);
+
 }
 
 
-<div class="result">	
-<div class="container">
-	<div class="result-sheet-cover">
-		<div class="result-sheet">
-			<h4 class="result-title">Latest Predictions</h4>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>S/N</th>
-						<th scope="col"></th>
-						<th scope="col">Date & Time</th>
-						<th scope="col">Match</th>
-						<th scope="col">Prediction</th>
-						<th scope="col"></th>
-					</tr>
-				</thead>
-                <tbody>
-                    @foreach (var prediction in Model)
-                    {
-                        var getCluALogo = await _clubService.GetByName(prediction.ClubA);
-                        var getCluBLogo = await _clubService.GetByName(prediction.ClubB);
-                        <tr>
-                            <td>@(sn++)</td>
-                            <th scope="row">
-                                <span class="icon">
-                                    <i class="flaticon-football"></i>
-                                </span>
-                            </th>
-                            <td class="date">@prediction.DateCreated</td>
-                            <td class="team-name">
-                                <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluALogo.ClubLogRelativePath))" style="width:30px;height:30px" />
-                                @prediction.ClubA <span class="versace">vs</span> @prediction.ClubB <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluBLogo.ClubLogRelativePath))" style="width:30px;height:30px" />
-                            </td>
-                            <td class="score">@prediction.PredictionValue</td>
-                            <td>
-                                <a>
-                                    <span class="view-icon">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </span>
-                                </a>
-                            </td>
-                        </tr>
-                    }
+    <div class="result">
 
+        <div class="container">
+            <div class="result-sheet-cover">
+                <div class="result-sheet">
+                    <h4 class="result-title">Free Tips</h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th scope="col"></th>
+                                <th scope="col">Date & Time</th>
+                                <th scope="col">Match</th>
+                                <th scope="col">Tips</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.FreeTips != null)
+                            {
+                                foreach (var prediction in ViewBag.FreeTips)
+                                {
+                                    var getCluALogo = await _clubService.GetByName(prediction.ClubA);
+                                    var getCluBLogo = await _clubService.GetByName(prediction.ClubB);
+                                    <tr>
+                                        <td>@(sn++)</td>
+                                        <th scope="row">
+                                            <span class="icon">
+                                                <i class="flaticon-football"></i>
+                                            </span>
+                                        </th>
+                                        <td class="date">@prediction.DateCreated</td>
+                                        <td class="team-name">
+                                            <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluALogo.ClubLogRelativePath))" style="width:30px;height:30px" />
+                                            @prediction.ClubA <span class="versace">vs</span> @prediction.ClubB <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluBLogo.ClubLogRelativePath))" style="width:30px;height:30px" />
+                                        </td>
+                                        <td class="score">@prediction.PredictionValue</td>
+                                        <td>
+                                            <a>
+                                                <span class="view-icon">
+                                                    <i class="fas fa-ellipsis-v"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-                </tbody>
-			</table>
-		</div>
-	</div>
-</div>	
-</div>
+        <div class="row"></div><br />
+        @if (getsubscriptions != null && getsubscriptions.Any())
+        {
+            <div class="container">
+                <div class="result-sheet-cover">
+                    <div class="result-sheet">
+                        <h4 class="result-title">Prenuim Tips </h4>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>S/N</th>
+                                    <th scope="col"></th>
+                                    <th scope="col">Date & Time</th>
+                                    <th scope="col">Match</th>
+                                    <th scope="col">Tips</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.FreeTips != null)
+                                {
+                                    foreach (var prediction in ViewBag.PaidTips)
+                                    {
+                                        var getCluALogo = await _clubService.GetByName(prediction.ClubA);
+                                        var getCluBLogo = await _clubService.GetByName(prediction.ClubB);
+                                        <tr>
+                                            <td>@(sn++)</td>
+                                            <th scope="row">
+                                                <span class="icon">
+                                                    <i class="flaticon-football"></i>
+                                                </span>
+                                            </th>
+                                            <td class="date">@prediction.DateCreated</td>
+                                            <td class="team-name">
+                                                <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluALogo.ClubLogRelativePath))" style="width:30px;height:30px" />
+                                                @prediction.ClubA <span class="versace">vs</span> @prediction.ClubB <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluBLogo.ClubLogRelativePath))" style="width:30px;height:30px" />
+                                            </td>
+                                            <td class="score">@prediction.PredictionValue</td>
+                                            <td>
+                                                <a>
+                                                    <span class="view-icon">
+                                                        <i class="fas fa-ellipsis-v"></i>
+                                                    </span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
+            //foreach (var item in getsubscriptions)
+            //{
 
+            //}
+        }
 
-
-
-@*<div class="result">
-		<div class="container">
-		</div>
-	</div>*@
+    </div>

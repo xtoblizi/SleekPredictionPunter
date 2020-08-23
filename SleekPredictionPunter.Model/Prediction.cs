@@ -35,12 +35,12 @@ namespace SleekPredictionPunter.Model
 		public virtual long  PredictorId { get; set; }
 
 		public virtual CustomCategory CustomCategory { get; set; }
-		public virtual long? CustomCategoryId { get; set; }
+		public virtual long CustomCategoryId { get; set; }
 		public virtual MatchCategory MatchCategory { get; set; }
-		public virtual long? MatchCategoryId { get; set; }
+		public virtual long MatchCategoryId { get; set; }
 
 		public virtual PredictionCategory PredictionCategory { get; set; }
-		public virtual long? PredictionCategoryId { get; set; }
+		public virtual long PredictionCategoryId { get; set; }
 		public virtual long PricingPlanId { get; set; }
 		public virtual PricingPlanModel PricingPlan { get; set; }
 		public string ClubAScore { get; set; }

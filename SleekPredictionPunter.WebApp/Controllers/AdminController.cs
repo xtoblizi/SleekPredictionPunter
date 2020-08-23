@@ -39,7 +39,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 {
                     NewSubscribers = subscriberCount,
                     NewAgents = agentCount,
-                    NewPredictions = predictionCount
+                    NewPredictions = predictionCount,
+                    TotalRevenueOnSubscription = "Coming soon"
                 };
                 return View(dashboardViewModel);
             }

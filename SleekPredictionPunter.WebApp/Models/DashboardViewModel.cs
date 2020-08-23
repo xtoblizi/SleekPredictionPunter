@@ -10,5 +10,7 @@ namespace SleekPredictionPunter.WebApp.Models
         public long NewAgents { get; set; }
         public long NewPredictions { get; set; }
         public long NewSubscribers { get; set; }
+
+        public string TotalRevenueOnSubscription { get; set; }
     }
 }

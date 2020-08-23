@@ -183,7 +183,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @*@foreach (var prediction in ViewBag.Predictions)
+                        @foreach (var prediction in ViewBag.FreeTips)
                         {
                             var getCluALogo = await _clubService.GetByName(prediction.ClubA);
                             var getCluBLogo = await _clubService.GetByName(prediction.ClubB);
@@ -208,7 +208,7 @@
                                     </a>
                                 </td>
                             </tr>
-                        }*@
+                        }
 
 
                     </tbody>
