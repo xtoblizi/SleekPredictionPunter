@@ -22,7 +22,7 @@ using SleekPredictionPunter.Model.Wallets;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
-    public class SubscriptionController : Controller
+    public class SubscriptionController : BaseController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IPaymentAppService _paymentAppService;

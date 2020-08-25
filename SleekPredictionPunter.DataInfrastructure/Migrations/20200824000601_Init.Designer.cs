@@ -10,8 +10,8 @@ using SleekPredictionPunter.DataInfrastructure;
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
     [DbContext(typeof(PredictionDbContext))]
-    [Migration("20200823213153_dbcontext")]
-    partial class dbcontext
+    [Migration("20200824000601_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -500,7 +500,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18, 6)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<long?>("SubscriberId")
                         .HasColumnType("bigint");
@@ -543,7 +543,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<string>("ClubBScore")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("CustomCategoryId")
+                    b.Property<long>("CustomCategoryId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("DateCreated")
@@ -555,13 +555,13 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
 
-                    b.Property<long?>("MatchCategoryId")
+                    b.Property<long>("MatchCategoryId")
                         .HasColumnType("bigint");
 
                     b.Property<long?>("PackageId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("PredictionCategoryId")
+                    b.Property<long>("PredictionCategoryId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("PredictionValue")
@@ -768,6 +768,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<DateTime?>("DateUpdated")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Duration")
                         .HasColumnType("nvarchar(max)");
 
@@ -781,7 +784,13 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18, 6)");
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<int>("RateCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -960,7 +969,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("CurrentAmount")
-                        .HasColumnType("decimal(18, 6)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -978,7 +987,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("LastAmountTransacted")
-                        .HasColumnType("decimal(18, 6)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<int?>("MediumPaid")
                         .HasColumnType("int");
@@ -1026,7 +1035,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(18, 6)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -1053,7 +1062,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18, 6)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -1068,7 +1077,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal?>("LastAmountTransacted")
-                        .HasColumnType("decimal(18, 6)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("UserEmailAddress")
                         .HasColumnType("nvarchar(max)");
@@ -1150,11 +1159,15 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 {
                     b.HasOne("SleekPredictionPunter.Model.CustomCategory", "CustomCategory")
                         .WithMany()
-                        .HasForeignKey("CustomCategoryId");
+                        .HasForeignKey("CustomCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SleekPredictionPunter.Model.MatchCategory", "MatchCategory")
                         .WithMany()
-                        .HasForeignKey("MatchCategoryId");
+                        .HasForeignKey("MatchCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SleekPredictionPunter.Model.Packages.Package", null)
                         .WithMany("Predictions")
@@ -1162,7 +1175,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
                     b.HasOne("SleekPredictionPunter.Model.PredictionCategory", "PredictionCategory")
                         .WithMany("Predictions")
-                        .HasForeignKey("PredictionCategoryId");
+                        .HasForeignKey("PredictionCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SleekPredictionPunter.Model.Predictor", "Predictor")
                         .WithMany()

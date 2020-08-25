@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
-    public partial class dbcontext : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -195,9 +195,12 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     EntityStatus = table.Column<int>(nullable: false),
                     DateUpdated = table.Column<DateTime>(nullable: true),
                     PlanName = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     PlanType = table.Column<int>(nullable: false),
                     Duration = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18, 6)", nullable: false)
+                    Rating = table.Column<int>(nullable: false),
+                    RateCount = table.Column<int>(nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -280,9 +283,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     TransactionTypeName = table.Column<string>(nullable: true),
                     MediumPaid = table.Column<int>(nullable: true),
                     MediumPaidName = table.Column<string>(nullable: true),
-                    CurrentAmount = table.Column<decimal>(type: "decimal(18, 6)", nullable: false),
+                    CurrentAmount = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     TransactionDescription = table.Column<string>(nullable: true),
-                    LastAmountTransacted = table.Column<decimal>(type: "decimal(18, 6)", nullable: true),
+                    LastAmountTransacted = table.Column<decimal>(type: "decimal(18, 2)", nullable: true),
                     DateTimeOfLastTransacted = table.Column<DateTime>(nullable: true),
                     TransactionStatus = table.Column<int>(nullable: false),
                     TransactionStatusName = table.Column<string>(nullable: true),
@@ -338,7 +341,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     EntityStatus = table.Column<int>(nullable: false),
                     DateUpdated = table.Column<DateTime>(nullable: true),
                     UserName = table.Column<string>(nullable: true),
-                    Balance = table.Column<decimal>(type: "decimal(18, 6)", nullable: false)
+                    Balance = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -356,8 +359,8 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     DateUpdated = table.Column<DateTime>(nullable: true),
                     UserEmailAddress = table.Column<string>(nullable: true),
                     UserRole = table.Column<int>(nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18, 6)", nullable: false),
-                    LastAmountTransacted = table.Column<decimal>(type: "decimal(18, 6)", nullable: true),
+                    Amount = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    LastAmountTransacted = table.Column<decimal>(type: "decimal(18, 2)", nullable: true),
                     DateTimeLastTransacted = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
@@ -557,7 +560,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     EntityStatus = table.Column<int>(nullable: false),
                     DateUpdated = table.Column<DateTime>(nullable: true),
                     PackageName = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18, 6)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     Description = table.Column<string>(nullable: true),
                     SubscriberId = table.Column<long>(nullable: true)
                 },
@@ -591,9 +594,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     PredictionValue = table.Column<string>(nullable: true),
                     TimeofFixture = table.Column<DateTime>(nullable: false),
                     PredictorId = table.Column<long>(nullable: false),
-                    CustomCategoryId = table.Column<long>(nullable: true),
-                    MatchCategoryId = table.Column<long>(nullable: true),
-                    PredictionCategoryId = table.Column<long>(nullable: true),
+                    CustomCategoryId = table.Column<long>(nullable: false),
+                    MatchCategoryId = table.Column<long>(nullable: false),
+                    PredictionCategoryId = table.Column<long>(nullable: false),
                     PricingPlanId = table.Column<long>(nullable: false),
                     ClubAScore = table.Column<string>(nullable: true),
                     ClubBScore = table.Column<string>(nullable: true),
@@ -607,13 +610,13 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         column: x => x.CustomCategoryId,
                         principalTable: "CustomCategories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Predictions_MatchCategories_MatchCategoryId",
                         column: x => x.MatchCategoryId,
                         principalTable: "MatchCategories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Predictions_Package_PackageId",
                         column: x => x.PackageId,
@@ -625,7 +628,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         column: x => x.PredictionCategoryId,
                         principalTable: "PredictionCategories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Predictions_Predictors_PredictorId",
                         column: x => x.PredictorId,

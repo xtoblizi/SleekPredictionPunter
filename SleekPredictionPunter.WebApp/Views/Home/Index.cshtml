@@ -183,31 +183,35 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var prediction in ViewBag.FreeTips)
+                        @if (ViewBag.FreeTips != null)
                         {
-                            var getCluALogo = await _clubService.GetByName(prediction.ClubA);
-                            var getCluBLogo = await _clubService.GetByName(prediction.ClubB);
-                            <tr>
-                                <td>@(sn++)</td>
-                                <th scope="row">
-                                    <span class="icon">
-                                        <i class="flaticon-football"></i>
-                                    </span>
-                                </th>
-                                <td class="date">@prediction.DateCreated</td>
-                                <td class="team-name">
-                                    <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluALogo.ClubLogRelativePath))" style="width:30px;height:30px" />
-                                    @prediction.ClubA <span class="versace">vs</span> @prediction.ClubB <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluBLogo.ClubLogRelativePath))" style="width:30px;height:30px" />
-                                </td>
-                                <td class="score">@prediction.PredictionValue</td>
-                                <td>
-                                    <a>
-                                        <span class="view-icon">
-                                            <i class="fas fa-ellipsis-v"></i>
+                            @foreach (var prediction in ViewBag.FreeTips)
+                            {
+                                var getCluALogo = await _clubService.GetByName(prediction.ClubA);
+                                var getCluBLogo = await _clubService.GetByName(prediction.ClubB);
+                                <tr>
+                                    <td>@(sn++)</td>
+                                    <th scope="row">
+                                        <span class="icon">
+                                            <i class="flaticon-football"></i>
                                         </span>
-                                    </a>
-                                </td>
-                            </tr>
+                                    </th>
+                                    <td class="date">@prediction.DateCreated</td>
+                                    <td class="team-name">
+                                        <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluALogo.ClubLogRelativePath))" style="width:30px;height:30px" />
+                                        @prediction.ClubA <span class="versace">vs</span> @prediction.ClubB <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluBLogo.ClubLogRelativePath))" style="width:30px;height:30px" />
+                                    </td>
+                                    <td class="score">@prediction.PredictionValue</td>
+                                    <td>
+                                        <a>
+                                            <span class="view-icon">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+
                         }
 
 
