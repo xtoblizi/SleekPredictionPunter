@@ -56,7 +56,7 @@ namespace SleekPredictionPunter.AppService.PaymentService
                     walletModel.MediumPaid = MediumUsedEnum.Paystack;
                     walletModel.MediumPaidName = MediumUsedEnum.Paystack.ToString();
 
-                    return (response,walletModel);
+                    return await Task.FromResult((response,walletModel));
                 }
                 return (null,null);
 

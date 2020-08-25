@@ -62,7 +62,7 @@ namespace SleekPredictionPunter.AppService.Plans
                     var insert = await _benefitBaseRepository.Insert(model);
                     return insert > 0 ? true : false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 throw;

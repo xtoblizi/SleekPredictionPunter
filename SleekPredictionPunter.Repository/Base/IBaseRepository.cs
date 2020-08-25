@@ -28,27 +28,8 @@ namespace SleekPredictionPunter.Repository.Base
 		Task<T> GetById(int id);
 		Task<long> SaveChangesAsync();
 
-		Task<dynamic> ReturnIncldedResult<T1, T2>(IIncludableQueryable<T1, T2> includeablequery) where T1 : class where T2 : class;
+		//Task<dynamic> ReturnIncldedResult<T1, T2>(IIncludableQueryable<T1, T2> includeablequery) where T1 : class where T2 : class;
 
-		#region Obsolete 
-		//Task<long> Insert<T>(T phoneOwner, bool savechage = true) where T : class;
-		//Task Update<T>(T phoneOwner, bool savechage = true) where T : class;
-
-		//Task Delete<T>(T phoneOwner, bool savechage = true) where T : class;
-
-		//Task<T> GetFirstOrDefault<T>(Func<T, bool> predicate) where T : class;
-
-		//Task<IEnumerable<T>> GetAllQueryable<T>(Func<T, bool> predicate = null, int startIndex = 0, 
-		//	int count = int.MaxValue) where T : class;
-
-		//Task<T> GetById<T>(string id) where T : class;
-
-		//Task<T> GetById<T>(long id) where T : class;
-
-		//Task<T> GetById<T>(int id) where T : class;
-		//Task<long> SaveChangesAsync();
-
-		#endregion
 	}
 
 }
