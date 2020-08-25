@@ -70,7 +70,7 @@
 											}
 											else
 											{
-												<input asp-for="Input.ReferrerCode" type="text" id="referrercode" placeholder="Referer Code" value=""  required>
+												<input asp-for="Input.ReferrerCode" type="hidden" id="referrercode" placeholder="Referer Code" value=""  required>
 											}
 										</div>
 									 }
@@ -151,7 +151,7 @@
 														&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 														&nbsp;
 													</span>
-													<button class="btn btn-link" type="button" name="provider" value="@provider.Name">
+													<button class="btn btn-link" name="provider" type="submit" value="@provider.Name">
 														@*@provider.DisplayName*@ Sign In
 													</button>
 													break;

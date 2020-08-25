@@ -155,7 +155,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             else if (loginType == "2")
             {
                 var redirectUrl = Url.Action("ThirdPartyLoginCallback", "ThirdPartyCallBack", new {returnUrl });
-
+                redirectUrl = redirectUrl.Remove(0, 9);
                 var prop = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
                 return new ChallengeResult("Google", prop);
             }

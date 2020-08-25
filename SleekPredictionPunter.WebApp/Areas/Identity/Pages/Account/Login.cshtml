@@ -41,7 +41,6 @@
                         <form id="account" method="post" asp-route-loginType="1">
                             <h4>Use a local account to log in.</h4>
                             <hr />
-                            <input type="hidden" id="loginType" name="loginType" value="1" />
                             <div class="form-group">
                                 <input asp-for="Input.Email" class="form-control" />
                                 <label for="userName">Email</label>
@@ -92,27 +91,26 @@
 						}
 						else
 						{
-							<form class="form-inline" method="post">
-								<div class="dropdown">
-									<input type="hidden" id="loginType" name="loginType" value="2" />
-									@foreach (var provider in Model.ExternalLogins)
-									{
-										@if (provider.DisplayName.Contains("Google"))
-										{
-											<span class="img-ic"><img src="~/FrontendTheme/assets/img/google-img.png" alt="Google Sigin"></span>
-											<span>
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-											</span>
-											<button class="btn btn-link" type="button" name="provider" value="@provider.Name">
-												@*@provider.DisplayName*@ Sign In
-											</button>
-											break;
-										}
+							<form id="account" method="post" asp-route-loginType="2">
+                                <div class="dropdown">
+                                    @foreach (var provider in Model.ExternalLogins)
+                                    {
+                                        @if (provider.DisplayName.Contains("Google"))
+                                        {
+                                            <span class="img-ic"><img src="~/FrontendTheme/assets/img/google-img.png" alt="Google Sigin"></span>
+                                            <span>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                            <button class="btn btn-link" type="submit" name="provider" value="@provider.Name">
+                                                @*@provider.DisplayName*@ Sign In
+                                            </button>
+                                            break;
+                                        }
 
-									}
+                                    }
 
-								</div>
+                                </div>
 							</form>
 						}
 					</div>

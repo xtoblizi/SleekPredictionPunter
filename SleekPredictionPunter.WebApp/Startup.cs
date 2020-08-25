@@ -51,7 +51,7 @@ namespace SleekPredictionPunter.WebApp
 				options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 			}).AddCookie(options =>
 			{
-				options.LoginPath = "/auth/login";
+				options.LoginPath = "/identity/auth/login";
 				options.AccessDeniedPath = "";
 				options.ExpireTimeSpan = TimeSpan.FromMinutes(10500);
 			});
