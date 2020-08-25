@@ -16,14 +16,15 @@ namespace SleekPredictionPunter.AppService.MatchCategories
             _repo = repo;
         }
 
-        public Task Delete(MatchCategory model, bool savechanges = true)
+        public async Task Delete(MatchCategory model, bool savechanges = true)
         {
-            throw new NotImplementedException();
+			await _repo.Delete(model, true);
         }
 
-        public async Task<IEnumerable<MatchCategory>> GetAllQueryable()
+        public async Task<IEnumerable<MatchCategory>> GetAllQueryable(Func<MatchCategory,bool> predicate = null, 
+			int startIndex = 0,int count = int.MaxValue)
         {
-            return await _repo.GetAllQueryable();
+            return await _repo.GetAllQueryable(predicate,startIndex,count);
         }
 
         public async Task<MatchCategory> GetById(long id)
