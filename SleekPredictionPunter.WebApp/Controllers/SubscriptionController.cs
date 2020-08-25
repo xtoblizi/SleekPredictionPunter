@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PayStack.Net;
 using SleekPredictionPunter.AppService;
+using SleekPredictionPunter.AppService.Agents;
 using SleekPredictionPunter.AppService.PaymentService;
 using SleekPredictionPunter.AppService.Plans;
 using SleekPredictionPunter.AppService.Subscriptions;
@@ -31,10 +32,13 @@ namespace SleekPredictionPunter.WebApp.Controllers
         private readonly ITransactionLogAppService _transactionLogAppService;
         private readonly ISubscriptionAppService _subscriptionAppService;
         private readonly ISubscriberService _subscriberService;
+        private readonly IAgentService _agentService;
+        private readonly IAgentRefereeMapService _agentRefereeMapService;
         public SubscriptionController(UserManager<ApplicationUser> userManager, IPaymentAppService paymentAppService,
             IPricingPlanAppService pricingPlanAppService, IWalletAppService walletAppService,
             ITransactionLogAppService transactionLogAppService, 
-            ISubscriptionAppService subscriptionAppService,ISubscriberService subscriberService)
+            ISubscriptionAppService subscriptionAppService,ISubscriberService subscriberService,
+            IAgentService agentService, IAgentRefereeMapService agentRefereeMapService)
         {
             _userManager = userManager;
             _paymentAppService = paymentAppService;
@@ -43,6 +47,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
             _transactionLogAppService = transactionLogAppService;
             _subscriptionAppService = subscriptionAppService;
             _subscriberService = subscriberService;
+            _agentService = agentService;
+            _agentRefereeMapService = agentRefereeMapService;
         }
 
         public IActionResult Index()
@@ -88,7 +94,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 				}
                 //get plan details here..
                 var getPlanDetails = await _pricingPlanAppService.GetById(id);
-
+               
                 //check if user is already subscribed to plan
                 var email = HttpContext.Session.GetString("userEmail");
                 Func<Subcription, bool> predicate = ((x => x.SubscriberUsername == email
@@ -96,6 +102,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
                 var getSubscribeddetails = await _subscriptionAppService.GetPredicateRecord(predicate);
 
+               
                 if (getSubscribeddetails == null || getSubscribeddetails.ExpirationDateTime < DateTime.Now)
                 {
                     var transLog = new TransactionLogModel
@@ -119,7 +126,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
 				else
 				{
 					TempData["ProcessingMessage"] = $"Your Subscription for this package is still active. it expires on  {getSubscribeddetails?.ExpirationDateTime}";
-				}
+                    return Redirect("/Pricingplan/index/");
+                }
 
                 TempData["ProcessingMessage"] = "Subscription to this package was unsucessful. Please, retry.";
 				return Redirect("/Pricingplan/index/");
@@ -143,6 +151,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 var confirmation = transaction.Transactions.Verify(reference);
                 if(confirmation.Status == true)
                 {
+                    Func<WalletModel, bool> predicateForsubSubscriber = (x => x.UserEmailAddress == email);
+                    var getWalletDetailsForThisSubscriber = await _walletAppService.GetAllWalletD(predicate: predicateForsubSubscriber);
+
                     var getSubscriberDetails = await _subscriberService.GetFirstOrDefault(new Subscriber { Email = email });
                     var getLogByRef = await _transactionLogAppService.GetPredicatedTransactionLog(x => x.ReferenceNumber == reference);
                     var walletModel = new WalletModel();
@@ -174,12 +185,101 @@ namespace SleekPredictionPunter.WebApp.Controllers
                             PricingPlanId = getLogByRef.PlanId,
                             SubscriberId = getSubscriberDetails.Id,
                             NumberOfMonths= 1,
-                            SubscriberUsername =email ,
+                            SubscriberUsername =email
                         };
 
                         subscriptionModel.ExpirationDateTime = DateTime.Now.AddMonths(subscriptionModel.NumberOfMonths);
                         var insertIntoSubscription = await _subscriptionAppService.CreateSubscription(subscriptionModel);
 
+                            
+                        #region map details n bonus for agents
+                        //get subscriber details by email from subscriber table
+                        var subscriberDetails = await _subscriberService.GetFirstOrDefault(new Subscriber { Email = email });
+                        if (subscriberDetails != null && string.IsNullOrEmpty(subscriberDetails.RefererCode))
+                        {
+                            //query agent table for this user with refcode
+                            var getAgentByRefCode = await _agentService.GetAgentsPredicate(x => x.RefererCode == subscriberDetails.RefererCode);
+                            //Get agent wallet to retrieve current balance
+                            Func<WalletModel, bool> predicate = (x => x.UserEmailAddress == getAgentByRefCode.Email);
+                            var getWalletDetailsForThisAgent = await _walletAppService.GetAllWalletD(predicate:predicate);
+                            if (getAgentByRefCode != null)
+                            {
+                                if (getWalletDetailsForThisAgent != null)
+                                {
+                                    //getAllCash and sum
+                                    //process the  agent with some bucks here as bonus
+                                    var bonus = confirmation.Data.Amount % 100;
+                                    List<decimal> lastTransactedAmount = null;
+                                    DateTime? lastTransactionDate = new DateTime();
+                                    //var getcalculation = await _agentRefereeMapService.CalculateAgentRevenueByRefereerCode(subscriberDetails.RefererCode);
+
+                                    //insert to walletdb and insert to transactionLog
+                                    foreach (var item in getWalletDetailsForThisAgent)
+                                    {
+                                        lastTransactedAmount.Add(item.Amount);
+                                        lastTransactionDate = item.DateTimeLastTransacted;
+                                    }
+                                    var agentMainWalletModel = new WalletModel
+                                    {
+                                        UserEmailAddress = getAgentByRefCode.Email,
+                                        UserRole = RoleEnum.Agent,
+                                        Amount = confirmation.Data.Amount,
+                                        LastAmountTransacted = lastTransactedAmount.Sum() + bonus,
+                                        DateTimeLastTransacted = DateTime.Now,//do same heere.
+                                    };
+
+                                    var agentLogModel = new TransactionLogModel
+                                    {
+                                        CurrentAmount = confirmation.Data.Amount,
+                                        TransactionStatus = TransactionstatusEnum.Success,
+                                        TransactionStatusName = TransactionstatusEnum.Success.ToString(),
+                                        DateUpdated = DateTime.Now,
+                                        LastAmountTransacted = subscriberDetails.Wallet.Balance,
+                                        DateTimeOfLastTransacted = subscriberDetails.DateUpdated,
+                                        UserEmailAddress = getAgentByRefCode.Email,
+                                        UserRole = RoleEnum.Agent
+                                    };
+
+                                    //log new general wallet price for agent
+                                    await _walletAppService.InsertNewAmount(agentMainWalletModel);
+                                    //create new log for this agent
+                                    await _transactionLogAppService.UpdateTransactionLog(agentLogModel);
+
+                                    //notifify the agent of newly added bonuses by sending email..
+                                }
+                                else
+                                {
+                                    //getAllCash and sum
+                                    //process the  agent with some bucks here as bonus
+                                    var bonus = confirmation.Data.Amount % 100;
+
+                                    var agentMainWalletModel = new WalletModel
+                                    {
+                                        UserEmailAddress = getAgentByRefCode.Email,
+                                        UserRole = RoleEnum.Agent,
+                                        Amount = confirmation.Data.Amount,
+                                    };
+
+                                    var agentLogModel = new TransactionLogModel
+                                    {
+                                        CurrentAmount = confirmation.Data.Amount,
+                                        TransactionStatus = TransactionstatusEnum.Success,
+                                        TransactionStatusName = TransactionstatusEnum.Success.ToString(),
+                                        DateUpdated = DateTime.Now,
+                                        UserEmailAddress = getAgentByRefCode.Email,
+                                        UserRole = RoleEnum.Agent
+                                    };
+
+                                    //log new general wallet price for agent
+                                    await _walletAppService.InsertNewAmount(agentMainWalletModel);
+                                    //create new log for this agent
+                                    await _transactionLogAppService.UpdateTransactionLog(agentLogModel);
+
+                                    //notifify the agent of newly added bonuses by sending email..
+                                }
+                            }
+                        }
+                        #endregion
                         ViewBag.Message = "Successfully Subscribed";
                         return View();
                     }
