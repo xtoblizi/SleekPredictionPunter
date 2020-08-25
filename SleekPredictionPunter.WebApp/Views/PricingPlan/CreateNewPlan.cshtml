@@ -99,7 +99,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th scope="row" id="serialnumber">@serialNumber++</th>
+                                            <th scope="row" id="serialnumber">@(serialNumber++)</th>
                                             <td>
                                                 <select type="text" name="questionId[]" class="form-control">
                                                     <option value="">... Select Option ...</option>
@@ -159,7 +159,7 @@
         var addButton = $('.add_button'); //Add button selector
         var wrapper = $('.field_wrapper'); //Input field wrapper
 
-        var fieldHTML = '<tbody><tr> <th scope="row">@serialNumber++</th> <td>  <select type="text" name="questionId[]" class="form-control">'+
+        var fieldHTML = '<tbody><tr> <th scope="row">@(serialNumber++)</th> <td>  <select type="text" name="questionId[]" class="form-control">'+
                                     '<option value="">... Select Option ...</option>'+
                                     '@foreach (var item in Model.planBenefitQuestionsModels) { <option value="@item.QuestionId">@item.Question</option> }'+
                                 '</select> </td>'+
