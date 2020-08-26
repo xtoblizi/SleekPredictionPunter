@@ -51,38 +51,38 @@ namespace SleekPredictionPunter.WebApp.Controllers
 			var geteFreePlan = plans.FirstOrDefault(c => c.Price < 1);
 			var matchCategory = await _matchCategoryService.GetAllQueryable(null, 0, 10);
 
-			ViewBag.MatchCategories = matchCategory;
+			ViewBag.MatchCategory = matchCategory;
 
 			Func<Prediction, bool> freePredicate = null;
 			if (geteFreePlan != null)
 			{
 				freePredicate = (p => p.PricingPlanId == geteFreePlan.Id);
-
+				Func<Prediction, DateTime> orderByDescFunc = (x => x.DateCreated);
 				var freePredications =
-						await _predictionService.GetPredictions(freePredicate, startIndex: 0, count: 100);
-
-				#region Predications in groupings
-
-				if (geteFreePlan != null)
-				{
-
-					ViewBag.FreeTips = await _predictionService.GetPredictions(freePredicate, startIndex: 0, count: 5);
-				}
-
-				var groupedTipsByPredicationCategories = await _predictionService.ReturnRelationalData(freePredicate, groupByPredicateCategory: true);
-
-				ViewBag.GrouppedPredictionCategoryList = groupedTipsByPredicationCategories;
-
-				var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(freePredicate, groupByMatchCategory: true);
-
-				var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(freePredicate, groupByCustomCategory: true);
-
-
-				ViewBag.GroupedTipsByCustomCategories = groupedTipsByCustomCategories;
-				ViewBag.GroupedTipsByMatchCategories = groupedTipsByMatchCategories;
-				ViewBag.GroupedTipsByPredicationCategories = groupedTipsByPredicationCategories;
-				#endregion
+						await _predictionService.GetPredictionsOrdered(freePredicate, orderByDescFunc, startIndex: 0, count: 100);
 			}
+			
+			#region Predications in groupings
+
+			if (geteFreePlan != null)
+			{
+				Func<Prediction, DateTime> orderByDescFunc = (x => x.DateCreated);
+				freePredicate = (p => p.PricingPlanId == geteFreePlan.Id);
+				ViewBag.FreeTips = await _predictionService.GetPredictionsOrdered(freePredicate, orderByDescFunc,startIndex: 0, count: 10);
+			}
+
+			var groupedTipsByPredicationCategories = await _predictionService.ReturnRelationalData(freePredicate, groupByPredicateCategory: true);
+
+			var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(freePredicate, groupByMatchCategory: true);
+
+			var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(freePredicate, groupByCustomCategory: true);
+
+
+			ViewBag.GroupedTipsByCustomCategories = groupedTipsByCustomCategories;
+			ViewBag.GroupedTipsByMatchCategories = groupedTipsByMatchCategories;
+			ViewBag.GroupedTipsByPredicationCategories = groupedTipsByPredicationCategories;
+			#endregion
+			
 
 			return View();
 

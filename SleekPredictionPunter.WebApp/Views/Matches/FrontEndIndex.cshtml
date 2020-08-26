@@ -1,0 +1,114 @@
+﻿@model IEnumerable<SleekPredictionPunter.Model.Matches.Match>
+
+@{
+    ViewData["Title"] = "FrontEndIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>FrontEndIndex</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ClubA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClubALogoPath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClubB)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClubBLogoPath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MatchCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MatchCategoryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SportCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SportCategoryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TimeofMatch)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MatchStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsSetAsHotPreview)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EntityStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateUpdated)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClubA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClubALogoPath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClubB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClubBLogoPath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatchCategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatchCategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SportCategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SportCategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeofMatch)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatchStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsSetAsHotPreview)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateCreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EntityStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateUpdated)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

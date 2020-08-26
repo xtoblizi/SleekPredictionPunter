@@ -18,7 +18,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.EntityFrameworkCore;
+using SleekPredictionPunter.AppService.Subscriptions;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
@@ -32,10 +33,12 @@ namespace SleekPredictionPunter.WebApp.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IPredictorService _predictorService;
         private readonly IMatchCategoryService _matchCategoryService;
+        private readonly ISubscriptionAppService _subscriptionSerivce;
         private readonly ICustomCategoryService _customCategoryService;
 
         public PredictionsController(IPredictionService predictionService,
 			IPricingPlanAppService pricingPlanAppService,
+            ISubscriptionAppService subscriptionAppService,
 			IPackageAppService packageService,
             IClubService clubService,
             ICategoryService categoryService,
@@ -44,6 +47,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             ICustomCategoryService customCategoryService)
         { 
             _predictionService = predictionService;
+            _subscriptionSerivce = subscriptionAppService;
             _packageService = packageService;
 			_pricingPlanservice = pricingPlanAppService;
             _clubService = clubService;
@@ -61,22 +65,46 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.Predictions = "active";
-            return View(await _predictionService.GetPredictions());
+            Func<Prediction, DateTime> orderByDesc = (s => s.DateCreated);
+            return View(await _predictionService.GetPredictionsOrdered(orderDescFunc:orderByDesc,startIndex:0,count:50));
         } 
 		public async Task<IActionResult> FrontEndIndex()
         {
 			base.AddLinkScriptforPackageSetter(true);
             var plans = await _pricingPlanservice.GetAllPlans();
             var geteFreePlan = plans.FirstOrDefault(c => c.Price < 1);
+            Func<Prediction, bool> paidPredicate = null;
 
-			Func<Prediction, bool> paidPredicate = (p => p.PricingPlanId != geteFreePlan.Id);
+            // get to know who is signed in 
+            var isAdmin = base.IsAdmin();
+            if (isAdmin)
+            {
+                paidPredicate = (p => p.PricingPlanId != geteFreePlan.Id);
+            }
+            else
+            {
+                var useremail = await base.GetUserName();
+                Func<Subcription, bool> subFunc = (s => s.SubscriberUsername == useremail);
 
-			if (geteFreePlan != null)
+                var subscriptions = await _subscriptionSerivce.GetAll(subFunc);
+                if(subscriptions != null)
+                {
+                    foreach (var item in subscriptions)
+                    {
+                        paidPredicate += (x => x.PricingPlanId == item.PricingPlanId);
+                    }
+                }
+            }
+
+            if (paidPredicate != null)
+                ViewBag.PaidTips = await _predictionService.GetPredictions(paidPredicate, startIndex: 0, count: 50);
+
+            if (geteFreePlan != null)
             {
                 Func<Prediction, bool> freePredicate = (p => p.PricingPlanId == geteFreePlan.Id);
                 
                 ViewBag.FreeTips = await _predictionService.GetPredictions(freePredicate, startIndex: 0, count: 5);
-                ViewBag.PaidTips = await _predictionService.GetPredictions(paidPredicate, startIndex: 0, count: 5); 
+               
             }
 
             IEnumerable<IGrouping<long,Prediction>> groupedTipsByPredicationCategories = await _predictionService.ReturnRelationalData(paidPredicate, groupByPredicateCategory:true);
@@ -93,13 +121,13 @@ namespace SleekPredictionPunter.WebApp.Controllers
             ViewBag.GroupedTipsByPredicationCategories = groupedTipsByPredicationCategories;
 
 
-            foreach(var item in groupedTipsByPredicationCategories)
-            {
-                foreach(var keyvalue in item)
-                {
+            //foreach(var item in groupedTipsByPredicationCategories)
+            //{
+            //    foreach(var keyvalue in item)
+            //    {
                     
-                }
-            }
+            //    }
+            //}
             
 
             return View();
@@ -181,7 +209,66 @@ namespace SleekPredictionPunter.WebApp.Controllers
             return View(prediction);
         }
 
-    
+
+        public async Task<IActionResult> Edit(long? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var prediction = await _predictionService.GetById(id.Value);
+            if (prediction == null)
+            {
+                return NotFound();
+            }
+            ViewData["CustomCategoryId"] = new SelectList(await _customCategoryService.GetAllQueryable(), "Id", "Id", prediction.CustomCategoryId);
+            ViewData["MatchCategoryId"] = new SelectList(await _matchCategoryService.GetAllQueryable(), "Id", "Id", prediction.MatchCategoryId);
+            ViewData["PredictionCategoryId"] = new SelectList(await _categoryService.GetCategories(), "Id", "Id", prediction.PredictionCategoryId);
+            //ViewData["PredictorId"] = new SelectList(_context.Predictors, "Id", "Id", prediction.PredictorId);
+            ViewData["PricingPlanId"] = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "Id", prediction.PricingPlanId);
+            return View(prediction);
+        }
+
+        // POST: Predictions1/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(long id, [Bind("PredictorUserName,ClubA,ClubAOdd,ClubALogoPath,ClubB,ClubBOdd,ClubBLogoPath,PredictionValue,TimeofFixture,PredictorId,CustomCategoryId,MatchCategoryId,PredictionCategoryId,PricingPlanId,ClubAScore,ClubBScore,Id,DateCreated,EntityStatus,DateUpdated")] Prediction prediction)
+        {
+            if (id != prediction.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _predictionService.Update(prediction);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (! await PredictionExists(prediction.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["CustomCategoryId"] = new SelectList(await _customCategoryService.GetAllQueryable(), "Id", "Id", prediction.CustomCategoryId);
+            ViewData["MatchCategoryId"] = new SelectList(await _matchCategoryService.GetAllQueryable(), "Id", "Id", prediction.MatchCategoryId);
+            ViewData["PredictionCategoryId"] = new SelectList(await _categoryService.GetCategories(), "Id", "Id", prediction.PredictionCategoryId);
+            //ViewData["PredictorId"] = new SelectList(_context.Predictors, "Id", "Id", prediction.PredictorId);
+            ViewData["PricingPlanId"] = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "Id", prediction.PricingPlanId);
+            return View(prediction);
+        }
+
         // GET: Predictions/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
@@ -212,8 +299,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
         private async Task<bool> PredictionExists(long id)
         {
-            var checkIfExist = await  _predictionService.GetPredictions();
-            return checkIfExist.Any(e => e.Id == id);
+            var checkIfExist = await  _predictionService.GetPredictions(e => e.Id == id);
+            return checkIfExist != null ? true : false;
         }
     }
 

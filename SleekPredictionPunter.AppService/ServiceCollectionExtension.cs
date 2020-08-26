@@ -5,12 +5,14 @@ using SleekPredictionPunter.AppService.Clubs;
 using SleekPredictionPunter.AppService.Contacts;
 using SleekPredictionPunter.AppService.CustomCategory;
 using SleekPredictionPunter.AppService.MatchCategories;
+using SleekPredictionPunter.AppService.Matches;
 using SleekPredictionPunter.AppService.Packages;
 using SleekPredictionPunter.AppService.PaymentService;
 using SleekPredictionPunter.AppService.Plans;
 //using SleekPredictionPunter.AppService.Packages;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.PredictionCategoryService;
+using SleekPredictionPunter.AppService.PredictionMatchMaps;
 using SleekPredictionPunter.AppService.Predictors;
 using SleekPredictionPunter.AppService.Subscriptions;
 using SleekPredictionPunter.AppService.ThirdPartyAppService;
@@ -41,6 +43,9 @@ namespace SleekPredictionPunter.AppService
 			services.AddTransient<IMatchCategoryService, MatchCategoryService>();
 			services.AddTransient<ISubscriptionAppService, SubscriptionAppService>();
             services.AddTransient<ITransactionLogAppService, TransactionLogAppService>();
+
+			services.AddTransient<IMatchService, MatchService>();
+			services.AddTransient<IPredicationMatchMapService, PredictionMatchMapService>();
 
             // repository DI registration
             services.AddPredictionRepositories();

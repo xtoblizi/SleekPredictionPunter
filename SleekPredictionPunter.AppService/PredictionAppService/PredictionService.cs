@@ -31,11 +31,22 @@ namespace SleekPredictionPunter.AppService.PredictionAppService
         public async Task<IEnumerable<Prediction>> GetPredictions(Func<Prediction, bool> predicate = null, int startIndex = 0, int count = int.MaxValue)
         {
             return await _repo.GetAllQueryable(predicate);
+        } 
+        public async Task<IEnumerable<Prediction>> GetPredictionsOrdered(Func<Prediction, bool> whereFunc = null,
+            Func<Prediction, DateTime> orderDescFunc = null,
+            int startIndex = 0, int count = int.MaxValue)
+        {
+            return await _repo.GetAllQueryable(whereFunc:whereFunc,orderByFunc:orderDescFunc,startIndex,count);
         }
 
         public async Task RemovePredictionBy(Prediction phoneOwner, bool savechage = true)
         {
             await _repo.Delete(phoneOwner, savechage);
+        }
+
+        public async Task<Prediction> GetById(long id)
+        {
+            return await _repo.GetById(id);
         }
 
         public async Task<long> GetMonthlySummaryForPredictions()
@@ -44,22 +55,19 @@ namespace SleekPredictionPunter.AppService.PredictionAppService
             var firstDayOfTheMonth = new DateTime(dateFrom.Year, dateFrom.Month, 1);
             var dateTo = DateTime.Now;
 
-            var getAllPrediction = await _repo.GetAllQueryable();
+            var getmonthpredictions = await _repo.GetAllQueryable((x => x.DateCreated >= firstDayOfTheMonth && x.DateCreated <= dateTo));
 
-            var filter = getAllPrediction.Where(x => x.DateCreated >= firstDayOfTheMonth && x.DateCreated <= dateTo);
-            return filter.LongCount();
+            return getmonthpredictions.LongCount();
         }
 
-        public async Task<IEnumerable<Prediction>> GetFreePrediction()
-        {
-            var predictions = await GetPredictions();
-            var getAllFreePrediction = predictions
-                .Where(x => x.CustomCategory.IsFree == true);
+        //public async Task<IEnumerable<Prediction>> GetFreePrediction()
+        //{
+        //    var getAllFreePrediction = (x => x.CustomCategory.IsFree == true);
              
 
-            getAllFreePrediction.GroupBy(z => z.PredictionCategory.CategoryName);
-            return getAllFreePrediction.ToList();
-        }
+        //    getAllFreePrediction.GroupBy(z => z.PredictionCategory.CategoryName);
+        //    return getAllFreePrediction.ToList();
+        //}
 
         public Task<IEnumerable<Prediction>> GetPaidPrediction()
         {
@@ -87,7 +95,9 @@ namespace SleekPredictionPunter.AppService.PredictionAppService
             return finalResult;
         }
 
-
-
+        public async Task Update(Prediction prediction)
+        {
+           await  _repo.Update(prediction);
+        }
     }
 }

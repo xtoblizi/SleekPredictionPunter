@@ -12,4 +12,9 @@ namespace SleekPredictionPunter.Model.Matches
 		Postponed = 4,
 		Cancelled = 5
 	}
+	public enum UpcomingOrPastEnum
+	{
+		UpComing = 1,
+		Past = 2
+	}
 }

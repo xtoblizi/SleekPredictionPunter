@@ -142,8 +142,8 @@
 		<div class="row justify-content-center">
 			<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
 				<div class="section-title">
-					<h2>Match/Sports Categories</h2>
-					<p>Prediction in varied match categories and </p>
+					<h2>Matches/Sports Categories</h2>
+					<p>Free Prediction in varied match categories and</p>
 				</div>
 			</div>
 		</div>
@@ -163,7 +163,7 @@
 							</li>
 							@if (ViewBag.MatchCategory != null)
 							{
-								@foreach (var item in ViewBag.MatchCategories as IEnumerable<MatchCategory>)
+								@foreach (var item in ViewBag.MatchCategory as IEnumerable<MatchCategory>)
 								{
 									<li class="nav-item">
 										<a class="nav-link" id="@item.Id" data-toggle="tab" href="#@item.Id" role="tab" aria-controls="football" aria-selected="false">
@@ -313,74 +313,78 @@
 
 						@if (ViewBag.GroupedTipsByMatchCategories != null)
 						{
-							@foreach (var item in ViewBag.GroupedTipsByMatchCategories as IEnumerable<IGrouping<long,Prediction>>)
+							@foreach (var items in ViewBag.GroupedTipsByMatchCategories as IEnumerable<IGrouping<long,Prediction>>)
 							{
 
-								<div class="tab-pane fade" id="@item.Key" role="tabpanel" aria-labelledby="tennis-tab">
+								<div class="tab-pane fade show active" id="@items.Key" role="tabpanel" aria-labelledby="tennis-tab">
 									<div class="sport-content-title">
 										<h3>
 											Fixture(s)
-											<span class="sport-content-conter">[@item.Count()]</span>
+											<span class="sport-content-conter">[@items.Count()]</span>
 										</h3>
 									</div>
 									<div class="sports-list">
-										<h4 class="title">@item.FirstOrDefault()?.MatchCategory?.CategoryName</h4>
-										@if (item != null)
+										<h4 class="title">@items.FirstOrDefault()?.MatchCategory?.CategoryName</h4>
+										@if (items != null)
 										{
-											<div class="single-sport-box">
-												<div class="part-icon">
-													<i class="flaticon-tennis-ball"></i>
-												</div>
-												<div class="part-team">
-													<ul>
-														<li>
-															<span class="team-name">
-																Kenny Schepper
-															</span>
-															<span class="score-number">
-																3
-															</span>
-														</li>
-														<li>
-															<span class="team-name">
-																Quentin Robert
-															</span>
-															<span class="score-number">
-																6
-															</span>
-														</li>
-													</ul>
-												</div>
-												<div class="part-match">
-													<div class="single-place-to-bet">
-														<a href="#">
-															<span class="bet-price">3.25</span>
-															<span class="result-for-final">
-																Kenny Schepper
-															</span>
-														</a>
+											foreach (var prediction in items)
+											{
+												<div class="single-sport-box">
+													<div class="part-icon">
+														<i class="flaticon-tennis-ball"></i>
 													</div>
-													<div class="single-place-to-bet">
-														<a href="#">
-															<span class="bet-price">2.62</span>
-															<span class="result-for-final">
-																draw
-															</span>
-														</a>
+													<div class="part-team">
+														<ul>
+															<li>
+																<span class="team-name">
+																	@prediction?.ClubA
+																</span>
+																<span class="score-number">
+																	@prediction?.ClubAScore ?? Not Set
+																</span>
+															</li>
+															<li>
+																<span class="team-name">
+																	@prediction?.ClubB
+																</span>
+																<span class="score-number">
+																	@prediction?.ClubBScore
+																</span>
+															</li>
+														</ul>
 													</div>
-													<div class="single-place-to-bet">
-														<a href="#">
-															<span class="bet-price">1.44</span>
-															<span class="result-for-final">
-																Quentin Robert
-															</span>
-														</a>
+													<div class="part-match">
+														<div class="single-place-to-bet">
+															<a href="#">
+																<span class="bet-price">@prediction?.ClubAOdd</span>
+																<span class="result-for-final">
+																	@prediction?.ClubA
+																</span>
+															</a>
+														</div>
+														<div class="single-place-to-bet">
+															<a href="#">
+																<span class="bet-price">2.62</span>
+																<span class="result-for-final">
+																	@prediction?.ClubAScore - @prediction?.ClubBScore
+																</span>
+															</a>
+														</div>
+														<div class="single-place-to-bet">
+															<a href="#">
+																<span class="bet-price">@prediction?.ClubBOdd</span>
+																<span class="result-for-final">
+																	@prediction.ClubB
+																</span>
+															</a>
+														</div>
+													</div>
+													<div class="part-bnonus">
+														<span class="bonus-number">@prediction?.PredictionResult.ToString()</span>
 													</div>
 												</div>
-												<div class="part-bnonus">
-													<span class="bonus-number">+336</span>
-												</div>
-											</div>
+											}
+
 										}
 
 									</div>
@@ -613,7 +617,7 @@
 
 		<div class="result-sheet-cover">
 			<div class="result-sheet">
-				<h4 class="result-title">Latest Predictions</h4>
+				<h4 class="result-title">Latest Free Predictions</h4>
 				<table class="table">
 					<thead>
 						<tr>
@@ -667,3 +671,9 @@
 	</div>
 </div>
 <!-- result end -->
+
+<!-- Upcoming matches-->
+<div class="right-area">
+	<partial name="_UpcomingMatchesFrontendPartial" />
+</div>
+<!--end of upcoming matches-->

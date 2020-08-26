@@ -1,0 +1,264 @@
+﻿@model IEnumerable<SleekPredictionPunter.Model.Matches.Match>
+@using SleekPredictionPunter.Model.Matches
+@inject SleekPredictionPunter.AppService.Matches.IMatchService _matchService
+@inject SleekPredictionPunter.AppService.Clubs.IClubService _clubService
+@{
+
+    Func<Match, DateTime> orderByDescFunc = (x => x.DateCreated);
+
+    var matches = await _matchService.GetMatches(whereFunc: null, orderByDescFunc: orderByDescFunc, startIndex: 0, count: 5);
+
+    var topMatch = matches.FirstOrDefault(x => x.IsSetAsHotPreview);
+
+    matches.ToList().Remove(topMatch);
+
+
+}
+
+<!-- upcoming match begin -->
+<div class="upcoming-match" id="upcoming_match">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-6 col-lg-6 col-md-8">
+                <div class="section-title">
+                    <h2>Upcoming Match</h2>
+                    <p>
+                        Predictive Power shows realtime upcoming matches info with predictions relating to the upcoming match(es). Explore!!
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @if (topMatch != null)
+            {
+                <div class="col-xl-6 col-lg-6">
+                    <div class="single-match">
+                        <div class="part-head">
+                            <h5 class="match-title"> @topMatch?.MatchCategory</h5>
+                            <span class="match-venue">Clash of Titans</span>
+                        </div>
+                        <div class="part-team">
+                            <div class="single-team">
+                                <div class="logo">
+                                    <img src="~/TeamLogo/@(System.IO.Path.GetFileName(topMatch?.ClubALogoPath))" alt="@topMatch?.ClubA">
+                                </div>
+                                <span class="team-name">@topMatch?.ClubA</span>
+                            </div>
+                            <div class="match-details">
+                                <div class="match-time">
+                                    <span class="date">@topMatch?.TimeofMatch.Date</span>
+                                    <span class="time">@topMatch?.TimeofMatch.TimeOfDay</span>
+                                </div>
+                                <span class="versase">vs</span>
+                                <div class="buttons">
+                                    <a href="#" class="buy-ticket bet-btn bet-btn-dark-light">View Prediction</a>
+                                </div>
+                            </div>
+                            <div class="single-team">
+                                <div class="logo">
+                                    <img src="~/TeamLogo/@(System.IO.Path.GetFileName(topMatch?.ClubBLogoPath))" alt="@topMatch?.ClubB">
+                                </div>
+                                <span class="team-name">@topMatch?.ClubB</span>
+                            </div>
+                        </div>
+                        <span class="to-begin-time">
+                            Starting on
+                        </span>
+                        <div class="part-timer timer" data-date="@topMatch?.TimeofMatch.ToUniversalTime()">
+                            <div class="single-time">
+                                <span class="number day">@topMatch?.TimeofMatch.Day</span>
+                                <span class="title">Days</span>
+                            </div>
+                            <div class="single-time">
+                                <span class="number hour">@topMatch?.TimeofMatch.Hour</span>
+                                <span class="title">Hours</span>
+                            </div>
+                            <div class="single-time">
+                                <span class="number minute">@topMatch?.TimeofMatch.Minute</span>
+                                <span class="title">Minutes</span>
+                            </div>
+                            <div class="single-time">
+                                <span class="number second">@topMatch?.TimeofMatch.Second</span>
+                                <span class="title">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (matches != null)
+            {
+                <div class="col-xl-6 col-lg-6">
+                    <div class="upcoming-match-list">
+
+                        @if (matches != null)
+                        {
+                            foreach (var item in matches)
+                            {
+                                <div class="single-upcoming-match">
+                                    <div class="single-team">
+                                        <div class="part-logo">
+                                            <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item?.ClubALogoPath))" alt="Club A">
+                                        </div>
+                                        <div class="part-text">
+                                            <span class="team-name">
+                                                @item.ClubA
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span class="versase">vs</span>
+                                    <div class="single-team">
+                                        <div class="part-text">
+                                            <span class="team-name">
+                                                @item.ClubB
+                                            </span>
+                                        </div>
+                                        <div class="part-logo">
+                                            <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item?.ClubBLogoPath))" alt="Club B">
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+
+
+                        @*<div class="single-upcoming-match">
+                                <div class="single-team">
+                                    <div class="part-logo">
+                                        <img src="assets/img/team-7.png" alt="">
+                                    </div>
+                                    <div class="part-text">
+                                        <span class="team-name">
+                                            Khulna tigers
+                                        </span>
+                                    </div>
+                                </div>
+                                <span class="versase">vs</span>
+                                <div class="single-team">
+                                    <div class="part-text">
+                                        <span class="team-name">
+                                            dhaka platoon
+                                        </span>
+                                    </div>
+                                    <div class="part-logo">
+                                        <img src="assets/img/team-8.png" alt="">
+                                    </div>
+                                </div>
+                            </div>*@
+                    </div>
+                </div>
+            }
+
+
+
+        </div>
+        <div class="text-center">
+            <a href="../../matches/frontendindex" class="vew-more-news bet-btn bet-btn-dark-light">
+                <i class="fas fa-redo"></i> See More Matches
+            </a>
+        </div>
+        <span class="text-special">
+            <b>Note:</b>  The timing of each match will depend on the weather conditions.
+        </span>
+    </div>
+</div>
+<!-- upcoming match end -->
+<!-- Generated List-->
+@*<table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ClubA)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ClubALogoPath)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ClubB)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ClubBLogoPath)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MatchCategory)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MatchCategoryId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SportCategory)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SportCategoryId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TimeofMatch)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MatchStatus)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsSetAsHotPreview)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateCreated)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EntityStatus)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateUpdated)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in matches)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClubA)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClubALogoPath)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClubB)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClubBLogoPath)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MatchCategory)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MatchCategoryId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SportCategory)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SportCategoryId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TimeofMatch)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MatchStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsSetAsHotPreview)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateCreated)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EntityStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateUpdated)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>*@

@@ -1,4 +1,6 @@
-﻿using SleekPredictionPunter.Model.PricingPlan;
+﻿using SleekPredictionPunter.Model.Enums;
+using SleekPredictionPunter.Model.Matches;
+using SleekPredictionPunter.Model.PricingPlan;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -27,10 +29,20 @@ namespace SleekPredictionPunter.Model
 
 		public DateTime TimeofFixture { get; set; }
 
+		#region Result Based Properties
+		public string ClubAScore { get; set; }
+		public string ClubBScore { get; set; }
+		public PredictionResultEnum PredictionResult { get; set; }
+		public string ResultValueOdd { get; set; }
+		#endregion
+
 		/// <summary>
-		/// These below are foreign key entities that can have multiple collections of predictions.
-		/// This design creates a one to many relationship between the below entity and the named entity: Prediction.
+		/// These below are foreign key entities that can have one to one relationship
+		/// This design creates a one to one relationship between the below entity and the named entity: Prediction.
 		/// </summary>
+		public virtual long MatchId { get; set; } // this relates to an upcoming match that 
+		//was created before a prediction was created out of it.
+
 		public virtual Predictor Predictor { get; set; }
 		public virtual long  PredictorId { get; set; }
 
@@ -43,9 +55,16 @@ namespace SleekPredictionPunter.Model
 		public virtual long PredictionCategoryId { get; set; }
 		public virtual long PricingPlanId { get; set; }
 		public virtual PricingPlanModel PricingPlan { get; set; }
-		public string ClubAScore { get; set; }
-		public string ClubBScore { get; set; }
+	
 
+	}
+
+	public enum MatchResultCategories
+	{
+		HomeWin = 1,
+		AwayWin = 2,
+		Draw = 3,
+		NotSet = 4
 	}
 
 	

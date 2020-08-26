@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using SleekPredictionPunter.Model.Enums;
+using SleekPredictionPunter.Model.IdentityModels;
 using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.WebApp.Controllers
@@ -9,6 +9,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 	public class BaseController : Controller
 	{
 		// place generalized code here.
+		private readonly SignInManager<ApplicationUser> _signInManager;
 		public BaseController()
 		{
 			ShowBreadCumBanner = false;
@@ -32,6 +33,30 @@ namespace SleekPredictionPunter.WebApp.Controllers
 		public  void AddLinkScriptforPackageSetter(bool addscript)
 		{
 			ViewBag.AddLinkScriptforPackage = addscript; ;
+			
+		}
+		public  bool IsAdmin()
+		{
+			if (User.Identity.IsAuthenticated)
+			{
+				if (User.IsInRole(RoleEnum.SuperAdmin.ToString()))
+					return true;
+				else
+					return false;
+			}
+
+			return false;
+			
+		}
+
+		public async Task<string> GetUserName()
+		{
+			string username = string.Empty;
+			if (User.Identity.IsAuthenticated)
+			{
+				 username = User.Identity.Name;
+			}
+			return await Task.FromResult(username);
 			
 		}
 

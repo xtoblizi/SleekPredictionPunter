@@ -7,53 +7,88 @@
 }
 
 <div class="row mt">
-    <div class="col-sm-8 col-md-8 col-lg-8" style="margin-left:50px; margin-top:70px">
+    @*<div class="col-sm-8 col-md-8 col-lg-8" style="margin-left:50px; margin-top:70px">*@
+    <div class="row" style="margin-left:50px; margin-top:70px">
         <hr />
         <h3>
-            <i class="fa fa-angle-right">
-            </i>
-            Predictions/Create
+            Create Prediction(s)
         </h3>
         <div class="row">
             @ViewData["PackageId"]
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <form asp-action="Create" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="ClubA" class="col-md-2 control-label"></label>
-                        <select asp-for="ClubA" asp-items="@ViewBag.ClubA" class="form-control"></select>
+                    <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label asp-for="ClubA" class="col-md-2 control-label"></label>
+                            <select asp-for="ClubA" asp-items="@ViewBag.ClubA" class="form-control"></select>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="ClubB" class="col-md-2 control-label"></label>
-                        <select asp-for="ClubB" asp-items="@ViewBag.ClubB" class="form-control"></select>
+
+                    <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label asp-for="ClubAOdd" class="control-label"></label>
+                            <input asp-for="ClubAOdd" type="text" placeholder="Optional [Example : 1.45]" class="form-control" />
+                            <span asp-validation-for="ClubAOdd" class="text-danger"></span>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="PredictionCategoryId" class="col-md-2 control-label"></label>
-                        <select asp-for="PredictionCategoryId" asp-items="@ViewBag.PredictionCategoryId" class="form-control"></select>
+                    <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label asp-for="ClubB" class="col-md-2 control-label"></label>
+                            <select asp-for="ClubB" asp-items="@ViewBag.ClubB" class="form-control"></select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="TimeofFixture" class="control-label"></label>
-                        <input asp-for="TimeofFixture" class="form-control" />
-                        <span asp-validation-for="TimeofFixture" class="text-danger"></span>
+                    <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label asp-for="ClubBOdd" class="control-label"></label>
+                            <input asp-for="ClubBOdd" placeholder="Optional {Example 1.34}" class="form-control" />
+                            <span asp-validation-for="ClubBOdd" class="text-danger"></span>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="PricingPlan" class="col-md-2 control-label"></label>
-                        <select asp-for="PricingPlanId" asp-items="@ViewBag.PricingPlanId" class="form-control"></select>
+
+
+                    <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label asp-for="PredictionCategoryId" class="col-md-2 control-label"></label>
+                            <select asp-for="PredictionCategoryId" asp-items="@ViewBag.PredictionCategoryId" class="form-control"></select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="MatchCategory" class="col-md-2 control-label"></label>
-                        <select asp-for="MatchCategoryId" asp-items="@ViewBag.MatchCategoryId" class="form-control"></select>
+
+                    <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label asp-for="TimeofFixture" class="control-label"></label>
+                            <input asp-for="TimeofFixture" class="form-control" />
+                            <span asp-validation-for="TimeofFixture" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="CustomCategory" class="col-md-2 control-label"></label>
-                        <select asp-for="CustomCategoryId" asp-items="@ViewBag.CustomCategoryId" class="form-control"></select>
+                    <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12">
+
+
+                        <div class="form-group">
+                            <label asp-for="CustomCategory" class="col-md-2 control-label"></label>
+                            <select asp-for="CustomCategoryId" asp-items="@ViewBag.CustomCategoryId" class="form-control"></select>
+                        </div>
+
                     </div>
-                 
+
+                    <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label asp-for="PricingPlan" class="col-md-2 control-label"></label>
+                            <select asp-for="PricingPlanId" asp-items="@ViewBag.PricingPlanId" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label asp-for="MatchCategory" class="col-md-2 control-label"></label>
+                            <select asp-for="MatchCategoryId" asp-items="@ViewBag.MatchCategoryId" class="form-control"></select>
+                        </div>
+                    </div>
+
                     <hr />
-                    <div class="form-group">
+                    <div class="form-group col-12">
                         <input type="submit" value="Create" class="btn btn-default" />
                     </div>
                 </form>

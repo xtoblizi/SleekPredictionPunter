@@ -12,4 +12,13 @@ namespace SleekPredictionPunter.Model.Enums
 
 		None = 3
 	}
+
+	public enum PredictionResultEnum : int
+	{
+		PredictionWon,
+		PredictionLost,
+		MatchPostponed,
+		MatchPending,
+		MatchCancelled
+	}
 }

@@ -98,6 +98,39 @@ namespace SleekPredictionPunter.Repository.Base
 				return await Task.FromResult(dbSet);
 			} 
 			return await _entity.Skip(startIndex).Take(count).ToListAsync(); 
+		}
+		
+		/// <summary>
+		/// Get all records of a table relating to the query parameters and paginatin details
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <param name="startIndex"></param>
+		/// <param name="count"></param>
+		/// <returns></returns>
+		public async virtual Task<IEnumerable<T>> GetAllQueryable<OrderByKey>(
+			Func<T, bool> whereFunc = null,
+			Func<T, OrderByKey> orderByDescFunc = null,
+			int startIndex = 0, int count = int.MaxValue)
+		{
+			var result = new List<T>();
+			if(whereFunc != null)
+            {
+				if(orderByDescFunc != null)
+					result = _entity.OrderByDescending(orderByDescFunc).Where(whereFunc).Skip(startIndex).Take(count).ToList();
+				else
+					result = _entity.Where(whereFunc).Skip(startIndex).Take(count).ToList();
+
+			}
+			else
+			{
+				if(orderByDescFunc != null)
+					result =  _entity.OrderByDescending(orderByDescFunc).Skip(startIndex).Take(count).ToList();
+				else
+					return result =  await _entity.Skip(startIndex).Take(count).ToListAsync();
+
+			}
+
+			return await Task.FromResult(result);
 		}	
 		
 

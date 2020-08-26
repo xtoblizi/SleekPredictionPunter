@@ -1,0 +1,144 @@
+﻿@model IEnumerable<SleekPredictionPunter.Model.Prediction>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PredictorUserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClubA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClubAOdd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClubALogoPath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClubB)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClubBOdd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClubBLogoPath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PredictionValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TimeofFixture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Predictor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MatchCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PredictionCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PricingPlan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClubAScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClubBScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EntityStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateUpdated)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PredictorUserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClubA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClubAOdd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClubALogoPath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClubB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClubBOdd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClubBLogoPath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PredictionValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeofFixture)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Predictor.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomCategory.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatchCategory.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PredictionCategory.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PricingPlan.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClubAScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClubBScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateCreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EntityStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateUpdated)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -17,7 +17,12 @@ namespace SleekPredictionPunter.Repository.Base
 
 		Task<T> GetFirstOrDefault(Func<T, bool> predicate);
 
-		Task<IEnumerable<T>> GetAllQueryable(Func<T, bool> predicate = null, int startIndex = 0, int count = int.MaxValue);
+		Task<IEnumerable<T>> GetAllQueryable(Func<T, bool> predicate = null, 
+			int startIndex = 0, int count = int.MaxValue);
+		Task<IEnumerable<T>> GetAllQueryable<OrderByKey>(
+			Func<T, bool> whereFunc = null,
+			Func<T, OrderByKey> orderByFunc = null,
+			int startIndex = 0, int count = int.MaxValue);
 
 		DbSet<T> ReturnDbSetForQuery();
 
