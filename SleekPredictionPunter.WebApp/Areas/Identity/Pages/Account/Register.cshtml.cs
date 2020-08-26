@@ -99,6 +99,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 			[DataType(DataType.Date)]
 			[Required]
 			public DateTime DateOfBirth { get; set; }
+			
 			public string ReferrerCode { get; set; }
 		}
 
