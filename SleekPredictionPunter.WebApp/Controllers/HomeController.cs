@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SleekPredictionPunter.AppService.Contacts;
+using SleekPredictionPunter.AppService.MatchCategories;
 using SleekPredictionPunter.AppService.Plans;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.Predictors;
@@ -20,14 +21,17 @@ namespace SleekPredictionPunter.WebApp.Controllers
 		private readonly IContactAppService _contactService;
 		private readonly IPredictionService _predictionService;
 		private readonly IPredictorService _predictorService;
+		private readonly IMatchCategoryService _matchCategoryService;
 		private readonly IPricingPlanAppService _pricingPlanservice;
 		public HomeController(ILogger<HomeController> logger,
 			IPredictorService predictorService,
+			IMatchCategoryService matchCategoryService,
 			IPredictionService predictionService,
 			IContactAppService contactAppService,
 			IPricingPlanAppService pricingPlanAppService)
 		{
 			_contactService = contactAppService;
+			_matchCategoryService = matchCategoryService;
 			_predictionService = predictionService;
 			_predictorService = predictorService;
 			_logger = logger;
@@ -35,7 +39,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 		}
 
 
-        public async Task<IActionResult> Index()
+		public async Task<IActionResult> Index()
 		{
 			ViewBag.IsBanner = true;
 
@@ -45,20 +49,44 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
 			var plans = await _pricingPlanservice.GetAllPlans();
 			var geteFreePlan = plans.FirstOrDefault(c => c.Price < 1);
+			var matchCategory = await _matchCategoryService.GetAllQueryable(null, 0, 10);
 
+			ViewBag.MatchCategories = matchCategory;
+
+			Func<Prediction, bool> freePredicate = null;
 			if (geteFreePlan != null)
 			{
-				Func<Prediction, bool> freePredicate = (p => p.PricingPlanId == geteFreePlan.Id);
-				Func<Prediction, bool> paidPredicate = (p => p.PricingPlanId != geteFreePlan.Id);
+				freePredicate = (p => p.PricingPlanId == geteFreePlan.Id);
 
-				ViewBag.FreeTips = 
-					await _predictionService.GetPredictions(freePredicate, startIndex: 0, count: 10);
+				var freePredications =
+						await _predictionService.GetPredictions(freePredicate, startIndex: 0, count: 100);
+
+				#region Predications in groupings
+
+				if (geteFreePlan != null)
+				{
+
+					ViewBag.FreeTips = await _predictionService.GetPredictions(freePredicate, startIndex: 0, count: 5);
+				}
+
+				var groupedTipsByPredicationCategories = await _predictionService.ReturnRelationalData(freePredicate, groupByPredicateCategory: true);
+
+				ViewBag.GrouppedPredictionCategoryList = groupedTipsByPredicationCategories;
+
+				var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(freePredicate, groupByMatchCategory: true);
+
+				var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(freePredicate, groupByCustomCategory: true);
+
+
+				ViewBag.GroupedTipsByCustomCategories = groupedTipsByCustomCategories;
+				ViewBag.GroupedTipsByMatchCategories = groupedTipsByMatchCategories;
+				ViewBag.GroupedTipsByPredicationCategories = groupedTipsByPredicationCategories;
+				#endregion
 			}
 
 			return View();
-		}
 
-		
+		}
 		
 
 		[HttpGet("error")]

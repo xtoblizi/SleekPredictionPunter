@@ -15,7 +15,7 @@ namespace SleekPredictionPunter.Model.TransactionLogs
         public TransactionTypeEnum TransactionType { get; set; }
         public string TransactionTypeName { get; set; }
         public MediumUsedEnum? MediumPaid { get; set; }
-        public string? MediumPaidName { get; set; }
+        public string MediumPaidName { get; set; }
         public decimal CurrentAmount { get; set; }
         public string TransactionDescription { get; set; }
         public decimal? LastAmountTransacted { get; set; }

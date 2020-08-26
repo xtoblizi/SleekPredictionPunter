@@ -68,23 +68,24 @@ namespace SleekPredictionPunter.WebApp.Controllers
 			base.AddLinkScriptforPackageSetter(true);
             var plans = await _pricingPlanservice.GetAllPlans();
             var geteFreePlan = plans.FirstOrDefault(c => c.Price < 1);
-            
-            if(geteFreePlan != null)
+
+			Func<Prediction, bool> paidPredicate = (p => p.PricingPlanId != geteFreePlan.Id);
+
+			if (geteFreePlan != null)
             {
                 Func<Prediction, bool> freePredicate = (p => p.PricingPlanId == geteFreePlan.Id);
-                Func<Prediction, bool> paidPredicate = (p => p.PricingPlanId != geteFreePlan.Id);
-
+                
                 ViewBag.FreeTips = await _predictionService.GetPredictions(freePredicate, startIndex: 0, count: 5);
                 ViewBag.PaidTips = await _predictionService.GetPredictions(paidPredicate, startIndex: 0, count: 5); 
             }
 
-            var groupedTipsByPredicationCategories = await _predictionService.ReturnRelationalData(null,groupByPredicateCategory:true);
+            IEnumerable<IGrouping<long,Prediction>> groupedTipsByPredicationCategories = await _predictionService.ReturnRelationalData(paidPredicate, groupByPredicateCategory:true);
 
             ViewBag.GrouppedPredictionCategoryList = groupedTipsByPredicationCategories;
              
-            var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(null,groupByMatchCategory:true);
+            var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(paidPredicate, groupByMatchCategory:true);
 
-              var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(null,groupByCustomCategory:true);
+              var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(paidPredicate, groupByCustomCategory:true);
 
 
             ViewBag.GroupedTipsByCustomCategories = groupedTipsByCustomCategories;

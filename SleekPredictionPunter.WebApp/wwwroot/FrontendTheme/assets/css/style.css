@@ -678,7 +678,7 @@ ul {
     top: 0;
     height: 100%;
     width: 100%;
-    opacity: .8;
+    opacity: .9;
     z-index: -1; }
   .banner.banner-2 .text-content {
     text-align: center;
@@ -2539,10 +2539,11 @@ ul {
           color: #fff; }
 
 .breadcrumb-bettix {
-  background: url("../img/breadcrumb-bg-statics.jpg") center center no-repeat;
-  background-size: cover;
-  position: relative;
-  z-index: 2; }
+	background: url("../img/predictions-static_1920by786.png") center center no-repeat;
+	background-size: cover;
+	position: relative;
+	z-index: 2;
+}
   .breadcrumb-bettix:after {
     position: absolute;
     content: '';
@@ -2554,13 +2555,14 @@ ul {
     background: -o-linear-gradient(230deg, rgba(34, 34, 34, 0) 0%, #000609 59%);
     background: linear-gradient(220deg, rgba(34, 34, 34, 0) 0%, #000609 59%);
     z-index: -1;
-    opacity: .9; }
+    opacity: .4; }
   .breadcrumb-bettix.schedule-page {
     background: url("../img/upcoming-match-bg-4.jpg") center center no-repeat;
     background-size: cover; }
-  .breadcrumb-bettix.result-page {
-    background: url("../img/breadcrumb-bg-result.jpg") bottom center no-repeat;
-    background-size: cover; }
+	.breadcrumb-bettix.result-page {
+		background: url("../img/predictions-static_1920by786.png") bottom center no-repeat;
+		background-size: cover;
+	}
   .breadcrumb-bettix.standing-page {
     background: url("../img/breadcrumb-bg-standing.jpg") center bottom no-repeat;
     background-size: cover; }
