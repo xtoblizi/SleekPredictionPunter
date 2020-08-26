@@ -195,6 +195,7 @@
 							<tr>
 								<th>Plan Name</th>
 								<th>Price</th>
+								<th>Plan commission</th>
 								<th>Duration</th>
 								<th>Date Time Created</th>
 								<th>Status</th>
@@ -207,6 +208,7 @@
 								<tr>
 									<td>@item.PlanName </td>
 									<td>@item.Price</td>
+									<td>@item.PlanCommission</td>
 									<td>@item.Duration Month(s)</td>
 									<td>@item.DateCreated.ToString()</td>
 									@if (item.EntityStatus == EntityStatusEnum.Active)

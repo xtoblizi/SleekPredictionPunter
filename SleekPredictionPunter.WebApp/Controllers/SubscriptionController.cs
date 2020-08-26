@@ -34,6 +34,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         private readonly ISubscriberService _subscriberService;
         private readonly IAgentService _agentService;
         private readonly IAgentRefereeMapService _agentRefereeMapService;
+        private string AgentCommission = "commission";
         public SubscriptionController(UserManager<ApplicationUser> userManager, IPaymentAppService paymentAppService,
             IPricingPlanAppService pricingPlanAppService, IWalletAppService walletAppService,
             ITransactionLogAppService transactionLogAppService, 
@@ -94,7 +95,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 				}
                 //get plan details here..
                 var getPlanDetails = await _pricingPlanAppService.GetById(id);
-               
+                 HttpContext.Session.SetString(AgentCommission,Convert.ToString(getPlanDetails.PlanCommission));
                 //check if user is already subscribed to plan
                 var email = HttpContext.Session.GetString("userEmail");
                 Func<Subcription, bool> predicate = ((x => x.SubscriberUsername == email
@@ -191,7 +192,6 @@ namespace SleekPredictionPunter.WebApp.Controllers
                         subscriptionModel.ExpirationDateTime = DateTime.Now.AddMonths(subscriptionModel.NumberOfMonths);
                         var insertIntoSubscription = await _subscriptionAppService.CreateSubscription(subscriptionModel);
 
-                            
                         #region map details n bonus for agents
                         //get subscriber details by email from subscriber table
                         var subscriberDetails = await _subscriberService.GetFirstOrDefault(new Subscriber { Email = email });
@@ -208,7 +208,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                                 {
                                     //getAllCash and sum
                                     //process the  agent with some bucks here as bonus
-                                    var bonus = confirmation.Data.Amount % 100;
+                                    var commission = Convert.ToDecimal(HttpContext.Session.GetString("commission"));
                                     List<decimal> lastTransactedAmount = null;
                                     DateTime? lastTransactionDate = new DateTime();
                                     //var getcalculation = await _agentRefereeMapService.CalculateAgentRevenueByRefereerCode(subscriberDetails.RefererCode);
@@ -224,7 +224,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                                         UserEmailAddress = getAgentByRefCode.Email,
                                         UserRole = RoleEnum.Agent,
                                         Amount = confirmation.Data.Amount,
-                                        LastAmountTransacted = lastTransactedAmount.Sum() + bonus,
+                                        LastAmountTransacted = lastTransactedAmount.Sum() + commission,
                                         DateTimeLastTransacted = DateTime.Now,//do same heere.
                                     };
 
