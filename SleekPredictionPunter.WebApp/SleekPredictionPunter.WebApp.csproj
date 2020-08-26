@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="publish\" />
     <Folder Include="wwwroot\ClubLogo\" />
     <Folder Include="wwwroot\TeamLogo\" />
   </ItemGroup>
