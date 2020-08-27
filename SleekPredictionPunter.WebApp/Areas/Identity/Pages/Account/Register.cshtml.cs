@@ -32,6 +32,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 		private readonly ILogger<RegisterModel> _logger;
 		private readonly IEmailSender _emailSender;
 		private readonly ISubscriberService _subscriberService;
+		private readonly IAgentRefereeMapService _agentRefereeMapService;
 		private readonly IAgentService _agentService;
 		private readonly RoleManager<ApplicationRole> _roleManager;
 		const string userRole = "userRole";
@@ -42,7 +43,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 			IAgentService agentService,
 			SignInManager<ApplicationUser> signInManager,
 			ILogger<RegisterModel> logger,
-			IEmailSender emailSender)
+			IEmailSender emailSender, IAgentRefereeMapService agentRefereeMapService)
 		{
 			_roleManager = roleManager;
             _userManager = userManager;
@@ -51,6 +52,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _agentService = agentService;
+			_agentRefereeMapService = agentRefereeMapService;
         }
 
 		[BindProperty]
@@ -181,13 +183,13 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 								else 
 								{ 
 									var refCode = await CreateAgent(user);
-									var refLink = Url.Page("/Account/Register",pageHandler: null,
+									var refLink = Url.Page("/Identity/Account/Register",pageHandler: null,
 									values: new { area = "Identity", registrationType = "1", userType = "2", refCode = refCode },
 									protocol: Request.Scheme);
 
 									ViewData["RegistrationStatusMessge"] = $"Agent Registration Successful. \n Your RefererCode is {refCode}." +
-										$" \n \n Preferably use your refererlink to start refeering users to Predictive Power and make money " +
-		  $"							\n \n Referer Link : {refLink}";
+										$" \n \n Preferably use your refererlink to start referring users to Predictive Power and make money " +
+									$" \n Referer Link : {refLink}";
 								}
 							}
 							else
@@ -229,7 +231,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 					{
 						HttpContext.Session.SetString(userRole, userType);
 						var redirectUrl = Url.Action("ThirdPartyLoginCallback", "ThirdPartyCallBack", new { returnUrl });
-
+						redirectUrl = redirectUrl.Remove(0, 9);
 						var prop = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
 						return new ChallengeResult("Google", prop);
 					}
@@ -266,7 +268,6 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
                 IsTenant = true,
                 Username = user.UserName,
                 RefererCode = refCode
-                
             };
 
             await _agentService.CreateAgent(agent);
@@ -291,7 +292,20 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 
 			};
 
-			await _subscriberService.Insert(subscriber);
+			var insert = await _subscriberService.Insert(subscriber);
+			if (insert > 0 && string.IsNullOrEmpty(refereerCode)) 
+			{
+				var getAgentByReferralCode = await _agentService.GetAgentsPredicate(x=>x.RefererCode==Input.ReferrerCode);
+
+				var subscriberToAgentMap = new AgentRefereeMap
+				{
+					RefereerCode = Input.ReferrerCode,
+					AgentUsername = getAgentByReferralCode.Username,
+					RefereeUsername = Input.Email,
+				};
+				await _agentRefereeMapService.Create(subscriberToAgentMap);
+				return true;
+			}
 			return true;
 		}
 		public async Task<IActionResult> ThirdPartySignUpCallback(string returnUrl = null)
@@ -300,14 +314,6 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 
 			ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-			//if(remoteError != null)
-   //         {
-			//	ModelState.AddModelError(string.Empty, $"An error just occurred while signingin with google. \n See issues: {remoteError}");
-			//	//write the exception out using a view bag
-			//	//ViewBag.Error = remoteError;
-			//	return Page();
-   //         }
 
 			var getRemoteInfo = await _signInManager.GetExternalLoginInfoAsync();
             if (ModelState.IsValid && getRemoteInfo != null)

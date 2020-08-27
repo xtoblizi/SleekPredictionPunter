@@ -44,7 +44,6 @@ namespace SleekPredictionPunter.WebApp
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 			});
 
-
 			services.AddAuthentication(options =>
 			{
 				options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -52,7 +51,7 @@ namespace SleekPredictionPunter.WebApp
 				options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 			}).AddCookie(options =>
 			{
-				options.LoginPath = "/auth/login";
+				options.LoginPath = "/identity/auth/login";
 				options.AccessDeniedPath = "";
 				options.ExpireTimeSpan = TimeSpan.FromMinutes(10500);
 			});
@@ -63,11 +62,6 @@ namespace SleekPredictionPunter.WebApp
 			services.AddRazorPages();
 
 			services.AddAuthentication()
-				//.AddFacebook(opt =>
-				//{
-				//	opt.ClientSecret = "";
-				//});
-
 				.AddGoogle(opt =>
 				{
 					opt.ClientId = "232216909561-l8q4np7q0pd711i5gplqv8fq9aijurla.apps.googleusercontent.com";

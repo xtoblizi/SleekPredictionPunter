@@ -25,6 +25,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             _subscriberService = subscriberService;
         }
 
+        //[Authorize]
         [HttpGet]
         public async Task<IActionResult> Index()
         {

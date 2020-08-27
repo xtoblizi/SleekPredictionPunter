@@ -1,4 +1,5 @@
-﻿using SleekPredictionPunter.Model;
+﻿using SleekPredictionPunter.AppService.Agents;
+using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Repository.Base;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,11 @@ namespace SleekPredictionPunter.AppService
 	public class AgentRefereeMapService : IAgentRefereeMapService
 	{
 		private readonly IBaseRepository<AgentRefereeMap> _repo;
-		public AgentRefereeMapService( IBaseRepository<AgentRefereeMap> baseRepository)
+		private readonly IAgentService _agentService;
+		public AgentRefereeMapService( IBaseRepository<AgentRefereeMap> baseRepository, IAgentService agentService)
 		{
 			_repo = baseRepository;
+			_agentService = agentService;
 		}
 
 		// DML services
@@ -21,7 +24,6 @@ namespace SleekPredictionPunter.AppService
 		{
 			return await _repo.Insert(model,savechage);
 		}
-
 		public async Task Delete(AgentRefereeMap model, bool savechage = true)
 		{
 			await _repo.Delete(model, savechage);

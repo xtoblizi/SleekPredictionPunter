@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 
     var benefitsquestion_and_answers = new List<SleekPredictionPunter.WebApp.Controllers.BenefitOutlines>();
-    
+    var serialNumber = 1;
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -24,142 +24,142 @@
         </div>
     </section>
       <section class="container-fluid" style="padding:20px;">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-panel">
-                                    <div class="row" style="padding-top:30px">
-                                        <div class="col-lg-12">
-                                            <div class="col-md-5">
-                                                <label class="control-label">Plan Name</label>
-                                                <input type="text" class="form-control" placeholder="Basic Plan" size="16" asp-for="PricingPlanModel.PlanName">
-                                                <span class="text-danger"> </span>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <label class="control-label">Plan price</label>
-                                                <input type="number" placeholder="2000.00" class="form-control" size="16" asp-for="PricingPlanModel.Price">
-                                                <span class="text-danger"> </span>
-                                            </div>
-
-                                            @*<div class="col-md-6">
-                                                <label class="control-label">Plan Type</label>
-                                                <select type="text" asp-for="PricingPlanModel.PlanType" class="form-control">
-                                                    <option value="">... Select Plan Type ...</option>
-                                                    <option value="1">Free Plan</option>
-                                                    <option value="2">Basic Plan</option>
-                                                    <option value="3">Premium</option>
-                                                    <option value="4">Genius</option>
-                                                    <option value="5">Football Expert Advisor</option>
-                                                    <option value="6">Platinum</option>
-                                                </select>
-                                                <span class="text-danger"> </span>
-                                            </div>*@
-                                        </div>
-                                    </div>
-                                    <br /><br />
-
-                                    @*<div class="row">
-                                        <div class="col-lg-12">
-
-
-                                            <div class="col-md-6">
-                                                <label class="control-label">Plan Duration</label>
-                                                <select type="text" asp-for="PricingPlanModel.Duration" class="form-control">
-                                                    <option value="">... Select Plan Duration ...</option>
-                                                    <option value="1">1-Month</option>
-                                                    <option value="2">2-Months</option>
-                                                    <option value="3">3-Months</option>
-                                                    <option value="4">4-Months</option>
-                                                    <option value="5">5-Months</option>
-                                                </select>
-                                                <span class="text-danger"> </span>
-                                            </div>
-                                        </div>
-                                    </div>*@
-                                    <hr />
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <h3 class="center-align">Plan Benefits</h3>
-                                        </div>
-                                        <div class="col-md-9" style="padding-top:15px">
-                                            <a href="javascript:void(0);" class="btn btn-sm btn-primary add_button" title="Add field"><i class="fa fa-plus">Add New</i></a>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-10 col-md-10 col-sm-12">
-                                            <div class="table-responsive">
-                                                <table class="table field_wrapper">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">#</th>
-                                                            <th scope="col">Question</th>
-                                                            <th scope="col">Answer</th>
-                                                            <th scope="col">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <th scope="row" id="serialnumber">#</th>
-                                                            <td>
-                                                                <select type="text" name="questionId[]" class="form-control">
-                                                                    <option value="">... Select Option ...</option>
-                                                                    @if (Model.planBenefitQuestionsModels.Any())
-                                                                    {
-                                                                        @foreach (var item in Model.planBenefitQuestionsModels)
-                                                                        {
-                                                                            <option value="@item.QuestionId">@item.Question</option>
-                                                                        }
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <option value="" class="disabled">No data</option>
-                                                                    }
-                                                                </select>
-                                                            </td>
-                                                            <td>
-                                                                <select type="text" name="answers[]" class="form-control">
-                                                                    <option value="">... Select Option ...</option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="0">No</option>
-                                                                </select>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br /><br />
-                                    <div class="form-group">
-
-                                        <div class="col-md-4">
-                                            <div>
-                                                <div class="input-group-btn" style="margin-right:2px;">
-                                                    <button type="submit" class="btn btn-success">Create</button>
-                                                </div>
-                                                <div class="input-group-btn" style="margin:unset">
-                                                    <a href="../../pricingplan/listofplans" class="btn btn-danger">Back</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br /><br /><br /><br />
-                                </div>
-                                <!-- /form-panel -->
+          <div class="row">
+              <div class="col-lg-12">
+                 <div class="form-panel">
+                    <div class="row" style="padding-top:30px">
+                        <div class="col-lg-12">
+                            <div class="col-md-5">
+                                <label class="control-label">Plan Name</label>
+                                <input type="text" class="form-control" placeholder="Basic Plan" size="16" asp-for="PricingPlanModel.PlanName">
+                                <span class="text-danger"> </span>
                             </div>
-                            <!-- /col-lg-12 -->
+
+                            <div class="col-md-4">
+                                <label class="control-label">Plan price</label>
+                                <input type="number" placeholder="2000.00" class="form-control" size="16" asp-for="PricingPlanModel.Price">
+                                <span class="text-danger"> </span>
+                            </div>
+
+                            @*<div class="col-md-6">
+                                <label class="control-label">Plan Type</label>
+                                <select type="text" asp-for="PricingPlanModel.PlanType" class="form-control">
+                                    <option value="">... Select Plan Type ...</option>
+                                    <option value="1">Free Plan</option>
+                                    <option value="2">Basic Plan</option>
+                                    <option value="3">Premium</option>
+                                    <option value="4">Genius</option>
+                                    <option value="5">Football Expert Advisor</option>
+                                    <option value="6">Platinum</option>
+                                </select>
+                                <span class="text-danger"> </span>
+                            </div>*@
                         </div>
-                        <!-- row -->
-                    </section>
+                    </div>
+                    <br /><br />
+
+                    @*<div class="row">
+                        <div class="col-lg-12">
+
+
+                            <div class="col-md-6">
+                                <label class="control-label">Plan Duration</label>
+                                <select type="text" asp-for="PricingPlanModel.Duration" class="form-control">
+                                    <option value="">... Select Plan Duration ...</option>
+                                    <option value="1">1-Month</option>
+                                    <option value="2">2-Months</option>
+                                    <option value="3">3-Months</option>
+                                    <option value="4">4-Months</option>
+                                    <option value="5">5-Months</option>
+                                </select>
+                                <span class="text-danger"> </span>
+                            </div>
+                        </div>
+                    </div>*@
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h3 class="center-align">Plan Benefits</h3>
+                        </div>
+                        <div class="col-md-9" style="padding-top:15px">
+                            <a href="javascript:void(0);" class="btn btn-sm btn-primary add_button" title="Add field"><i class="fa fa-plus">Add New</i></a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-10 col-md-10 col-sm-12">
+                            <div class="table-responsive">
+                                <table class="table field_wrapper">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">S/N</th>
+                                            <th scope="col">Question</th>
+                                            <th scope="col">Answer</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row" id="serialnumber">@(serialNumber++)</th>
+                                            <td>
+                                                <select type="text" name="questionId[]" class="form-control">
+                                                    <option value="">... Select Option ...</option>
+                                                    @if (Model.planBenefitQuestionsModels.Any())
+                                                    {
+                                                        @foreach (var item in Model.planBenefitQuestionsModels)
+                                                        {
+                                                            <option value="@item.QuestionId">@item.Question</option>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="" class="disabled">No data</option>
+                                                    }
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select type="text" name="answers[]" class="form-control">
+                                                    <option value="">... Select Option ...</option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="0">No</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <br /><br />
+                    <div class="form-group">
+
+                        <div class="col-md-4">
+                            <div>
+                                <div class="input-group-btn" style="margin-right:2px;">
+                                    <button type="submit" class="btn btn-success">Create</button>
+                                </div>
+                                <div class="input-group-btn" style="margin:unset">
+                                    <a href="../../pricingplan/listofplans" class="btn btn-danger">Back</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br /><br /><br /><br />
+                </div>
+                <!-- /form-panel -->
+            </div>
+                <!-- /col-lg-12 -->
+          </div>
+            <!-- row -->
+      </section>
  }
 
-                    <script type="text/javascript">
+<script type="text/javascript">
     $(document).ready(function () {
         var maxField = 12; //Input fields increment limitation
         var addButton = $('.add_button'); //Add button selector
         var wrapper = $('.field_wrapper'); //Input field wrapper
 
-        var fieldHTML = '<tbody><tr> <th scope="row">#</th> <td>  <select type="text" name="questionId[]" class="form-control">'+
+        var fieldHTML = '<tbody><tr> <th scope="row">@(serialNumber++)</th> <td>  <select type="text" name="questionId[]" class="form-control">'+
                                     '<option value="">... Select Option ...</option>'+
                                     '@foreach (var item in Model.planBenefitQuestionsModels) { <option value="@item.QuestionId">@item.Question</option> }'+
                                 '</select> </td>'+
@@ -191,4 +191,4 @@
             x--; //Decrement field counter
         });
     });
-                    </script>
+</script>

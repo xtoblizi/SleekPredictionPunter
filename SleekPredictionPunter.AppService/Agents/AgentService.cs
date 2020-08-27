@@ -43,6 +43,8 @@ namespace SleekPredictionPunter.AppService.Agents
                 agent.DateCreated = DateTime.Now;
                 agent.IsTenant = true;
                 agent.RefererCode = referrerCode;
+                agent.Wallet.Balance = 0;
+                agent.Wallet.UserName = agent.Username;
 
                 return await _repo.Insert(agent);
             }
@@ -50,6 +52,11 @@ namespace SleekPredictionPunter.AppService.Agents
             {
                 throw ex;
             }
+        }
+
+        public async Task Update(Agent model, bool savechage = true)
+        {
+            await _repo.Update(model, savechage);
         }
 
         public async Task<Agent> GetAgentById(long id)
@@ -60,6 +67,11 @@ namespace SleekPredictionPunter.AppService.Agents
         public async Task<IEnumerable<Agent>> GetAgents(Func<Agent, bool> predicate = null, int startIndex = 0, int count = int.MaxValue)
         {
             return await _repo.GetAllQueryable(predicate, startIndex, count);
+        }
+
+        public async Task<Agent> GetAgentsPredicate(Func<Agent, bool> predicate)
+        {
+            return await _repo.GetFirstOrDefault(predicate);
         }
 
         public async Task RemoveAgentById(Agent owner, bool savechage = true)
