@@ -10,6 +10,7 @@ using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.PredictionCategoryService;
 using SleekPredictionPunter.AppService.Predictors;
 using SleekPredictionPunter.AppService.Subscriptions;
+using SleekPredictionPunter.GeneralUtilsAndServices;
 using SleekPredictionPunter.Model.Matches;
 using System;
 using System.Threading.Tasks;
@@ -35,14 +36,15 @@ namespace SleekPredictionPunter.WebApp.Controllers
             _matchService = matchService;
             _clubService = clubService;
             _categoryService = categoryService;
+            _predictionService = predictionService;
             _matchCategoryService = matchCategoryService;
             _customCategoryService = customCategoryService;
         }
 
         // GET: Matches
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int startIndex = 0,int count = 200)
         {
-            return View(await _matchService.GetMatches());
+            return View(await _matchService.GetMatches<DateTime>(null,(x=>x.DateCreated),startIndex,count));
         }
         public async Task<IActionResult> _FrontEndPartialView()
         {
@@ -139,11 +141,14 @@ namespace SleekPredictionPunter.WebApp.Controllers
             {
                 return NotFound();
             }
+            var rolesEnumList = EnumHelper.GetEnumResults<MatchStatusEnum>();
+            ViewBag.MatchStatus = new SelectList(rolesEnumList, "Id", "Name",(int)match.MatchStatus);
+
             ViewBag.ClubA = new SelectList(await _clubService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "ClubName", "ClubName");
             ViewBag.ClubB = new SelectList(await _clubService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "ClubName", "ClubName");
             ViewBag.PredictionCategoryId = new SelectList(await _categoryService.GetCategories(null, (x => x.DateCreated), 0, 100), "Id", "GetNameAndDescription");
-            ViewBag.MatchCategoryId = new SelectList(await _matchCategoryService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "CategoryName");
-            ViewBag.CustomCategoryId = new SelectList(await _customCategoryService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "CategoryName");
+            ViewBag.MatchCategoryId = new SelectList(await _matchCategoryService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "CategoryName", match.MatchCategoryId);
+            ViewBag.CustomCategoryId = new SelectList(await _customCategoryService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "CategoryName", match.CustomCategoryId);
             return View(match);
         }
 
@@ -152,35 +157,96 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("ClubA,ClubALogoPath,ClubB,ClubBLogoPath,MatchCategory,MatchCategoryId,SportCategory,SportCategoryId,TimeofMatch,MatchStatus,IsSetAsHotPreview,Id,DateCreated,EntityStatus,DateUpdated")] Match match)
+        public async Task<IActionResult> Edit(long id, [Bind("ClubA,ClubALogoPath,ClubB,ClubBLogoPath,MatchCategory,MatchCategoryId,CustomCategory,CustomCategoryId,TimeofMatch,MatchStatus,IsSetAsHotPreview,Id,DateCreated,EntityStatus,DateUpdated")] Match match)
         {
             if (id != match.Id)
             {
                 return NotFound();
             }
 
+            if (match.TimeofMatch < DateTime.Now && (match.MatchStatus== MatchStatusEnum.Played || match.MatchStatus == MatchStatusEnum.Playing))
+            {
+                TempData["TempMessage"] = "The Time of the match and the status conflict";
+                return View(match);
+            }
+
+            if (match.TimeofMatch < DateTime.Now.AddMinutes(-20))
+            {
+                TempData["TempMessage"] = "You can not update a match 20minutes before its kick-off-time";
+                return View(match);
+            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var model = await _matchService.GetMatchById(match.Id);
+
+                    TempData["TempMessage"] = $"The Match Between {match.ClubA} vs {match.ClubB} Has Been Successfully Updated";
+                    var matchCategory = await _matchCategoryService.GetById(match.MatchCategoryId);
+                    var sportCat = await _customCategoryService.GetById(match.CustomCategoryId);
+
+                    model.CustomCategory = sportCat.CategoryName;
+                    model.CustomCategoryId = sportCat.Id;
+                    model.MatchCategory = matchCategory.CategoryName;
+                    model.MatchCategoryId = matchCategory.Id;
+                    model.MatchStatus = (MatchStatusEnum)match.MatchStatus;
+                    model.IsSetAsHotPreview = match.IsSetAsHotPreview;
+                    model.TimeofMatch = match.TimeofMatch;
+
+
                     await _matchService.Update(match);
+
+                    // get all predictions created on that match
+                    //var predictions = await _predictionService.GetByMatchId(match.Id);
+
+                    // loop through the predictions and update thier status and time.
+                    //foreach (var item in predictions)
+                    //{
+
+                    //}
 
                 }
                 catch (Exception)
                 {
-                    if (!await MatchExists(match.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
             return View(match);
         }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(long id, [Bind("ClubA,ClubALogoPath,ClubB,ClubBLogoPath,MatchCategory,MatchCategoryId,CustomCategory,CustomCategoryId,TimeofMatch,MatchStatus,IsSetAsHotPreview,Id,DateCreated,EntityStatus,DateUpdated")] Match match)
+        //{
+        //    if (id != match.Id)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            await _matchService.Update(match);
+
+        //        }
+        //        catch (Exception)
+        //        {
+        //            if (!await MatchExists(match.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(match);
+        //}
 
         // GET: Matches/Delete/5
         public async Task<IActionResult> Delete(long? id)

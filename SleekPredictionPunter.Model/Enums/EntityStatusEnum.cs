@@ -6,7 +6,7 @@ namespace SleekPredictionPunter.Model.Enums
 	{
 		[Description("Activated")]
 		Active = 1,
-		[Description("Not Activated")]
+		[Description("NotActivated")]
 		NotActive = 2,
 		[Description("Disabled")]
 		Disabled = 3,
@@ -29,10 +29,13 @@ namespace SleekPredictionPunter.Model.Enums
 
 	public enum CategoriesType : int
 	{
+		[Description("BetCategory")]
 		BetCategory = 1,
-		[Description("Custom Category")]
+		[Description("SportCategory")]
 		SportCategory = 2,
+		[Description("MatchCategory")]
 		MatchCategory = 3,
+		[Description("OddCategory")]
 		OddCategory = 4
 	}
 }

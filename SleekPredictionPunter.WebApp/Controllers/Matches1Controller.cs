@@ -63,7 +63,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClubA,ClubALogoPath,ClubB,ClubBLogoPath,MatchCategory,MatchCategoryId,SportCategory,SportCategoryId,TimeofMatch,MatchStatus,IsSetAsHotPreview,Id,DateCreated,EntityStatus,DateUpdated")] Match match)
+        public async Task<IActionResult> Create([Bind("ClubA,ClubALogoPath,ClubB,ClubBLogoPath,MatchCategory," +
+            "MatchCategoryId,SportCategory,SportCategoryId," +
+            "TimeofMatch,MatchStatus,IsSetAsHotPreview,Id,DateCreated,EntityStatus,DateUpdated")] Match match)
         {
             if (ModelState.IsValid)
             {

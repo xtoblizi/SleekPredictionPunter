@@ -61,7 +61,7 @@ namespace SleekPredictionPunter.Repository.Base
 
 		public async virtual Task Update(T model, bool savechange = true)
 		{
-			_entity.Update(model);
+			 _entity.Update(model);
 			
 			if(savechange)
 				await SaveChangesAsync();
@@ -97,7 +97,7 @@ namespace SleekPredictionPunter.Repository.Base
 				var dbSet = _entity.Where(predicate).Skip(startIndex).Take(count).ToList();
 				return await Task.FromResult(dbSet);
 			} 
-			return await _entity.Skip(startIndex).Take(count).ToListAsync(); 
+			return await _entity.AsNoTracking().Skip(startIndex).Take(count).ToListAsync(); 
 		}
 		
 		/// <summary>
@@ -116,17 +116,17 @@ namespace SleekPredictionPunter.Repository.Base
 			if(whereFunc != null)
             {
 				if(orderByDescFunc != null)
-					result = _entity.OrderByDescending(orderByDescFunc).Where(whereFunc).Skip(startIndex).Take(count).ToList();
+					result = _entity.AsNoTracking().OrderByDescending(orderByDescFunc).Where(whereFunc).Skip(startIndex).Take(count).ToList();
 				else
-					result = _entity.Where(whereFunc).Skip(startIndex).Take(count).ToList();
+					result = _entity.AsNoTracking().Where(whereFunc).Skip(startIndex).Take(count).ToList();
 
 			}
 			else
 			{
 				if(orderByDescFunc != null)
-					result =  _entity.OrderByDescending(orderByDescFunc).Skip(startIndex).Take(count).ToList();
+					result =  _entity.AsNoTracking().OrderByDescending(orderByDescFunc).Skip(startIndex).Take(count).ToList();
 				else
-					return result =  await _entity.Skip(startIndex).Take(count).ToListAsync();
+					return result =  await _entity.AsNoTracking().Skip(startIndex).Take(count).ToListAsync();
 
 			}
 
@@ -142,15 +142,18 @@ namespace SleekPredictionPunter.Repository.Base
 		/// <returns></returns>
 		public async virtual Task<T> GetById(string id)
 		{
-			return await _entity.FindAsync(id);
+			var result = await _entity.FindAsync(id);
+			return result;
 		}
 		public async virtual Task<T> GetById(long id)
 		{
-			return await _entity.FindAsync(id);
+			var result= await _entity.FindAsync(id);
+			return result;
 		}
 		public async virtual Task<T> GetById(int id)
 		{
-			return await _entity.FindAsync(id);
+			var result = await _entity.FindAsync(id);
+			return result;
 		}
 
 		/// <summary>
@@ -162,10 +165,10 @@ namespace SleekPredictionPunter.Repository.Base
 		{
 			if (predicate != null)
 			{
-				var dbSet = _entity.Where(predicate)?.FirstOrDefault();
+				var dbSet = _entity.AsNoTracking().Where(predicate)?.FirstOrDefault();
 				return await Task.FromResult(dbSet);
 			}
-			return await Task.FromResult(_entity.FirstOrDefault());
+			return await Task.FromResult(_entity.AsNoTracking().FirstOrDefault());
 			
 		}
 
@@ -174,10 +177,46 @@ namespace SleekPredictionPunter.Repository.Base
 			return _predictionDbContext.Set<T>();
 		}
 
+		#region IDisposable Support
+		private bool disposedValue = false; // To detect redundant calls
+
+		protected virtual void Dispose(bool disposing)
+		{
+			if (!disposedValue)
+			{
+				if (disposing)
+				{
+					// TODO: dispose managed state (managed objects).
+				}
+
+				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+				// TODO: set large fields to null.
+
+				disposedValue = true;
+			}
+		}
+
+		// TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+		~BaseRepository()
+		{
+			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+			Dispose(false);
+		}
+
+		// This code added to correctly implement the disposable pattern.
+		public void Dispose()
+		{
+			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+			Dispose(true);
+			// TODO: uncomment the following line if the finalizer is overridden above.
+			 GC.SuppressFinalize(this);
+		}
+		#endregion
+
 		//public async Task<dynamic> ReturnIncldedResult<T1, T2>(IIncludableQueryable<T1, T2> includeablequery) where T1 : class where T2 : class
-  //      {
+		//      {
 		//	throw new NotImplementedException();
-  //      }
+		//      }
 
 		#endregion
 

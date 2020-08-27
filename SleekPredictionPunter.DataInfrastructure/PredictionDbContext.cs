@@ -36,8 +36,8 @@ namespace SleekPredictionPunter.DataInfrastructure
 	}
 	public class PredictionDbContext : IdentityDbContext<ApplicationUser,ApplicationRole,string>
 	{
-		public PredictionDbContext(DbContextOptions<PredictionDbContext> options) 
-			: base(options) 
+		public PredictionDbContext(DbContextOptions<PredictionDbContext> options)
+			: base(options)
 		{
 		}
 
@@ -72,6 +72,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 		/// <param name="modelBuilder"></param>
 		protected override void OnModelCreating(ModelBuilder builder)
 		{		
+
 			base.OnModelCreating(builder);
 
 			builder.Entity<ApplicationUser>(entity =>
@@ -155,7 +156,8 @@ namespace SleekPredictionPunter.DataInfrastructure
 
 		private void Audit()
 		{			
-			var entries = ChangeTracker.Entries().Where(x => x.Entity is BaseEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+			var entries = ChangeTracker.Entries().Where(x => x.Entity is BaseEntity
+			&& (x.State == EntityState.Added || x.State == EntityState.Modified));
 			foreach (var entry in entries)
 			{
 				if (entry.State == EntityState.Added)
@@ -164,6 +166,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 				}
 				((BaseEntity)entry.Entity).DateUpdated = DateTime.UtcNow;
 			}
+			ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 		}
 	}
 }

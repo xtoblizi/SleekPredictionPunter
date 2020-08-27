@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.Repository.Base
 {
-	public interface IBaseRepository<T> where T : class
+	public interface IBaseRepository<T> : IDisposable where T : class 
 	{
 		Task<long> Insert(T phoneOwner, bool savechage = true);
 		Task<T> Inserts(T model, bool savechage = true);
