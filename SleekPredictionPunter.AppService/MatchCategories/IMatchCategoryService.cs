@@ -14,7 +14,9 @@ namespace SleekPredictionPunter.AppService.MatchCategories
 		Task Delete(MatchCategory model, bool savechanges = true);
 
 		Task<IEnumerable<MatchCategory>> GetAllQueryable(Func<MatchCategory, bool> predicate = null,
+			Func<MatchCategory, DateTime> orderByFunc = null,
 			int startIndex = 0, int count = int.MaxValue);
+
 
 		Task<MatchCategory> GetById(long id);
 		Task<MatchCategory> GetByName(string name);

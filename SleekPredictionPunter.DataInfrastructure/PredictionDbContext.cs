@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SleekPredictionPunter.Model.Matches;
 using SleekPredictionPunter.Model.PredicationMatchMaps;
+using SleekPredictionPunter.Model.Categoriess;
 
 namespace SleekPredictionPunter.DataInfrastructure
 {
@@ -62,6 +63,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 		public DbSet<Match> Matches { get; set; }
 		public DbSet<PredictionMatchMap> PredictionMapMaps { get; set; }
 		public DbSet<CustomCategory> CustomCategories { get; set; }
+		public DbSet<BetCategory> BetCategories { get; set; }
 
 
 		/// <summary>
@@ -75,6 +77,10 @@ namespace SleekPredictionPunter.DataInfrastructure
 			builder.Entity<ApplicationUser>(entity =>
 			{
 				entity.ToTable(name: "Users");
+			});
+			builder.Entity<CustomCategory>(entity =>
+			{
+				entity.ToTable(name: "SportLeagueCategory");
 			});
 
 			builder.Entity<ApplicationRole>(entity =>

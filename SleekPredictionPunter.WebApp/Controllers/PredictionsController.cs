@@ -20,6 +20,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SleekPredictionPunter.AppService.Subscriptions;
+using SleekPredictionPunter.AppService.Matches;
+using SleekPredictionPunter.AppService.BetCategories;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
@@ -32,6 +34,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         private readonly IClubService _clubService;
         private readonly ICategoryService _categoryService;
         private readonly IPredictorService _predictorService;
+        private readonly IMatchService _matchService;
+        private readonly IBetCategoryService _betCategoryService;
         private readonly IMatchCategoryService _matchCategoryService;
         private readonly ISubscriptionAppService _subscriptionSerivce;
         private readonly ICustomCategoryService _customCategoryService;
@@ -41,6 +45,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
             ISubscriptionAppService subscriptionAppService,
 			IPackageAppService packageService,
             IClubService clubService,
+            IBetCategoryService betCategoryService,
+            IMatchService  matchService,
             ICategoryService categoryService,
             IPredictorService predictorService,
             IMatchCategoryService matchCategoryService,
@@ -49,6 +55,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
             _predictionService = predictionService;
             _subscriptionSerivce = subscriptionAppService;
             _packageService = packageService;
+            _betCategoryService = betCategoryService;
+            _matchService = matchService;
 			_pricingPlanservice = pricingPlanAppService;
             _clubService = clubService;
             _categoryService = categoryService;
@@ -157,12 +165,10 @@ namespace SleekPredictionPunter.WebApp.Controllers
             ViewBag.Predictions = "active";
 
             ViewBag.PackageId = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName");
-            ViewBag.ClubA = new SelectList(await _clubService.GetAllQueryable(), "ClubName", "ClubName");
-            ViewBag.ClubB = new SelectList(await _clubService.GetAllQueryable(), "ClubName", "ClubName");
-            ViewBag.PredictionCategoryId = new SelectList(await _categoryService.GetCategories(), "Id", "GetNameAndDescription");
+            ViewBag.BetCategoryId = new SelectList(await _betCategoryService.GetAllQueryable(null,(x=>x.DateCreated),0,100), "Id", "GetNameAndDescription");
+            ViewBag.PredictionCategoryId = new SelectList(await _categoryService.GetCategories(null, (x => x.DateCreated), 0, 100), "Id", "GetNameAndDescription");
             var plan = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName");
-            ViewBag.MatchCategoryId = new SelectList(await _matchCategoryService.GetAllQueryable(), "Id", "CategoryName");
-            ViewBag.CustomCategoryId = new SelectList(await _customCategoryService.GetAllQueryable(), "Id", "CategoryName");
+            ViewBag.MatchId = new SelectList(await _matchService.GetMatches(null,(x=>x.DateCreated),0,100), "Id", "GetTeamAvsTeamB");
            
             ViewBag.PricingPlanId = plan;
             return View();
@@ -175,38 +181,43 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromForm] Prediction prediction)
         {
+            if(prediction.TimeofFixture <= DateTime.Now || !ModelState.IsValid)
+            {
+                ViewBag.PackageId = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName");
+                ViewBag.PredictionCategoryId = new SelectList(await _categoryService.GetCategories(), "Id", "GetNameAndDescription");
+                var plan = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName");
+                ViewBag.BetCategoryId = new SelectList(await _betCategoryService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "GetNameAndDescription");
+                ViewBag.MatchId = new SelectList(await _matchService.GetMatches(null, (x => x.DateCreated), 0, 100), "Id", "GetTeamAvsTeamB");
+
+
+                return View(prediction);
+            }
+
             ViewBag.Predictions = "active";
             var getPredictor = await _predictorService.GetByUserName(User.Identity.Name); 
             var pricingPlan = await _pricingPlanservice.GetById(prediction.PricingPlanId);
-            var getcategory = await _categoryService.GetCategoryById(prediction.PredictionCategoryId);
+            var betCategory = await _betCategoryService.GetById(prediction.BetCategoryId);
+          //  var getcategory = await _categoryService.GetCategoryById(prediction.PredictionCategoryId);
+            var match = await _matchService.GetMatchById(prediction.MatchId);
 
-
-
-            prediction.DateCreated = DateTime.UtcNow;
-            prediction.DateUpdated = DateTime.UtcNow;
             prediction.PredictionValue = prediction.PredictionValue;
             prediction.Predictor = prediction.Predictor;
             prediction.PredictorUserName = User.Identity.Name;
-            prediction.TimeofFixture = prediction.TimeofFixture;
+            prediction.TimeofFixture = match.TimeofMatch;
             prediction.PricingPlan = pricingPlan;
+            prediction.BeCategory = betCategory.BetCategoryName;
             prediction.PredictorId = getPredictor.Id;
-            prediction.PredictionValue = getcategory.CategoryName;
+            prediction.PredictionValue = prediction.PredictionValue;
+            prediction.ClubA = match.ClubA;
+            prediction.ClubALogoPath = match.ClubALogoPath;
+            prediction.ClubB = match.ClubB;
+            prediction.ClubB = match.ClubBLogoPath;
+            prediction.PredictionResult = Model.Enums.PredictionResultEnum.MatchPending;
 
-            if (ModelState.IsValid)
-            {
-                await _predictionService.InsertPrediction(prediction);
-                return RedirectToAction(nameof(Index));
-            }
-
-            ViewBag.ClubA = new SelectList(await _clubService.GetAllQueryable(), "ClubName", "ClubName", prediction.ClubA);
-            ViewBag.ClubB = new SelectList(await _clubService.GetAllQueryable(), "ClubName", "ClubName", prediction.ClubB);
-            ViewBag.PredictionCategoryId = new SelectList(await _categoryService.GetCategories(), "Id", "GetNameAndDescription", prediction.PredictionValue);
-            ViewBag.PricingPlanId = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName", prediction.PricingPlanId);
-            ViewBag.MatchCategoryId = new SelectList(await _matchCategoryService.GetAllQueryable(), "Id", "CategoryName", prediction.MatchCategoryId);
-            ViewBag.CustomCategoryId = new SelectList(await _customCategoryService.GetAllQueryable(), "Id", "CategoryName", prediction.CustomCategoryId);
+        
+            await _predictionService.InsertPrediction(prediction);
+            return RedirectToAction(nameof(Index));
             
-
-            return View(prediction);
         }
 
 
@@ -222,9 +233,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomCategoryId"] = new SelectList(await _customCategoryService.GetAllQueryable(), "Id", "Id", prediction.CustomCategoryId);
-            ViewData["MatchCategoryId"] = new SelectList(await _matchCategoryService.GetAllQueryable(), "Id", "Id", prediction.MatchCategoryId);
-            ViewData["PredictionCategoryId"] = new SelectList(await _categoryService.GetCategories(), "Id", "Id", prediction.PredictionCategoryId);
+            ViewData["CustomCategoryId"] = new SelectList(await _customCategoryService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "Id", prediction.CustomCategoryId);
+            ViewData["MatchCategoryId"] = new SelectList(await _matchCategoryService.GetAllQueryable(null,(x=>x.DateCreated),0,100), "Id", "Id", prediction.MatchCategoryId);
+            ViewData["PredictionCategoryId"] = new SelectList(await _categoryService.GetCategories(null, (x => x.DateCreated), 0, 100), "Id", "Id", prediction.PredictionCategoryId);
             //ViewData["PredictorId"] = new SelectList(_context.Predictors, "Id", "Id", prediction.PredictorId);
             ViewData["PricingPlanId"] = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "Id", prediction.PricingPlanId);
             return View(prediction);
@@ -235,7 +246,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("PredictorUserName,ClubA,ClubAOdd,ClubALogoPath,ClubB,ClubBOdd,ClubBLogoPath,PredictionValue,TimeofFixture,PredictorId,CustomCategoryId,MatchCategoryId,PredictionCategoryId,PricingPlanId,ClubAScore,ClubBScore,Id,DateCreated,EntityStatus,DateUpdated")] Prediction prediction)
+        public async Task<IActionResult> Edit(long id, [Bind("PredictorUserName,ClubA,ClubAOdd," +
+            "ClubALogoPath,ClubB,ClubBOdd,ClubBLogoPath,PredictionValue," +
+            "TimeofFixture,PredictorId,CustomCategoryId,MatchCategoryId," +
+            "PredictionCategoryId,PricingPlanId,ClubAScore,ClubBScore,Id," +
+            "DateCreated,EntityStatus,DateUpdated")] Prediction prediction)
         {
             if (id != prediction.Id)
             {

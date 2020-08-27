@@ -50,7 +50,6 @@ namespace SleekPredictionPunter.Model.Matches
 		}
 
 		public string ClubA { get; set; }
-
 		public virtual long ClubAId { get; set; }
 		public string ClubALogoPath { get; set; }
 
@@ -62,9 +61,13 @@ namespace SleekPredictionPunter.Model.Matches
 		/// Categories relating to this match
 		/// </summary>
 		public string MatchCategory { get; set; }
-		public long MatchCategoryId { get; set; }
-		public string SportCategory { get; set; }
-		public long	SportCategoryId { get; set; }
+		public virtual long MatchCategoryId { get; set; }
+		public string CustomCategory { get; set; }
+		/// <summary>
+		/// This is as well the sports category of the match
+		/// </summary>
+		public long	CustomCategoryId { get; set; }
+		
 		
 		public DateTime TimeofMatch { get; set; }
 		
@@ -81,6 +84,8 @@ namespace SleekPredictionPunter.Model.Matches
 		/// Note at the time a map is used to create the realationship between the two tables.
 		/// </summary>
 		public virtual ICollection<Prediction> Predictions { get; set; }
-		
+
+		public string GetTeamAvsTeamB { get { return $"{ClubA} vs {ClubB}"; } }
+
 	}
 }

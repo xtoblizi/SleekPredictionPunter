@@ -15,11 +15,15 @@ namespace SleekPredictionPunter.AppService.Plans
         private readonly IBaseRepository<PlanBenefitQuestionsModel> _baseRepository;
         private readonly IBaseRepository<PlanPricingBenefitsModel> _benefitBaseRepository;
         private readonly IBaseRepository<PricingPlanModel> _planBaseRepository;
-        public PricingPlanAppService(IBaseRepository<PlanBenefitQuestionsModel> baseRepository, 
+        private readonly IBaseRepository<dynamic> _dynamicPlansAndBenefitsRepo;
+        public PricingPlanAppService(
+            IBaseRepository<dynamic> dynamicPlansAndBenefitsRepo,
+            IBaseRepository<PlanBenefitQuestionsModel> baseRepository, 
             IBaseRepository<PlanPricingBenefitsModel> benefitBaseRepository,
             IBaseRepository<PricingPlanModel> planBaseRepository)
         {
             _baseRepository = baseRepository;
+            _dynamicPlansAndBenefitsRepo = dynamicPlansAndBenefitsRepo;
             _benefitBaseRepository = benefitBaseRepository;
             _planBaseRepository = planBaseRepository;
         }
@@ -174,5 +178,10 @@ namespace SleekPredictionPunter.AppService.Plans
 			}
 		}
 		#endregion
+
+        public async Task DeleteDynamicMode(dynamic model)
+        {
+            await _dynamicPlansAndBenefitsRepo.Delete(model);
+        }
 	}
 }

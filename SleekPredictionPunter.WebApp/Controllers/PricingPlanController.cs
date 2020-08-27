@@ -38,8 +38,19 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> CreateNewQuestion()
         {
             ViewBag.PlanSetup = "active";
+            ViewBag.Message = "Successfully created Benefit Pointline";
             ViewBag.Questions = await _pricingPlanAppService.GetAllQuestion();
             return View(new PlanBenefitQuestionsModel { });
+        } 
+        
+        [HttpGet]
+        public async Task<IActionResult> DeleteQuestion(long Id)
+        {
+            var question = await _pricingPlanAppService.GetQuestionById(Id);
+            await _pricingPlanAppService.DeleteDynamicMode(question);
+
+            TempData["TempMessage"] = $"Question successfully deteted";
+            return RedirectToAction(nameof(CreateNewQuestion));
         }
 
         [HttpPost]

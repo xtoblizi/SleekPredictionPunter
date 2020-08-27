@@ -1,6 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using SleekPredictionPunter.AppService.Clubs;
+using SleekPredictionPunter.AppService.CustomCategory;
+using SleekPredictionPunter.AppService.MatchCategories;
 using SleekPredictionPunter.AppService.Matches;
+using SleekPredictionPunter.AppService.Packages;
+using SleekPredictionPunter.AppService.Plans;
 using SleekPredictionPunter.AppService.PredictionAppService;
+using SleekPredictionPunter.AppService.PredictionCategoryService;
+using SleekPredictionPunter.AppService.Predictors;
+using SleekPredictionPunter.AppService.Subscriptions;
 using SleekPredictionPunter.Model.Matches;
 using System;
 using System.Threading.Tasks;
@@ -9,13 +18,25 @@ namespace SleekPredictionPunter.WebApp.Controllers
 {
     public class MatchesController : Controller
     {
-        private readonly IMatchService _matchService;
         private readonly IPredictionService _predictionService;
+        private readonly IMatchService _matchService;
+        private readonly IClubService _clubService;
+        private readonly ICategoryService _categoryService;
+        private readonly IMatchCategoryService _matchCategoryService;
+        private readonly ICustomCategoryService _customCategoryService;
 
-        public MatchesController(IMatchService matchService, IPredictionService predictionService)
+        public MatchesController(IMatchService matchService,
+            IClubService clubService,
+            ICategoryService categoryService,
+            IMatchCategoryService matchCategoryService,
+            ICustomCategoryService customCategoryService,
+            IPredictionService predictionService)
         {
             _matchService = matchService;
-            _predictionService = predictionService;
+            _clubService = clubService;
+            _categoryService = categoryService;
+            _matchCategoryService = matchCategoryService;
+            _customCategoryService = customCategoryService;
         }
 
         // GET: Matches
@@ -53,8 +74,16 @@ namespace SleekPredictionPunter.WebApp.Controllers
         }
 
         // GET: Matches/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Predictions = "active";
+
+            ViewBag.ClubAId = new SelectList(await _clubService.GetAllQueryable(), "Id", "ClubName");
+            ViewBag.ClubBId = new SelectList(await _clubService.GetAllQueryable(), "Id", "ClubName");
+            ViewBag.PredictionCategoryId = new SelectList(await _categoryService.GetCategories(), "Id", "GetNameAndDescription");
+            ViewBag.MatchCategoryId = new SelectList(await _matchCategoryService.GetAllQueryable(), "Id", "CategoryName");
+            ViewBag.CustomCategoryId = new SelectList(await _customCategoryService.GetAllQueryable(), "Id", "CategoryName");
+
             return View();
         }
 
@@ -63,14 +92,38 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClubA,ClubALogoPath,ClubB,ClubBLogoPath,MatchCategory,MatchCategoryId,SportCategory,SportCategoryId,TimeofMatch,MatchStatus,IsSetAsHotPreview,Id,DateCreated,EntityStatus,DateUpdated")] Match match)
+        //public async Task<IActionResult> Create([Bind("ClubA,ClubALogoPath,ClubB,ClubBLogoPath,MatchCategory,MatchCategoryId," +
+        //    "CustomCategory,CustomCategoryId,TimeofMatch,MatchStatus,IsSetAsHotPreview,Id,DateCreated," +
+        //    "EntityStatus,DateUpdated")] Match match)   
+        public async Task<IActionResult> Create(Match match)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                await _matchService.Insert(model:match, savechanges: true);
-                return RedirectToAction(nameof(Index));
+                ViewBag.Predictions = "active";
+
+                ViewBag.ClubAId = new SelectList(await _clubService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "ClubName");
+                ViewBag.ClubBId = new SelectList(await _clubService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "ClubName");
+                ViewBag.MatchCategoryId = new SelectList(await _matchCategoryService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "CategoryName");
+                ViewBag.CustomCategoryId = new SelectList(await _customCategoryService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "CategoryName");
+
+                return View();
             }
-            return View(match);
+            
+            var clubA = await _clubService.GetById(match.ClubAId);
+            var clubB = await _clubService.GetById(match.ClubBId);
+            var sportCategory = await _customCategoryService.GetById(match.CustomCategoryId);
+            var matchCategory = await _matchCategoryService.GetById(match.MatchCategoryId);
+
+            match.ClubA = clubA.ClubName;
+            match.ClubALogoPath = clubA.ClubLogRelativePath;
+            match.ClubB = clubB.ClubName;
+            match.ClubBLogoPath = clubB.ClubLogRelativePath;
+            match.CustomCategory = sportCategory.CategoryName;
+            match.MatchCategory = matchCategory.CategoryName;
+            match.MatchStatus = MatchStatusEnum.Upcoming;
+            
+            await _matchService.Insert(model: match, savechanges: true);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Matches/Edit/5
@@ -86,6 +139,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
             {
                 return NotFound();
             }
+            ViewBag.ClubA = new SelectList(await _clubService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "ClubName", "ClubName");
+            ViewBag.ClubB = new SelectList(await _clubService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "ClubName", "ClubName");
+            ViewBag.PredictionCategoryId = new SelectList(await _categoryService.GetCategories(null, (x => x.DateCreated), 0, 100), "Id", "GetNameAndDescription");
+            ViewBag.MatchCategoryId = new SelectList(await _matchCategoryService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "CategoryName");
+            ViewBag.CustomCategoryId = new SelectList(await _customCategoryService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "CategoryName");
             return View(match);
         }
 
@@ -106,7 +164,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 try
                 {
                     await _matchService.Update(match);
-                   
+
                 }
                 catch (Exception)
                 {
@@ -132,7 +190,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 return NotFound();
             }
 
-            var match = await  _matchService.GetMatchById(id.Value);
+            var match = await _matchService.GetMatchById(id.Value);
             if (match == null)
             {
                 return NotFound();
@@ -148,7 +206,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         {
             var match = await _matchService.GetMatchById(id);
             await _matchService.Delete(match);
-            
+
             return RedirectToAction(nameof(Index));
         }
 

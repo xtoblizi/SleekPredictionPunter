@@ -15,7 +15,8 @@ namespace SleekPredictionPunter.AppService.Clubs
 
 		//Task<Club> GetFirstOrDefault(Club model);
 
-		Task<IEnumerable<Club>> GetAllQueryable();
+		Task<IEnumerable<Club>> GetAllQueryable(Func<Club,bool> wherefunc=null,Func<Club,DateTime> orderByFunc =null
+			,int startIndex = 0,int count = int.MaxValue);
 
 		Task<Club> GetById(long id);
 		Task<Club> GetByName(string name);

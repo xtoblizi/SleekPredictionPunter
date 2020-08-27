@@ -5,96 +5,58 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Create</h2>
+<h2>Create Match</h2>
 
-<h4>Match</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-11">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ClubA" class="control-label"></label>
-                <input asp-for="ClubA" class="form-control" />
-                <span asp-validation-for="ClubA" class="text-danger"></span>
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label asp-for="ClubAId" class="control-label"></label>
+                <select asp-for="ClubAId" class="form-control" asp-items="ViewBag.ClubAId"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="ClubALogoPath" class="control-label"></label>
-                <input asp-for="ClubALogoPath" class="form-control" />
-                <span asp-validation-for="ClubALogoPath" class="text-danger"></span>
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label asp-for="ClubBId" class="control-label"></label>
+                <select required asp-for="ClubBId" class="form-control" asp-items="ViewBag.ClubBId"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="ClubB" class="control-label"></label>
-                <input asp-for="ClubB" class="form-control" />
-                <span asp-validation-for="ClubB" class="text-danger"></span>
+            
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label class="control-label">Match Category</label>
+                <select required asp-for="MatchCategoryId" class="form-control" asp-items="ViewBag.MatchCategoryId"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="ClubBLogoPath" class="control-label"></label>
-                <input asp-for="ClubBLogoPath" class="form-control" />
-                <span asp-validation-for="ClubBLogoPath" class="text-danger"></span>
+            
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label  class="control-label"> Sport Category</label>
+                <select required asp-for="CustomCategoryId" class="form-control" asp-items="ViewBag.CustomCategoryId"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="MatchCategory" class="control-label"></label>
-                <input asp-for="MatchCategory" class="form-control" />
-                <span asp-validation-for="MatchCategory" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MatchCategoryId" class="control-label"></label>
-                <input asp-for="MatchCategoryId" class="form-control" />
-                <span asp-validation-for="MatchCategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SportCategory" class="control-label"></label>
-                <input asp-for="SportCategory" class="form-control" />
-                <span asp-validation-for="SportCategory" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SportCategoryId" class="control-label"></label>
-                <input asp-for="SportCategoryId" class="form-control" />
-                <span asp-validation-for="SportCategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TimeofMatch" class="control-label"></label>
-                <input asp-for="TimeofMatch" class="form-control" />
+          
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label  class="control-label"> Time Of Match</label>
+                <input required asp-for="TimeofMatch" class="form-control" />
                 <span asp-validation-for="TimeofMatch" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="MatchStatus" class="control-label"></label>
-                <select asp-for="MatchStatus" class="form-control"></select>
-                <span asp-validation-for="MatchStatus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            <br />
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group" style="margin-top:25px">
                 <div class="checkbox">
                     <label>
-                        <input asp-for="IsSetAsHotPreview" /> @Html.DisplayNameFor(model => model.IsSetAsHotPreview)
+                        <input type="checkbox" asp-for="IsSetAsHotPreview"/> @Html.DisplayNameFor(model => model.IsSetAsHotPreview)
                     </label>
                 </div>
             </div>
-            <div class="form-group">
-                <label asp-for="DateCreated" class="control-label"></label>
-                <input asp-for="DateCreated" class="form-control" />
-                <span asp-validation-for="DateCreated" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EntityStatus" class="control-label"></label>
-                <select asp-for="EntityStatus" class="form-control"></select>
-                <span asp-validation-for="EntityStatus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateUpdated" class="control-label"></label>
-                <input asp-for="DateUpdated" class="form-control" />
-                <span asp-validation-for="DateUpdated" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <hr/>
+            <div class="col-12 form-group">
+                <div class="col-4" style="margin-left:25px">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                </div> <br/>
+                <div>
+                    <a asp-action="Index">Back to Matches</a>
+                </div>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

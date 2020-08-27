@@ -20,9 +20,11 @@ namespace SleekPredictionPunter.AppService.CustomCategory
             await _repo.Delete(model, savechanges);
         }
 
-        public async Task<IEnumerable<Model.CustomCategory>> GetAllQueryable()
+        public async Task<IEnumerable<Model.CustomCategory>> GetAllQueryable(Func<Model.CustomCategory, bool> wherefunc = null,
+            Func<Model.CustomCategory, DateTime> orderByfunc = null,
+            int startIndex = 0, int count = int.MaxValue)
         {
-            return await _repo.GetAllQueryable();
+            return await _repo.GetAllQueryable(wherefunc,orderByfunc,startIndex,count);
         }
 
         public async Task<Model.CustomCategory> GetById(long id)

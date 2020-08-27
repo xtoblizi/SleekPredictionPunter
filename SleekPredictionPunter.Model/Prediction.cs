@@ -26,7 +26,9 @@ namespace SleekPredictionPunter.Model
 		public string ClubBLogoPath { get; set; }
 
 		public string PredictionValue { get; set; }
-
+		/// <summary>
+		/// Set the time from the match as the Fixture Time of the prediction
+		/// </summary>
 		public DateTime TimeofFixture { get; set; }
 
 		#region Result Based Properties
@@ -41,7 +43,9 @@ namespace SleekPredictionPunter.Model
 		/// This design creates a one to one relationship between the below entity and the named entity: Prediction.
 		/// </summary>
 		public virtual long MatchId { get; set; } // this relates to an upcoming match that 
-		//was created before a prediction was created out of it.
+												  //was created before a prediction was created out of it.
+		public virtual long BetCategoryId { get; set; }
+		public string BeCategory { get; set; }
 
 		public virtual Predictor Predictor { get; set; }
 		public virtual long  PredictorId { get; set; }
@@ -55,8 +59,7 @@ namespace SleekPredictionPunter.Model
 		public virtual long PredictionCategoryId { get; set; }
 		public virtual long PricingPlanId { get; set; }
 		public virtual PricingPlanModel PricingPlan { get; set; }
-	
-
+		
 	}
 
 	public enum MatchResultCategories

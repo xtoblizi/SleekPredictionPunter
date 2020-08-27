@@ -21,6 +21,8 @@ namespace SleekPredictionPunter.AppService.Plans
 		Task DeletePricingPlan(long packgeId);
 
 		Task<PricingPlanModel> GetPlanById(long id);
-	}
+        Task DeleteDynamicMode(dynamic model);
+
+    }
     
 }

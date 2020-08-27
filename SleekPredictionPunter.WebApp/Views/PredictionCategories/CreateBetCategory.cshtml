@@ -1,0 +1,71 @@
+﻿@model SleekPredictionPunter.Model.Categoriess.BetCategory
+@using SleekPredictionPunter.Model.Categoriess
+@using SleekPredictionPunter.Model.Enums
+
+@{
+    ViewData["Title"] = "CreateBetCategory";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var sn = 1;
+}
+
+<h2>Create BetCategory</h2>
+
+<div class="row">
+    <div class="col-md-5 col-sm-12 col-xs-12 col-lg-4 col-xl-4">
+        @if (TempData["TempMessage"] != null)
+        {
+            <p class="text-success" style="font-size:1.6em"> <strong>@TempData["TempMessage"]</strong>  </p>
+        }
+
+        <form asp-action="CreateBetCategory">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="BetCategoryName" class="control-label"></label>
+                <input asp-for="BetCategoryName" required class="form-control" />
+                <span asp-validation-for="BetCategoryName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" required class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+   
+</div>
+
+<div class="row">
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>S/N</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.BetCategories as IEnumerable<BetCategory>)
+            {
+            <tr>
+                <td>@(sn++)</td>
+                <td>@item.BetCategoryName</td>
+                <td>@item.Description</td>
+                <td>@item.EntityStatus</td>
+                <td><a asp-action="DeleteDynamic" asp-route-id="@item.Id" asp-route-categoryEnum="@CategoriesType.BetCategory" asp-route-viewToReturnTo="CreateBetCategory" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

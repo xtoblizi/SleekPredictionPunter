@@ -19,9 +19,11 @@ namespace SleekPredictionPunter.AppService.Clubs
             await _repo.Delete(model, savechanges);
         }
 
-        public async Task<IEnumerable<Club>> GetAllQueryable()
+        public async Task<IEnumerable<Club>> GetAllQueryable(Func<Club, bool> wherefunc = null,
+            Func<Club, DateTime> orderByFunc = null
+            , int startIndex = 0, int count = int.MaxValue)
         {
-            return await _repo.GetAllQueryable();
+            return await _repo.GetAllQueryable(wherefunc,orderByFunc,startIndex,count);
         }
 
         public async Task<Club> GetById(long id)

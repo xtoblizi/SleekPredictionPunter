@@ -21,11 +21,15 @@ namespace SleekPredictionPunter.AppService.MatchCategories
 			await _repo.Delete(model, true);
         }
 
-        public async Task<IEnumerable<MatchCategory>> GetAllQueryable(Func<MatchCategory,bool> predicate = null, 
-			int startIndex = 0,int count = int.MaxValue)
+        public async Task<IEnumerable<MatchCategory>> GetAllQueryable(Func<MatchCategory,bool> predicate = null, Func<MatchCategory, 
+            DateTime> orderByFunc = null,
+
+            int startIndex = 0,int count = int.MaxValue)
         {
-            return await _repo.GetAllQueryable(predicate,startIndex,count);
-        }
+            return await _repo.GetAllQueryable(predicate,orderByFunc,startIndex,count);
+        }  
+        
+        
 
         public async Task<MatchCategory> GetById(long id)
         {

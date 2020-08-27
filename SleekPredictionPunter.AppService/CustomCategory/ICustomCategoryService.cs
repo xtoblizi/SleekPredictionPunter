@@ -13,7 +13,9 @@ namespace SleekPredictionPunter.AppService.CustomCategory
 
 		Task Delete(Model.CustomCategory model, bool savechanges = true);
 
-		Task<IEnumerable<Model.CustomCategory>> GetAllQueryable();
+		Task<IEnumerable<Model.CustomCategory>> GetAllQueryable(Func<Model.CustomCategory, bool> wherefunc = null,
+			Func<Model.CustomCategory, DateTime> orderByfunc = null,
+			int startIndex = 0, int count = int.MaxValue);
 
 		Task<Model.CustomCategory> GetById(long id);
 		Task<Model.CustomCategory> GetByName(string name);

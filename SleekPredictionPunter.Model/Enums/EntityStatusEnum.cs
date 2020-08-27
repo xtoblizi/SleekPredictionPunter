@@ -26,4 +26,13 @@ namespace SleekPredictionPunter.Model.Enums
 		Agent = 4
 
 	}
+
+	public enum CategoriesType : int
+	{
+		BetCategory = 1,
+		[Description("Custom Category")]
+		SportCategory = 2,
+		MatchCategory = 3,
+		OddCategory = 4
+	}
 }

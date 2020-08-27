@@ -2,113 +2,124 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Index</h2>
+<section class="container-fluid" style="padding:10px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-panel">
+                <h2 class="title"> Matches </h2>
+            </div>
+        </div>
+    </div>
+</section>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ClubA)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClubALogoPath)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClubB)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClubBLogoPath)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MatchCategory)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MatchCategoryId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SportCategory)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SportCategoryId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TimeofMatch)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MatchStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsSetAsHotPreview)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateCreated)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EntityStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateUpdated)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClubA)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClubALogoPath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClubB)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClubBLogoPath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MatchCategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MatchCategoryId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SportCategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SportCategoryId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TimeofMatch)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MatchStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsSetAsHotPreview)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateCreated)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EntityStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateUpdated)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<section class="container-fluid" style="padding:10px;">
+    <div class="row mt">
+        <div class="col-md-12">
+            <div class="content-panel" style="padding:20px">
+                <div class="row">
+                    <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6">
+                        <a asp-action="Create" class="btn btn-primary">Create a Matche</a>
+                    </div>
+                </div>
+                <br />
+                <div class="table-responsive">
+                    <table class="table table-responsive table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    ClubA
+                                </th>
+
+                                <th>
+                                    ClubA Logo
+                                </th>
+                                <th>
+                                    ClubB
+                                </th>
+
+                                <th>
+                                    ClubB Logo
+                                </th>
+                                <th>
+                                    Match Category
+                                </th>
+
+                                <th>
+                                    Sport Category
+                                </th>
+
+                                <th>
+                                    Match Time
+                                </th>
+                                <th>
+                                    Match Status
+                                </th>
+                                <th title="This denotes whether a match is set as hot preview for display on the home screen">
+                                    Set As HotPreview
+                                </th>
+                                <th>
+                                    Date Updated
+                                </th>
+
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ClubA)
+                                    </td>
+
+                                    <td>
+                                        <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item.ClubALogoPath))" style="width:25px;height:25px" />
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ClubB)
+                                    </td>
+
+                                    <td>
+                                        <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item.ClubBLogoPath))" style="width:25px;height:25px" />
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MatchCategory)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomCategory)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TimeofMatch)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MatchStatus)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IsSetAsHotPreview)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DateUpdated)
+                                    </td>
+
+                                    <td>
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i class="fa fc-content"></i></a>
+                                        <a asp-action="Edit" title="Update Match Result" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i title="Update Match Result" class="fa fa-pencil"></i></a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+</section>

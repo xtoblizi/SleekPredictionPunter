@@ -20,9 +20,11 @@ namespace SleekPredictionPunter.AppService.OddCategory
             await _repo.Delete(model, savechanges);
         }
 
-        public async Task<IEnumerable<Model.OddCategory>> GetAllQueryable()
+        public async Task<IEnumerable<Model.OddCategory>> GetAllQueryable(Func<Model.OddCategory, bool> wherefunc = null,
+            Func<Model.OddCategory,DateTime> orderByfunc=null,
+            int startIndex = 0, int count = int.MaxValue)
         {
-            return await _repo.GetAllQueryable();
+            return await _repo.GetAllQueryable(wherefunc, orderByfunc, startIndex,count);
         }
 
         public async Task<Model.OddCategory> GetById(long id)

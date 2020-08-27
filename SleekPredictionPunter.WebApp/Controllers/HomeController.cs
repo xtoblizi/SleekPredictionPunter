@@ -49,7 +49,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
 			var plans = await _pricingPlanservice.GetAllPlans();
 			var geteFreePlan = plans.FirstOrDefault(c => c.Price < 1);
-			var matchCategory = await _matchCategoryService.GetAllQueryable(null, 0, 10);
+			var matchCategory = await _matchCategoryService.GetAllQueryable(null, (x=>x.DateCreated),0, 10);
 
 			ViewBag.MatchCategory = matchCategory;
 
