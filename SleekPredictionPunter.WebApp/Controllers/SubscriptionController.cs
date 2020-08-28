@@ -102,8 +102,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 && x.PricingPlanId == getPlanDetails.Id && x.DateCreated < DateTime.Now.AddMonths(-1)));
 
                 var getSubscribeddetails = await _subscriptionAppService.GetPredicateRecord(predicate);
-
-               
+                Func<WalletModel, bool> predicatedWallet = (x => x.UserEmailAddress == email);
+                var checkUserBalance = await _walletAppService.GetAllWalletD(predicatedWallet);
+                
                 if (getSubscribeddetails == null || getSubscribeddetails.ExpirationDateTime < DateTime.Now)
                 {
                     var transLog = new TransactionLogModel
@@ -119,8 +120,18 @@ namespace SleekPredictionPunter.WebApp.Controllers
                         var insert = await _transactionLogAppService.InsertNewLog(transLog);
                         if (insert != null)
                         {
-                            //Todo: subscriber/plan map then insert into db
-                            return Redirect(paymentservice.Item1.Data.AuthorizationUrl);
+                            var checkTotal = getPlanDetails.Price + getPlanDetails.PlanCommission;
+                            if(checkUserBalance.Amount > 0 && checkUserBalance.Amount < checkTotal)
+                            {
+                                //debit user from here and move on...
+                                ViewBag.Message = "This transaction was successful..";
+                                return RedirectToAction("index","home");
+                            }
+                            else
+                            {
+                                //Todo: subscriber/plan map then insert into db
+                                return Redirect(paymentservice.Item1.Data.AuthorizationUrl);
+                            }
                         } 
                     }
 				}
@@ -154,21 +165,23 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 {
                     Func<WalletModel, bool> predicateForsubSubscriber = (x => x.UserEmailAddress == email);
                     var getWalletDetailsForThisSubscriber = await _walletAppService.GetAllWalletD(predicate: predicateForsubSubscriber);
+                    Func<Subscriber, bool> predicate = (x => x.Email == email);
+                    var getSubscriberDetails = await _subscriberService.GetFirstOrDefault(predicate);
 
-                    var getSubscriberDetails = await _subscriberService.GetFirstOrDefault(new Subscriber { Email = email });
                     var getLogByRef = await _transactionLogAppService.GetPredicatedTransactionLog(x => x.ReferenceNumber == reference);
                     var walletModel = new WalletModel();
                     walletModel = new WalletModel
                     {
+                        Id = getWalletDetailsForThisSubscriber.Id,                        
                         UserEmailAddress = email,
                         UserRole = roleEnum,
                         Amount = confirmation.Data.Amount,
                         LastAmountTransacted = 0,//for now, please, refer back here. call the wallet service and pull out the info from there. get the last item in/from the list of recent transactions..
                         DateTimeLastTransacted = DateTime.Now,//do same heere.
                     };
-                    var inserToWallet = await _walletAppService.InsertNewAmount(walletModel);
+                     _walletAppService.UpdateWalletDetails(walletModel);
 
-                    if(inserToWallet == true && getLogByRef != null && getSubscriberDetails!=null)
+                    if(getLogByRef != null && getSubscriberDetails!=null)
                     {
                         var logModel = new TransactionLogModel
                         {
@@ -194,37 +207,35 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
                         #region map details n bonus for agents
                         //get subscriber details by email from subscriber table
-                        var subscriberDetails = await _subscriberService.GetFirstOrDefault(new Subscriber { Email = email });
-                        if (subscriberDetails != null && string.IsNullOrEmpty(subscriberDetails.RefererCode))
+                        //var subscriberDetails = await _subscriberService.GetFirstOrDefault(new Subscriber { Email = email });
+                        if (getSubscriberDetails != null && !string.IsNullOrEmpty(getSubscriberDetails.RefererCode))
                         {
                             //query agent table for this user with refcode
-                            var getAgentByRefCode = await _agentService.GetAgentsPredicate(x => x.RefererCode == subscriberDetails.RefererCode);
+                            var getAgentByRefCode = await _agentService.GetAgentsPredicate(x => x.RefererCode == getSubscriberDetails.RefererCode);
                             //Get agent wallet to retrieve current balance
-                            Func<WalletModel, bool> predicate = (x => x.UserEmailAddress == getAgentByRefCode.Email);
-                            var getWalletDetailsForThisAgent = await _walletAppService.GetAllWalletD(predicate:predicate);
+                            Func<WalletModel, bool> predicates = (x => x.UserEmailAddress == getAgentByRefCode.Email);
+                            var getWalletDetailsForThisAgent = await _walletAppService.GetAllWalletD(predicate:predicates);
                             if (getAgentByRefCode != null)
                             {
                                 if (getWalletDetailsForThisAgent != null)
                                 {
-                                    //getAllCash and sum
                                     //process the  agent with some bucks here as bonus
                                     var commission = Convert.ToDecimal(HttpContext.Session.GetString("commission"));
-                                    List<decimal> lastTransactedAmount = null;
+                                   
                                     DateTime? lastTransactionDate = new DateTime();
-                                    //var getcalculation = await _agentRefereeMapService.CalculateAgentRevenueByRefereerCode(subscriberDetails.RefererCode);
+                                    decimal? lastAmountTransacted = 0.0m;
 
                                     //insert to walletdb and insert to transactionLog
-                                    foreach (var item in getWalletDetailsForThisAgent)
-                                    {
-                                        lastTransactedAmount.Add(item.Amount);
-                                        lastTransactionDate = item.DateTimeLastTransacted;
-                                    }
+                                    lastTransactionDate = getWalletDetailsForThisAgent.DateTimeLastTransacted;
+                                    lastAmountTransacted = getWalletDetailsForThisAgent.LastAmountTransacted;
+                                    
                                     var agentMainWalletModel = new WalletModel
                                     {
+                                        Id = getWalletDetailsForThisAgent.Id,
                                         UserEmailAddress = getAgentByRefCode.Email,
                                         UserRole = RoleEnum.Agent,
                                         Amount = confirmation.Data.Amount,
-                                        LastAmountTransacted = lastTransactedAmount.Sum() + commission,
+                                        LastAmountTransacted = lastAmountTransacted,
                                         DateTimeLastTransacted = DateTime.Now,//do same heere.
                                     };
 
@@ -234,14 +245,15 @@ namespace SleekPredictionPunter.WebApp.Controllers
                                         TransactionStatus = TransactionstatusEnum.Success,
                                         TransactionStatusName = TransactionstatusEnum.Success.ToString(),
                                         DateUpdated = DateTime.Now,
-                                        LastAmountTransacted = subscriberDetails.Wallet.Balance,
-                                        DateTimeOfLastTransacted = subscriberDetails.DateUpdated,
+                                        LastAmountTransacted = lastAmountTransacted,
+                                        DateTimeOfLastTransacted = lastTransactionDate,
                                         UserEmailAddress = getAgentByRefCode.Email,
                                         UserRole = RoleEnum.Agent
                                     };
 
+
                                     //log new general wallet price for agent
-                                    await _walletAppService.InsertNewAmount(agentMainWalletModel);
+                                    _walletAppService.UpdateWalletDetails(agentMainWalletModel);
                                     //create new log for this agent
                                     await _transactionLogAppService.UpdateTransactionLog(agentLogModel);
 

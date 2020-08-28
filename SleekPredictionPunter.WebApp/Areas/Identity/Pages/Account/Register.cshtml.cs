@@ -17,10 +17,12 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using SleekPredictionPunter.AppService;
 using SleekPredictionPunter.AppService.Agents;
+using SleekPredictionPunter.AppService.Wallet;
 using SleekPredictionPunter.GeneralUtilsAndServices;
 using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.IdentityModels;
+using SleekPredictionPunter.Model.Wallets;
 
 namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 {
@@ -34,6 +36,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 		private readonly ISubscriberService _subscriberService;
 		private readonly IAgentRefereeMapService _agentRefereeMapService;
 		private readonly IAgentService _agentService;
+		private readonly IWalletAppService _walletAppService;
 		private readonly RoleManager<ApplicationRole> _roleManager;
 		const string userRole = "userRole";
 		public RegisterModel(
@@ -43,7 +46,9 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 			IAgentService agentService,
 			SignInManager<ApplicationUser> signInManager,
 			ILogger<RegisterModel> logger,
-			IEmailSender emailSender, IAgentRefereeMapService agentRefereeMapService)
+			IEmailSender emailSender, 
+			IAgentRefereeMapService agentRefereeMapService,
+			IWalletAppService walletAppService)
 		{
 			_roleManager = roleManager;
             _userManager = userManager;
@@ -53,6 +58,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             _emailSender = emailSender;
             _agentService = agentService;
 			_agentRefereeMapService = agentRefereeMapService;
+			_walletAppService = walletAppService;
         }
 
 		[BindProperty]
@@ -134,7 +140,13 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 			{
 				int role = 0;
 				var userTypeConvert = int.TryParse(userType, out role);
-
+				//wallet model builder
+				var walletModel = new WalletModel
+				{
+					UserEmailAddress = Input.Email,
+					UserRole = RoleEnum.Subscriber,
+					Amount = 0.0m,
+				};
 				if (userTypeConvert)
 				{
 					returnUrl = returnUrl ?? Url.Content("~/");
@@ -175,6 +187,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 								// create entity based on role
 								if(role == (int)RoleEnum.Subscriber)
 								{
+									await _walletAppService.InsertNewAmount(walletModel);
 									await CreateSubscriber(user, Input.ReferrerCode);
 									ViewData["RegistrationStatusMessge"] = $"Welcome {user.FullName}, Your registration was succesuful, " +
 										$"Guess what you can start making wins off our powerful predictions right way." +
@@ -183,6 +196,8 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 								else 
 								{ 
 									var refCode = await CreateAgent(user);
+									walletModel.UserRole = RoleEnum.Agent;
+									await _walletAppService.InsertNewAmount(walletModel);
 									var refLink = Url.Page("/Identity/Account/Register",pageHandler: null,
 									values: new { area = "Identity", registrationType = "1", userType = "2", refCode = refCode },
 									protocol: Request.Scheme);
@@ -296,15 +311,17 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 			if (insert > 0 && string.IsNullOrEmpty(refereerCode)) 
 			{
 				var getAgentByReferralCode = await _agentService.GetAgentsPredicate(x=>x.RefererCode==Input.ReferrerCode);
-
-				var subscriberToAgentMap = new AgentRefereeMap
-				{
-					RefereerCode = Input.ReferrerCode,
-					AgentUsername = getAgentByReferralCode.Username,
-					RefereeUsername = Input.Email,
-				};
-				await _agentRefereeMapService.Create(subscriberToAgentMap);
-				return true;
+				if(getAgentByReferralCode != null)
+                {
+					var subscriberToAgentMap = new AgentRefereeMap
+					{
+						RefereerCode = Input.ReferrerCode,
+						AgentUsername = getAgentByReferralCode.Username,
+						RefereeUsername = Input.Email,
+					};
+					await _agentRefereeMapService.Create(subscriberToAgentMap);
+					return true;
+				}
 			}
 			return true;
 		}

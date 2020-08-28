@@ -10,8 +10,8 @@ using SleekPredictionPunter.DataInfrastructure;
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
     [DbContext(typeof(PredictionDbContext))]
-    [Migration("20200825022444_Init")]
-    partial class Init
+    [Migration("20200827120048_migratee")]
+    partial class migratee
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -776,6 +776,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("PlanCommission")
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("PlanName")
                         .HasColumnType("nvarchar(max)");

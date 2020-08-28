@@ -163,7 +163,6 @@ namespace SleekPredictionPunter.WebApp.Controllers
             prediction.PricingPlan = pricingPlan;
             prediction.PredictorId = getPredictor.Id;
             prediction.PredictionValue = getcategory.CategoryName;
-
             if (ModelState.IsValid)
             {
                 await _predictionService.InsertPrediction(prediction);
@@ -214,6 +213,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
         {
             var checkIfExist = await  _predictionService.GetPredictions();
             return checkIfExist.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> Results()
+        {
+            return View();
         }
     }
 
