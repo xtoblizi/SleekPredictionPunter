@@ -238,18 +238,12 @@ namespace SleekPredictionPunter.WebApp.Controllers
             prediction.MatchCategoryId = match.MatchCategoryId;
             prediction.MatchCategory = match.MatchCategory;
             prediction.PredictorId = getPredictor.Id;
-            prediction.PredictionValue = prediction.PredictionValue;
-            prediction.ClubA = match.ClubA;
-            prediction.ClubALogoPath = match.ClubALogoPath;
-            prediction.ClubB = match.ClubB;
-            prediction.ClubBLogoPath = match.ClubBLogoPath;
-            prediction.PredictionResult = Model.Enums.PredictionResultEnum.MatchPending;
-
-        
-            await _predictionService.InsertPrediction(prediction);
-            return RedirectToAction(nameof(Index));
-            
-        }
+            prediction.PredictionValue = getcategory.CategoryName;
+            if (ModelState.IsValid)
+            {
+                await _predictionService.InsertPrediction(prediction);
+                return RedirectToAction(nameof(Index));
+            }
 
         [HttpGet]
         public async Task<IActionResult> Edit(long? id)
@@ -370,6 +364,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
         {
             var checkIfExist = await  _predictionService.GetPredictions(e => e.Id == id);
             return checkIfExist != null ? true : false;
+        }
+
+        public async Task<IActionResult> Results()
+        {
+            return View();
         }
     }
 
