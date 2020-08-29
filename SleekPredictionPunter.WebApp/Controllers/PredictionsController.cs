@@ -299,13 +299,13 @@ namespace SleekPredictionPunter.WebApp.Controllers
             #endregion
             if (match.TimeofMatch < DateTime.Now && (match.ReturnStatus == MatchStatusEnum.Past || match.ReturnStatus == MatchStatusEnum.Playing))
             {
-                TempData["TempMessage"] = "The Time of the match and the status conflict";
+                ViewData["TempMessage"] = "The Time of the match and the status conflict";
                 return View(match);
             }
 
             if (match.TimeofMatch < DateTime.Now.AddMinutes(-20))
             {
-                TempData["TempMessage"] = "You can not update a match 20minutes before its kick-off-time";
+                ViewData["TempMessage"] = "You can not update a match prediction 20minutes before its kick-off-time";
                 return View(match);
             }
 
@@ -324,7 +324,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 pred.ClubBScore = prediction.ClubBScore;
 
                 await _predictionService.Update(pred);
-               
+                TempData["TempMessage"] = "Successfully Update the Prediction Details/Result";
                 return RedirectToAction(nameof(Index));
             }
             

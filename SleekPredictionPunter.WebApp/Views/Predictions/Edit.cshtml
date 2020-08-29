@@ -7,7 +7,7 @@
 
 <h2>Update Prediction Results</h2>
 
-@if (ViewBag.ErrorMessage != null)
+@if (ViewData["TempMessage"] != null)
 {
     <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 }
