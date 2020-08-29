@@ -164,7 +164,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             //    return NotFound();
             //}
 
-            if (match.TimeofMatch < DateTime.Now && (match.MatchStatus== MatchStatusEnum.Past || match.MatchStatus == MatchStatusEnum.Playing))
+            if (match.TimeofMatch < DateTime.Now && (match.ReturnStatus== MatchStatusEnum.Past || match.ReturnStatus == MatchStatusEnum.Playing))
             {
                 TempData["TempMessage"] = "The Time of the match and the status conflict";
                 return View(match);
