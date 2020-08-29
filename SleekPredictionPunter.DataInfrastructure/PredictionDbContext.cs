@@ -18,14 +18,14 @@ namespace SleekPredictionPunter.DataInfrastructure
 {
 	public class PredictionDbFactory : IDesignTimeDbContextFactory<PredictionDbContext>
 	{
-        const string connectionstring = "Data Source=.;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
-            " Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
+       // const string connectionstring = "Data Source=.;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
+         //   " Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
 
         //const string connectionstring = "Data Source=DESKTOP-JBDM8G2\\SQLEXPRESS;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
         //	" Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
 
-        //const string connectionstring = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
-        //    " Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
+        const string connectionstring = "Data Source=localhost\\SQLEXPRESS;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
+            " Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
         public PredictionDbContext CreateDbContext(string[] args)
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<PredictionDbContext>();
@@ -39,6 +39,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 		public PredictionDbContext(DbContextOptions<PredictionDbContext> options)
 			: base(options)
 		{
+			ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 		}
 
 		// add tables of the database as the dbcontext properties here.
@@ -117,6 +118,10 @@ namespace SleekPredictionPunter.DataInfrastructure
 				entity.Property(p => p.MatchId)
 					.HasDefaultValue(0);
 			});
+			builder.Entity<Match>(entity =>
+			{
+				entity.Ignore(p => p.ReturnStatus);
+			});
 
 			builder.Entity<IdentityUserToken<string>>(entity =>
 			{
@@ -166,7 +171,6 @@ namespace SleekPredictionPunter.DataInfrastructure
 				}
 				((BaseEntity)entry.Entity).DateUpdated = DateTime.UtcNow;
 			}
-			ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 		}
 	}
 }

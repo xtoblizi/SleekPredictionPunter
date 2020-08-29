@@ -4,13 +4,15 @@
 @inject SleekPredictionPunter.AppService.Clubs.IClubService _clubService
 @{
 
-    Func<Match, DateTime> orderByDescFunc = (x => x.DateCreated);
+	Func<Match, DateTime> orderByDescFunc = (x => x.DateCreated);
+	Func<Match, bool> wherefunc = (x =>
+	 x.ReturnStatus == MatchStatusEnum.Upcoming || x.ReturnStatus == MatchStatusEnum.Playing);
 
-    var matches = await _matchService.GetMatches(whereFunc: null, orderByDescFunc: orderByDescFunc, startIndex: 0, count: 5);
+	var matches = await _matchService.GetMatches(whereFunc: wherefunc, orderByDescFunc: orderByDescFunc, startIndex: 0, count: 5);
 
-    var topMatch = matches.FirstOrDefault(x => x.IsSetAsHotPreview);
+	var topMatch = matches.FirstOrDefault(x => x.IsSetAsHotPreview);
 
-    matches.ToList().Remove(topMatch);
+	matches.ToList().Remove(topMatch);
 
 
 }
@@ -40,7 +42,7 @@
                         <div class="part-team">
                             <div class="single-team">
                                 <div class="logo">
-                                    <img src="~/TeamLogo/@(System.IO.Path.GetFileName(topMatch?.ClubALogoPath))" alt="@topMatch?.ClubA">
+                                    <img src="~/TeamLogo/@(System.IO.Path.GetFileName(topMatch?.ClubALogoPath))" style="width:30px;height:30px" alt="@topMatch?.ClubA">
                                 </div>
                                 <span class="team-name">@topMatch?.ClubA</span>
                             </div>
@@ -56,7 +58,7 @@
                             </div>
                             <div class="single-team">
                                 <div class="logo">
-                                    <img src="~/TeamLogo/@(System.IO.Path.GetFileName(topMatch?.ClubBLogoPath))" alt="@topMatch?.ClubB">
+                                    <img src="~/TeamLogo/@(System.IO.Path.GetFileName(topMatch?.ClubBLogoPath))" style="width:30px;height:30px" alt="@topMatch?.ClubB">
                                 </div>
                                 <span class="team-name">@topMatch?.ClubB</span>
                             </div>
@@ -165,100 +167,4 @@
 </div>
 <!-- upcoming match end -->
 <!-- Generated List-->
-@*<table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.ClubA)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ClubALogoPath)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ClubB)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ClubBLogoPath)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MatchCategory)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MatchCategoryId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SportCategory)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SportCategoryId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TimeofMatch)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MatchStatus)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsSetAsHotPreview)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateCreated)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.EntityStatus)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateUpdated)
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in matches)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ClubA)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ClubALogoPath)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ClubB)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ClubBLogoPath)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MatchCategory)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MatchCategoryId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SportCategory)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SportCategoryId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TimeofMatch)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MatchStatus)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsSetAsHotPreview)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DateCreated)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EntityStatus)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DateUpdated)
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>*@
+

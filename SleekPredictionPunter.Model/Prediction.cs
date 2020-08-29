@@ -38,28 +38,40 @@ namespace SleekPredictionPunter.Model
 		public string ResultValueOdd { get; set; }
 		#endregion
 
+		#region Match Based Details
 		/// <summary>
 		/// These below are foreign key entities that can have one to one relationship
 		/// This design creates a one to one relationship between the below entity and the named entity: Prediction.
 		/// </summary>
 		public virtual long MatchId { get; set; } // this relates to an upcoming match that 
 												  //was created before a prediction was created out of it.
+		public virtual string MatchCategory { get; set; }
+		public virtual long MatchCategoryId { get; set; }
+		/// <summary>
+		/// Note the custome categoryid is now the sports category id 
+		/// and it is same as the custom(i.e sportcategoryid) of the match table
+		/// </summary>
+		public virtual long CustomCategoryId { get; set; }
+		public virtual string CustomCategory { get; set; }
+
+		#endregion end of match based details
+
+		#region prediction specific navigation detailS(Relaition based properties)
 		public virtual long BetCategoryId { get; set; }
 		public string BeCategory { get; set; }
 
 		public virtual Predictor Predictor { get; set; }
 		public virtual long  PredictorId { get; set; }
 
-		public virtual CustomCategory CustomCategory { get; set; }
-		public virtual long CustomCategoryId { get; set; }
-		public virtual MatchCategory MatchCategory { get; set; }
-		public virtual long MatchCategoryId { get; set; }
+		
 
 		public virtual PredictionCategory PredictionCategory { get; set; }
 		public virtual long PredictionCategoryId { get; set; }
 		public virtual long PricingPlanId { get; set; }
-		public virtual PricingPlanModel PricingPlan { get; set; }
-		
+		public string  PricingPlanName { get; set; }
+		public bool IsCorrectScore { get { return !string.IsNullOrEmpty(ClubAScore) && !string.IsNullOrEmpty(ClubBScore) ? true : false; } }
+		#endregion
+
 	}
 
 	public enum MatchResultCategories

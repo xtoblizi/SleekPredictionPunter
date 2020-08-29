@@ -7,6 +7,12 @@
 
 <h2>Create Prediction</h2>
 <hr />
+<h3 class="text-danger">
+    @if(ViewData["ErrorMessage"] != null)
+	{
+        @ViewData["ErrorMessage"]
+	}
+</h3>
 <div class="row">
     <div class="col-md-10">
         <form asp-action="Create">
@@ -42,11 +48,25 @@
                 <input asp-for="ClubBOdd" class="form-control" title="this field is optional" placeholder="Example 1.2 [optional]" />
                 <span asp-validation-for="ClubBOdd" class="text-danger"></span>
             </div>
-            
-            <hr />
-            <div class="col-12 form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label asp-for="ClubAScore" class="control-label"></label>
+                <input asp-for="ClubAScore" class="form-control" title="this field is optional,input only if you want to predict correct scores" placeholder="Example: 3 [optional]" />
+                <span asp-validation-for="ClubAScore" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label asp-for="ClubBOdd" class="control-label"></label>
+                <input asp-for="ClubBOdd" class="form-control" title="this field is optional.input only if you want to predict correct scores" placeholder="Example 4 [optional]" />
+                <span asp-validation-for="ClubBOdd" class="text-danger"></span>
+            </div>
+            <br/>
+            <div class="row">
                 <div>
+                    &nbsp; &nbsp;
+                    <input type="submit" value="Create" class="btn btn-default" /> <br /> <br />
+
+                    &nbsp; &nbsp;
                     <a asp-action="Index">Back to Predictions</a>
                 </div>
             </div>

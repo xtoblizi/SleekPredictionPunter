@@ -73,6 +73,14 @@ namespace SleekPredictionPunter.Model.Matches
 		
 		public MatchStatusEnum MatchStatus { get; set; }
 
+		public MatchStatusEnum ReturnStatus {
+			get {
+				var result = TimeofMatch > DateTime.Now ? MatchStatusEnum.Upcoming : MatchStatusEnum.Past;
+				result = TimeofMatch < DateTime.Now && (TimeofMatch <  DateTime.Now.AddMinutes(90))
+					? MatchStatusEnum.Playing : MatchStatusEnum.Past;
+				return result;
+			} 
+		}
 		/// <summary>
 		/// Note : Use this field(IsSetAsHotPreview) and the DateUpdated properties to 
 		/// know the last match set to be hottest for preview
@@ -85,7 +93,8 @@ namespace SleekPredictionPunter.Model.Matches
 		/// </summary>
 		public virtual ICollection<Prediction> Predictions { get; set; }
 
-		public string GetTeamAvsTeamB { get { return $"{ClubA} vs {ClubB}"; } }
+		public string GetTeamAvsTeamB { get { return $"{ClubA} vs {ClubB} |" +
+					$" {TimeofMatch.ToShortDateString()}-{TimeofMatch.ToShortTimeString()}"; } }
 
 	}
 }

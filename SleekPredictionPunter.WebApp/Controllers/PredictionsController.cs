@@ -74,7 +74,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         {
             ViewBag.Predictions = "active";
             Func<Prediction, DateTime> orderByDesc = (s => s.DateCreated);
-            return View(await _predictionService.GetPredictionsOrdered(orderDescFunc:orderByDesc,startIndex:0,count:50));
+            var result = await _predictionService.GetPredictionsOrdered(orderDescFunc:orderByDesc,startIndex:0,count:50);
+            return View(result);
         } 
 		public async Task<IActionResult> FrontEndIndex()
         {
@@ -179,39 +180,67 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] Prediction prediction)
+        public async Task<IActionResult> Create(Prediction prediction)
         {
-            if(prediction.TimeofFixture <= DateTime.Now || !ModelState.IsValid)
+            #region Validate 
+            string errorMessage = string.Empty;
+            var match = await _matchService.GetMatchById(prediction.MatchId);
+            if (match.TimeofMatch <= DateTime.Now.AddMinutes(1))
+            {
+                errorMessage = "The current time id cannot be greater than 1 iminutes to the time of the selected match";
+            }
+            
+            if (!ModelState.IsValid)
+            {
+                errorMessage = "You have not properly filled the entries of the prediction form. Verify and try again or contact administrator";
+            }
+    
+            Func<Prediction, bool> validateFunc = (p => p.BetCategoryId == prediction.BetCategoryId
+             && p.MatchId == prediction.MatchId
+             && p.IsCorrectScore == false);
+
+            var check = await _predictionService.GetFirstOrDefault(validateFunc);
+            if (check != null)
+            {
+                errorMessage = "There is already a prediction for this match on this bet category and its not a correct score";
+            }
+       
+            if (!string.IsNullOrEmpty(errorMessage))
             {
                 ViewBag.PackageId = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName");
                 ViewBag.PredictionCategoryId = new SelectList(await _categoryService.GetCategories(), "Id", "GetNameAndDescription");
                 var plan = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName");
                 ViewBag.BetCategoryId = new SelectList(await _betCategoryService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "GetNameAndDescription");
                 ViewBag.MatchId = new SelectList(await _matchService.GetMatches(null, (x => x.DateCreated), 0, 100), "Id", "GetTeamAvsTeamB");
+                ViewBag.PricingPlanId = plan;
 
-
+                ViewData["ErrorMessage"] = errorMessage;
                 return View(prediction);
             }
 
+            #endregion
             ViewBag.Predictions = "active";
             var getPredictor = await _predictorService.GetByUserName(User.Identity.Name); 
             var pricingPlan = await _pricingPlanservice.GetById(prediction.PricingPlanId);
             var betCategory = await _betCategoryService.GetById(prediction.BetCategoryId);
-          //  var getcategory = await _categoryService.GetCategoryById(prediction.PredictionCategoryId);
-            var match = await _matchService.GetMatchById(prediction.MatchId);
+            var getcategory = await _categoryService.GetCategoryById(prediction.PredictionCategoryId);
 
-            prediction.PredictionValue = prediction.PredictionValue;
-            prediction.Predictor = prediction.Predictor;
+          
+
+			prediction.PredictionValue = prediction.PredictionValue;
             prediction.PredictorUserName = User.Identity.Name;
             prediction.TimeofFixture = match.TimeofMatch;
-            prediction.PricingPlan = pricingPlan;
             prediction.BeCategory = betCategory.BetCategoryName;
+            prediction.BetCategoryId = betCategory.Id;
+            prediction.CustomCategoryId = match.CustomCategoryId;
+            prediction.MatchCategoryId = match.MatchCategoryId;
+            prediction.MatchCategory = match.MatchCategory;
             prediction.PredictorId = getPredictor.Id;
             prediction.PredictionValue = prediction.PredictionValue;
             prediction.ClubA = match.ClubA;
             prediction.ClubALogoPath = match.ClubALogoPath;
             prediction.ClubB = match.ClubB;
-            prediction.ClubB = match.ClubBLogoPath;
+            prediction.ClubBLogoPath = match.ClubBLogoPath;
             prediction.PredictionResult = Model.Enums.PredictionResultEnum.MatchPending;
 
         

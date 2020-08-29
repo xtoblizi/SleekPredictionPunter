@@ -35,7 +35,7 @@
 {
     <ul>
         <li>
-            <a id="manage" class="nav-link" style="color:white;" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @Context.Session.GetString("userName")</a>
+            <a id="manage" class="nav-link" style="color:white;" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @UserManager.GetUserName(User)</a>
             @*<a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>*@
         </li>
         <li>

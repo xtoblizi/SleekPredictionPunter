@@ -157,14 +157,14 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("ClubA,ClubALogoPath,ClubB,ClubBLogoPath,MatchCategory,MatchCategoryId,CustomCategory,CustomCategoryId,TimeofMatch,MatchStatus,IsSetAsHotPreview,Id,DateCreated,EntityStatus,DateUpdated")] Match match)
+        public async Task<IActionResult> Edit(Match match)
         {
-            if (id != match.Id)
-            {
-                return NotFound();
-            }
+            //if (id != match.Id)
+            //{
+            //    return NotFound();
+            //}
 
-            if (match.TimeofMatch < DateTime.Now && (match.MatchStatus== MatchStatusEnum.Played || match.MatchStatus == MatchStatusEnum.Playing))
+            if (match.TimeofMatch < DateTime.Now && (match.MatchStatus== MatchStatusEnum.Past || match.MatchStatus == MatchStatusEnum.Playing))
             {
                 TempData["TempMessage"] = "The Time of the match and the status conflict";
                 return View(match);
@@ -195,7 +195,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                     model.TimeofMatch = match.TimeofMatch;
 
 
-                    await _matchService.Update(match);
+                    await _matchService.Update(model);
 
                     // get all predictions created on that match
                     //var predictions = await _predictionService.GetByMatchId(match.Id);

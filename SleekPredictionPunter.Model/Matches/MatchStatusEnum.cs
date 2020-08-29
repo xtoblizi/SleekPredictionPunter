@@ -12,7 +12,7 @@ namespace SleekPredictionPunter.Model.Matches
 		[Description("Playing")]
 		Playing = 2,
 		[Description("Played")]
-		Played = 3,
+		Past = 3,
 		[Description("Postponed")]
 		Postponed = 4,
 		[Description("Cancelled")]

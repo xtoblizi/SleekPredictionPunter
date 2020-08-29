@@ -99,5 +99,10 @@ namespace SleekPredictionPunter.AppService.PredictionAppService
         {
            await  _repo.Update(prediction);
         }
+
+        public async Task<Prediction> GetFirstOrDefault(Func<Prediction, bool> whereFunc)
+        {
+            return await _repo.GetFirstOrDefault(whereFunc);
+        }
     }
 }

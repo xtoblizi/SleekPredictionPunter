@@ -18,10 +18,10 @@
 	    </div>
     </section>
 
-<section class="container-fluid" style="padding:10px;">
-	<div class="row mt">
+<section class="container-fluid" style="padding:5px;">
+	<div class="row">
 		<div class="col-md-12">
-			<div class="content-panel" style="padding:20px">
+			<div class="content-panel" style="padding:5px">
 				<div class="row">
 					<div class="col-xl-2 col-lg-2 col-md-3 col-sm-6">
 						<a asp-action="Create" class="btn btn-primary">Add Prediction</a>
@@ -34,14 +34,12 @@
                             <th>
                                 S/N
                             </th>
-                            <th>
-                                Predicted By
-                            </th>
+                            
                             <th>
                                 Club A
                             </th>
                             <th>
-                                Club Logo
+                               Logo
                             </th>
                             <th>
 
@@ -50,10 +48,10 @@
                                 Club B
                             </th>
                             <th>
-                                Club Logo
+                                Logo
                             </th>
                             <th>
-                                Prediction
+                                Prediction Category
                             </th>
                            
                             <th>
@@ -70,21 +68,19 @@
 					<tbody>
 						@foreach (var item in Model)
 						{
-							var getCluALogo = await _clubService.GetByName(item.ClubA);
-							var getCluBLogo = await _clubService.GetByName(item.ClubB);
-                            var matchType = await _matchCategory.GetById(item.MatchCategoryId);
+							//var getCluALogo = await _clubService.GetByName(item.ClubA);
+							//var getCluBLogo = await _clubService.GetByName(item.ClubB);
+							//                     var matchType = await _matchCategory.GetById(item.MatchCategoryId);
                         <tr>
                             <td>
                                 @(sn++)
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PredictorUserName)
-                            </td>
+                            
                             <td>
                                 @Html.DisplayFor(modelItem => item.ClubA)
                             </td>
                             <td>
-                                <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluALogo.ClubLogRelativePath))" style="width:30px;height:30px" />
+                                <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item.ClubALogoPath))" style="width:30px;height:30px" />
                             </td>
                             <td>
                                 VS
@@ -93,14 +89,14 @@
                                 @Html.DisplayFor(modelItem => item.ClubB)
                             </td>
                             <td>
-                                <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluBLogo.ClubLogRelativePath))" style="width:30px;height:30px" />
+                                <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item?.ClubBLogoPath))" style="width:30px;height:30px" />
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.PredictionValue)
+                                @Html.DisplayFor(modelItem => item.BeCategory)
                             </td>
 
                             <td>
-                                @matchType.CategoryName
+                                @item?.MatchCategory
                             </td>
                          
                             <td>

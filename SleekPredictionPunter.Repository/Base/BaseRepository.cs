@@ -11,7 +11,7 @@ namespace SleekPredictionPunter.Repository.Base
 	{
 		#region SetUp
 		private readonly PredictionDbContext _predictionDbContext;
-		private DbSet<T> _entity;
+		private readonly DbSet<T> _entity;
 		public BaseRepository(PredictionDbContext predictionDbContext)
 		{
 			_predictionDbContext = predictionDbContext;
@@ -26,6 +26,8 @@ namespace SleekPredictionPunter.Repository.Base
 		{
 			if (model == null)
 				throw new ArgumentNullException("The model passed into the repository is empty and null");
+
+		
 
 			var add = await _entity.AddAsync(model);
 
@@ -61,9 +63,11 @@ namespace SleekPredictionPunter.Repository.Base
 
 		public async virtual Task Update(T model, bool savechange = true)
 		{
-			 _entity.Update(model);
-			
-			if(savechange)
+
+			//	var result = _predictionDbContext.Entry(model).State = EntityState.Modified;
+			_entity.Update(model);
+
+			if (savechange)
 				await SaveChangesAsync();
 		}
 

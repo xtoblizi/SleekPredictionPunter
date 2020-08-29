@@ -22,5 +22,6 @@ namespace SleekPredictionPunter.AppService.PredictionAppService
              int startIndex = 0, int count = int.MaxValue);
         Task<IEnumerable<IGrouping<long, Prediction>>> ReturnRelationalData(Func<Prediction, bool> predicate, bool groupByPredicateCategory = false, bool groupByMatchCategory = false, bool groupByCustomCategory = false);
         Task Update(Prediction prediction);
-    }
+		Task<Prediction> GetFirstOrDefault(Func<Prediction, bool> whereFunc);
+	}
 }
