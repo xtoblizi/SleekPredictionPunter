@@ -10,8 +10,8 @@ using SleekPredictionPunter.DataInfrastructure;
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
     [DbContext(typeof(PredictionDbContext))]
-    [Migration("20200827120048_migratee")]
-    partial class migratee
+    [Migration("20200829173723_re_Init01")]
+    partial class re_Init01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -229,6 +229,35 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.ToTable("AgentRefereeMaps");
                 });
 
+            modelBuilder.Entity("SleekPredictionPunter.Model.Categoriess.BetCategory", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BetCategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BetCategories");
+                });
+
             modelBuilder.Entity("SleekPredictionPunter.Model.Club", b =>
                 {
                     b.Property<long>("Id")
@@ -309,6 +338,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CategoryName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreated")
@@ -318,17 +348,15 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsFree")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
 
-                    b.ToTable("CustomCategories");
+                    b.ToTable("SportLeagueCategory");
                 });
 
             modelBuilder.Entity("SleekPredictionPunter.Model.IdentityModels.ApplicationRole", b =>
@@ -458,6 +486,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CategoryName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreated")
@@ -467,6 +496,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EntityStatus")
@@ -475,6 +505,66 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MatchCategories");
+                });
+
+            modelBuilder.Entity("SleekPredictionPunter.Model.Matches.Match", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClubA")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("ClubAId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ClubALogoPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClubB")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("ClubBId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ClubBLogoPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomCategory")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("CustomCategoryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsSetAsHotPreview")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MatchCategory")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("MatchCategoryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("MatchStatus")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TimeofMatch")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Matches");
                 });
 
             modelBuilder.Entity("SleekPredictionPunter.Model.Packages.Package", b =>
@@ -512,12 +602,51 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.ToTable("Package");
                 });
 
+            modelBuilder.Entity("SleekPredictionPunter.Model.PredicationMatchMaps.PredictionMatchMap", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<long>("MatchId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("MatchStatus")
+                        .HasColumnType("int");
+
+                    b.Property<long>("PredictionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("TimeOfMatch")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PredictionMapMaps");
+                });
+
             modelBuilder.Entity("SleekPredictionPunter.Model.Prediction", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BeCategory")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("BetCategoryId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("ClubA")
                         .HasColumnType("nvarchar(max)");
@@ -543,6 +672,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<string>("ClubBScore")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CustomCategory")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<long>("CustomCategoryId")
                         .HasColumnType("bigint");
 
@@ -555,14 +687,25 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
 
+                    b.Property<string>("MatchCategory")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<long>("MatchCategoryId")
                         .HasColumnType("bigint");
+
+                    b.Property<long>("MatchId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasDefaultValue(0L);
 
                     b.Property<long?>("PackageId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("PredictionCategoryId")
                         .HasColumnType("bigint");
+
+                    b.Property<int>("PredictionResult")
+                        .HasColumnType("int");
 
                     b.Property<string>("PredictionValue")
                         .HasColumnType("nvarchar(max)");
@@ -576,22 +719,26 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<long>("PricingPlanId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("PricingPlanName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResultValueOdd")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("TimeofFixture")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomCategoryId");
+                    b.HasIndex("BetCategoryId");
 
-                    b.HasIndex("MatchCategoryId");
+                    b.HasIndex("MatchId");
 
                     b.HasIndex("PackageId");
 
                     b.HasIndex("PredictionCategoryId");
 
                     b.HasIndex("PredictorId");
-
-                    b.HasIndex("PricingPlanId");
 
                     b.ToTable("Predictions");
                 });
@@ -1160,15 +1307,15 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
             modelBuilder.Entity("SleekPredictionPunter.Model.Prediction", b =>
                 {
-                    b.HasOne("SleekPredictionPunter.Model.CustomCategory", "CustomCategory")
-                        .WithMany()
-                        .HasForeignKey("CustomCategoryId")
+                    b.HasOne("SleekPredictionPunter.Model.Categoriess.BetCategory", null)
+                        .WithMany("Predictions")
+                        .HasForeignKey("BetCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SleekPredictionPunter.Model.MatchCategory", "MatchCategory")
-                        .WithMany()
-                        .HasForeignKey("MatchCategoryId")
+                    b.HasOne("SleekPredictionPunter.Model.Matches.Match", null)
+                        .WithMany("Predictions")
+                        .HasForeignKey("MatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1185,12 +1332,6 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.HasOne("SleekPredictionPunter.Model.Predictor", "Predictor")
                         .WithMany()
                         .HasForeignKey("PredictorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SleekPredictionPunter.Model.PricingPlan.PricingPlanModel", "PricingPlan")
-                        .WithMany()
-                        .HasForeignKey("PricingPlanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
