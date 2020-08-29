@@ -22,7 +22,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="content-panel" style="padding:5px">
-				<div class="row">
+				<div class="row" style="margin-top:20px">
 					<div class="col-xl-2 col-lg-2 col-md-3 col-sm-6">
 						<a asp-action="Create" class="btn btn-primary">Add Prediction</a>
 					</div>
@@ -104,7 +104,7 @@
                             </td>
 
                             <td>
-                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i class="fa fc-content"></i></a>
+                                @*<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i class="fa fc-content"></i></a>*@
                                 <a asp-action="Edit" title="Update Result" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i title="Update Prediction Result" class="fa fa-pencil"></i></a>
                                 <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
                             </td>

@@ -5,73 +5,79 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Edit</h2>
+<h2>Update Prediction Results</h2>
 
-<h4>Prediction</h4>
+@if (ViewBag.ErrorMessage != null)
+{
+    <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
+}
+
+@if(ViewBag.Info != null)
+{
+    <h3 class="text-success">@ViewBag.Info</h3>
+}
+
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-11">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-           
-            <div class="form-group">
-                <label asp-for="ClubAOdd" class="control-label"></label>
-                <input asp-for="ClubAOdd" class="form-control" />
-                <span asp-validation-for="ClubAOdd" class="text-danger"></span>
+
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label class="control-label"><strong> ClubA Score</strong> </label>
+                <input asp-for="ClubAScore" class="form-control" placeholder="(Optional) enter the  score for ClubA" />
+                <span asp-validation-for="ClubAScore" class="text-danger"></span>
             </div>
-            
-            <div class="form-group">
-                <label asp-for="ClubBOdd" class="control-label"></label>
-                <input asp-for="ClubBOdd" class="form-control" />
-                <span asp-validation-for="ClubBOdd" class="text-danger"></span>
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label class="control-label"><strong>Club Score </strong>  </label>
+                <input asp-for="ClubBScore" class="form-control" placeholder="(Optional) enter the score for ClubB" />
+                <span asp-validation-for="ClubBScore" class="text-danger"></span>
             </div>
-            
-            <div class="form-group">
-                <label asp-for="PredictionValue" class="control-label"></label>
-                <input asp-for="PredictionValue" class="form-control" />
-                <span asp-validation-for="PredictionValue" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            @*<div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                    <label asp-for="PredictionValue" class="control-label"></label>
+                    <input asp-for="PredictionValue" class="form-control" />
+                    <span asp-validation-for="PredictionValue" class="text-danger"></span>
+                </div>*@
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
                 <label asp-for="TimeofFixture" class="control-label"></label>
-                <input asp-for="TimeofFixture" class="form-control" />
+                <input readonly asp-for="TimeofFixture" class="form-control" />
                 <span asp-validation-for="TimeofFixture" class="text-danger"></span>
             </div>
-            
-            <div class="form-group">
-                <label asp-for="CustomCategoryId" class="control-label"></label>
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label class="control-label">Sport Category</label>
                 <select readonly asp-for="CustomCategoryId" class="form-control" asp-items="ViewBag.CustomCategoryId"></select>
                 <span asp-validation-for="CustomCategoryId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="MatchCategoryId" class="control-label"></label>
-                <select asp-for="MatchCategoryId" class="form-control" asp-items="ViewBag.MatchCategoryId"></select>
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label class="control-label"> Match Category</label>
+                <select readonly asp-for="MatchCategoryId" class="form-control" asp-items="ViewBag.MatchCategoryId"></select>
                 <span asp-validation-for="MatchCategoryId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PredictionCategoryId" class="control-label"></label>
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label class="control-label"> <strong>  Prediction Category </strong> </label>
                 <select asp-for="PredictionCategoryId" class="form-control" asp-items="ViewBag.PredictionCategoryId"></select>
                 <span asp-validation-for="PredictionCategoryId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PricingPlanId" class="control-label"></label>
-                <select asp-for="PricingPlanId" class="form-control" asp-items="ViewBag.PricingPlanId"></select>
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label class="control-label"><strong>Bet Category  </strong> </label>
+                <select asp-for="BetCategoryId" class="form-control" asp-items="ViewBag.BetCategoryId"></select>
+                <span asp-validation-for="BetCategoryId" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label class="control-label" title="Update the prediction's result here"><strong style="color:darkblue"> Prediction Result </strong></label>
+                <select asp-for="PredictionResult" title="Update the prediction's result here" class="form-control" asp-items="ViewBag.MatchStatus"></select>
+                <span asp-validation-for="PredictionResult" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label asp-for="PricingPlanId" class="control-label">Pricing Plan</label>
+                <select readonly asp-for="PricingPlanId" class="form-control" asp-items="ViewBag.PricingPlanId"></select>
                 <span asp-validation-for="PricingPlanId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ClubAScore" class="control-label"></label>
-                <input asp-for="ClubAScore" class="form-control" />
-                <span asp-validation-for="ClubAScore" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ClubBScore" class="control-label"></label>
-                <input asp-for="ClubBScore" class="form-control" />
-                <span asp-validation-for="ClubBScore" class="text-danger"></span>
-            </div>
+
             <input type="hidden" asp-for="Id" />
-            
-            
+
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Update Prediction" class="btn btn-success" />
             </div>
         </form>
     </div>

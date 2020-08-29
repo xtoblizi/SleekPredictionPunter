@@ -22,6 +22,8 @@ using Microsoft.EntityFrameworkCore;
 using SleekPredictionPunter.AppService.Subscriptions;
 using SleekPredictionPunter.AppService.Matches;
 using SleekPredictionPunter.AppService.BetCategories;
+using SleekPredictionPunter.GeneralUtilsAndServices;
+using SleekPredictionPunter.Model.Matches;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
@@ -249,24 +251,28 @@ namespace SleekPredictionPunter.WebApp.Controllers
             
         }
 
-
+        [HttpGet]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
             var prediction = await _predictionService.GetById(id.Value);
+
             if (prediction == null)
             {
                 return NotFound();
             }
-            ViewData["CustomCategoryId"] = new SelectList(await _customCategoryService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "Id", prediction.CustomCategoryId);
-            ViewData["MatchCategoryId"] = new SelectList(await _matchCategoryService.GetAllQueryable(null,(x=>x.DateCreated),0,100), "Id", "Id", prediction.MatchCategoryId);
-            ViewData["PredictionCategoryId"] = new SelectList(await _categoryService.GetCategories(null, (x => x.DateCreated), 0, 100), "Id", "Id", prediction.PredictionCategoryId);
-            //ViewData["PredictorId"] = new SelectList(_context.Predictors, "Id", "Id", prediction.PredictorId);
-            ViewData["PricingPlanId"] = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "Id", prediction.PricingPlanId);
+            var rolesEnumList = EnumHelper.GetEnumResults<MatchStatusEnum>();
+            ViewBag.MatchStatus = new SelectList(rolesEnumList, "Id", "Name", (int)prediction.PredictionResult);
+            // sport category
+            ViewBag.CustomCategoryId = new SelectList(await _customCategoryService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "CategoryName", prediction.CustomCategoryId);
+            ViewBag.MatchCategoryId = new SelectList(await _matchCategoryService.GetAllQueryable(null,(x=>x.DateCreated),0,100), "Id", "CategoryName", prediction.MatchCategoryId);
+            ViewBag.PredictionCategoryId = new SelectList(await _categoryService.GetCategories(null, (x => x.DateCreated), 0, 100), "Id", "CategoryName", prediction.PredictionCategoryId);
+            ViewBag.PricingPlanId = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName", prediction.PricingPlanId);
+            ViewBag.BetCategoryId = new SelectList(await _betCategoryService.GetAllQueryable(), "BetCategoryName", "Id", prediction.BetCategoryId);
+           
             return View(prediction);
         }
 
@@ -275,41 +281,60 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("PredictorUserName,ClubA,ClubAOdd," +
+        public async Task<IActionResult> Edit(long id,[Bind("PredictorUserName,ClubA,ClubAOdd," +
             "ClubALogoPath,ClubB,ClubBOdd,ClubBLogoPath,PredictionValue," +
             "TimeofFixture,PredictorId,CustomCategoryId,MatchCategoryId," +
             "PredictionCategoryId,PricingPlanId,ClubAScore,ClubBScore,Id," +
             "DateCreated,EntityStatus,DateUpdated")] Prediction prediction)
         {
+            var match = await _matchService.GetMatchById(prediction.MatchId);
             if (id != prediction.Id)
             {
                 return NotFound();
             }
 
+            #region Validation 
+
+
+            #endregion
+            if (match.TimeofMatch < DateTime.Now && (match.ReturnStatus == MatchStatusEnum.Past || match.ReturnStatus == MatchStatusEnum.Playing))
+            {
+                TempData["TempMessage"] = "The Time of the match and the status conflict";
+                return View(match);
+            }
+
+            if (match.TimeofMatch < DateTime.Now.AddMinutes(-20))
+            {
+                TempData["TempMessage"] = "You can not update a match 20minutes before its kick-off-time";
+                return View(match);
+            }
+
+            var pred = await _predictionService.GetById(id);
+
             if (ModelState.IsValid)
             {
-                try
-                {
-                    await _predictionService.Update(prediction);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (! await PredictionExists(prediction.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                var betcategory = await _betCategoryService.GetById(prediction.BetCategoryId);
+                var predictionCategory = await _categoryService.GetCategoryById(prediction.PredictionCategoryId);
+
+                pred.BeCategory = betcategory?.BetCategoryName;
+                pred.BetCategoryId = betcategory.Id;
+                pred.PredictionCategoryId = predictionCategory.Id;
+                pred.PredictionResult = prediction.PredictionResult;
+                pred.ClubAScore = prediction.ClubAScore;
+                pred.ClubBScore = prediction.ClubBScore;
+
+                await _predictionService.Update(pred);
+               
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomCategoryId"] = new SelectList(await _customCategoryService.GetAllQueryable(), "Id", "Id", prediction.CustomCategoryId);
-            ViewData["MatchCategoryId"] = new SelectList(await _matchCategoryService.GetAllQueryable(), "Id", "Id", prediction.MatchCategoryId);
-            ViewData["PredictionCategoryId"] = new SelectList(await _categoryService.GetCategories(), "Id", "Id", prediction.PredictionCategoryId);
-            //ViewData["PredictorId"] = new SelectList(_context.Predictors, "Id", "Id", prediction.PredictorId);
-            ViewData["PricingPlanId"] = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "Id", prediction.PricingPlanId);
+            
+            var rolesEnumList = EnumHelper.GetEnumResults<MatchStatusEnum>();
+            ViewBag.MatchStatus = new SelectList(rolesEnumList, "Id", "Name", (int)pred.PredictionResult);
+
+            ViewBag.CustomCategoryId = new SelectList(await _customCategoryService.GetAllQueryable(), "Id", "Id", prediction.CustomCategoryId);
+            ViewBag.MatchCategoryId = new SelectList(await _matchCategoryService.GetAllQueryable(), "Id", "Id", prediction.MatchCategoryId);
+            ViewBag.PredictionCategoryId = new SelectList(await _categoryService.GetCategories(), "Id", "Id", prediction.PredictionCategoryId);
+            ViewBag.PricingPlanId = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "Id", prediction.PricingPlanId);
             return View(prediction);
         }
 
