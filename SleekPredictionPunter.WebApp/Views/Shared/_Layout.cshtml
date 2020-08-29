@@ -156,35 +156,40 @@
 						<div class="mainmenu">
 							<nav class="navbar navbar-expand-lg">
 								<div class="collapse navbar-collapse" id="navbarSupportedContent">
-									<ul class="navbar-nav ml-auto">
-										<li class="nav-item">
-											<a class="nav-link" href="../../Home/Index">Home</a>
-										</li>
+                                    <ul class="navbar-nav ml-auto">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="../../Home/Index">Home</a>
+                                        </li>
 
-										@if (!User.Identity.IsAuthenticated && (!User.IsInRole("Agent") || !User.IsInRole("SuperAdmin")))
-										{
-											<li class="nav-item">
-												<a asp-page="/account/register" asp-area="identity" asp-route-userType="4" class="nav-link">Become an Agent</a>
-											</li>
-										}
-										<li class="nav-item">
-											<a class="nav-link" href="../../predictions/frontEndIndex">Predictions</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link" href="../../pricingplan/index">Packages</a>
-										</li>
+                                        @if (!User.Identity.IsAuthenticated && (!User.IsInRole("Agent") || !User.IsInRole("SuperAdmin")))
+                                        {
+                                            <li class="nav-item">
+                                                <a asp-page="/account/register" asp-area="identity" asp-route-userType="4" class="nav-link">Become an Agent</a>
+                                            </li>
+                                        }
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="../../predictions/frontEndIndex">Predictions</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="../../pricingplan/index">Packages</a>
+                                        </li>
+                                        @if (User.IsInRole("Subscriber"))
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="../../usermanagement/index">Manage Profile</a>
+                                            </li>
+                                        }
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="../../home/contact">Contact</a>
+                                        </li>
+                                        @if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin"))
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="../../admin/index">Admin Dashboard</a>
+                                            </li>
+                                        }
 
-										<li class="nav-item">
-											<a class="nav-link" href="../../home/contact">Contact</a>
-										</li>
-										@if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin"))
-										{
-											<li class="nav-item">
-												<a class="nav-link" href="../../admin/index">Admin Dashboard</a>
-											</li>
-										}
-
-									</ul>
+                                    </ul>
 								</div>
 							</nav>
 						</div>

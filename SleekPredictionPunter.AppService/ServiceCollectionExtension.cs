@@ -15,6 +15,7 @@ using SleekPredictionPunter.AppService.Predictors;
 using SleekPredictionPunter.AppService.Subscriptions;
 using SleekPredictionPunter.AppService.ThirdPartyAppService;
 using SleekPredictionPunter.AppService.TransactionLog;
+using SleekPredictionPunter.AppService.UserManagement;
 using SleekPredictionPunter.AppService.Wallet;
 using SleekPredictionPunter.Repository;
 
@@ -41,6 +42,7 @@ namespace SleekPredictionPunter.AppService
 			services.AddTransient<IMatchCategoryService, MatchCategoryService>();
 			services.AddTransient<ISubscriptionAppService, SubscriptionAppService>();
             services.AddTransient<ITransactionLogAppService, TransactionLogAppService>();
+            services.AddTransient<IUserManagementAppService, UserManagementAppService>();
 
             // repository DI registration
             services.AddPredictionRepositories();

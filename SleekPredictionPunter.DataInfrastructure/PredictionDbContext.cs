@@ -36,6 +36,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 		public PredictionDbContext(DbContextOptions<PredictionDbContext> options) 
 			: base(options) 
 		{
+			ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 		}
 
 		// add tables of the database as the dbcontext properties here.

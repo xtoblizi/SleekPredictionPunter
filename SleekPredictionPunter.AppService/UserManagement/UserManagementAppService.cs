@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using SleekPredictionPunter.AppService.Subscriptions;
 using SleekPredictionPunter.AppService.TransactionLog;
 using SleekPredictionPunter.AppService.Wallet;
+using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Model.TransactionLogs;
 using SleekPredictionPunter.Model.Wallets;
 using System;
@@ -17,10 +19,13 @@ namespace SleekPredictionPunter.AppService.UserManagement
     {
         private readonly ITransactionLogAppService _transactionLogAppService;
         private readonly IWalletAppService _walletAppService;
-        public UserManagementAppService(IWalletAppService walletAppService, ITransactionLogAppService transactionLogAppService)
+        private readonly ISubscriberService _subscriberService;
+        public UserManagementAppService(IWalletAppService walletAppService, ITransactionLogAppService transactionLogAppService,
+            ISubscriberService subscriberService)
         {
             _transactionLogAppService = transactionLogAppService;
             _walletAppService = walletAppService;
+            _subscriberService = subscriberService;
         }
 
         public async Task<IEnumerable<TransactionLogModel>> UserLogs(Func<TransactionLogModel, bool> predicate, int skip = 0, int take = int.MaxValue)
@@ -31,6 +36,11 @@ namespace SleekPredictionPunter.AppService.UserManagement
         public async Task<WalletModel> GetUserWalletDetails(Func<WalletModel, bool> predIcate)
         {
             var result = await _walletAppService.GetByUserId(predIcate);
+            return result != null ? result : null;
+        }
+        public async Task<Subscriber> GetSubscriberDetails(Func<Subscriber, bool> predIcate)
+        {
+            var result = await _subscriberService.GetFirstOrDefault(predIcate);
             return result != null ? result : null;
         }
     }
