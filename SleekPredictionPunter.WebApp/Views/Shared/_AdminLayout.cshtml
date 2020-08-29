@@ -139,9 +139,9 @@
                     @if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.Subscriber.ToString()))
                     {
                         <li>
-                             <a class="" asp-area="" asp-controller="Home" asp-action="Index">
+                             <a class="@ViewBag.PredictionResults" asp-area="" asp-controller="Predictions" asp-action="PredictionResults">
                                 <i class="fa fa-chain"></i>
-                                 <span>Results</span>
+                                 <span>Prediction Results</span>
                             </a>
                         </li>
                     }

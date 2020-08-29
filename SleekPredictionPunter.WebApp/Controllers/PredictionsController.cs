@@ -125,21 +125,24 @@ namespace SleekPredictionPunter.WebApp.Controllers
             var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(paidPredicate, groupByMatchCategory:true);
 
               var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(paidPredicate, groupByCustomCategory:true);
+            var groupTipsByBetCategory = await _predictionService.ReturnRelationalData(paidPredicate,groupByBetCategory: true);
 
 
             ViewBag.GroupedTipsByCustomCategories = groupedTipsByCustomCategories;
             ViewBag.GroupedTipsByMatchCategories = groupedTipsByMatchCategories;
             ViewBag.GroupedTipsByPredicationCategories = groupedTipsByPredicationCategories;
+            ViewBag.GroupedTipsByBetCategories = groupTipsByBetCategory;
 
 
-            //foreach(var item in groupedTipsByPredicationCategories)
+
+            //foreach (var item in groupedTipsByPredicationCategories)
             //{
-            //    foreach(var keyvalue in item)
+            //    foreach (var keyvalue in item)
             //    {
-                    
+
             //    }
             //}
-            
+
 
             return View();
         }
@@ -275,11 +278,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id,[Bind("PredictorUserName,ClubA,ClubAOdd," +
-            "ClubALogoPath,ClubB,ClubBOdd,ClubBLogoPath,PredictionValue," +
-            "TimeofFixture,PredictorId,CustomCategoryId,MatchCategoryId," +
-            "PredictionCategoryId,PricingPlanId,ClubAScore,ClubBScore,Id," +
-            "DateCreated,EntityStatus,DateUpdated")] Prediction prediction)
+        public async Task<IActionResult> Edit(long id, Prediction prediction)
         {
             var match = await _matchService.GetMatchById(prediction.MatchId);
             if (id != prediction.Id)
@@ -366,9 +365,12 @@ namespace SleekPredictionPunter.WebApp.Controllers
             return checkIfExist != null ? true : false;
         }
 
-        public async Task<IActionResult> Results()
+        public async Task<IActionResult> PredictionResults()
         {
-            return View();
+            ViewBag.PredictionResults = "active";
+            var username = User.Identity.Name;
+            var getAllPrediction = await _predictionService.PredictionResult(username: username);
+            return View(getAllPrediction);
         }
     }
 
