@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section id="main-content">
+    <section class="wrapper site-min-height">
+        <div class="row mt">
+            <!-- /col-lg-12 -->
+            <div class="col-lg-12 mt">
+                <div class="row content-panel">
+                    <div class="panel-heading">
+                        <ul class="nav nav-tabs nav-justified">
+                            <li>
+                                <a data-toggle="tab" href="#edit">Basic Profile Details</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /panel-heading -->
+                    <div class="panel-body">
+                        <div class="tab-content">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <div class="col-lg-12col-lg-offset-2 detailed">
+                                        <h4 class="mb">Personal Information</h4>
+                                        <form role="form" class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label class="col-lg-2 control-label">First Name</label>
+                                                <div class="col-lg-6">
+                                                    <input type="text" readonly id="c-name" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-2 control-label">Last Name</label>
+                                                <div class="col-lg-6">
+                                                    <input type="text" readonly id="lives-in" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-2 control-label">Email Address</label>
+                                                <div class="col-lg-6">
+                                                    <input type="text" readonly id="country" class="form-control">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /tab-pane -->
+                        </div>
+                        <!-- /tab-content -->
+                    </div>
+
+                    <!-- /panel-body -->
+                </div>
+                <hr />
+                <div class="row content-panel">
+                    <div class="panel-heading">
+                        <ul class="nav nav-tabs nav-justified">
+                            <li>
+                                <a data-toggle="tab" href="#edit">Basic Profile Details</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /panel-heading -->
+                    <div class="panel-body">
+                        <div class="tab-content">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-4">
+                                    <label class="control-label">Plan Name</label>
+                                    <input type="text" class="form-control" required placeholder="Basic Plan" size="16" >
+                                    <span class="text-danger"> </span>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="control-label">Plan price</label>
+                                    <input type="number" placeholder="2000.00" required class="form-control" size="16">
+                                    <span class="text-danger"> </span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="control-label">Plan Commission</label>
+                                    <input type="number" placeholder="200.00" required class="form-control" size="16" />
+                                    <span class="text-danger"> </span>
+                                </div>
+                            </div>
+                            <!-- /tab-pane -->
+                        </div>
+                        <!-- /tab-content -->
+                    </div>
+
+                    <!-- /panel-body -->
+                </div>
+                <!-- /col-lg-12 -->
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </section>
+    <!-- /wrapper -->
+</section>
