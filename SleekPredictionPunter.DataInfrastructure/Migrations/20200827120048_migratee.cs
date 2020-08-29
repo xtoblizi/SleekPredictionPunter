@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
-    public partial class Init : Migration
+    public partial class migratee : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -200,7 +200,8 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     Duration = table.Column<string>(nullable: true),
                     Rating = table.Column<int>(nullable: false),
                     RateCount = table.Column<int>(nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
+                    Price = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    PlanCommission = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
                 },
                 constraints: table =>
                 {

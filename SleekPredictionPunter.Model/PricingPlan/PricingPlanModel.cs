@@ -23,6 +23,7 @@ namespace SleekPredictionPunter.Model.PricingPlan
 		public RatingEnum Rating { get; set; }
 		public int RateCount { get; set; }
 		public decimal Price { get; set; }
+        public decimal PlanCommission { get; set; }
     }
 
 	public enum RatingEnum

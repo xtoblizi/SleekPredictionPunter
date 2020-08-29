@@ -14,7 +14,7 @@ namespace SleekPredictionPunter.AppService
 
 		Task Delete(Subscriber model, bool savechage = true);
 
-		Task<Subscriber> GetFirstOrDefault(Subscriber model);
+		Task<Subscriber> GetFirstOrDefault(Func<Subscriber, bool> predicate);
 
 		Task<IEnumerable<Subscriber>> GetAllQueryable(int? activationstatus = null,
 			int? gender = null,
