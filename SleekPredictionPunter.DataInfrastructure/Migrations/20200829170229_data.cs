@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
-    public partial class migratee : Migration
+    public partial class data : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,6 +23,23 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AgentRefereeMaps", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BetCategories",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: true),
+                    BetCategoryName = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BetCategories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -66,24 +83,6 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CustomCategories",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DateCreated = table.Column<DateTime>(nullable: false),
-                    EntityStatus = table.Column<int>(nullable: false),
-                    DateUpdated = table.Column<DateTime>(nullable: true),
-                    CategoryName = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    IsFree = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CustomCategories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "MatchCategories",
                 columns: table => new
                 {
@@ -92,12 +91,40 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     DateCreated = table.Column<DateTime>(nullable: false),
                     EntityStatus = table.Column<int>(nullable: false),
                     DateUpdated = table.Column<DateTime>(nullable: true),
-                    CategoryName = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true)
+                    CategoryName = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MatchCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Matches",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: true),
+                    ClubA = table.Column<string>(nullable: true),
+                    ClubAId = table.Column<long>(nullable: false),
+                    ClubALogoPath = table.Column<string>(nullable: true),
+                    ClubB = table.Column<string>(nullable: true),
+                    ClubBId = table.Column<long>(nullable: false),
+                    ClubBLogoPath = table.Column<string>(nullable: true),
+                    MatchCategory = table.Column<string>(nullable: true),
+                    MatchCategoryId = table.Column<long>(nullable: false),
+                    CustomCategory = table.Column<string>(nullable: true),
+                    CustomCategoryId = table.Column<long>(nullable: false),
+                    TimeofMatch = table.Column<DateTime>(nullable: false),
+                    MatchStatus = table.Column<int>(nullable: false),
+                    IsSetAsHotPreview = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Matches", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -116,6 +143,25 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PredictionCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PredictionMapMaps",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: true),
+                    MatchId = table.Column<long>(nullable: false),
+                    TimeOfMatch = table.Column<DateTime>(nullable: false),
+                    PredictionId = table.Column<long>(nullable: false),
+                    MatchStatus = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PredictionMapMaps", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -220,6 +266,23 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SportLeagueCategory",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: true),
+                    CategoryName = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SportLeagueCategory", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -594,28 +657,36 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     ClubBLogoPath = table.Column<string>(nullable: true),
                     PredictionValue = table.Column<string>(nullable: true),
                     TimeofFixture = table.Column<DateTime>(nullable: false),
-                    PredictorId = table.Column<long>(nullable: false),
-                    CustomCategoryId = table.Column<long>(nullable: false),
-                    MatchCategoryId = table.Column<long>(nullable: false),
-                    PredictionCategoryId = table.Column<long>(nullable: false),
-                    PricingPlanId = table.Column<long>(nullable: false),
                     ClubAScore = table.Column<string>(nullable: true),
                     ClubBScore = table.Column<string>(nullable: true),
+                    PredictionResult = table.Column<int>(nullable: false),
+                    ResultValueOdd = table.Column<string>(nullable: true),
+                    MatchId = table.Column<long>(nullable: false, defaultValue: 0L),
+                    MatchCategory = table.Column<string>(nullable: true),
+                    MatchCategoryId = table.Column<long>(nullable: false),
+                    CustomCategoryId = table.Column<long>(nullable: false),
+                    CustomCategory = table.Column<string>(nullable: true),
+                    BetCategoryId = table.Column<long>(nullable: false),
+                    BeCategory = table.Column<string>(nullable: true),
+                    PredictorId = table.Column<long>(nullable: false),
+                    PredictionCategoryId = table.Column<long>(nullable: false),
+                    PricingPlanId = table.Column<long>(nullable: false),
+                    PricingPlanName = table.Column<string>(nullable: true),
                     PackageId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Predictions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Predictions_CustomCategories_CustomCategoryId",
-                        column: x => x.CustomCategoryId,
-                        principalTable: "CustomCategories",
+                        name: "FK_Predictions_BetCategories_BetCategoryId",
+                        column: x => x.BetCategoryId,
+                        principalTable: "BetCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Predictions_MatchCategories_MatchCategoryId",
-                        column: x => x.MatchCategoryId,
-                        principalTable: "MatchCategories",
+                        name: "FK_Predictions_Matches_MatchId",
+                        column: x => x.MatchId,
+                        principalTable: "Matches",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -636,12 +707,6 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                         principalTable: "Predictors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Predictions_PricePlans_PricingPlanId",
-                        column: x => x.PricingPlanId,
-                        principalTable: "PricePlans",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -655,14 +720,14 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 column: "SubscriberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Predictions_CustomCategoryId",
+                name: "IX_Predictions_BetCategoryId",
                 table: "Predictions",
-                column: "CustomCategoryId");
+                column: "BetCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Predictions_MatchCategoryId",
+                name: "IX_Predictions_MatchId",
                 table: "Predictions",
-                column: "MatchCategoryId");
+                column: "MatchId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Predictions_PackageId",
@@ -678,11 +743,6 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 name: "IX_Predictions_PredictorId",
                 table: "Predictions",
                 column: "PredictorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Predictions_PricingPlanId",
-                table: "Predictions",
-                column: "PricingPlanId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
@@ -744,6 +804,12 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 name: "Contacts");
 
             migrationBuilder.DropTable(
+                name: "MatchCategories");
+
+            migrationBuilder.DropTable(
+                name: "PredictionMapMaps");
+
+            migrationBuilder.DropTable(
                 name: "Predictions");
 
             migrationBuilder.DropTable(
@@ -753,7 +819,13 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 name: "PricePlanQuestions");
 
             migrationBuilder.DropTable(
+                name: "PricePlans");
+
+            migrationBuilder.DropTable(
                 name: "RoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "SportLeagueCategory");
 
             migrationBuilder.DropTable(
                 name: "Subcriptions");
@@ -780,10 +852,10 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 name: "WalletModel");
 
             migrationBuilder.DropTable(
-                name: "CustomCategories");
+                name: "BetCategories");
 
             migrationBuilder.DropTable(
-                name: "MatchCategories");
+                name: "Matches");
 
             migrationBuilder.DropTable(
                 name: "Package");
@@ -793,9 +865,6 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Predictors");
-
-            migrationBuilder.DropTable(
-                name: "PricePlans");
 
             migrationBuilder.DropTable(
                 name: "Roles");

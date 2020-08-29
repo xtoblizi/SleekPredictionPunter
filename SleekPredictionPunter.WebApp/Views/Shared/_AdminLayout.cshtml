@@ -110,23 +110,19 @@
                                 <i class=" fa fa-soccer-ball-o"></i>
                                 <span>Matches</span>
                             </a>
-                        </li>
-
+                        </li> 
                         <li>
                             <a class="@ViewBag.Predictions" href="../../Predictions/Index">
                                 <i class=" fa fa-bar-chart-o"></i>
                                 <span>Predictions</span>
                             </a>
-                        </li>
-
-
+                        </li> 
                         <li>
                             <a class="@ViewBag.PlanSetup" href="../../pricingplan/listofplans">
                                 <i class=" fa fa-bar-chart-o"></i>
                                 <span>Plan-Setup</span>
                             </a>
-                        </li>
-
+                        </li> 
                         <li>
                             <a class="@ViewBag.Contact" href="../../Home/ContactIndex">
                                 <i class=" fa fa-envelope"></i>
@@ -142,12 +138,12 @@
                     }
                     @if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.Subscriber.ToString()))
                     {
-                    <li>
-                        <a class="" asp-area="" asp-controller="Home" asp-action="Index">
-                            <i class="fa fa-chain"></i>
-                            <span>Results</span>
-                        </a>
-                    </li>
+                        <li>
+                             <a class="" asp-area="" asp-controller="Home" asp-action="Index">
+                                <i class="fa fa-chain"></i>
+                                 <span>Results</span>
+                            </a>
+                        </li>
                     }
                 </ul>
                 <!-- sidebar menu end-->

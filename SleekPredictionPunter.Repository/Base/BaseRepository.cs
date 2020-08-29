@@ -101,7 +101,8 @@ namespace SleekPredictionPunter.Repository.Base
 				var dbSet = _entity.Where(predicate).Skip(startIndex).Take(count).ToList();
 				return await Task.FromResult(dbSet);
 			} 
-			return await _entity.AsNoTracking().Skip(startIndex).Take(count).ToListAsync(); 
+			var data = await _entity.AsNoTracking().Skip(startIndex).Take(count).ToListAsync();
+			return data;
 		}
 		
 		/// <summary>

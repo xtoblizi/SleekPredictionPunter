@@ -189,12 +189,12 @@ namespace SleekPredictionPunter.WebApp.Controllers
             {
                 errorMessage = "The current time id cannot be greater than 1 iminutes to the time of the selected match";
             }
-            
+
             if (!ModelState.IsValid)
             {
                 errorMessage = "You have not properly filled the entries of the prediction form. Verify and try again or contact administrator";
             }
-    
+
             Func<Prediction, bool> validateFunc = (p => p.BetCategoryId == prediction.BetCategoryId
              && p.MatchId == prediction.MatchId
              && p.IsCorrectScore == false);
@@ -204,7 +204,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             {
                 errorMessage = "There is already a prediction for this match on this bet category and its not a correct score";
             }
-       
+
             if (!string.IsNullOrEmpty(errorMessage))
             {
                 ViewBag.PackageId = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName");
@@ -220,14 +220,14 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
             #endregion
             ViewBag.Predictions = "active";
-            var getPredictor = await _predictorService.GetByUserName(User.Identity.Name); 
+            var getPredictor = await _predictorService.GetByUserName(User.Identity.Name);
             var pricingPlan = await _pricingPlanservice.GetById(prediction.PricingPlanId);
             var betCategory = await _betCategoryService.GetById(prediction.BetCategoryId);
             var getcategory = await _categoryService.GetCategoryById(prediction.PredictionCategoryId);
 
-          
 
-			prediction.PredictionValue = prediction.PredictionValue;
+
+            prediction.PredictionValue = prediction.PredictionValue;
             prediction.PredictorUserName = User.Identity.Name;
             prediction.TimeofFixture = match.TimeofMatch;
             prediction.BeCategory = betCategory.BetCategoryName;
@@ -242,8 +242,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 await _predictionService.InsertPrediction(prediction);
                 return RedirectToAction(nameof(Index));
             }
-
-
+            return View(prediction);
+        }
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
