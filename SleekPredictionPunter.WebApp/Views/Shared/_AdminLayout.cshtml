@@ -72,11 +72,12 @@
             <div id="sidebar" class="nav-collapse ">
                 <!-- sidebar menu start-->
                 <ul class="sidebar-menu" id="nav-accordion">
-                    <p class="centered"><a href="#">
-						<img src="~/AdminTheme/img/friends/fr-03.jpg" class="img-circle" width="80">
-						 </a>
-					</p>
-                    
+                    <p class="centered">
+                        <a href="#">
+                            <img src="~/AdminTheme/img/friends/fr-03.jpg" class="img-circle" width="80">
+                        </a>
+                    </p>
+
                     @if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.SuperAdmin.ToString()))
                     {
                         <li>
@@ -85,57 +86,66 @@
                                 <span>Switch FrontEnd</span>
                             </a>
                         </li>
-                    
-                    <li>
-                        <a class="@ViewBag.AdminIndex" href="../Admin/Index">
-                            <i class="fa fa-dashboard"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="@ViewBag.Clubs" href="../../Clubs/Index">
-                            <i class=" fa fa-soccer-ball-o"></i>
-                            <span>Clubs</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="@ViewBag.PredictionCategories" href="../../PredictionCategories/Index">
-                            <i class=" fa fa-umbrella-beach"></i>
-                            <span>Prediction Categories</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="@ViewBag.Matches" href="../../Matches/Index">
-                            <i class=" fa fa-soccer-ball-o"></i>
-                            <span>Matches</span>
-                        </a>
-                    </li>
 
-                    <li>
-                        <a class="@ViewBag.Predictions" href="../../Predictions/Index">
-                            <i class=" fa fa-bar-chart-o"></i>
-                            <span>Predictions</span>
-                        </a>
-                    </li>
+                        <li>
+                            <a class="@ViewBag.AdminIndex" href="../Admin/Index">
+                                <i class="fa fa-dashboard"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="@ViewBag.Clubs" href="../../Clubs/Index">
+                                <i class=" fa fa-soccer-ball-o"></i>
+                                <span>Clubs</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="@ViewBag.PredictionCategories" href="../../PredictionCategories/Index">
+                                <i class=" fa fa-umbrella-beach"></i>
+                                <span>Prediction Categories</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="@ViewBag.Matches" href="../../Matches/Index">
+                                <i class=" fa fa-soccer-ball-o"></i>
+                                <span>Matches</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="@ViewBag.Predictions" href="../../Predictions/Index">
+                                <i class=" fa fa-bar-chart-o"></i>
+                                <span>Predictions</span>
+                            </a>
+                        </li>
 
 
-                    <li>
-                        <a class="@ViewBag.PlanSetup" href="../../pricingplan/listofplans">
-                            <i class=" fa fa-bar-chart-o"></i>
-                            <span>Plan-Setup</span>
-                        </a>
-                    </li>
+                        <li>
+                            <a class="@ViewBag.PlanSetup" href="../../pricingplan/listofplans">
+                                <i class=" fa fa-bar-chart-o"></i>
+                                <span>Plan-Setup</span>
+                            </a>
+                        </li>
 
+                        <li>
+                            <a class="@ViewBag.Contact" href="../../Home/ContactIndex">
+                                <i class=" fa fa-envelope"></i>
+                                <span>Contact Tickets</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="@ViewBag.FeedBack" href="../../Home/FeedBackIndex">
+                                <i class=" fa fa-envelope"></i>
+                                <span>Feedback</span>
+                            </a>
+                        </li>
+                    }
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.Subscriber.ToString()))
+                    {
                     <li>
-                        <a class="@ViewBag.Contact" href="../../Home/ContactIndex">
-                            <i class=" fa fa-envelope"></i>
-                            <span>Contact Tickets</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="@ViewBag.FeedBack" href="../../Home/FeedBackIndex">
-                            <i class=" fa fa-envelope"></i>
-                            <span>Feedback</span>
+                        <a class="" asp-area="" asp-controller="Home" asp-action="Index">
+                            <i class="fa fa-chain"></i>
+                            <span>Results</span>
                         </a>
                     </li>
                     }
