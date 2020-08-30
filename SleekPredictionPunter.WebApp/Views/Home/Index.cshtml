@@ -123,6 +123,12 @@
 	</div>
 </div>
 <!-- feature end -->
+
+
+<!-- Place Result Here-->
+
+<!-- End of Result-->
+
 <!-- breadcrumb begin -->
 <div class="breadcrumb-bettix result-page">
 	<div class="container">
@@ -133,6 +139,101 @@
 				</div>
 			</div>
 		</div>
+	</div>
+</div>
+
+<div class="result">
+	<div class="container">
+		@*<div class="filter-menu">
+				<div class="row">
+					<div class="col-xl-4 col-lg-4 col-md-4">
+						<div class="form-group">
+							<select class="form-control">
+								<option>Last 7 days</option>
+								<option>Last 24 hours</option>
+								<option>Last 12 hours</option>
+								<option>Last 6 hours</option>
+								<option>Last 1 hours</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-xl-4 col-lg-4 col-md-4">
+						<div class="form-group">
+							<select class="form-control">
+								<option>All Sports</option>
+								<option>Football</option>
+								<option>Ice Hocky</option>
+								<option>Badminton</option>
+								<option>Baseball</option>
+								<option>Basketball</option>
+								<option>Tennis</option>
+								<option>Cycling</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-xl-4 col-lg-4 col-md-4">
+						<div class="form-group">
+							<select class="form-control">
+								<option>Bangla Cricket League</option>
+								<option>Indian Football Federation</option>
+								<option>English premier league</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>*@
+
+		<div class="result-sheet-cover">
+			<div class="result-sheet">
+				<h4 class="result-title">Top Latest Free Predictions</h4>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>S/N</th>
+							<th scope="col"></th>
+							<th scope="col">Date & Time</th>
+							<th scope="col">Match</th>
+							<th scope="col">Prediction</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						@if (ViewBag.FreeTips != null)
+						{
+
+							foreach (var prediction in ViewBag.FreeTips as IEnumerable<Prediction>)
+							{
+
+								<tr>
+									<td>@(sn++)</td>
+									<th scope="row">
+										<span class="icon">
+											<i class="flaticon-football"></i>
+										</span>
+									</th>
+									<td class="date">@prediction.DateCreated</td>
+									<td class="team-name">
+										<img src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubALogoPath))" style="width:30px;height:30px" />
+										@prediction.ClubA <span class="versace">vs</span> @prediction.ClubB
+										<img src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubBLogoPath))" style="width:30px;height:30px" />
+									</td>
+									<td class="score">@prediction.PredictionValue</td>
+									<td>
+										<a>
+											<span class="view-icon">
+												<i class="fas fa-ellipsis-v"></i>
+											</span>
+										</a>
+									</td>
+								</tr>
+							}
+						}
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+
 	</div>
 </div>
 
@@ -574,102 +675,7 @@
 <!-- betting end -->
 <!-- breadcrumb end -->
 <!-- result begin -->
-<div class="result">
-	<div class="container">
-		<div class="filter-menu">
-			<div class="row">
-				<div class="col-xl-4 col-lg-4 col-md-4">
-					<div class="form-group">
-						<select class="form-control">
-							<option>Last 7 days</option>
-							<option>Last 24 hours</option>
-							<option>Last 12 hours</option>
-							<option>Last 6 hours</option>
-							<option>Last 1 hours</option>
-						</select>
-					</div>
-				</div>
-				<div class="col-xl-4 col-lg-4 col-md-4">
-					<div class="form-group">
-						<select class="form-control">
-							<option>All Sports</option>
-							<option>Football</option>
-							<option>Ice Hocky</option>
-							<option>Badminton</option>
-							<option>Baseball</option>
-							<option>Basketball</option>
-							<option>Tennis</option>
-							<option>Cycling</option>
-						</select>
-					</div>
-				</div>
-				<div class="col-xl-4 col-lg-4 col-md-4">
-					<div class="form-group">
-						<select class="form-control">
-							<option>Bangla Cricket League</option>
-							<option>Indian Football Federation</option>
-							<option>English premier league</option>
-						</select>
-					</div>
-				</div>
-			</div>
-		</div>
 
-		<div class="result-sheet-cover">
-			<div class="result-sheet">
-				<h4 class="result-title">Latest Free Predictions</h4>
-				<table class="table">
-					<thead>
-						<tr>
-							<th>S/N</th>
-							<th scope="col"></th>
-							<th scope="col">Date & Time</th>
-							<th scope="col">Match</th>
-							<th scope="col">Prediction</th>
-							<th scope="col"></th>
-						</tr>
-					</thead>
-					<tbody>
-						@if (ViewBag.FreeTips != null)
-						{
-
-							foreach (var prediction in ViewBag.FreeTips)
-							{
-								var getCluALogo = await _clubService.GetByName(prediction.ClubA);
-								var getCluBLogo = await _clubService.GetByName(prediction.ClubB);
-								<tr>
-									<td>@(sn++)</td>
-									<th scope="row">
-										<span class="icon">
-											<i class="flaticon-football"></i>
-										</span>
-									</th>
-									<td class="date">@prediction.DateCreated</td>
-									<td class="team-name">
-										<img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluALogo.ClubLogRelativePath))" style="width:30px;height:30px" />
-										@prediction.ClubA <span class="versace">vs</span> @prediction.ClubB <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluBLogo.ClubLogRelativePath))" style="width:30px;height:30px" />
-									</td>
-									<td class="score">@prediction.PredictionValue</td>
-									<td>
-										<a>
-											<span class="view-icon">
-												<i class="fas fa-ellipsis-v"></i>
-											</span>
-										</a>
-									</td>
-								</tr>
-							}
-						}
-
-
-
-					</tbody>
-				</table>
-			</div>
-		</div>
-
-	</div>
-</div>
 <!-- result end -->
 
 <!-- Upcoming matches-->

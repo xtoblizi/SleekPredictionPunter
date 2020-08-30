@@ -18,7 +18,7 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 text-danger"></div>
 
-            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+            <div class="col-md-8 col-lg-8 col-xl-6 col-sm-12 col-xs-12 form-group">
                 <label asp-for="MatchId" class="control-label"></label>
                 <select asp-for="MatchId" class="form-control" asp-items="ViewBag.MatchId" required></select>
             </div>
@@ -59,6 +59,11 @@
                 <label asp-for="ClubBOdd" class="control-label"></label>
                 <input asp-for="ClubBOdd" class="form-control" title="this field is optional.input only if you want to predict correct scores" placeholder="Example 4 [optional]" />
                 <span asp-validation-for="ClubBOdd" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label asp-for="PredictionValue" class="control-label"></label>
+                <input asp-for="PredictionValue" class="form-control" title="this field is optional.input only if you want to predict correct scores" placeholder="Example 4 [optional]" />
+                <span asp-validation-for="PredictionValue" class="text-danger"></span>
             </div>
             <br/>
             <div class="row">

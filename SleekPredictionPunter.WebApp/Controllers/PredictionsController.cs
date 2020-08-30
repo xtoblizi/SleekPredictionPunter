@@ -230,8 +230,6 @@ namespace SleekPredictionPunter.WebApp.Controllers
             var betCategory = await _betCategoryService.GetById(prediction.BetCategoryId);
             var getcategory = await _categoryService.GetCategoryById(prediction.PredictionCategoryId);
 
-
-
             prediction.PredictionValue = prediction.PredictionValue;
             prediction.PredictorUserName = User.Identity.Name;
             prediction.TimeofFixture = match.TimeofMatch;
@@ -241,7 +239,13 @@ namespace SleekPredictionPunter.WebApp.Controllers
             prediction.MatchCategoryId = match.MatchCategoryId;
             prediction.MatchCategory = match.MatchCategory;
             prediction.PredictorId = getPredictor.Id;
-            prediction.PredictionValue = getcategory.CategoryName;
+            prediction.PredictionResult = Model.Enums.PredictionResultEnum.MatchPending;
+            prediction.ClubA = match.ClubA;
+            prediction.ClubB = match.ClubB;
+            prediction.ClubALogoPath = match.ClubALogoPath;
+            prediction.ClubBLogoPath = match.ClubBLogoPath;
+
+
             if (ModelState.IsValid)
             {
                 await _predictionService.InsertPrediction(prediction);

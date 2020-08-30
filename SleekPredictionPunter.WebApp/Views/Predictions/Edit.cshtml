@@ -24,12 +24,22 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label class="control-label"><strong> ClubA </strong> </label>
+                <input asp-for="ClubA" class="form-control" />
+                <span asp-validation-for="ClubA" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label class="control-label"><strong>Club B </strong>  </label>
+                <input asp-for="ClubB" class="form-control" />
+                <span asp-validation-for="ClubB" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
                 <label class="control-label"><strong> ClubA Score</strong> </label>
                 <input asp-for="ClubAScore" class="form-control" placeholder="(Optional) enter the  score for ClubA" />
                 <span asp-validation-for="ClubAScore" class="text-danger"></span>
             </div>
             <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
-                <label class="control-label"><strong>Club Score </strong>  </label>
+                <label class="control-label"><strong>ClubB Score </strong>  </label>
                 <input asp-for="ClubBScore" class="form-control" placeholder="(Optional) enter the score for ClubB" />
                 <span asp-validation-for="ClubBScore" class="text-danger"></span>
             </div>
