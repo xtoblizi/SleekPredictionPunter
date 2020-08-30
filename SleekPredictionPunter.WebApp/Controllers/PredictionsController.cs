@@ -82,67 +82,56 @@ namespace SleekPredictionPunter.WebApp.Controllers
 		public async Task<IActionResult> FrontEndIndex()
         {
 			base.AddLinkScriptforPackageSetter(true);
-            var plans = await _pricingPlanservice.GetAllPlans();
-            var geteFreePlan = plans.FirstOrDefault(c => c.Price < 1);
-            Func<Prediction, bool> paidPredicate = null;
+            //var plans = await _pricingPlanservice.GetAllPlans();
+            //var geteFreePlan = plans.FirstOrDefault(c => c.Price < 1);
+            //Func<Prediction, bool> paidPredicate = null;
 
-            // get to know who is signed in 
-            var isAdmin = base.IsAdmin();
-            if (isAdmin)
-            {
-                paidPredicate = (p => p.PricingPlanId != geteFreePlan.Id);
-            }
-            else
-            {
-                var useremail = await base.GetUserName();
-                Func<Subcription, bool> subFunc = (s => s.SubscriberUsername == useremail);
-
-                var subscriptions = await _subscriptionSerivce.GetAll(subFunc);
-                if(subscriptions != null)
-                {
-                    foreach (var item in subscriptions)
-                    {
-                        paidPredicate += (x => x.PricingPlanId == item.PricingPlanId);
-                    }
-                }
-            }
-
-            if (paidPredicate != null)
-                ViewBag.PaidTips = await _predictionService.GetPredictions(paidPredicate, startIndex: 0, count: 50);
-
-            if (geteFreePlan != null)
-            {
-                Func<Prediction, bool> freePredicate = (p => p.PricingPlanId == geteFreePlan.Id);
-                
-                ViewBag.FreeTips = await _predictionService.GetPredictions(freePredicate, startIndex: 0, count: 5);
-               
-            }
-
-            IEnumerable<IGrouping<long,Prediction>> groupedTipsByPredicationCategories = await _predictionService.ReturnRelationalData(paidPredicate, groupByPredicateCategory:true);
-
-            ViewBag.GrouppedPredictionCategoryList = groupedTipsByPredicationCategories;
-             
-            var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(paidPredicate, groupByMatchCategory:true);
-
-              var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(paidPredicate, groupByCustomCategory:true);
-            var groupTipsByBetCategory = await _predictionService.ReturnRelationalData(paidPredicate,groupByBetCategory: true);
-
-
-            ViewBag.GroupedTipsByCustomCategories = groupedTipsByCustomCategories;
-            ViewBag.GroupedTipsByMatchCategories = groupedTipsByMatchCategories;
-            ViewBag.GroupedTipsByPredicationCategories = groupedTipsByPredicationCategories;
-            ViewBag.GroupedTipsByBetCategories = groupTipsByBetCategory;
-
-
-
-            //foreach (var item in groupedTipsByPredicationCategories)
+            //// get to know who is signed in 
+            //var isAdmin = base.IsAdmin();
+            //if (isAdmin)
             //{
-            //    foreach (var keyvalue in item)
-            //    {
+            //    paidPredicate = (p => p.PricingPlanId != geteFreePlan.Id);
+            //}
+            //else
+            //{
+            //    var useremail = await base.GetUserName();
+            //    Func<Subcription, bool> subFunc = (s => s.SubscriberUsername == useremail);
 
+            //    var subscriptions = await _subscriptionSerivce.GetAll(subFunc);
+            //    if(subscriptions != null)
+            //    {
+            //        foreach (var item in subscriptions)
+            //        {
+            //            paidPredicate += (x => x.PricingPlanId == item.PricingPlanId);
+            //        }
             //    }
             //}
 
+            //if (paidPredicate != null)
+            //    ViewBag.PaidTips = await _predictionService.GetPredictions(paidPredicate, startIndex: 0, count: 50);
+
+            //if (geteFreePlan != null)
+            //{
+            //    Func<Prediction, bool> freePredicate = (p => p.PricingPlanId == geteFreePlan.Id);
+                
+            //    ViewBag.FreeTips = await _predictionService.GetPredictions(freePredicate, startIndex: 0, count: 5);
+               
+            //}
+
+            //IEnumerable<IGrouping<long,Prediction>> groupedTipsByPredicationCategories = await _predictionService.ReturnRelationalData(paidPredicate, groupByPredicateCategory:true);
+
+            //ViewBag.GrouppedPredictionCategoryList = groupedTipsByPredicationCategories;
+             
+            //var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(paidPredicate, groupByMatchCategory:true);
+
+            //  var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(paidPredicate, groupByCustomCategory:true);
+            //var groupTipsByBetCategory = await _predictionService.ReturnRelationalData(paidPredicate,groupByBetCategory: true);
+
+
+            //ViewBag.GroupedTipsByCustomCategories = groupedTipsByCustomCategories;
+            //ViewBag.GroupedTipsByMatchCategories = groupedTipsByMatchCategories;
+            //ViewBag.GroupedTipsByPredicationCategories = groupedTipsByPredicationCategories;
+            //ViewBag.GroupedTipsByBetCategories = groupTipsByBetCategory;
 
             return View();
         }

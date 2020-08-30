@@ -2,13 +2,58 @@
 @inject SleekPredictionPunter.AppService.Clubs.IClubService _clubService
 @inject SleekPredictionPunter.AppService.Subscriptions.ISubscriptionAppService _sub
 
+@inject SleekPredictionPunter.AppService.Plans.IPricingPlanAppService _pricingPlanservice
+@inject SleekPredictionPunter.AppService.Subscriptions.ISubscriptionAppService _subscriptionSerivce
+@inject SleekPredictionPunter.AppService.PredictionAppService.IPredictionService _predictionService
+
+@inject SleekPredictionPunter.WebApp.Controllers.BaseController _base
 
 @{
     ViewData["Title"] = "FrontEndIndex";
     Layout = "~/Views/Shared/_Layout.cshtml";
     int sn = 1;
-    Func<Subcription, bool> predicate = (x => x.SubscriberUsername == User.Identity.Name && x.ExpirationDateTime > DateTime.Now);
-    var getsubscriptions = await _sub.GetAll(predicate, 0, 5);
+  
+    var plans = await _pricingPlanservice.GetAllPlans();
+    var geteFreePlan = plans.FirstOrDefault(c => c.Price < 1);
+    Func<Prediction, bool> paidPredicate = null;
+
+    // get to know who is signed in
+    var isAdmin = _base.IsAdmin();
+    if (isAdmin)
+    {
+        paidPredicate = (p => p.PricingPlanId != geteFreePlan.Id);
+    }
+    else
+    {
+        var useremail = await _base.GetUserName();
+        Func<Subcription, bool> subFunc = (s => s.SubscriberUsername == useremail);
+
+        var subscriptions = await _subscriptionSerivce.GetAll(subFunc);
+        if (subscriptions != null)
+        {
+            foreach (var item in subscriptions)
+            {
+                paidPredicate += (x => x.PricingPlanId == item.PricingPlanId);
+            }
+        }
+    }
+
+    if (paidPredicate != null)
+        ViewBag.PaidTips = await _predictionService.GetPredictions(paidPredicate, startIndex: 0, count: 50);
+
+    if (geteFreePlan != null)
+    {
+        Func<Prediction, bool> freePredicate = (p => p.PricingPlanId == geteFreePlan.Id);
+
+        ViewBag.FreeTips = await _predictionService.GetPredictions(freePredicate, startIndex: 0, count: 50);
+
+    }
+
+    IEnumerable<IGrouping<long, Prediction>> groupedTipsByPredicationCategories = await _predictionService.ReturnRelationalData(paidPredicate, groupByPredicateCategory: true,count: 50);
+ 
+    var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(paidPredicate, groupByMatchCategory: true, count: 50);
+    var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(paidPredicate, groupByCustomCategory: true, count: 50);
+    var groupTipsByBetCategory = await _predictionService.ReturnRelationalData(paidPredicate, groupByBetCategory: true, count: 50);
 
 }
 
@@ -67,7 +112,7 @@
     </div>
 
     <div class="row"></div><br />
-    @if (ViewBag.PaidTips != null)
+    @if (groupedTipsByCustomCategories.Any())
     {
         <div class="container">
             <div class="result-sheet-cover">
@@ -85,12 +130,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (ViewBag.FreeTips != null)
+                            @foreach (var predictions in groupedTipsByCustomCategories)
                             {
-                                foreach (var prediction in ViewBag.PaidTips)
+                                foreach (var item in predictions)
                                 {
-                                    var getCluALogo = await _clubService.GetByName(prediction.ClubA);
-                                    var getCluBLogo = await _clubService.GetByName(prediction.ClubB);
                                     <tr>
                                         <td>@(sn++)</td>
                                         <th scope="row">
@@ -98,12 +141,12 @@
                                                 <i class="flaticon-football"></i>
                                             </span>
                                         </th>
-                                        <td class="date">@prediction.DateCreated</td>
+                                        <td class="date">@item.DateCreated</td>
                                         <td class="team-name">
-                                            <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluALogo.ClubLogRelativePath))" style="width:30px;height:30px" />
-                                            @prediction.ClubA <span class="versace">vs</span> @prediction.ClubB <img src="~/TeamLogo/@(System.IO.Path.GetFileName(getCluBLogo.ClubLogRelativePath))" style="width:30px;height:30px" />
+                                            <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item.ClubALogoPath))" style="width:30px;height:30px" />
+                                            @item.ClubA <span class="versace">vs</span> @item.ClubB <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item.ClubBLogoPath))" style="width:30px;height:30px" />
                                         </td>
-                                        <td class="score">@prediction.PredictionValue</td>
+                                        <td class="score">@item.PredictionValue</td>
                                         <td>
                                             <a>
                                                 <span class="view-icon">
@@ -113,18 +156,16 @@
                                         </td>
                                     </tr>
                                 }
+
                             }
+
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        //foreach (var item in getsubscriptions)
-        //{
-
-        //}
+       
     }
 
-</div>
-ViewBag.GroupedTipsByBetCategories
+</div> 
