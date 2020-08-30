@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
-    public partial class data : Migration
+    public partial class re_Init01 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

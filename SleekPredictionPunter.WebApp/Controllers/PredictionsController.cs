@@ -236,8 +236,10 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 await _predictionService.InsertPrediction(prediction);
                 return RedirectToAction(nameof(Index));
             }
+
             return View(prediction);
         }
+        [HttpGet]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -310,8 +312,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             
-            var rolesEnumList = EnumHelper.GetEnumResults<MatchStatusEnum>();
-            ViewBag.MatchStatus = new SelectList(rolesEnumList, "Id", "Name", (int)pred.PredictionResult);
+            var matchstatusList = EnumHelper.GetEnumResults<MatchStatusEnum>();
+            ViewBag.MatchStatus = new SelectList(matchstatusList, "Id", "Name", (int)pred.PredictionResult);
 
             ViewBag.CustomCategoryId = new SelectList(await _customCategoryService.GetAllQueryable(), "Id", "Id", prediction.CustomCategoryId);
             ViewBag.MatchCategoryId = new SelectList(await _matchCategoryService.GetAllQueryable(), "Id", "Id", prediction.MatchCategoryId);
