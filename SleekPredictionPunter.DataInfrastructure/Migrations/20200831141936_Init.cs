@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
-    public partial class re_Init01 : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -669,6 +669,7 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     BetCategoryId = table.Column<long>(nullable: false),
                     BeCategory = table.Column<string>(nullable: true),
                     PredictorId = table.Column<long>(nullable: false),
+                    PredictionCategoryName = table.Column<string>(nullable: true, defaultValue: "Not Set"),
                     PredictionCategoryId = table.Column<long>(nullable: false),
                     PricingPlanId = table.Column<long>(nullable: false),
                     PricingPlanName = table.Column<string>(nullable: true),

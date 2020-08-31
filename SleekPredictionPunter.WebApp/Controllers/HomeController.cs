@@ -171,6 +171,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
 			ViewBag.IsBanner = true;
 			return View();
 		}
+		public IActionResult Howtoplay()
+		{
+			ViewBag.IsBanner = true;
+			return View();
+		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()

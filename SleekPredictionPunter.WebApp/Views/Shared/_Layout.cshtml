@@ -164,7 +164,7 @@
 										@if (!User.Identity.IsAuthenticated && (!User.IsInRole("Agent") || !User.IsInRole("SuperAdmin")))
 										{
 											<li class="nav-item">
-												<a asp-page="/account/register" asp-area="identity" asp-route-userType="4" class="nav-link">Become an Agent</a>
+												<a asp-page="/account/register" asp-area="identity" asp-route-userType="4" class="nav-link">Be an Agent</a>
 											</li>
 										}
 										<li class="nav-item">
@@ -173,10 +173,15 @@
 										<li class="nav-item">
 											<a class="nav-link" href="../../pricingplan/index">Packages</a>
 										</li>
-
+										<li class="nav-item">
+											<a class="nav-link" href="../../home/privacy">Terms & Conditions</a>
+										</li>
 										<li class="nav-item">
 											<a class="nav-link" href="../../home/contact">Contact</a>
 										</li>
+										@*<li class="nav-item">
+											<a class="nav-link" href="../../home/howtoplay">Contact</a>
+										</li>*@
 										@if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin"))
 										{
 											<li class="nav-item">
