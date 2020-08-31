@@ -99,7 +99,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 //check if user is already subscribed to plan
                 var email = HttpContext.Session.GetString("userEmail");
                 Func<Subcription, bool> predicate = ((x => x.SubscriberUsername == email
-                && x.PricingPlanId == getPlanDetails.Id && x.DateCreated < DateTime.Now.AddMonths(-1)));
+                && x.PricingPlanId == getPlanDetails.Id && x.DateCreated < DateTime.Now.AddMonths(1)));
 
                 var getSubscribeddetails = await _subscriptionAppService.GetPredicateRecord(predicate);
                 Func<WalletModel, bool> predicatedWallet = (x => x.UserEmailAddress == email);
@@ -171,8 +171,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                     var getLogByRef = await _transactionLogAppService.GetPredicatedTransactionLog(x => x.ReferenceNumber == reference);
                     var walletModel = new WalletModel();
                     walletModel = new WalletModel
-                    {
-                        Id = getWalletDetailsForThisSubscriber.Id,                        
+                    {                       
                         UserEmailAddress = email,
                         UserRole = roleEnum,
                         Amount = confirmation.Data.Amount,
@@ -231,7 +230,6 @@ namespace SleekPredictionPunter.WebApp.Controllers
                                     
                                     var agentMainWalletModel = new WalletModel
                                     {
-                                        Id = getWalletDetailsForThisAgent.Id,
                                         UserEmailAddress = getAgentByRefCode.Email,
                                         UserRole = RoleEnum.Agent,
                                         Amount = confirmation.Data.Amount,
