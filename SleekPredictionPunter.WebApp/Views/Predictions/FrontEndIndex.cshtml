@@ -130,8 +130,84 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <td colspan="6">Custom Category</td>
+                            </tr>
                             @foreach (var predictions in groupedTipsByCustomCategories)
                             {
+
+                                foreach (var item in predictions)
+                                {
+                                    <tr>
+                                        <td>@(sn++)</td>
+                                        <th scope="row">
+                                            <span class="icon">
+                                                <i class="flaticon-football"></i>
+                                            </span>
+                                        </th>
+                                        <td class="date">@item.DateCreated</td>
+                                        <td class="team-name">
+                                            <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item.ClubALogoPath))" style="width:30px;height:30px" />
+                                            @item.ClubA <span class="versace">vs</span> @item.ClubB <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item.ClubBLogoPath))" style="width:30px;height:30px" />
+                                        </td>
+                                        <td class="score">@item.PredictionValue</td>
+                                        <td>
+                                            <a>
+                                                <span class="view-icon">
+                                                    <i class="fas fa-ellipsis-v"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            }
+
+                        </tbody>
+
+                        <tbody>
+                            <tr>
+                                <td colspan="6">Match category</td>
+                            </tr>
+                            @foreach (var predictions in groupedTipsByMatchCategories)
+                            {
+
+                                foreach (var item in predictions)
+                                {
+                                    <tr>
+                                        <td>@(sn++)</td>
+                                        <th scope="row">
+                                            <span class="icon">
+                                                <i class="flaticon-football"></i>
+                                            </span>
+                                        </th>
+                                        <td class="date">@item.DateCreated</td>
+                                        <td class="team-name">
+                                            <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item.ClubALogoPath))" style="width:30px;height:30px" />
+                                            @item.ClubA <span class="versace">vs</span> @item.ClubB <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item.ClubBLogoPath))" style="width:30px;height:30px" />
+                                        </td>
+                                        <td class="score">@item.PredictionValue</td>
+                                        <td>
+                                            <a>
+                                                <span class="view-icon">
+                                                    <i class="fas fa-ellipsis-v"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            }
+
+                        </tbody>
+
+                        <tbody>
+                            <tr>
+                                <td colspan="6">Bet category</td>
+                            </tr>
+                            @foreach (var predictions in groupTipsByBetCategory)
+                            {
+
                                 foreach (var item in predictions)
                                 {
                                     <tr>
