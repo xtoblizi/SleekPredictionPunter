@@ -20,7 +20,10 @@ namespace SleekPredictionPunter.AppService.PredictionAppService
         Task<IEnumerable<Prediction>> GetPredictionsOrdered(Func<Prediction, bool> whereFunc = null,
              Func<Prediction, DateTime> orderDescFunc = null,
              int startIndex = 0, int count = int.MaxValue);
-        Task<IEnumerable<IGrouping<long, Prediction>>> ReturnRelationalData(Func<Prediction, bool> predicate, bool groupByPredicateCategory = false, bool groupByMatchCategory = false, bool groupByCustomCategory = false, bool groupByBetCategory = false);
+        Task<IEnumerable<IGrouping<long, Prediction>>> ReturnRelationalData(Func<Prediction, bool> predicate, Func<Prediction, DateTime> orderByFunc,
+            bool groupByPredicateCategory = false, bool groupByMatchCategory = false,
+            bool groupByCustomCategory = false, bool groupByBetCategory = false,
+            int startIndex = 0, int count = int.MaxValue);
         Task Update(Prediction prediction);
 		Task<Prediction> GetFirstOrDefault(Func<Prediction, bool> whereFunc);
         Task<IEnumerable<Prediction>> PredictionResult(string username);

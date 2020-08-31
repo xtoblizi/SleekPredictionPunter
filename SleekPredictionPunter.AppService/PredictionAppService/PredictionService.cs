@@ -79,9 +79,12 @@ namespace SleekPredictionPunter.AppService.PredictionAppService
         }
 
         
-        public async Task<IEnumerable<IGrouping<long, Prediction>>> ReturnRelationalData(Func<Prediction,bool> predicate,bool groupByPredicateCategory = false, bool groupByMatchCategory = false, bool groupByCustomCategory = false, bool groupByBetCategory =false)
+        public async Task<IEnumerable<IGrouping<long, Prediction>>> ReturnRelationalData(Func<Prediction,bool> predicate, Func<Prediction, DateTime> orderByFunc, 
+            bool groupByPredicateCategory = false, bool groupByMatchCategory = false,
+            bool groupByCustomCategory = false, bool groupByBetCategory =false,
+            int startIndex = 0, int count = int.MaxValue)
         {
-            var result = await _repo.GetAllQueryable(predicate);
+            var result = await _repo.GetAllQueryable(predicate,orderByFunc,startIndex,count);
             IEnumerable<IGrouping<long, Prediction>> finalResult = null;
             if (groupByPredicateCategory)
             {

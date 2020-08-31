@@ -16,65 +16,69 @@
 <div class="row">
     <div class="col-md-10">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 text-danger"></div>
-
-            <div class="col-md-8 col-lg-8 col-xl-6 col-sm-12 col-xs-12 form-group">
-                <label asp-for="MatchId" class="control-label"></label>
-                <select asp-for="MatchId" class="form-control" asp-items="ViewBag.MatchId" required></select>
-            </div>
-
-            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
-                <label asp-for="PredictionCategoryId" class="control-label"></label>
-                <select asp-for="PredictionCategoryId" class="form-control" asp-items="ViewBag.PredictionCategoryId"></select>
-            </div>
-            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
-                <label asp-for="BetCategoryId" class="control-label"></label>
-                <select asp-for="BetCategoryId" class="form-control" asp-items="ViewBag.BetCategoryId"></select>
-            </div>
-
-            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12  form-group">
-                <label asp-for="PricingPlanId" class="control-label"></label>
-                <select asp-for="PricingPlanId" class="form-control" asp-items="ViewBag.PricingPlanId"></select>
-            </div>
-
-            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
-                <label asp-for="ClubAOdd" class="control-label"></label>
-                <input asp-for="ClubAOdd" class="form-control" title="this field is optional" placeholder="Example 1.2 [optional]" />
-                <span asp-validation-for="ClubAOdd" class="text-danger"></span>
-            </div>
-
-            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
-                <label asp-for="ClubBOdd" class="control-label"></label>
-                <input asp-for="ClubBOdd" class="form-control" title="this field is optional" placeholder="Example 1.2 [optional]" />
-                <span asp-validation-for="ClubBOdd" class="text-danger"></span>
-            </div>
-
-            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
-                <label asp-for="ClubAScore" class="control-label"></label>
-                <input asp-for="ClubAScore" class="form-control" title="this field is optional,input only if you want to predict correct scores" placeholder="Example: 3 [optional]" />
-                <span asp-validation-for="ClubAScore" class="text-danger"></span>
-            </div>
-
-            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
-                <label asp-for="ClubBOdd" class="control-label"></label>
-                <input asp-for="ClubBOdd" class="form-control" title="this field is optional.input only if you want to predict correct scores" placeholder="Example 4 [optional]" />
-                <span asp-validation-for="ClubBOdd" class="text-danger"></span>
-            </div>
-            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
-                <label asp-for="PredictionValue" class="control-label"></label>
-                <input asp-for="PredictionValue" class="form-control" title="this field is optional.input only if you want to predict correct scores" placeholder="Example 4 [optional]" />
-                <span asp-validation-for="PredictionValue" class="text-danger"></span>
-            </div>
-            <br/>
             <div class="row">
-                <div>
-                    &nbsp; &nbsp;
-                    <input type="submit" value="Create" class="btn btn-default" /> <br /> <br />
+                <div asp-validation-summary="ModelOnly" class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 text-danger"></div>
 
-                    &nbsp; &nbsp;
-                    <a asp-action="Index">Back to Predictions</a>
+                <div class="col-md-8 col-lg-8 col-xl-6 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label"> <strong>Select Match</strong> </label>
+                    <select asp-for="MatchId" class="form-control" asp-items="ViewBag.MatchId" required></select>
+                </div>
+
+                <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                    <label class="control-label"><strong> Prediction Category</strong>  </label>
+                    <select asp-for="PredictionCategoryId" class="form-control" asp-items="ViewBag.PredictionCategoryId"></select>
+                </div>
+                <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                    <label class="control-label"> <strong>Bet Category</strong></label>
+                    <select asp-for="BetCategoryId" class="form-control" asp-items="ViewBag.BetCategoryId"></select>
+                </div>
+
+                <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12  form-group">
+                    <label class="control-label"><strong>Pricing Plan (Package)</strong> </label>
+                    <select asp-for="PricingPlanId" class="form-control" asp-items="ViewBag.PricingPlanId"></select>
+                </div>
+
+                <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                    <label  class="control-label"> Club A Odd</label>
+                    <input asp-for="ClubAOdd" class="form-control" title="this field is optional" placeholder="Example 1.2 [optional]" />
+                    <span asp-validation-for="ClubAOdd" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                    <label  class="control-label">Club B Odd</label>
+                    <input asp-for="ClubBOdd" class="form-control" title="this field is optional" placeholder="Example 1.2 [optional]" />
+                    <span asp-validation-for="ClubBOdd" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                    <label class="control-label"> Club A Score</label>
+                    <input asp-for="ClubAScore" class="form-control" title="this field is optional,input only if you want to predict correct scores" placeholder="Example: 3 [optional]" />
+                    <span asp-validation-for="ClubAScore" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                    <label class="control-label"> Club B Score</label>
+                    <input asp-for="ClubBScore" class="form-control" title="this field is optional.input only if you want to predict correct scores" placeholder="Example 4 [optional]" />
+                    <span asp-validation-for="ClubBScore" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                    <label class="control-label"> <strong>  Prediction Value </strong></label>
+                    <input asp-for="PredictionValue" class="form-control" title="this field is optional.input only if you want to predict correct scores" placeholder="Example 4 [optional]" />
+                    <span asp-validation-for="PredictionValue" class="text-danger"></span>
+                </div>
+
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-12 form-group">
+                    <input type="submit" value="Create" class="btn btn-success" style="margin:15px" />
+                    <br/>
+                    <a asp-action="Index" class="link" style="margin:15px">Back to Matches</a>
                 </div>
             </div>
+
+
+
         </form>
     </div>
 </div>

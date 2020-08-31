@@ -21,7 +21,7 @@ namespace SleekPredictionPunter.AppService.Wallet
             return result > 0 ? true : false;
         }
 
-        public async void UpdateWalletDetails(WalletModel model)
+        public async Task UpdateWalletDetails(WalletModel model)
         {
             await _baseRepository.Update(model, true);
         }

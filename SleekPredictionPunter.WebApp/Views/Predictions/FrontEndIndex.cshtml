@@ -1,25 +1,36 @@
 ﻿@model IEnumerable<SleekPredictionPunter.Model.Prediction>
 @inject SleekPredictionPunter.AppService.Clubs.IClubService _clubService
 @inject SleekPredictionPunter.AppService.Subscriptions.ISubscriptionAppService _sub
+@inject SleekPredictionPunter.AppService.BetCategories.IBetCategoryService _betCategory
 
 
 @{
     ViewData["Title"] = "FrontEndIndex";
     Layout = "~/Views/Shared/_Layout.cshtml";
     int sn = 1;
-    Func<Subcription, bool> predicate = (x => x.SubscriberUsername == User.Identity.Name && x.ExpirationDateTime > DateTime.Now);
-    var getsubscriptions = await _sub.GetAll(predicate, 0, 5);
-
+   
 }
 
 <!-- breadcrumb begin -->
-<div class="breadcrumb-bettix contact-page" >
+@*<div class="breadcrumb-bettix contact-page" >
     <div class="container">
         <div class="row">
             <div class="col-xl-7 col-lg-7">
                 <div class="breadcrumb-content">
                     <h1 style="color:white"> <strong style="font-weight:bolder">PREDICITONS LISTINGS</strong> </h1> 
                     <br/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<div class="breadcrumb-bettix result-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-7 col-lg-7">
+                <div class="breadcrumb-content">
+                    <h2>&nbsp;</h2>
                 </div>
             </div>
         </div>
@@ -77,29 +88,42 @@
             </div>
         </div>
     </div>
+    <br />
+
+    <div class="result-sheet-cover" style="width: 100%; background-color:blanchedalmond">
+        <div class="result-sheet">
+            <h2 class="result-title"><strong> PAID TIPS ..</strong>  </h2>
+        </div>
+    </div>
+
+    @*<div class="container">
+
+        </div>*@
 
     <div class="row"></div><br />
-    @if (ViewBag.PaidTips != null)
+    @if (ViewBag.GroupedTipsByBetCategories != null)
     {
-        <div class="container">
-            <div class="result-sheet-cover">
-                <div class="result-sheet">
-                    <h4 class="result-title">Prenuim Tips </h4>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>S/N</th>
-                                <th scope="col"></th>
-                                <th scope="col">Date & Time</th>
-                                <th scope="col">Match</th>
-                                <th scope="col">Tips</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (ViewBag.FreeTips != null)
-                            {
-                                foreach (var prediction in ViewBag.PaidTips)
+        foreach (var item in ViewBag.GroupedTipsByBetCategories as IEnumerable<IGrouping<long, Prediction>>)
+        {
+            var @getCategoryName = await _betCategory.GetById(item.Key);
+            <div class="container">
+                <div class="result-sheet-cover">
+                    <div class="result-sheet">
+                        <h4 class="result-title"> @getCategoryName?.BetCategoryName </h4>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>S/N</th>
+                                    <th scope="col"></th>
+                                    <th scope="col">Date & Time</th>
+                                    <th scope="col">Match</th>
+                                    <th scope="col">Tips</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var prediction in item)
                                 {
                                     var getCluALogo = await _clubService.GetByName(prediction.ClubA);
                                     var getCluBLogo = await _clubService.GetByName(prediction.ClubB);
@@ -125,18 +149,44 @@
                                         </td>
                                     </tr>
                                 }
-                            }
-                        </tbody>
-                    </table>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
+
 
         //foreach (var item in getsubscriptions)
         //{
 
         //}
     }
+    else
+    {
+        <div class="container">
+            <div class="result-sheet-cover">
+                <div class="result-sheet">
+                    <h4 class="result-title">Paid Tips Category </h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th scope="col"></th>
+                                <th scope="col">Date & Time</th>
+                                <th scope="col">Match</th>
+                                <th scope="col">Tips</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
 
 </div>
-ViewBag.GroupedTipsByBetCategories

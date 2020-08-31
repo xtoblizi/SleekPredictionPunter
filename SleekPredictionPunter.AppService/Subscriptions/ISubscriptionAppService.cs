@@ -12,7 +12,7 @@ namespace SleekPredictionPunter.AppService.Subscriptions
         Task<long> CreateSubscription(Subcription model);
         void Delete(Subcription subcription);
         Task<Subcription> GetPredicateRecord(Func<Subcription, bool> predicate);
-        Task<IEnumerable<Subcription>> GetAll(Func<Subcription, bool> predicate, int startIndex = 0 , int count = int.MinValue);
+        Task<IEnumerable<Subcription>> GetAll(Func<Subcription, bool> predicate, int startIndex = 0 , int count = int.MaxValue);
         // this man goto the implementation 
     }
 }

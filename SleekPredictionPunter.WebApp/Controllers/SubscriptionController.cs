@@ -179,7 +179,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                         LastAmountTransacted = 0,//for now, please, refer back here. call the wallet service and pull out the info from there. get the last item in/from the list of recent transactions..
                         DateTimeLastTransacted = DateTime.Now,//do same heere.
                     };
-                     _walletAppService.UpdateWalletDetails(walletModel);
+                     await _walletAppService.UpdateWalletDetails(walletModel);
 
                     if(getLogByRef != null && getSubscriberDetails!=null)
                     {

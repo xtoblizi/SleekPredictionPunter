@@ -57,70 +57,69 @@
 							<div class="single-form" id="first-step">
 
                                 <form class="form-inline" method="post">
+                                    @if (ViewData["userType"] != null && ViewData["userType"].ToString() == "2")
+                                    {
 
+
+                                        @if (ViewData["makeRefCodeHidden"] != null && ViewData["makeRefCodeHidden"].ToString() == "true")
+                                        {
+                                         <div class="form-group col-md-6 col-sm-12 col-lg-6 col-xl-6 justify-content-center">
+                                            <input asp-for="Input.ReferrerCode" value="@ViewData["refCode"]" readonly="readonly" type="text" required>
+                                         </div>
+                                               
+                                        }
+                                        else
+                                        {
+                                            <div class="form-group col-md-6 col-sm-12 col-lg-6 col-xl-6" id="referralCodeId"> 
+                                                <input asp-for="Input.ReferrerCode" type="text" id="referrercode" value="">
+                                                <label for="userName">Referral Code</label>
+                                            </div>
+                                        }
+                                            
+                                     }
                                     <input type="hidden" id="registrationType" name="registrationType" value="1" />
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <input asp-for="Input.FirstName" type="text" value="" id="firstName" required>
+                                        <input  asp-for="Input.FirstName" type="text" value="" id="firstName" required>
                                         <label for="firstName">First Name</label>
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <input asp-for="Input.LastName" type="text" value="" id="lastName" required>
+                                        <input  asp-for="Input.LastName" type="text" value="" id="lastName" required>
                                         <label for="lastName">Last Name</label>
                                     </div>
 
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <input asp-for="Input.Email" type="text" value="" id="email" required>
+                                        <input  asp-for="Input.Email" type="text" value="" id="email" required>
                                         <label for="email">Email Address</label>
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="country">Phone Number</label>
-                                        <input asp-for="Input.PhoneNumber" type="text" id="country">
+                                        <input required asp-for="Input.PhoneNumber" type="text" id="country">
                                         <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <input asp-for="Input.Password" type="password" id="password">
+                                        <input required asp-for="Input.Password" type="password" id="password">
                                         <label for="userName">Password</label>
                                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="paswordconfirm">Confirm Password</label>
-                                        <input asp-for="Input.ConfirmPassword" type="password" id="paswordconfirm">
+                                        <input required asp-for="Input.ConfirmPassword" type="password" id="paswordconfirm">
                                         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                                     </div>
 
-                                    <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                        <input type="date" asp-for="Input.DateOfBirth" id="dOb">
-                                        <label for="userName">Date Of Birth</label>
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <input required type="date" asp-for="Input.DateOfBirth" id="dOb">
+                                        <label for="dob">Date Of Birth</label>
                                         <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
                                     </div>
-                                    @if (ViewData["userType"] != null && ViewData["userType"].ToString() == "2")
-                                    {
-
-                                        <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 justify-content-center">
-                                            @if (ViewData["makeRefCodeHidden"] != null && ViewData["makeRefCodeHidden"].ToString() == "true")
-                                            {
-                                                <input asp-for="Input.ReferrerCode" value="@ViewData["refCode"]" readonly="readonly" type="text" id="referrercode" required>
-                                            }
-                                            else
-                                            {
-                                                <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 justify-content-center">
-                                                    <span><small>Do you have a referral code?</small></span>
-                                                    <input type="button" class="btn btn-sm btn-outline-info" onload="myFunction()" value="Yes" id="hideUnhide" onclick="myFunction()">
-                                                </div>
-                                                <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 justify-content-center" id="referralCodeId">
-                                                    <input asp-for="Input.ReferrerCode" type="text" id="referrercode" placeholder="Referer Code" value="" required>
-                                                    <label for="userName">Referral Code</label>
-                                                </div>
-                                            }
-                                        </div>
-                                    }
+                                    <br />
                                     <hr />
                                     <p>By clicking "Sign-up", you confirm that you have read and understood  and accept the Predictive Power  <a href="#">Privacy & Coockie Policy, as well as Terms and Aggreement.</a>.</p>
                                     <br />
                                     <div class="form-group">
                                         <button class="btn btn-outline-success">Sign-Up</button>
                                     </div>
-                                </form>
+                                    </form>
 							</div>
 						
 

@@ -97,41 +97,54 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 var useremail = await base.GetUserName();
                 Func<Subcription, bool> subFunc = (s => s.SubscriberUsername == useremail);
 
-                var subscriptions = await _subscriptionSerivce.GetAll(subFunc);
-                if(subscriptions != null)
+                IEnumerable<Subcription> subscriptions = await _subscriptionSerivce.GetAll(subFunc);
+                if(subscriptions.Any())
                 {
                     foreach (var item in subscriptions)
                     {
-                        paidPredicate += (x => x.PricingPlanId == item.PricingPlanId);
+                        paidPredicate += (x => x.PricingPlanId == item.PricingPlanId );
                     }
                 }
             }
-
-            if (paidPredicate != null)
-                ViewBag.PaidTips = await _predictionService.GetPredictions(paidPredicate, startIndex: 0, count: 50);
-
             if (geteFreePlan != null)
             {
                 Func<Prediction, bool> freePredicate = (p => p.PricingPlanId == geteFreePlan.Id);
-                
+
                 ViewBag.FreeTips = await _predictionService.GetPredictions(freePredicate, startIndex: 0, count: 5);
-               
+
             }
+            if (paidPredicate != null)
+            {
+                var paidTips = await _predictionService.GetPredictions(paidPredicate, startIndex: 0, count: 100);
+                Func<Prediction, DateTime> orderByFunc = (x => x.DateCreated);
+                var count = 100;
+                ViewBag.PaidTips = paidTips;
 
-            IEnumerable<IGrouping<long,Prediction>> groupedTipsByPredicationCategories = await _predictionService.ReturnRelationalData(paidPredicate, groupByPredicateCategory:true);
+                IEnumerable<IGrouping<long, Prediction>> groupedTipsByPredicationCategories = 
+                    await _predictionService.ReturnRelationalData(predicate:paidPredicate, orderByFunc: orderByFunc,
+                    groupByPredicateCategory: true,startIndex:0,count:count);
+                var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(predicate: paidPredicate,
+                    orderByFunc: orderByFunc,groupByMatchCategory: true,startIndex:0,count:count);
+                var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(predicate:paidPredicate,orderByFunc:orderByFunc,
+                    groupByCustomCategory: true,startIndex:0,count:100);
+                var groupTipsByBetCategory = await _predictionService.ReturnRelationalData(predicate:paidPredicate,orderByFunc:orderByFunc,
+                    groupByBetCategory: true,startIndex:0,count:count);
 
-            ViewBag.GrouppedPredictionCategoryList = groupedTipsByPredicationCategories;
-             
-            var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(paidPredicate, groupByMatchCategory:true);
 
-              var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(paidPredicate, groupByCustomCategory:true);
-            var groupTipsByBetCategory = await _predictionService.ReturnRelationalData(paidPredicate,groupByBetCategory: true);
+                ViewBag.GroupedTipsByCustomCategories = groupedTipsByCustomCategories;
+                ViewBag.GroupedTipsByMatchCategories = groupedTipsByMatchCategories;
+                ViewBag.GroupedTipsByPredicationCategories = groupedTipsByPredicationCategories;
+                ViewBag.GroupedTipsByBetCategories = groupTipsByBetCategory;
 
+            }
+            //foreach (var collectionGroup in groupTipsByBetCategory)
+            //{
+            //    foreach (var item in collectionGroup)
+            //    {
+            //        item
+            //    }
 
-            ViewBag.GroupedTipsByCustomCategories = groupedTipsByCustomCategories;
-            ViewBag.GroupedTipsByMatchCategories = groupedTipsByMatchCategories;
-            ViewBag.GroupedTipsByPredicationCategories = groupedTipsByPredicationCategories;
-            ViewBag.GroupedTipsByBetCategories = groupTipsByBetCategory;
+            //}
 
 
 
@@ -190,9 +203,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
             #region Validate 
             string errorMessage = string.Empty;
             var match = await _matchService.GetMatchById(prediction.MatchId);
-            if (match.TimeofMatch <= DateTime.Now.AddMinutes(1))
+            if (match.TimeofMatch <= DateTime.Now.AddMinutes(10))
             {
-                errorMessage = "The current time id cannot be greater than 1 iminutes to the time of the selected match";
+                errorMessage = "The current time cannot be greater than 10 iminutes to the time of the selected match";
             }
 
             if (!ModelState.IsValid)
@@ -202,6 +215,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
             Func<Prediction, bool> validateFunc = (p => p.BetCategoryId == prediction.BetCategoryId
              && p.MatchId == prediction.MatchId
+             && p.PricingPlanId == prediction.PricingPlanId
              && p.IsCorrectScore == false);
 
             var check = await _predictionService.GetFirstOrDefault(validateFunc);
@@ -228,9 +242,10 @@ namespace SleekPredictionPunter.WebApp.Controllers
             var getPredictor = await _predictorService.GetByUserName(User.Identity.Name);
             var pricingPlan = await _pricingPlanservice.GetById(prediction.PricingPlanId);
             var betCategory = await _betCategoryService.GetById(prediction.BetCategoryId);
-            var getcategory = await _categoryService.GetCategoryById(prediction.PredictionCategoryId);
+            var oddCategory = await _categoryService.GetCategoryById(prediction.PredictionCategoryId);
 
-            prediction.PredictionValue = prediction.PredictionValue;
+            prediction.PredictionCategoryName = oddCategory.CategoryName;
+            prediction.PredictionValue = !string.IsNullOrEmpty(prediction.PredictionValue)? prediction.PredictionValue : oddCategory.CategoryName;
             prediction.PredictorUserName = User.Identity.Name;
             prediction.TimeofFixture = match.TimeofMatch;
             prediction.BeCategory = betCategory.BetCategoryName;
@@ -296,7 +311,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
 
             #endregion
-            if (match.TimeofMatch < DateTime.Now && (match.ReturnStatus == MatchStatusEnum.Past || match.ReturnStatus == MatchStatusEnum.Playing))
+            if (match.TimeofMatch < DateTime.Now && (match.ReturnStatus == MatchStatusEnum.Past
+                || match.ReturnStatus == MatchStatusEnum.Playing))
             {
                 ViewData["TempMessage"] = "The Time of the match and the status conflict";
                 return View(match);
@@ -313,11 +329,13 @@ namespace SleekPredictionPunter.WebApp.Controllers
             if (ModelState.IsValid)
             {
                 var betcategory = await _betCategoryService.GetById(prediction.BetCategoryId);
-                var predictionCategory = await _categoryService.GetCategoryById(prediction.PredictionCategoryId);
+                var oddCategory = await _categoryService.GetCategoryById(prediction.PredictionCategoryId);
 
+                pred.PredictionCategoryName = oddCategory.CategoryName;
+                pred.PredictionValue = !string.IsNullOrEmpty(prediction.PredictionValue) ? prediction.PredictionValue : oddCategory.CategoryName;
                 pred.BeCategory = betcategory?.BetCategoryName;
                 pred.BetCategoryId = betcategory.Id;
-                pred.PredictionCategoryId = predictionCategory.Id;
+                pred.PredictionCategoryId = oddCategory.Id;
                 pred.PredictionResult = prediction.PredictionResult;
                 pred.ClubAScore = prediction.ClubAScore;
                 pred.ClubBScore = prediction.ClubBScore;

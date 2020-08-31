@@ -93,15 +93,38 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("ClubA,ClubALogoPath,ClubB,ClubBLogoPath,MatchCategory,MatchCategoryId," +
-        //    "CustomCategory,CustomCategoryId,TimeofMatch,MatchStatus,IsSetAsHotPreview,Id,DateCreated," +
-        //    "EntityStatus,DateUpdated")] Match match)   
+        [ValidateAntiForgeryToken] 
         public async Task<IActionResult> Create(Match match)
         {
+            var  twodaysago = match.TimeofMatch.AddDays(-2);
+            var now = DateTime.Now;
+
+            Func<Match, bool> wherefunc = (x => x.ClubAId == match.ClubAId
+             && x.ClubBId == match.ClubBId
+             && x.MatchCategoryId == match.MatchCategoryId
+             && x.TimeofMatch >= twodaysago);
+
+            var check = await _matchService.GetDefault(wherefunc);
+            var errorMessage = string.Empty;
+
+            if (check != null)
+                errorMessage = $"There is already a match with this combination of clubs being" +
+                    $"CLubA {check.ClubA.ToString()} vs CLubB {check.ClubB} Time : {check.TimeofMatch} in the below match league. \n \n"  +
+                    $"Note : The system does not allow creation of same matches in less than two days," +
+                    $" contact administrator if you think otherwise";
+
             if (!ModelState.IsValid)
+                errorMessage = "Please fill all details for the mactch creation form";
+
+            if (match.TimeofMatch.AddMinutes(-2) < now)
+                errorMessage = "This match time is to close to kickoff time. A validation" +
+                    " prevents creation of matches less than 2minutes to match kickoff time";
+
+
+            if (!string.IsNullOrEmpty(errorMessage))
             {
                 ViewBag.Predictions = "active";
+                ViewBag.TempMessage = errorMessage;
 
                 ViewBag.ClubAId = new SelectList(await _clubService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "ClubName");
                 ViewBag.ClubBId = new SelectList(await _clubService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "ClubName");

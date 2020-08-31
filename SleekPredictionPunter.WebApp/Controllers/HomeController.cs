@@ -71,11 +71,19 @@ namespace SleekPredictionPunter.WebApp.Controllers
 				ViewBag.FreeTips = await _predictionService.GetPredictionsOrdered(freePredicate, orderByDescFunc,startIndex: 0, count: 10);
 			}
 
-			var groupedTipsByPredicationCategories = await _predictionService.ReturnRelationalData(freePredicate, groupByPredicateCategory: true);
+			Func<Prediction, DateTime> orderByFunc = (x => x.DateCreated);
 
-			var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(freePredicate, groupByMatchCategory: true);
+			var groupedTipsByPredicationCategories = await _predictionService.ReturnRelationalData(predicate:freePredicate,
+				orderByFunc:orderByFunc,
+				groupByPredicateCategory: true);
 
-			var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(freePredicate, groupByCustomCategory: true);
+			var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(predicate: freePredicate,
+				orderByFunc:orderByFunc,
+				groupByMatchCategory: true);
+
+			var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(predicate:freePredicate,
+				orderByFunc:orderByFunc,
+				groupByCustomCategory: true);
 
 
 			ViewBag.GroupedTipsByCustomCategories = groupedTipsByCustomCategories;

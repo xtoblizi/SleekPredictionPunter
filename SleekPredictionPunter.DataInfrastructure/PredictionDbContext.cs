@@ -117,6 +117,8 @@ namespace SleekPredictionPunter.DataInfrastructure
 			{
 				entity.Property(p => p.MatchId)
 					.HasDefaultValue(0);
+				entity.Property(p => p.PredictionCategoryName)
+					.HasDefaultValue("Not Set");
 			});
 			builder.Entity<Match>(entity =>
 			{

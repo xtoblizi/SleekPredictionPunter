@@ -126,9 +126,9 @@
 
 
 <!-- Place Result Here-->
-<div class="right-area">
+@*<div class="right-area">
 	<partial name="_CustomResultPartial" />
-</div>
+</div>*@
 <!-- End of Result-->
 
 <!-- breadcrumb begin -->
@@ -215,9 +215,9 @@
 									</th>
 									<td class="date">@prediction.DateCreated</td>
 									<td class="team-name">
-										<img src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubALogoPath))" style="width:30px;height:30px" />
+										<img src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubALogoPath))" style="width:25px;height:23px" />
 										@prediction.ClubA <span class="versace">vs</span> @prediction.ClubB
-										<img src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubBLogoPath))" style="width:30px;height:30px" />
+										<img src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubBLogoPath))" style="width:25px;height:23px" />
 									</td>
 									<td class="score">@prediction.PredictionValue</td>
 									<td>
@@ -256,20 +256,20 @@
 					<div class="bett-menu">
 						<ul class="nav nav-tabs" id="myTab" role="tablist">
 
-							<li class="nav-item">
+							@*<li class="nav-item">
 								<a class="nav-link active" id="all-sports-tab" data-toggle="tab" href="#all-sports" role="tab" aria-controls="all-sports" aria-selected="true">
 									<i class="flaticon-medal"></i>
 									<span class="text">
 										All Fixtures
 									</span>
 								</a>
-							</li>
+							</li>*@
 							@if (ViewBag.MatchCategory != null)
 							{
 								@foreach (var item in ViewBag.MatchCategory as IEnumerable<MatchCategory>)
 								{
 									<li class="nav-item">
-										<a class="nav-link" id="@item.Id" data-toggle="tab" href="#@item.Id" role="tab" aria-controls="football" aria-selected="false">
+										<a class="nav-link" id="@item.Id-tab" data-toggle="tab" href="#@item.Id" role="tab" aria-controls="football" aria-selected="false">
 											<i class="flaticon-football"></i>
 											<span class="text">
 												@item.CategoryName
@@ -292,7 +292,7 @@
 				</div>
 				<div class="col-xl-10 col-lg-10">
 					<div class="tab-content bet-tab-content" id="myTabContent">
-						<div class="tab-pane fade show active" id="all-sports" role="tabpanel" aria-labelledby="all-sports-tab">
+						@*<div class="tab-pane fade show active" id="all-sports" role="tabpanel" aria-labelledby="all-sports-tab">
 							<div class="sport-content-title">
 								<h3>
 									All Sports
@@ -411,7 +411,7 @@
 								</div>
 								
 							</div>
-						</div>
+						</div>*@
 
 
 						@if (ViewBag.GroupedTipsByMatchCategories != null)
@@ -419,7 +419,7 @@
 							@foreach (var items in ViewBag.GroupedTipsByMatchCategories as IEnumerable<IGrouping<long,Prediction>>)
 							{
 
-								<div class="tab-pane fade show active" id="@items.Key" role="tabpanel" aria-labelledby="tennis-tab">
+								<div class="tab-pane fade show active" id="@items.Key" role="tabpanel" aria-labelledby="@items.Key-tab">
 									<div class="sport-content-title">
 										<h3>
 											Fixture(s)
@@ -434,24 +434,24 @@
 											{
 												<div class="single-sport-box">
 													<div class="part-icon">
-														<i class="flaticon-tennis-ball"></i>
+														<i class="flaticon-football"></i>
 													</div>
 													<div class="part-team">
 														<ul>
 															<li>
 																<span class="team-name">
-																	@prediction?.ClubA
+																	<strong>@prediction?.ClubA</strong>	
 																</span>
 																<span class="score-number">
-																	@prediction?.ClubAScore ?? Not Set
+																	<strong>@prediction?.ClubAScore </strong>	
 																</span>
 															</li>
 															<li>
 																<span class="team-name">
-																	@prediction?.ClubB
+																	<strong> @prediction?.ClubB</strong>
 																</span>
 																<span class="score-number">
-																	@prediction?.ClubBScore
+																	<strong>@prediction?.ClubBScore </strong>	
 																</span>
 															</li>
 														</ul>
@@ -461,15 +461,14 @@
 															<a href="#">
 																<span class="bet-price">@prediction?.ClubAOdd</span>
 																<span class="result-for-final">
-																	@prediction?.ClubA
+																	<strong>@prediction?.ClubA </strong> 
 																</span>
 															</a>
 														</div>
 														<div class="single-place-to-bet">
 															<a href="#">
-																<span class="bet-price">2.62</span>
-																<span class="result-for-final">
-																	@prediction?.ClubAScore - @prediction?.ClubBScore
+																<span class="bet-price" ><strong style="color:green; padding:5px">@prediction.PredictionValue</strong> </span>
+																<span class="result-for-final"> &nbsp;
 																</span>
 															</a>
 														</div>
@@ -477,13 +476,13 @@
 															<a href="#">
 																<span class="bet-price">@prediction?.ClubBOdd</span>
 																<span class="result-for-final">
-																	@prediction.ClubB
+																	<strong>@prediction.ClubB</strong> 
 																</span>
 															</a>
 														</div>
 													</div>
 													<div class="part-bnonus">
-														<span class="bonus-number">@prediction?.PredictionResult.ToString()</span>
+														<span class="bonus-number" style="font-size:smaller"> &nbsp; </span>
 													</div>
 												</div>
 											}
@@ -494,179 +493,7 @@
 								</div>
 							}
 						}
-						<div class="tab-pane fade" id="basketball" role="tabpanel" aria-labelledby="basketball-tab">
-							<div class="sport-content-title">
-								<h3>
-									basketball
-									<span class="sport-content-conter">[3]</span>
-								</h3>
-							</div>
-							<div class="sports-list">
-								<h4 class="title">League of europe</h4>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-basketball-ball-variant"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Kenny Schepper
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Quentin Robert
-												</span>
-												<span class="score-number">
-													6
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">3.25</span>
-												<span class="result-for-final">
-													Kenny Schepper
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.62</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.44</span>
-												<span class="result-for-final">
-													Quentin Robert
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-basketball-ball-variant"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Christian Langmo
-												</span>
-												<span class="score-number">
-													5
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Manuel Pena Lopez
-												</span>
-												<span class="score-number">
-													2
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">1.70</span>
-												<span class="result-for-final">
-													Christian Langmo
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.30</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.05</span>
-												<span class="result-for-final">
-													Manuel Pena Lopez
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-								<div class="single-sport-box">
-									<div class="part-icon">
-										<i class="flaticon-basketball-ball-variant"></i>
-									</div>
-									<div class="part-team">
-										<ul>
-											<li>
-												<span class="team-name">
-													Stade Bordelais
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-											<li>
-												<span class="team-name">
-													Nantes II
-												</span>
-												<span class="score-number">
-													3
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div class="part-match">
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">3.22</span>
-												<span class="result-for-final">
-													Stade Bordelais
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">4.00</span>
-												<span class="result-for-final">
-													draw
-												</span>
-											</a>
-										</div>
-										<div class="single-place-to-bet">
-											<a href="#">
-												<span class="bet-price">2.45</span>
-												<span class="result-for-final">
-													Nantes II
-												</span>
-											</a>
-										</div>
-									</div>
-									<div class="part-bnonus">
-										<span class="bonus-number">+336</span>
-									</div>
-								</div>
-							</div>
-						</div>
+						
 
 					</div>
 				</div>
