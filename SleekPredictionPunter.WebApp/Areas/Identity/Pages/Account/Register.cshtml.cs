@@ -17,10 +17,12 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using SleekPredictionPunter.AppService;
 using SleekPredictionPunter.AppService.Agents;
+using SleekPredictionPunter.AppService.Wallet;
 using SleekPredictionPunter.GeneralUtilsAndServices;
 using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.IdentityModels;
+using SleekPredictionPunter.Model.Wallets;
 
 namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 {
@@ -32,7 +34,9 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 		private readonly ILogger<RegisterModel> _logger;
 		private readonly IEmailSender _emailSender;
 		private readonly ISubscriberService _subscriberService;
+		private readonly IAgentRefereeMapService _agentRefereeMapService;
 		private readonly IAgentService _agentService;
+		private readonly IWalletAppService _walletAppService;
 		private readonly RoleManager<ApplicationRole> _roleManager;
 		const string userRole = "userRole";
 		public RegisterModel(
@@ -42,7 +46,9 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 			IAgentService agentService,
 			SignInManager<ApplicationUser> signInManager,
 			ILogger<RegisterModel> logger,
-			IEmailSender emailSender)
+			IEmailSender emailSender, 
+			IAgentRefereeMapService agentRefereeMapService,
+			IWalletAppService walletAppService)
 		{
 			_roleManager = roleManager;
             _userManager = userManager;
@@ -51,6 +57,8 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _agentService = agentService;
+			_agentRefereeMapService = agentRefereeMapService;
+			_walletAppService = walletAppService;
         }
 
 		[BindProperty]
@@ -132,7 +140,13 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 			{
 				int role = 0;
 				var userTypeConvert = int.TryParse(userType, out role);
-
+				//wallet model builder
+				var walletModel = new WalletModel
+				{
+					UserEmailAddress = Input.Email,
+					UserRole = RoleEnum.Subscriber,
+					Amount = 0.0m,
+				};
 				if (userTypeConvert)
 				{
 					returnUrl = returnUrl ?? Url.Content("~/");
@@ -173,6 +187,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 								// create entity based on role
 								if(role == (int)RoleEnum.Subscriber)
 								{
+									await _walletAppService.InsertNewAmount(walletModel);
 									await CreateSubscriber(user, Input.ReferrerCode);
 									ViewData["RegistrationStatusMessge"] = $"Welcome {user.FullName}, Your registration was succesuful, " +
 										$"Guess what you can start making wins off our powerful predictions right way." +
@@ -181,13 +196,15 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 								else 
 								{ 
 									var refCode = await CreateAgent(user);
-									var refLink = Url.Page("/Account/Register",pageHandler: null,
+									walletModel.UserRole = RoleEnum.Agent;
+									await _walletAppService.InsertNewAmount(walletModel);
+									var refLink = Url.Page("/Identity/Account/Register",pageHandler: null,
 									values: new { area = "Identity", registrationType = "1", userType = "2", refCode = refCode },
 									protocol: Request.Scheme);
 
 									ViewData["RegistrationStatusMessge"] = $"Agent Registration Successful. \n Your RefererCode is {refCode}." +
-										$" \n \n Preferably use your refererlink to start refeering users to Predictive Power and make money " +
-		  $"							\n \n Referer Link : {refLink}";
+										$" \n \n Preferably use your refererlink to start referring users to Predictive Power and make money " +
+									$" \n Referer Link : {refLink}";
 								}
 							}
 							else
@@ -229,7 +246,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 					{
 						HttpContext.Session.SetString(userRole, userType);
 						var redirectUrl = Url.Action("ThirdPartyLoginCallback", "ThirdPartyCallBack", new { returnUrl });
-
+						redirectUrl = redirectUrl.Remove(0, 9);
 						var prop = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
 						return new ChallengeResult("Google", prop);
 					}
@@ -266,7 +283,6 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
                 IsTenant = true,
                 Username = user.UserName,
                 RefererCode = refCode
-                
             };
 
             await _agentService.CreateAgent(agent);
@@ -291,7 +307,22 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 
 			};
 
-			await _subscriberService.Insert(subscriber);
+			var insert = await _subscriberService.Insert(subscriber);
+			if (insert > 0 && string.IsNullOrEmpty(refereerCode)) 
+			{
+				var getAgentByReferralCode = await _agentService.GetAgentsPredicate(x=>x.RefererCode==Input.ReferrerCode);
+				if(getAgentByReferralCode != null)
+                {
+					var subscriberToAgentMap = new AgentRefereeMap
+					{
+						RefereerCode = Input.ReferrerCode,
+						AgentUsername = getAgentByReferralCode.Username,
+						RefereeUsername = Input.Email,
+					};
+					await _agentRefereeMapService.Create(subscriberToAgentMap);
+					return true;
+				}
+			}
 			return true;
 		}
 		public async Task<IActionResult> ThirdPartySignUpCallback(string returnUrl = null)
@@ -300,14 +331,6 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 
 			ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-			//if(remoteError != null)
-   //         {
-			//	ModelState.AddModelError(string.Empty, $"An error just occurred while signingin with google. \n See issues: {remoteError}");
-			//	//write the exception out using a view bag
-			//	//ViewBag.Error = remoteError;
-			//	return Page();
-   //         }
 
 			var getRemoteInfo = await _signInManager.GetExternalLoginInfoAsync();
             if (ModelState.IsValid && getRemoteInfo != null)

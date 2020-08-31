@@ -7,10 +7,9 @@ namespace SleekPredictionPunter.AppService.Subscribers.Dtos
 {
     public class SubscriberDto : Person
 	{
-		private bool istenant = false;
-		public SubscriberDto()
-		{
-			IsTenant = false;
-		}
+		public string RefererCode { get; set; }
+
+		// Navigation properties
+
 	}
 }

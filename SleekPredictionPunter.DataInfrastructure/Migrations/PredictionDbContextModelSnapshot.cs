@@ -775,6 +775,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("PlanCommission")
+                        .HasColumnType("decimal(18, 2)");
+
                     b.Property<string>("PlanName")
                         .HasColumnType("nvarchar(max)");
 

@@ -1,13 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Query;
 using SleekPredictionPunter.DataInfrastructure;
-using SleekPredictionPunter.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.Repository.Base
@@ -146,10 +141,10 @@ namespace SleekPredictionPunter.Repository.Base
 			return _predictionDbContext.Set<T>();
 		}
 
-		public async Task<dynamic> ReturnIncldedResult<T1, T2>(IIncludableQueryable<T1, T2> includeablequery) where T1 : class where T2 : class
-        {
-			throw new NotImplementedException();
-        }
+		//public async Task<dynamic> ReturnIncldedResult<T1, T2>(IIncludableQueryable<T1, T2> includeablequery) where T1 : class where T2 : class
+  //      {
+		//	throw new NotImplementedException();
+  //      }
 
 		#endregion
 

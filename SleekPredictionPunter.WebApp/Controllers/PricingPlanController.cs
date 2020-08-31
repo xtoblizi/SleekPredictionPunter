@@ -112,7 +112,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
                     PlanName = model.PricingPlanModel.PlanName,
                     PlanType = model.PricingPlanModel.PlanType,
                     Duration = model.PricingPlanModel.Duration,
-                    Price = model.PricingPlanModel.Price
+                    Price = model.PricingPlanModel.Price,
+                    PlanCommission = model.PricingPlanModel.PlanCommission
                 };
                 var benefits = new List<BenefitOutlines>();
 
