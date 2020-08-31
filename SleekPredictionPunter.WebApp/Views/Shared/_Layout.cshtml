@@ -173,7 +173,7 @@
                                         <li class="nav-item">
                                             <a class="nav-link" href="../../pricingplan/index">Packages</a>
                                         </li>
-                                        @if (User.IsInRole("Subscriber"))
+                                        @if (SignInManager.IsSignedIn(User) || User.IsInRole("Subscriber") && Context.Session.GetString("userEmail") != null)
                                         {
                                             <li class="nav-item">
                                                 <a class="nav-link" href="../../usermanagement/index">Manage Profile</a>
@@ -188,7 +188,6 @@
                                                 <a class="nav-link" href="../../admin/index">Admin Dashboard</a>
                                             </li>
                                         }
-
                                     </ul>
 								</div>
 							</nav>

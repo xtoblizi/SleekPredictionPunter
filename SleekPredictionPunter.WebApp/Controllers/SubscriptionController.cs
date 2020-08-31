@@ -99,7 +99,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 //check if user is already subscribed to plan
                 var email = HttpContext.Session.GetString("userEmail");
                 Func<Subcription, bool> predicate = ((x => x.SubscriberUsername == email
-                && x.PricingPlanId == getPlanDetails.Id && x.DateCreated < DateTime.Now.AddMonths(1)));
+                && x.PricingPlanId == getPlanDetails.Id && x.DateCreated < DateTime.Now.AddMonths(-1)));
 
                 var getSubscribeddetails = await _subscriptionAppService.GetPredicateRecord(predicate);
                 Func<WalletModel, bool> predicatedWallet = (x => x.UserEmailAddress == email);

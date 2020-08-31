@@ -21,6 +21,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         {
             _userManagementAppService = userManagementAppService;
         }
+
         public async Task<IActionResult> Index()
         {
             var SessionEmail = HttpContext.Session.GetString("userEmail");
