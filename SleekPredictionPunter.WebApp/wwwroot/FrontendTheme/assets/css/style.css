@@ -15,7 +15,8 @@
 ===========================================*/
 @import url("https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i,900,900i&display=swap");
 .container {
-  max-width: 1200px; }
+  max-width: 1200px;
+}
 
 html {
   scroll-behavior: smooth; }
@@ -2584,7 +2585,7 @@ ul {
     background: url("../img/breadcrumb-bg-standing-red.jpg") center center no-repeat;
     background-size: cover; }
   .breadcrumb-bettix.register-page {
-    background: url("../img/breadcrumb-bg-register.jpg") center center no-repeat;
+    background: url("../img/breadcrumb-bg-register.png") center center no-repeat;
     background-size: cover; }
   .breadcrumb-bettix.error-page {
     background: url("../img/breadcrumb-bg-error.jpg") center 88% no-repeat;
