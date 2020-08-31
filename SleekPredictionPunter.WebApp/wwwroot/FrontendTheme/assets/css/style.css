@@ -2563,14 +2563,14 @@ ul {
 		background: url("../img/predictions-static_1920by786.png") bottom center no-repeat;
 		background-size: cover;
 	}
-  .breadcrumb-bettix.standing-page {
-    background: url("../img/breadcrumb-bg-standing.jpg") center bottom no-repeat;
-    background-size: cover; }
+    .breadcrumb-bettix.standing-page {
+        background: url("../img/breadcrumb-bg-login2.jpg") center bottom no-repeat;
+        background-size: cover;}
   .breadcrumb-bettix.promotion-page {
     background: url("../img/breadcrumb-bg-promotion.jpg") center center no-repeat;
     background-size: cover; }
   .breadcrumb-bettix.latest-result-page {
-    background: url("../img/breadcrumb-bg-latest-result.jpg") center 12% no-repeat;
+    background: url("../img/breadcrumb-bg-predictions.jpg") center 12% no-repeat;
     background-size: cover; }
   .breadcrumb-bettix.blog-page {
     background: url("../img/breadcrumb-bg-blog.jpg") center 15% no-repeat;
@@ -2581,7 +2581,7 @@ ul {
     .breadcrumb-bettix.betslip-page:after {
       opacity: .95; }
   .breadcrumb-bettix.contact-page {
-    background: url("../img/breadcrumb-bg-contact.jpg") center center no-repeat;
+    background: url("../img/breadcrumb-bg-standing-red.jpg") center center no-repeat;
     background-size: cover; }
   .breadcrumb-bettix.register-page {
     background: url("../img/breadcrumb-bg-register.jpg") center center no-repeat;

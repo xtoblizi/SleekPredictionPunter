@@ -163,22 +163,24 @@
 
 </style>
 
+
 <!-- breadcrumb begin -->
-<div class="breadcrumb-bettix register-page">
+<div class="breadcrumb-bettix betslip-page" style="background-color:black; background-image:none">
     <div class="container">
         <div class="row">
             <div class="col-xl-7 col-lg-7">
                 <div class="breadcrumb-content">
-                    <h3>Pricing Plans</h3>
-                    
+                    <h2>Pricing Plans</h2>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<br />
-<br />
-<br />
+
+<br/>
+<br/>
+<br/>
+
 @using (Html.BeginForm("MyWallet", "Wallet", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
