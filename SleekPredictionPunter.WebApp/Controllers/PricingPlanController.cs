@@ -77,6 +77,21 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        public async Task<ActionResult> EditQuestionGet(long id)
+        {
+            var getPlanQuestionById = await _pricingPlanAppService.GetQuestionById(id);
+            return PartialView(getPlanQuestionById);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditQuestion(PlanBenefitQuestionsModel model)
+        {
+            _pricingPlanAppService.UpdatePanQuestions(model);
+            TempData["TempMessage"] = $"Question successfully Updated";
+            return RedirectToAction(nameof(CreateNewQuestion));
+        }
         #endregion
 
         #region Pricing Plan region
@@ -175,6 +190,29 @@ namespace SleekPredictionPunter.WebApp.Controllers
             {
                 throw ex;
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditPlan(long id)
+        {
+            var getPlanQuestionById = await _pricingPlanAppService.GetPlanById(id);
+            return View(getPlanQuestionById);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditPlan(PricingPlanModel model)
+        {
+            _pricingPlanAppService.UpdatePricingPlan(model);
+            return RedirectToAction(nameof(CreateNewQuestion));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeletePricingPlan(long Id)
+        {
+             await _pricingPlanAppService.DeletePricingPlan(Id);
+
+            TempData["TempMessage"] = $"Pricing-Plan successfully deteted";
+            return RedirectToAction(nameof(ListofPlans));
         }
         #endregion
     }
