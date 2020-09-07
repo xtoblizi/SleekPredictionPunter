@@ -80,57 +80,61 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
+                        @if (Model.Any())
                         {
-                            //var getCluALogo = await _clubService.GetByName(item.ClubA);
-                            //var getCluBLogo = await _clubService.GetByName(item.ClubB);
-                            //                     var matchType = await _matchCategory.GetById(item.MatchCategoryId);
+                            foreach (var item in Model)
+                            {
+                                //var getCluALogo = await _clubService.GetByName(item.ClubA);
+                                //var getCluBLogo = await _clubService.GetByName(item.ClubB);
+                                //                     var matchType = await _matchCategory.GetById(item.MatchCategoryId);
 
-                            var bet = await _betcategory.GetById(item.BetCategoryId);
-                        <tr>
-                            <td>
-                                @(sn++)
-                            </td>
+                                var bet = await _betcategory.GetById(item.BetCategoryId);
+                                <tr>
+                                    <td>
+                                        @(sn++)
+                                    </td>
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ClubA)
-                            </td>
-                            <td>
-                                <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item.ClubALogoPath))" style="width:30px;height:30px" />
-                            </td>
-                            <td>
-                                VS
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ClubB)
-                            </td>
-                            <td>
-                                <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item?.ClubBLogoPath))" style="width:30px;height:30px" />
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.BeCategory)
-                            </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ClubA)
+                                    </td>
+                                    <td>
+                                        <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item.ClubALogoPath))" style="width:30px;height:30px" />
+                                    </td>
+                                    <td>
+                                        VS
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ClubB)
+                                    </td>
+                                    <td>
+                                        <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item?.ClubBLogoPath))" style="width:30px;height:30px" />
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.BeCategory)
+                                    </td>
 
-                            <td>
-                                @item?.MatchCategory
-                            </td>
+                                    <td>
+                                        @item?.MatchCategory
+                                    </td>
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TimeofFixture)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PredictionResult)
-                            </td>
-                            <td>
-                                @bet.BetCategoryName
-                            </td>
-                            <td>
-                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i class="fa fc-content"></i></a>
-                                @*<a asp-action="Edit" title="Update Result" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i title="Update Prediction Result" class="fa fa-pencil"></i></a>
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>*@
-                            </td>
-                        </tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TimeofFixture)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PredictionResult)
+                                    </td>
+                                    <td>
+                                        @bet.BetCategoryName
+                                    </td>
+                                    <td>
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i class="fa fc-content"></i></a>
+                                        @*<a asp-action="Edit" title="Update Result" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i title="Update Prediction Result" class="fa fa-pencil"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>*@
+                                    </td>
+                                </tr>
+                            }
                         }
+
                     </tbody>
                 </table>
             </div>
