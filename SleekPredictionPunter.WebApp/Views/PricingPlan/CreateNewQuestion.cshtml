@@ -5,62 +5,93 @@
     ViewData["Title"] = "CreateNewQuestion";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     int sn = 1;
+    var getModel = new PlanBenefitQuestionsModel();
 }
 
 <h2>Create Plan's Benefits</h2>
 
 <hr />
 <div class="row">
-	<div class="col-md-8">
-		@if (ViewBag.Message != null)
-		{
-			<p class="text-success" style="font-size:1.4em">@ViewBag.Message</p>
-		}
+    <div class="col-md-8">
+        @if (ViewBag.Message != null)
+        {
+            <p class="text-success" style="font-size:1.4em">@ViewBag.Message</p>
+        }
 
-		@if (TempData["TempMessage"] != null)
-		{
-			<p class="text-success" style="font-size:1.4em">@TempData["TempMessage"]</p>
-		}
+        @if (TempData["TempMessage"] != null)
+        {
+            <p class="text-success" style="font-size:1.4em">@TempData["TempMessage"]</p>
+        }
 
-		<form id="CreateNewQuestion" method="post">
-			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-			<div class="form-group">
-				<label asp-for="Question" class="control-label">Enter Plan's Benefit</label>
-				<textarea asp-for="Question" required class="form-control" rows="3" cols="5" autofocus placeholder="Example: Full Access or Extra month"></textarea>
-				<span asp-validation-for="Question" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<input type="submit" value="Submit" class="btn btn-primary" /> |
-				<a href="../../pricingplan/listofplans" class="link"> Proceed to Plan Creation</a>
-			</div>
-		</form>
+        <form id="CreateNewQuestion" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Question" class="control-label">Enter Plan's Benefit</label>
+                <textarea asp-for="Question" required class="form-control" rows="3" cols="5" autofocus placeholder="Example: Full Access or Extra month"></textarea>
+                <span asp-validation-for="Question" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" /> |
+                <a href="../../pricingplan/listofplans" class="link"> Proceed to Plan Creation</a>
+            </div>
+        </form>
 
-		<div class="table table-responsive" style="height:400px">
-			<table class="table table-hover table-striped table-bordered">
-				<thead>
-					<tr>
-						<th>S/N</th>
-						<th>Question</th>
-						<th>Date Created</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach (var item in ViewBag.Questions as IEnumerable<PlanBenefitQuestionsModel>)
-					{
-						<tr>
-							<td>@(sn++)</td>
-							<td>@item.Question</td>
-							<td> @item.DateTimeCreated</td>
-							<td><a asp-action="DeleteQuestion" asp-route-id="@item.QuestionId" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a></td>
-						</tr>
-					}
-				</tbody>
-			</table>
-		</div>
+        <div class="table table-responsive" style="height:400px">
+            <table class="table table-hover table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>Question</th>
+                        <th>Date Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Questions as IEnumerable<PlanBenefitQuestionsModel>)
+                    {
+                        <tr>
+                            <td>@(sn++)</td>
+                            <td>@item.Question</td>
+                            <td> @item.DateTimeCreated</td>
+                            <td>
+                                <a asp-action="DeleteQuestion" asp-route-id="@item.QuestionId" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
+                                <a href="/pricingplan/EditQuestionGet?id=@item.QuestionId" class="btn btn-success btn-xs"><i class="fa fa-eye "></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
 
-	</div>
-	 
+    </div>
+
 </div>
 
-
+@*@using (Html.BeginForm("EditPlan", "pricingplan", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Edit Question</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label asp-for="Question" class="control-label">Enter Plan's Benefit</label>
+                        <input type="text" value="@getModel.Question" />
+                        <textarea asp-for="Question" contenteditable="true"  required class="form-control" rows="3" cols="5" autofocus placeholder="Example: Full Access or Extra month"></textarea>
+                        <span asp-validation-for="Question" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}*@

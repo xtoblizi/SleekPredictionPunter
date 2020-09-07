@@ -168,7 +168,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
                     var getLogByRef = await _transactionLogAppService.GetPredicatedTransactionLog(x => x.ReferenceNumber == reference);
                     var walletModel = new WalletModel();
                     walletModel = new WalletModel
-                    {                       
+                    {                 
+                        Id = getWalletDetailsForThisSubscriber.Id,
                         UserEmailAddress = email,
                         UserRole = roleEnum,
                         Amount = confirmation.Data.Amount,
@@ -227,6 +228,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                                     
                                     var agentMainWalletModel = new WalletModel
                                     {
+                                        Id= getWalletDetailsForThisAgent.Id,
                                         UserEmailAddress = getAgentByRefCode.Email,
                                         UserRole = RoleEnum.Agent,
                                         Amount = confirmation.Data.Amount,

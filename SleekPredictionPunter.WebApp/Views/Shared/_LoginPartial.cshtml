@@ -35,7 +35,7 @@
 {
     <ul>
         <li>
-            <a id="manage" class="nav-link" style="color:white;" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @UserManager.GetUserName(User)</a>
+            <a style="color:white" class="nav-link" href="../../usermanagement/index">Hello, @UserManager.GetUserName(User)</a>
             @*<a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>*@
         </li>
         <li>
@@ -46,7 +46,7 @@
     </ul>
 }
 else
-{
+{ 
     <ul>
         <li>
             <a class="nav-link" style="color:white;" id="register"  asp-area="Identity" asp-route-userType="2"  asp-route-returnUrl="@ViewBag.Context"  asp-page="/Account/Register"><b>Register</b></a>
