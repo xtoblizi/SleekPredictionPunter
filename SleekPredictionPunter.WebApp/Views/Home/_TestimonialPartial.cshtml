@@ -2,13 +2,24 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
+    <style>
+        @@media only screen and (max-width: 600px) {
+            .testimonial-link {
+                visibility: visible;
+            }
+            .bet-btn bet-btn-base{
+                visibility:visible
+            }
+        }
+    </style>
+
 <!-- testimonial begin -->
 <div class="testimonial" id="testimonial">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-7 col-lg-7">
                 <div class="section-title">
-                    <h2>Feedback to PerediOn</h2>
+                    <h3> REFER 20 PEOPLE TO JOIN OUR VIP AND EARN 5OK.</h3>
                     <!-- <p>PerediOn shows real time odds for betting with the higher stakes you can get. We place your bets in various bMakers to do highest liquidity</p> -->
                 </div>
             </div>
@@ -17,6 +28,25 @@
             <div class="col-xl-8 col-lg-8">
                 <div class="testimonial-slider owl-carousel owl-theme">
                     <div class="single-testimonial">
+                        @*<div class="part-img">
+                            <img src="assets/img/testi-user-1.jpg" alt="AGENT">
+                        </div>*@
+                        <div class="part-text">
+                            <span class="icon-for-quot">&#8358;</span>
+                            <p> You can earn as much as 50k with added privileges </p>
+                            @*<span class="position">
+                                Player
+                            </span>
+                            <span class="user-name">
+                                Illustino Calibia
+                            </span>*@
+                        <span id="testimonial-link">
+                            <a class="bet-btn bet-btn-base" asp-page="/Account/Register" asp-area="Identity" asp-route-userType="4">Register as an agent to know more</a>
+                        </span>
+                        </div>
+
+                    </div>
+                    @*<div class="single-testimonial">
                         <div class="part-img">
                             <img src="assets/img/testi-user-1.jpg" alt="">
                         </div>
@@ -45,22 +75,7 @@
                                 Illustino Calibia
                             </span>
                         </div>
-                    </div>
-                    <div class="single-testimonial">
-                        <div class="part-img">
-                            <img src="assets/img/testi-user-1.jpg" alt="">
-                        </div>
-                        <div class="part-text">
-                            <i class="icon-for-quot fas fa-quote-left"></i>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint nesciunt dignissimos laborum praesentium illo dolorem, fuga commodi? Laudantium totam porro quod nihil eius!</p>
-                            <span class="position">
-                                Player
-                            </span>
-                            <span class="user-name">
-                                Illustino Calibia
-                            </span>
-                        </div>
-                    </div>
+                    </div>*@
                 </div>
             </div>
         </div>

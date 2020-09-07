@@ -1,29 +1,24 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SleekPredictionPunter.AppService.BetCategories;
 using SleekPredictionPunter.AppService.Clubs;
 using SleekPredictionPunter.AppService.CustomCategory;
 using SleekPredictionPunter.AppService.MatchCategories;
+using SleekPredictionPunter.AppService.Matches;
 using SleekPredictionPunter.AppService.Packages;
 using SleekPredictionPunter.AppService.Plans;
 using SleekPredictionPunter.AppService.PredictionAppService;
-using SleekPredictionPunter.AppService.PredictionAppService.Dtos;
 using SleekPredictionPunter.AppService.PredictionCategoryService;
 using SleekPredictionPunter.AppService.Predictors;
-using SleekPredictionPunter.DataInfrastructure;
+using SleekPredictionPunter.AppService.Subscriptions;
+using SleekPredictionPunter.GeneralUtilsAndServices;
 using SleekPredictionPunter.Model;
+using SleekPredictionPunter.Model.Enums;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using SleekPredictionPunter.AppService.Subscriptions;
-using SleekPredictionPunter.AppService.Matches;
-using SleekPredictionPunter.AppService.BetCategories;
-using SleekPredictionPunter.GeneralUtilsAndServices;
-using SleekPredictionPunter.Model.Matches;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
@@ -68,10 +63,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
         }
 
         // GET: Predictions
-		/// <summary>
-		/// This is the admin view page for predictions
-		/// </summary>
-		/// <returns></returns>
+        /// <summary>
+        /// This is the admin view page for predictions
+        /// </summary>
+        /// <returns></returns>
+        //[Authorize(Roles = "Super Admin")]
         public async Task<IActionResult> Index()
         {
             ViewBag.Predictions = "active";
@@ -161,6 +157,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         }
 
         // GET: Predictions/Details/5
+        //[Authorize(Roles = nameof(RoleEnum.SuperAdmin))]
         public async Task<IActionResult> Details(long? id)
         {
             ViewBag.Predictions = "active";
@@ -179,6 +176,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         }
 
         // GET: Predictions/Create
+        //[Authorize(Roles = nameof(RoleEnum.SuperAdmin))]
         public async Task<IActionResult> Create()
         {
             ViewBag.Predictions = "active";
@@ -195,6 +193,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
         // POST: Predictions/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -259,6 +258,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             prediction.ClubB = match.ClubB;
             prediction.ClubALogoPath = match.ClubALogoPath;
             prediction.ClubBLogoPath = match.ClubBLogoPath;
+            prediction.PricingPlanName = pricingPlan.PlanName;
 
 
             if (ModelState.IsValid)
@@ -270,6 +270,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             return View(prediction);
         }
         [HttpGet]
+        //[Authorize(Roles = nameof(RoleEnum.SuperAdmin))]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -282,14 +283,15 @@ namespace SleekPredictionPunter.WebApp.Controllers
             {
                 return NotFound();
             }
-            var rolesEnumList = EnumHelper.GetEnumResults<MatchStatusEnum>();
+            var rolesEnumList = EnumHelper.GetEnumResults<PredictionResultEnum>();
             ViewBag.MatchStatus = new SelectList(rolesEnumList, "Id", "Name", (int)prediction.PredictionResult);
+            ViewBag.MatchId = new SelectList(await _matchService.GetMatches(null, (x => x.DateCreated), 0, 100), "Id", "GetTeamAvsTeamB", prediction.MatchId);
             // sport category
-            ViewBag.CustomCategoryId = new SelectList(await _customCategoryService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "CategoryName", prediction.CustomCategoryId);
-            ViewBag.MatchCategoryId = new SelectList(await _matchCategoryService.GetAllQueryable(null,(x=>x.DateCreated),0,100), "Id", "CategoryName", prediction.MatchCategoryId);
-            ViewBag.PredictionCategoryId = new SelectList(await _categoryService.GetCategories(null, (x => x.DateCreated), 0, 100), "Id", "CategoryName", prediction.PredictionCategoryId);
+            ViewBag.CustomCategoryId = new SelectList(await _customCategoryService.GetAllQueryable(null, (x => x.DateCreated), 0, 50), "Id", "CategoryName", prediction.CustomCategoryId);
+            ViewBag.MatchCategoryId = new SelectList(await _matchCategoryService.GetAllQueryable(null,(x=>x.DateCreated),0,50), "Id", "CategoryName", prediction.MatchCategoryId);
+            ViewBag.PredictionCategoryId = new SelectList(await _categoryService.GetCategories(null, (x => x.DateCreated), 0, 50), "Id", "CategoryName", prediction.PredictionCategoryId);
             ViewBag.PricingPlanId = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "PlanName", prediction.PricingPlanId);
-            ViewBag.BetCategoryId = new SelectList(await _betCategoryService.GetAllQueryable(), "BetCategoryName", "Id", prediction.BetCategoryId);
+            ViewBag.BetCategoryId = new SelectList(await _betCategoryService.GetAllQueryable(), "Id", "BetCategoryName", prediction.BetCategoryId);
            
             return View(prediction);
         }
@@ -307,23 +309,25 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 return NotFound();
             }
 
+            if (match == null)
+                ViewData["TempMessage"] = "The Match has been removed or deleted and cannot be found";
+
             #region Validation 
 
+            //if ((DateTime.Now < match.TimeofMatch.AddMinutes(100)) && (prediction.PredictionResult ==
+            //   PredictionResultEnum.PredictionWon || prediction.PredictionResult == PredictionResultEnum.PredictionLost))
+            //{
+            //    ViewData["TempMessage"] = "You can not update a match prediction before its calculated play time being 90minutes plus";
+
+            //}
+
+            //if (ViewData["TempMessage"] != null)
+            //{
+            //    ViewData["TempMessage"] = "The Time of the match and the status conflict";
+            //    return View(match);
+            //}
 
             #endregion
-            if (match.TimeofMatch < DateTime.Now && (match.ReturnStatus == MatchStatusEnum.Past
-                || match.ReturnStatus == MatchStatusEnum.Playing))
-            {
-                ViewData["TempMessage"] = "The Time of the match and the status conflict";
-                return View(match);
-            }
-
-            if (match.TimeofMatch < DateTime.Now.AddMinutes(-20))
-            {
-                ViewData["TempMessage"] = "You can not update a match prediction 20minutes before its kick-off-time";
-                return View(match);
-            }
-
             var pred = await _predictionService.GetById(id);
 
             if (ModelState.IsValid)
@@ -341,21 +345,42 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 pred.ClubBScore = prediction.ClubBScore;
 
                 await _predictionService.Update(pred);
-                TempData["TempMessage"] = "Successfully Update the Prediction Details/Result";
+
+				#region Update Match As Well
+
+                if(pred.PredictionResult == PredictionResultEnum.PredictionLost
+                    || pred.PredictionResult == PredictionResultEnum.PredictionLost)
+                {
+                    match.MatchStatus = Model.Matches.MatchStatusEnum.Past;
+                }else if(pred.PredictionResult == PredictionResultEnum.MatchCancelled)
+                {
+                    match.MatchStatus = Model.Matches.MatchStatusEnum.Cancelled;
+                }else if (pred.PredictionResult == PredictionResultEnum.MatchPostponed)
+                {
+                    match.MatchStatus = Model.Matches.MatchStatusEnum.Postponed;
+                }
+                else { }
+
+                await _matchService.Update(match);               
+
+				#endregion
+
+				TempData["TempMessage"] = "Successfully Update the Prediction Details/Result";
                 return RedirectToAction(nameof(Index));
             }
             
-            var matchstatusList = EnumHelper.GetEnumResults<MatchStatusEnum>();
+            var matchstatusList = EnumHelper.GetEnumResults<PredictionResultEnum>();
             ViewBag.MatchStatus = new SelectList(matchstatusList, "Id", "Name", (int)pred.PredictionResult);
-
-            ViewBag.CustomCategoryId = new SelectList(await _customCategoryService.GetAllQueryable(), "Id", "Id", prediction.CustomCategoryId);
-            ViewBag.MatchCategoryId = new SelectList(await _matchCategoryService.GetAllQueryable(), "Id", "Id", prediction.MatchCategoryId);
-            ViewBag.PredictionCategoryId = new SelectList(await _categoryService.GetCategories(), "Id", "Id", prediction.PredictionCategoryId);
+            ViewBag.MatchId = new SelectList(await _matchService.GetMatches(null, (x => x.DateCreated), 0, 50), "Id", "GetTeamAvsTeamB", prediction.MatchId);
+            ViewBag.CustomCategoryId = new SelectList(await _customCategoryService.GetAllQueryable(null, (x => x.DateCreated), 0, 50), "Id", "Id", prediction.CustomCategoryId);
+            ViewBag.MatchCategoryId = new SelectList(await _matchCategoryService.GetAllQueryable(null, (x => x.DateCreated), 0, 50), "Id", "Id", prediction.MatchCategoryId);
+            ViewBag.PredictionCategoryId = new SelectList(await _categoryService.GetCategories(null, (x => x.DateCreated), 0, 50), "Id", "Id", prediction.PredictionCategoryId);
             ViewBag.PricingPlanId = new SelectList(await _pricingPlanservice.GetAllPlans(), "Id", "Id", prediction.PricingPlanId);
             return View(prediction);
         }
 
         // GET: Predictions/Delete/5
+
         public async Task<IActionResult> Delete(long? id)
         {
             ViewBag.Predictions = "active";
@@ -394,6 +419,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             ViewBag.PredictionResults = "active";
             var username = User.Identity.Name;
             var getAllPrediction = await _predictionService.PredictionResult(username: username);
+
             return View(getAllPrediction);
         }
     }

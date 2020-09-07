@@ -44,23 +44,23 @@ namespace SleekPredictionPunter.WebApp
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 			});
 
-			services.AddAuthentication(options =>
-			{
-				options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-				options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-				options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-			}).AddCookie(options =>
-			{
-				options.LoginPath = "/identity/auth/login";
-				options.AccessDeniedPath = "";
-				options.ExpireTimeSpan = TimeSpan.FromMinutes(10500);
-			});
+			//services.AddAuthentication(options =>
+			//{
+			//	options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+			//	options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+			//	options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+			//}).AddCookie(options =>
+			//{
+			//	options.LoginPath = "/identity/account/login";
+			//	options.AccessDeniedPath = "";
+			//	options.ExpireTimeSpan = TimeSpan.FromMinutes(10500);
+			//});
 			services.AddSession(x => { x.IdleTimeout = TimeSpan.FromHours(24); });
 
 			services.AddUserIdentityServices();
 			services.AddPredictionApplicationServices();
 			services.AddRazorPages();
-
+		
 			services.AddAuthentication()
 				.AddGoogle(opt =>
 				{

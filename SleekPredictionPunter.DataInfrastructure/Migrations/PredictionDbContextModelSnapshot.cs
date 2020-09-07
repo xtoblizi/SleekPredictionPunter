@@ -357,6 +357,51 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.ToTable("SportLeagueCategory");
                 });
 
+            modelBuilder.Entity("SleekPredictionPunter.Model.HomeDataModels.WinningPlanPreviewSummary", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AdvertActionMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Paragraph1Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Paragraph2Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Paragraph3Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PlanName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PricingPlanId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RatingValue")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("SetforHomePreview")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WinningPlanPreviewSummary");
+                });
+
             modelBuilder.Entity("SleekPredictionPunter.Model.IdentityModels.ApplicationRole", b =>
                 {
                     b.Property<string>("Id")

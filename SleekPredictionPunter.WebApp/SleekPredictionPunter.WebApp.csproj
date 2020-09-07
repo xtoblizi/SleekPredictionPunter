@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="publish\**" />
+    <Content Remove="publish\**" />
+    <EmbeddedResource Remove="publish\**" />
+    <None Remove="publish\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.0.0" />
@@ -24,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="publish\" />
     <Folder Include="wwwroot\ClubLogo\" />
     <Folder Include="wwwroot\TeamLogo\" />
   </ItemGroup>

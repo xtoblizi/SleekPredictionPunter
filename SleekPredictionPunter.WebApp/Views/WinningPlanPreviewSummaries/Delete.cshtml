@@ -1,0 +1,82 @@
+﻿@model SleekPredictionPunter.Model.HomeDataModels.WinningPlanPreviewSummary
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>WinningPlanPreviewSummary</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PlanName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PlanName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Paragraph1Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Paragraph1Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Paragraph2Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Paragraph2Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Paragraph3Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Paragraph3Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RatingValue)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RatingValue)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdvertActionMessage)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdvertActionMessage)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PricingPlanId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PricingPlanId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EntityStatus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EntityStatus)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateUpdated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateUpdated)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

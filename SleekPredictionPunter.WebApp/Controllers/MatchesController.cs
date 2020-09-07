@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SleekPredictionPunter.AppService.Clubs;
 using SleekPredictionPunter.AppService.CustomCategory;
@@ -11,6 +12,7 @@ using SleekPredictionPunter.AppService.PredictionCategoryService;
 using SleekPredictionPunter.AppService.Predictors;
 using SleekPredictionPunter.AppService.Subscriptions;
 using SleekPredictionPunter.GeneralUtilsAndServices;
+using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.Matches;
 using System;
 using System.Threading.Tasks;
@@ -93,7 +95,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken] 
+        [ValidateAntiForgeryToken]
+        //[Authorize(Roles = nameof(RoleEnum.SuperAdmin))]
         public async Task<IActionResult> Create(Match match)
         {
             var  twodaysago = match.TimeofMatch.AddDays(-2);
@@ -152,6 +155,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         }
 
         // GET: Matches/Edit/5
+        //[Authorize(Roles = nameof(RoleEnum.SuperAdmin))]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -272,6 +276,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         //}
 
         // GET: Matches/Delete/5
+        
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
