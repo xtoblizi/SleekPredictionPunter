@@ -202,31 +202,39 @@
 								<th></th>
 							</tr>
 						</thead>
+                        @if (Model.Any()) { 
 						@foreach (var item in Model)
 						{
 							<tbody>
-								<tr>
-									<td>@item.PlanName </td>
-									<td>@item.Price</td>
-									<td>@item.PlanCommission</td>
-									<td>@item.Duration Month(s)</td>
-									<td>@item.DateCreated.ToString()</td>
-									@if (item.EntityStatus == EntityStatusEnum.Active)
-									{
-										<td><span class="label label-success label-mini">Active</span></td>
-									}
-									else
-									{
-										<td><span class="label label-warning label-mini">In-Active</span></td>
-									}
-									<td>
-										<button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-										<button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-										<button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-									</td>
-								</tr>
+                                <tr>
+                                    <td>@item.PlanName </td>
+                                    <td>@item.Price</td>
+                                    <td>@item.PlanCommission</td>
+                                    <td>@item.Duration Month(s)</td>
+                                    <td>@item.DateCreated.ToString()</td>
+                                    @if (item.EntityStatus == EntityStatusEnum.Active)
+                                    {
+                                        <td><span class="label label-success label-mini">Active</span></td>
+                                    }
+                                    else
+                                    {
+                                        <td><span class="label label-warning label-mini">In-Active</span></td>
+                                    }
+                                    <td>
+                                        @*<button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>*@
+                                        @*<button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>*@
+                                        @*<button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>*@
+                                        <a href="/pricingplan/editplan?id=@item.Id" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                        <a href="/pricingplan/deletepricingplan?id=@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
+                                    </td>
+                                </tr>
 							</tbody>
 						}
+                        }
+                        else
+                        {
+                            <p style="text-align:center">No records found</p>
+                        }
 					</table>
 				</div>
 

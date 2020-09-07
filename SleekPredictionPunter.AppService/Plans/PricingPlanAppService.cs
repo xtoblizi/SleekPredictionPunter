@@ -42,6 +42,11 @@ namespace SleekPredictionPunter.AppService.Plans
             }
         }
 
+        public async void UpdatePanQuestions(PlanBenefitQuestionsModel model)
+        {
+              await _baseRepository.Update(model, true);
+        }
+
         public async Task<PlanBenefitQuestionsModel> GetQuestionById(long id)
         {
             var result = await _baseRepository.GetById(id);
@@ -96,6 +101,17 @@ namespace SleekPredictionPunter.AppService.Plans
                 return insert;
             }
             return null;
+        }
+        public async void UpdatePricingPlan(PricingPlanModel model)
+        {
+            try
+            {
+                await _planBaseRepository.Update(model);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<IEnumerable<PricingPlanModel>> GetAllPlans()
