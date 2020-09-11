@@ -38,6 +38,8 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Status</th>
+                <td>Action
+                </td>
             </tr>
         </thead>
         <tbody>
@@ -48,6 +50,7 @@
                 <td>@item.CategoryName</td>
                 <td>@item.Description</td>
                 <td>@item.EntityStatus</td>
+                <td><a asp-action="DeleteDynamic" asp-route-id="@item.Id" asp-route-categoryEnum="@CategoriesType.SportCategory" asp-route-viewToReturnTo="CreateCustomCategory" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a></td>
             </tr>
             }
         </tbody>

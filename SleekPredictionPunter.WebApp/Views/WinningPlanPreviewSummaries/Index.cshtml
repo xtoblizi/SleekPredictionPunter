@@ -1,0 +1,106 @@
+﻿@model IEnumerable<SleekPredictionPunter.Model.HomeDataModels.WinningPlanPreviewSummary>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var sn = 1;
+}
+
+<section class="container-fluid" style="padding:10px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-panel">
+                <h2 class="title"> Package Result </h2>
+                @if (ViewBag.Info != null)
+                {
+                    <h3 class="text-info">
+                        @ViewBag.Info
+                    </h3>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid" style="padding:5px;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="content-panel" style="padding:5px">
+                <div class="row" style="margin-top:20px">
+                    @if (ViewBag.HasValue == false)
+                    {
+                        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6">
+                            &nbsp; &nbsp; &nbsp;	<a asp-action="Create" class="btn btn-primary">Set a Package </a>
+                        </div>
+                    }
+                </div>
+                <br />
+                <div class="table-responsive">
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    S/N
+                                </th>
+                                <th>
+                                    Plan Name
+                                </th>
+                                <th>
+                                   Paragraph1 Description
+                                </th>
+                                <th>
+                                    Paragraph2 Description
+                                </th>
+                                <th>
+                                    Paragraph3 Description
+                                </th>
+                                <th>
+                                    Rating
+                                </th>
+                                <th>
+                                    Advert Action Message
+                                </th>                             
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @sn++
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PlanName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Paragraph1Description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Paragraph2Description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Paragraph3Description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RatingValue)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AdvertActionMessage)
+                                    </td>
+                                    <td>
+                                      
+                                        <a asp-action="Edit" title="Update Package to Preview" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+               
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -26,6 +26,6 @@ namespace SleekPredictionPunter.AppService.PredictionAppService
             int startIndex = 0, int count = int.MaxValue);
         Task Update(Prediction prediction);
 		Task<Prediction> GetFirstOrDefault(Func<Prediction, bool> whereFunc);
-        Task<IEnumerable<Prediction>> PredictionResult(string username);
+        Task<IEnumerable<Prediction>> PredictionResult(string username, int startindex = 0, int count = int.MaxValue);
 	}
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +13,10 @@ using SleekPredictionPunter.AppService.Wallet;
 using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.IdentityModels;
-using SleekPredictionPunter.Model.PricingPlan;
 using SleekPredictionPunter.Model.TransactionLogs;
 using SleekPredictionPunter.Model.Wallets;
+using System;
+using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
@@ -57,24 +54,21 @@ namespace SleekPredictionPunter.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = nameof(RoleEnum.Subscriber))]
         public async Task<IActionResult> SubscribeToPlan(long id)
         {
             try
             {
                 var procesingMessage = string.Empty;
                 /*Check if user session exist. if exist, continue else, redirect to login and return back to same page after login is successful.*/
-                if (string.IsNullOrEmpty(HttpContext.Session.GetString("userEmail")))
-                {
-                    var returnUrl = "/subscription/SubscribeToPlan?id="+id;
-                    return Redirect("/Identity/Account/Login?returnUrl=" +returnUrl);
-                }
+                //if (string.IsNullOrEmpty(HttpContext.Session.GetString("userEmail")))
+                //{
+                //    var returnUrl = "/subscription/SubscribeToPlan?id="+id;
+                //    return Redirect("/Identity/Account/Login?returnUrl=" +returnUrl);
+                //}
 
                 var userRole = HttpContext.Session.GetString("userRole");
-                RoleEnum roleEnum = userRole == ((int)RoleEnum.Agent).ToString() ? RoleEnum.Agent
-                                                : userRole == ((int)RoleEnum.Subscriber).ToString() ? RoleEnum.Subscriber
-                                                : userRole == ((int)RoleEnum.Predictor).ToString() ? RoleEnum.Predictor
-                                                : userRole == ((int)RoleEnum.SuperAdmin).ToString() ? RoleEnum.SuperAdmin
-                                                : RoleEnum.Subscriber;
+                RoleEnum roleEnum = RoleEnum.Subscriber;
 
                 if (roleEnum != RoleEnum.Subscriber)
                 {
@@ -96,16 +90,17 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 //get plan details here..
                 var getPlanDetails = await _pricingPlanAppService.GetById(id);
                  HttpContext.Session.SetString(AgentCommission,Convert.ToString(getPlanDetails.PlanCommission));
+              
                 //check if user is already subscribed to plan
-                var email = HttpContext.Session.GetString("userEmail");
+                var email = User.Identity.Name;
                 Func<Subcription, bool> predicate = ((x => x.SubscriberUsername == email
-                && x.PricingPlanId == getPlanDetails.Id && x.DateCreated < DateTime.Now.AddMonths(1)));
+                && x.PricingPlanId == getPlanDetails.Id && x.ExpirationDateTime > DateTime.Now));
 
                 var getSubscribeddetails = await _subscriptionAppService.GetPredicateRecord(predicate);
                 Func<WalletModel, bool> predicatedWallet = (x => x.UserEmailAddress == email);
                 var checkUserBalance = await _walletAppService.GetAllWalletD(predicatedWallet);
                 
-                if (getSubscribeddetails == null || getSubscribeddetails.ExpirationDateTime < DateTime.Now)
+                if (getSubscribeddetails == null )
                 {
                     var transLog = new TransactionLogModel
                     {
@@ -120,18 +115,20 @@ namespace SleekPredictionPunter.WebApp.Controllers
                         var insert = await _transactionLogAppService.InsertNewLog(transLog);
                         if (insert != null)
                         {
-                            var checkTotal = getPlanDetails.Price + getPlanDetails.PlanCommission;
-                            if(checkUserBalance.Amount > 0 && checkUserBalance.Amount < checkTotal)
-                            {
-                                //debit user from here and move on...
-                                ViewBag.Message = "This transaction was successful..";
-                                return RedirectToAction("index","home");
-                            }
-                            else
-                            {
-                                //Todo: subscriber/plan map then insert into db
-                                return Redirect(paymentservice.Item1.Data.AuthorizationUrl);
-                            }
+                            return Redirect(paymentservice.Item1.Data.AuthorizationUrl);
+
+                            //var checkTotal = getPlanDetails.Price;
+                            //if(checkUserBalance.Amount > 0 && checkUserBalance.Amount < checkTotal)
+                            //{
+                            //    //debit user from here and move on...
+                            //    ViewBag.Message = "This transaction was successful..";
+                            //    return RedirectToAction("index","home");
+                            //}
+                            //else
+                            //{
+                            //    //Todo: subscriber/plan map then insert into db
+                            //    return Redirect(paymentservice.Item1.Data.AuthorizationUrl);
+                            //}
                         } 
                     }
 				}

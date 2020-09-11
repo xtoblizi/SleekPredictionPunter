@@ -59,6 +59,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
         // GET: Packages/Create
 		[Authorize]
+        [Authorize(Roles = nameof(RoleEnum.SuperAdmin))]
         public async Task<IActionResult> Create()
         {
             return View();

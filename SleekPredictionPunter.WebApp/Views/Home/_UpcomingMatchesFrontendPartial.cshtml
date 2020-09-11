@@ -17,6 +17,9 @@
 
 }
 
+
+
+
 <!-- upcoming match begin -->
 <div class="upcoming-match" id="upcoming_match">
     <div class="container">
@@ -33,123 +36,123 @@
         <div class="row">
             @if (topMatch != null)
             {
-                <div class="col-xl-6 col-lg-6">
-                    <div class="single-match">
-                        <div class="part-head">
-                            <h5 class="match-title"> @topMatch?.MatchCategory</h5>
-                            <span class="match-venue">Clash of Titans</span>
+            <div class="col-xl-6 col-lg-6">
+                <div class="single-match">
+                    <div class="part-head" style="background-color:black; background:none">
+                        <h5 class="match-title"> @topMatch?.MatchCategory</h5>
+                        <span class="match-venue">Clash of Titans</span>
+                    </div>
+                    <div class="part-team">
+                        <div class="single-team">
+                            <div class="logo">
+                                <img src="~/TeamLogo/@(System.IO.Path.GetFileName(topMatch?.ClubALogoPath))" alt="@topMatch?.ClubA">
+                            </div>
+                            <span class="team-name">@topMatch?.ClubA</span>
                         </div>
-                        <div class="part-team">
-                            <div class="single-team">
-                                <div class="logo">
-                                    <img src="~/TeamLogo/@(System.IO.Path.GetFileName(topMatch?.ClubALogoPath))" style="width:30px;height:30px" alt="@topMatch?.ClubA">
-                                </div>
-                                <span class="team-name">@topMatch?.ClubA</span>
+                        <div class="match-details">
+                            <div class="match-time">
+                                <span class="date">@topMatch?.TimeofMatch.Date</span>
+                                <span class="time">@topMatch?.TimeofMatch.TimeOfDay</span>
                             </div>
-                            <div class="match-details">
-                                <div class="match-time">
-                                    <span class="date">@topMatch?.TimeofMatch.Date</span>
-                                    <span class="time">@topMatch?.TimeofMatch.TimeOfDay</span>
-                                </div>
-                                <span class="versase">vs</span>
-                                <div class="buttons">
-                                    <a href="#" class="buy-ticket bet-btn bet-btn-dark-light">View Prediction</a>
-                                </div>
-                            </div>
-                            <div class="single-team">
-                                <div class="logo">
-                                    <img src="~/TeamLogo/@(System.IO.Path.GetFileName(topMatch?.ClubBLogoPath))" style="width:30px;height:30px" alt="@topMatch?.ClubB">
-                                </div>
-                                <span class="team-name">@topMatch?.ClubB</span>
+                            <span class="versase">vs</span>
+                            <div class="buttons">
+                                <a href="#" class="buy-ticket bet-btn bet-btn-dark-light">View Prediction</a>
                             </div>
                         </div>
-                        <span class="to-begin-time">
-                            Starting on
-                        </span>
-                        <div class="part-timer timer" data-date="@topMatch?.TimeofMatch.ToUniversalTime()">
-                            <div class="single-time">
-                                <span class="number day">@topMatch?.TimeofMatch.Day</span>
-                                <span class="title">Days</span>
+                        <div class="single-team">
+                            <div class="logo">
+                                <img src="~/TeamLogo/@(System.IO.Path.GetFileName(topMatch?.ClubBLogoPath))" alt="@topMatch?.ClubB">
                             </div>
-                            <div class="single-time">
-                                <span class="number hour">@topMatch?.TimeofMatch.Hour</span>
-                                <span class="title">Hours</span>
-                            </div>
-                            <div class="single-time">
-                                <span class="number minute">@topMatch?.TimeofMatch.Minute</span>
-                                <span class="title">Minutes</span>
-                            </div>
-                            <div class="single-time">
-                                <span class="number second">@topMatch?.TimeofMatch.Second</span>
-                                <span class="title">Seconds</span>
-                            </div>
+                            <span class="team-name">@topMatch?.ClubB</span>
+                        </div>
+                    </div>
+                    <span class="to-begin-time">
+                        Starting on
+                    </span>
+                    <div class="part-timer timer" data-date="@topMatch?.TimeofMatch.ToUniversalTime()">
+                        <div class="single-time">
+                            <span class="number day">@topMatch?.TimeofMatch.Day</span>
+                            <span class="title">Days</span>
+                        </div>
+                        <div class="single-time">
+                            <span class="number hour">@topMatch?.TimeofMatch.Hour</span>
+                            <span class="title">Hours</span>
+                        </div>
+                        <div class="single-time">
+                            <span class="number minute">@topMatch?.TimeofMatch.Minute</span>
+                            <span class="title">Minutes</span>
+                        </div>
+                        <div class="single-time">
+                            <span class="number second">@topMatch?.TimeofMatch.Second</span>
+                            <span class="title">Seconds</span>
                         </div>
                     </div>
                 </div>
+            </div>
             }
 
             @if (matches != null)
             {
-                <div class="col-xl-6 col-lg-6">
-                    <div class="upcoming-match-list">
+            <div class="col-xl-6 col-lg-6">
+                <div class="upcoming-match-list">
 
-                        @if (matches != null)
+                    @if (matches != null)
                         {
                             foreach (var item in matches)
                             {
-                                <div class="single-upcoming-match">
-                                    <div class="single-team">
-                                        <div class="part-logo">
-                                            <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item?.ClubALogoPath))" alt="Club A">
-                                        </div>
-                                        <div class="part-text">
-                                            <span class="team-name">
-                                                @item.ClubA
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <span class="versase">vs</span>
-                                    <div class="single-team">
-                                        <div class="part-text">
-                                            <span class="team-name">
-                                                @item.ClubB
-                                            </span>
-                                        </div>
-                                        <div class="part-logo">
-                                            <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item?.ClubBLogoPath))" alt="Club B">
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="single-upcoming-match">
+                        <div class="single-team">
+                            <div class="part-logo">
+                                <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item?.ClubALogoPath))" alt="Club A">
+                            </div>
+                            <div class="part-text">
+                                <span class="team-name">
+                                    @item.ClubA
+                                </span>
+                            </div>
+                        </div>
+                        <span class="versase">vs</span>
+                        <div class="single-team">
+                            <div class="part-text">
+                                <span class="team-name">
+                                    @item.ClubB
+                                </span>
+                            </div>
+                            <div class="part-logo">
+                                <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item?.ClubBLogoPath))" alt="Club B">
+                            </div>
+                        </div>
+                    </div>
                             }
 
                         }
 
 
-                        @*<div class="single-upcoming-match">
-                                <div class="single-team">
-                                    <div class="part-logo">
-                                        <img src="assets/img/team-7.png" alt="">
-                                    </div>
-                                    <div class="part-text">
-                                        <span class="team-name">
-                                            Khulna tigers
-                                        </span>
-                                    </div>
+                    @*<div class="single-upcoming-match">
+                            <div class="single-team">
+                                <div class="part-logo">
+                                    <img src="assets/img/team-7.png" alt="">
                                 </div>
-                                <span class="versase">vs</span>
-                                <div class="single-team">
-                                    <div class="part-text">
-                                        <span class="team-name">
-                                            dhaka platoon
-                                        </span>
-                                    </div>
-                                    <div class="part-logo">
-                                        <img src="assets/img/team-8.png" alt="">
-                                    </div>
+                                <div class="part-text">
+                                    <span class="team-name">
+                                        Khulna tigers
+                                    </span>
                                 </div>
-                            </div>*@
-                    </div>
+                            </div>
+                            <span class="versase">vs</span>
+                            <div class="single-team">
+                                <div class="part-text">
+                                    <span class="team-name">
+                                        dhaka platoon
+                                    </span>
+                                </div>
+                                <div class="part-logo">
+                                    <img src="assets/img/team-8.png" alt="">
+                                </div>
+                            </div>
+                        </div>*@
                 </div>
+            </div>
             }
 
 
@@ -167,4 +170,3 @@
 </div>
 <!-- upcoming match end -->
 <!-- Generated List-->
-

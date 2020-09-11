@@ -166,10 +166,15 @@ namespace SleekPredictionPunter.Repository.Base
 		/// </summary>
 		/// <param name="predicate"></param>
 		/// <returns></returns>
-		public async virtual Task<T> GetFirstOrDefault(Func<T, bool> predicate)
+		public async virtual Task<T> GetFirstOrDefault(Func<T, bool> predicate, Func<T,DateTime> orderByfunc = null)
 		{
 			if (predicate != null)
 			{
+				if(orderByfunc != null)
+				{
+					var set = _entity.AsNoTracking().OrderByDescending(orderByfunc).Where(predicate)?.FirstOrDefault();
+					return await Task.FromResult(set);
+				}
 				var dbSet = _entity.AsNoTracking().Where(predicate)?.FirstOrDefault();
 				return await Task.FromResult(dbSet);
 			}

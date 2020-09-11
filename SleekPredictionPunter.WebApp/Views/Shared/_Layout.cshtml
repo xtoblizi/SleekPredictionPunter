@@ -53,87 +53,89 @@
         <span>Predictive Power Loading ... </span>
     </div>
 
-    <!-- bet modal begin -->
-    <div class="bet-modal-bg">
-        <div class="bet-modal">
-            <div class="bet-header">
-                <span class="title">Predict a game</span>
-                <button class="cls-btn"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="bet-body">
-                <div class="place-of-bet">
-                    <span class="place-of-bet-title">real madrid</span>
-                    <input class="place-of-bet-number" type="number" value="1" readonly>
-                </div>
-                <div class="bet-descr">
-                    <span class="team-name team-name-1st">america</span>
-                    <span class="img-ic"><img src="~/FrontendTheme/assets/img/vs-icon.png" alt=""></span>
-                    <span class="team-name team-name-2nd">iran</span>
-                    <div class="team-score">[<span class="team-first-score">1</span>:<span class="team-second-score">1</span>] 1X2 Live Prediction</div>
-                </div>
-                <div class="ctrl-buttons">
-                    <div class="butto-shadow">
-                        <button class="ctrl-button-for-number minus-number">-</button>
-                        <input type="number" value="1" max="99" min="1" class="number-of-stake" placeholder="stake">
-                        <button class="ctrl-button-for-number plus-number">+</button>
-                    </div>
-                </div>
-                <div class="bet-total">
-                    <ul>
-                        <li>
-                            <span class="number-of-stake-title">stake :</span>
-                            <input class="number-of-stake-count" type="number" value="1" readonly>
-                        </li>
-                        <li>
-                            <span class="number-of-bet">Total Est. Returns :</span>
-                            <span class="number-of-bet-count">82</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="bet-footer">
-                <button>Predict Now</button>
-            </div>
-        </div>
-    </div>
-    <!-- bet modal end -->
-    <!-- header begin -->
-    <div class="header">
-        <div class="header-top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-sm-6">
-                        <div class="left-area">
-                            <ul>
-                                <li>
-                                    <span class="icon">
-                                        <i class="far fa-calendar-alt"></i>
-                                    </span>
-                                    <span class="text">
-                                        <span id="date"></span>
-                                        <span id="month"></span>
-                                        <span id="year"></span>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="icon">
-                                        <i class="far fa-clock"></i>
-                                    </span>
-                                    <span class="text clocks">
-                                        <span id="hours"></span>:<span id="minutes"></span>:<span id="seconds"></span>
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-sm-6">
-                        <div class="right-area">
-                            <partial name="_LoginPartial" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+	<!-- bet modal begin -->
+
+	@*<div class="bet-modal-bg">
+		<div class="bet-modal">
+			<div class="bet-header">
+				<span class="title">Predict a game</span>
+				<button class="cls-btn"><i class="fas fa-times"></i></button>
+			</div>
+			<div class="bet-body">
+				<div class="place-of-bet">
+					<span class="place-of-bet-title">real madrid</span>
+					<input class="place-of-bet-number" type="number" value="1" readonly>
+				</div>
+				<div class="bet-descr">
+					<span class="team-name team-name-1st">america</span>
+					<span class="img-ic"><img src="~/FrontendTheme/assets/img/vs-icon.png" alt=""></span>
+					<span class="team-name team-name-2nd">iran</span>
+					<div class="team-score">[<span class="team-first-score">1</span>:<span class="team-second-score">1</span>] 1X2 Live Prediction</div>
+				</div>
+				<div class="ctrl-buttons">
+					<div class="butto-shadow">
+						<button class="ctrl-button-for-number minus-number">-</button>
+						<input type="number" value="1" max="99" min="1" class="number-of-stake" placeholder="stake">
+						<button class="ctrl-button-for-number plus-number">+</button>
+					</div>
+				</div>
+				<div class="bet-total">
+					<ul>
+						<li>
+							<span class="number-of-stake-title">stake :</span>
+							<input class="number-of-stake-count" type="number" value="1" readonly>
+						</li>
+						<li>
+							<span class="number-of-bet">Total Est. Returns :</span>
+							<span class="number-of-bet-count">82</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="bet-footer">
+				<button>Predict Now</button>
+			</div>
+		</div>
+	</div>*@
+
+	<!-- bet modal end -->
+	<!-- header begin -->
+	<div class="header">
+		<div class="header-top">
+			<div class="container">
+				<div class="row">
+					<div class="col-xl-6 col-lg-6 col-sm-6">
+						<div class="left-area">
+							<ul>
+								<li>
+									<span class="icon">
+										<i class="far fa-calendar-alt"></i>
+									</span>
+									<span class="text">
+										<span id="date"></span>
+										<span id="month"></span>
+										<span id="year"></span>
+									</span>
+								</li>
+								<li>
+									<span class="icon">
+										<i class="far fa-clock"></i>
+									</span>
+									<span class="text clocks">
+										<span id="hours"></span>:<span id="minutes"></span>:<span id="seconds"></span>
+									</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-xl-6 col-lg-6 col-sm-6">
+						<div class="right-area">
+							<partial name="_LoginPartial" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
         <div id="navbar" class="header-bottom">
             <div class="container">
@@ -221,175 +223,175 @@
     <div>
         @RenderBody()
 
-    </div>
-    <!-- current page body end-->
-    <!--Footer section-->
-    <div class="footer" id="contact">
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-xl-4 col-lg-5 col-md-10">
-                    <div class="about-widget">
-                        <a class="logo" href="../../Home/Index">
-                            <img src="~/FrontendTheme/assets/img/logo.png" alt="Predictive Power">
-                        </a>
-                        <p>Predictive Power offers you all the best online predictions from different corner sports and fotball, with up to date punters and result as it flows.</p>
-                        <div class="social">
-                            <ul>
-                                <li>
-                                    <a href="https://www.facebook.com/108120464353440/" class="social-icon">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
-                                    <a href="#" class="social-icon">
-                                        <i class="fab fa-twitter"></i>
-                                    </a>
-                                    <a href="https://www.instagram.com/p/CDPAWk2jLIL/" class="social-icon">
-                                        <i class="fab fa-instagram"></i>
-                                    </a>
-                                    @*<a href="#" class="social-icon">
-                                            <i class="fab fa-pinterest-p"></i>
-                                        </a>*@
-                                    @*<a href="#" class="social-icon">
-                                            <i class="fab fa-facebook-f"></i>
-                                        </a>*@
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="support">
-                            <ul>
-                                <li>
-                                    <span class="icon">
-                                        <img src="~/FrontendTheme/assets/img/svg/email.svg" alt="">
-                                    </span>
-                                    <span class="text">
-                                        <span class="title">Mail Us</span>
-                                        <span class="descr">don't@reply.com</span>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="icon">
-                                        <img src="~/FrontendTheme/assets/img/svg/phone-call.svg" alt="">
-                                    </span>
-                                    <span class="text">
-                                        <span class="title">Get In Touch</span>
-                                        <span class="descr"><a href="../../Home/contactindex">click </a></span>
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-lg-2 col-md-3">
-                    <div class="useful-links">
-                        <h3>Useful links</h3>
-                        <ul>
-                            @*<li>
-                                    <a href="#">IN-PLAY</a>
-                                </li>*@
-                            <li>
-                                <a href="#">PROMOTIONS</a>
-                            </li>
-                            <li>
-                                <a href="#">STATS</a>
-                            </li>
-                            <li>
-                                <a href="../../Predictions/FrontendIndex">PREDICTIONS</a>
-                            </li>
-                            @*<li>
-                                    <a href="#">Lastest Predictions</a>
-                                </li>*@
-                            @*<li>
-                                    <a href="#">GAME RESULTS</a>
-                                </li>*@
-                            <li>
-                                <a href="#">STANDINGS</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-lg-3 col-md-3">
-                    <div class="useful-links">
-                        <h3>Connect With Us</h3>
-                        <ul>
-                            <li>
-                                <a href="">Privacy Terms and Conditions</a>
-                            </li>
-                            @*<li>
-                                    <a href="#">Blog</a>
-                                </li>*@
-                            @*<li>
-                                    <a href="#">Blog Details</a>
-                                </li>*@
-                            <li>
-                                <a asp-page="/Account/Register" asp-area="Identity" asp-route-userType="4">MAKE MONEY (Become and Agent)</a>
-                            </li>
-                            <li>
-                                <a href="../../Home/Contact">CONTACT US</a>
-                            </li>
-                            <li>
-                                <a asp-page="/Account/Register" asp-area="Identity" asp-route-userType="2">REGISTER</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-lg-2 col-md-3">
-                    @*<div class="useful-links">
-                            <h3>All Sports</h3>
-                            <ul>
-                                <li>
-                                    <a href="#">FOOTBALL</a>
-                                </li>
-                                <li>
-                                    <a href="#">TENNIS</a>
-                                </li>
-                                <li>
-                                    <a href="#">BASKETBALL</a>
-                                </li>
-                                <li>
-                                    <a href="#">ICE HOCKEY</a>
-                                </li>
-                                <li>
-                                    <a href="#">VOLLEYBALL</a>
-                                </li>
-                                <li>
-                                    <a href="#">BADMINTON</a>
-                                </li>
-                                <li>
-                                    <a href="#">BASEBALL</a>
-                                </li>
-                            </ul>
-                        </div>*@
-                </div>
-            </div>
-            <div class="row">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-12 col-lg-12">
-                            <div class="payment-method">
-                                <h6 class="payment-method-title">
-                                    Payment methods are We accept
-                                </h6>
-                                <div class="all-method">
-
-                                    <div class="single-method">
-                                        <img src="~/FrontendTheme/assets/img/paystack.png" height="80" width="39" alt="">
-                                    </div>
-                                    <div class="single-method">
-                                        <img src="~/FrontendTheme/assets/img/visacard.jpg" height="80" width="39" alt="">
-                                    </div>
-                                    <div class="single-method">
-                                        <img src="~/FrontendTheme/assets/img/mastercard.png" height="80" width="39" alt="">
-                                    </div>
-                                    <div class="single-method">
-                                        <img src="~/FrontendTheme/assets/img/vervecard.png" height="80" width="39" alt="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	</div>
+	<!-- current page body end-->
+	<!--Footer section-->
+	<div class="footer" id="contact">
+		<div class="container">
+			<div class="row justify-content-between">
+				<div class="col-xl-4 col-lg-5 col-md-10">
+					<div class="about-widget">
+						<a class="logo" href="../../Home/Index">
+							<img src="~/FrontendTheme/assets/img/logo.png" alt="Predictive Power">
+						</a>
+						<p>Predictive Power offers you all the best online predictions from different corner sports and fotball, with up to date punters and result as it flows.</p>
+						<div class="social">
+							<ul>
+								<li>
+									<a href="https://www.facebook.com/108120464353440/" title="Facebook" class="social-icon">
+										<i class="fab fa-facebook-f"></i>
+									</a>
+									@*<a href="#" class="social-icon">
+										<i class="fab fa-twitter"></i>
+									</a>*@
+									<a href="https://www.instagram.com/p/CDPAWk2jLIL/" title="Instagram" class="social-icon">
+										<i class="fab fa-instagram"></i>
+									</a>
+									<a href="https://t.me/joinchat/AAAAAFd48-rJD4RJL3dcgg" title="Telegram" class="social-icon">
+											<i class="fab fa-telegram"></i>
+									</a>
+									<a href="https://melbet.ng/?tag=d_454693m_18639c_sopsman" class="social-icon" title="Melbet Link">
+											<i class="fab fa-info"></i>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="support">
+							<ul>
+								<li>
+									<span class="icon">
+										<img src="~/FrontendTheme/assets/img/svg/email.svg" alt="">
+									</span>
+									<span class="text">
+										<span class="title">Mail Us</span>
+										<span class="descr"></span>
+									</span>
+								</li>
+								<li>
+									<span class="icon">
+										<img src="~/FrontendTheme/assets/img/svg/phone-call.svg" alt="">
+									</span>
+									<span class="text">
+										<span class="title">Get In Touch</span>
+										<span class="descr"><a href="../../Home/contactindex">click </a></span>
+									</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-2 col-lg-2 col-md-3">
+					<div class="useful-links">
+						<h3>Useful links</h3>
+						<ul>
+							@*<li>
+									<a href="#">IN-PLAY</a>
+								</li>*@
+							<li>
+								<a href="#">PROMOTIONS</a>
+							</li>
+							<li>
+								<a href="#">STATS</a>
+							</li>
+							<li>
+								<a href="../../Predictions/FrontendIndex">PREDICTIONS</a>
+							</li>
+							@*<li>
+									<a href="#">Lastest Predictions</a>
+								</li>*@
+							@*<li>
+									<a href="#">GAME RESULTS</a>
+								</li>*@
+							<li>
+								<a href="#">STANDINGS</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-xl-2 col-lg-3 col-md-3">
+					<div class="useful-links">
+						<h3>Connect With Us</h3>
+						<ul>
+							<li>
+								<a href="../../Home/Privacy">Privacy Terms and Conditions</a>
+							</li>
+							@*<li>
+									<a href="#">Blog</a>
+								</li>*@
+							@*<li>
+									<a href="#">Blog Details</a>
+								</li>*@
+							<li>
+								<a asp-page="/Account/Register" asp-area="Identity" asp-route-userType="4">MAKE MONEY (Become and Agent)</a>
+							</li>
+							<li>
+								<a href="../../Home/Contact">CONTACT US</a>
+							</li>
+							<li>
+								<a asp-page="/Account/Register" asp-area="Identity" asp-route-userType="2">REGISTER</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-xl-2 col-lg-2 col-md-3">
+					@*<div class="useful-links">
+							<h3>All Sports</h3>
+							<ul>
+								<li>
+									<a href="#">FOOTBALL</a>
+								</li>
+								<li>
+									<a href="#">TENNIS</a>
+								</li>
+								<li>
+									<a href="#">BASKETBALL</a>
+								</li>
+								<li>
+									<a href="#">ICE HOCKEY</a>
+								</li>
+								<li>
+									<a href="#">VOLLEYBALL</a>
+								</li>
+								<li>
+									<a href="#">BADMINTON</a>
+								</li>
+								<li>
+									<a href="#">BASEBALL</a>
+								</li>
+							</ul>
+						</div>*@
+				</div>
+			</div>
+			<div class="row">
+				<div class="container">
+					<div class="row">
+						<div class="col-xl-12 col-lg-12">
+							<div class="payment-method">
+								<h6 class="payment-method-title">
+									Payment methods are We accept
+								</h6>
+								<div class="all-method">
+									
+									<div class="single-method">
+										<img src="~/FrontendTheme/assets/img/paystack.png" height="80" width="39" alt="">
+									</div>
+									<div class="single-method">
+										<img src="~/FrontendTheme/assets/img/visacard.jpg" height="80" width="39" alt="">
+									</div>
+									<div class="single-method">
+										<img src="~/FrontendTheme/assets/img/mastercard.png" height="80" width="39" alt="">
+									</div>
+									<div class="single-method">
+										<img src="~/FrontendTheme/assets/img/vervecard.png" height="80" width="39" alt="">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
     <!-- footer Notes section -->
     <!-- notes begin -->
