@@ -43,5 +43,11 @@ namespace SleekPredictionPunter.AppService.Wallet
             var result = await _baseRepository.GetFirstOrDefault(predicate);
             return result;
         }
+
+        public async Task<IEnumerable<WalletModel>> GetAllWalletDetailsForUser(Func<WalletModel, bool> predicate, int startIndex = 0, int take = int.MaxValue)
+        {
+            var result = await _baseRepository.GetAllQueryable(predicate: predicate,startIndex: startIndex, count: take);
+            return result;
+        }
     }
 }

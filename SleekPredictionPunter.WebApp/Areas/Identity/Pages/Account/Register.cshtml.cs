@@ -304,11 +304,10 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 				IsTenant = true,
 				Username = user.UserName,
 				RefererCode = refereerCode
-
 			};
 
 			var insert = await _subscriberService.Insert(subscriber);
-			if (insert > 0 && string.IsNullOrEmpty(refereerCode)) 
+			if (insert > 0 && !string.IsNullOrEmpty(refereerCode)) 
 			{
 				var getAgentByReferralCode = await _agentService.GetAgentsPredicate(x=>x.RefererCode==Input.ReferrerCode);
 				if(getAgentByReferralCode != null)
