@@ -27,7 +27,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.Clubs = "active";
-            return View(await _context.GetAllQueryable());
+            var result = await _context.GetAllQueryable();
+            return View(result);
         }
 
         // GET: Clubs/Details/5

@@ -15,7 +15,7 @@ namespace SleekPredictionPunter.Repository.Base
 
 		Task Delete(T owner, bool savechage = true) ;
 
-		Task<T> GetFirstOrDefault(Func<T, bool> predicate);
+		Task<T> GetFirstOrDefault(Func<T, bool> predicate, Func<T, DateTime> orderByfunc = null);
 
 		Task<IEnumerable<T>> GetAllQueryable(Func<T, bool> predicate = null, 
 			int startIndex = 0, int count = int.MaxValue);

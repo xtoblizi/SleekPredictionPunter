@@ -14,13 +14,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>@ViewData["Title"] - Predictive Power </title>
 
-	@*@if (ViewBag.AddLinkScriptforPackage != null && ViewBag.AddLinkScriptforPackage == true)
-	{
-		<link href="~/AdminTheme/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
-		<link href="~/AdminTheme/css/style.css" rel="stylesheet">
-		<link href="~/AdminTheme/css/style-responsive.css" rel="stylesheet">
-	}*@
-
+	<link rel="stylesheet" href="~/FrontendTheme/files/custom.main.css" />
 	<!-- favicon -->
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	<!-- bootstrap -->
@@ -43,8 +37,16 @@
 
 	<link rel="stylesheet" href="~/FrontendTheme/assets/css/register-page-responsive.css">
 </head>
+<style>
 
-<body>
+	@@media only screen and (max-width: 600px) {
+		#timer-header-top {
+			display: none;
+		}
+	}
+</style>
+
+<body style="zoom:85%">
 	<!-- preloader begin -->
 	<div class="preloader">
 		
@@ -52,7 +54,8 @@
 	</div>
 
 	<!-- bet modal begin -->
-	<div class="bet-modal-bg">
+
+	@*<div class="bet-modal-bg">
 		<div class="bet-modal">
 			<div class="bet-header">
 				<span class="title">Predict a game</span>
@@ -93,14 +96,15 @@
 				<button>Predict Now</button>
 			</div>
 		</div>
-	</div>
+	</div>*@
+
 	<!-- bet modal end -->
 	<!-- header begin -->
 	<div class="header">
 		<div class="header-top">
 			<div class="container">
 				<div class="row">
-					<div class="col-xl-6 col-lg-6 col-sm-6">
+					<div class="col-xl-6 col-lg-6 col-sm-6" id="timer-header-top">
 						<div class="left-area">
 							<ul>
 								<li>
@@ -164,7 +168,7 @@
 										@if (!User.Identity.IsAuthenticated && (!User.IsInRole("Agent") || !User.IsInRole("SuperAdmin")))
 										{
 											<li class="nav-item">
-												<a asp-page="/account/register" asp-area="identity" asp-route-userType="4" class="nav-link">Become an Agent</a>
+												<a asp-page="/account/register" asp-area="identity" asp-route-userType="4" class="nav-link">Be an Agent</a>
 											</li>
 										}
 										<li class="nav-item">
@@ -172,6 +176,15 @@
 										</li>
 										<li class="nav-item">
 											<a class="nav-link" href="../../pricingplan/index">Packages</a>
+										</li>
+										@if (User.Identity.IsAuthenticated && User.IsInRole("Subscriber"))
+										{
+											<li class="nav-item">
+												<a class="nav-link" href="../../usermanagement/index">Manage Profile</a>
+											</li>
+										}
+										<li class="nav-item">
+											<a class="nav-link" href="../../home/privacy">Terms & Conditions</a>
 										</li>
 
 										<li class="nav-item">
@@ -219,21 +232,21 @@
 						<div class="social">
 							<ul>
 								<li>
-									<a href="#" class="social-icon">
+									<a href="https://www.facebook.com/108120464353440/" title="Facebook" class="social-icon">
 										<i class="fab fa-facebook-f"></i>
 									</a>
-									<a href="#" class="social-icon">
+									@*<a href="#" class="social-icon">
 										<i class="fab fa-twitter"></i>
-									</a>
-									<a href="#" class="social-icon">
+									</a>*@
+									<a href="https://www.instagram.com/p/CDPAWk2jLIL/" title="Instagram" class="social-icon">
 										<i class="fab fa-instagram"></i>
 									</a>
-									@*<a href="#" class="social-icon">
-											<i class="fab fa-pinterest-p"></i>
-										</a>*@
-									@*<a href="#" class="social-icon">
-											<i class="fab fa-facebook-f"></i>
-										</a>*@
+									<a href="https://t.me/joinchat/AAAAAFd48-rJD4RJL3dcgg" title="Telegram" class="social-icon">
+											<i class="fab fa-telegram"></i>
+									</a>
+									<a href="https://melbet.ng/?tag=d_454693m_18639c_sopsman" class="social-icon" title="Melbet Link">
+											<i class="fab fa-info"></i>
+									</a>
 								</li>
 							</ul>
 						</div>
@@ -245,7 +258,7 @@
 									</span>
 									<span class="text">
 										<span class="title">Mail Us</span>
-										<span class="descr">don't@reply.com</span>
+										<span class="descr"></span>
 									</span>
 								</li>
 								<li>
@@ -254,7 +267,7 @@
 									</span>
 									<span class="text">
 										<span class="title">Get In Touch</span>
-										<span class="descr">+88 015 00 00 00</span>
+										<span class="descr"><a href="../../Home/contactindex">click </a></span>
 									</span>
 								</li>
 							</ul>
@@ -275,7 +288,7 @@
 								<a href="#">STATS</a>
 							</li>
 							<li>
-								<a href="#">RESULTS</a>
+								<a href="../../Predictions/FrontendIndex">PREDICTIONS</a>
 							</li>
 							@*<li>
 									<a href="#">Lastest Predictions</a>
@@ -294,7 +307,7 @@
 						<h3>Connect With Us</h3>
 						<ul>
 							<li>
-								<a href="">Privacy Terms and Conditions</a>
+								<a href="../../Home/Privacy">Privacy Terms and Conditions</a>
 							</li>
 							@*<li>
 									<a href="#">Blog</a>

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-
-namespace SleekPredictionPunter.Model.PricingPlan
+﻿namespace SleekPredictionPunter.Model.PricingPlan
 {
-    public class PricingPlanModel : BaseEntity
+	public class PricingPlanModel : BaseEntity
     {
 		public PricingPlanModel()
 		{
@@ -23,7 +17,7 @@ namespace SleekPredictionPunter.Model.PricingPlan
 		public RatingEnum Rating { get; set; }
 		public int RateCount { get; set; }
 		public decimal Price { get; set; }
-		public decimal PlanCommission { get; set; }
+        public decimal PlanCommission { get; set; }
     }
 
 	public enum RatingEnum

@@ -14,10 +14,12 @@ using SleekPredictionPunter.AppService;
 using SleekPredictionPunter.AppService.Agents;
 using SleekPredictionPunter.AppService.Predictors;
 using SleekPredictionPunter.AppService.ThirdPartyAppService;
+using SleekPredictionPunter.AppService.Wallet;
 using SleekPredictionPunter.DataInfrastructure;
 using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.IdentityModels;
+using SleekPredictionPunter.Model.Wallets;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
@@ -30,6 +32,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         private readonly IAgentService _agentService;
         private readonly ISubscriberService _subscriberService;
         private readonly IPredictorService _predictorService;
+        private readonly IWalletAppService _walletAppService;
 
         //assigned variables..
         const string userEmail = "userEmail";
@@ -39,7 +42,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         const string userPhoneNumber = "userPhoneNumber";
         public ThirdPartyCallBackController(PredictionDbContext context, IThirdPartyUsersAppService thirdPartyUsersAppService,
             UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
-            IAgentService agentService, ISubscriberService subscriberService, IPredictorService predictorService)
+            IAgentService agentService, ISubscriberService subscriberService, IPredictorService predictorService, IWalletAppService walletAppService)
         {
             _context = context;
             _thirdPartyUsersAppService = thirdPartyUsersAppService;
@@ -48,6 +51,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             _subscriberService = subscriberService;
             _predictorService = predictorService;
             _agentService = agentService;
+            _walletAppService = walletAppService;
         }
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
         // GET: Agents
@@ -99,6 +103,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                     UserRole = roleEnum,
                     UserRoleName = roleEnum.ToString()
                 };
+
                 #endregion
 
                 if (result.Succeeded)
@@ -172,11 +177,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 }
                 else
                 {
-
                     #region Model builder
-                    var userRole = HttpContext.Session.GetString("userRole");
-                    RoleEnum roleEnum = userRole == "4" ? RoleEnum.Agent : userRole == "3" ? RoleEnum.Predictor : RoleEnum.Subscriber;
-
+                 
                     var getPhoneNumber = string.Empty;
                     getPhoneNumber = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.MobilePhone) == null ? getRemoteInfo.Principal.FindFirstValue(ClaimTypes.HomePhone) : getRemoteInfo.Principal.FindFirstValue(ClaimTypes.OtherPhone);
 
@@ -206,27 +208,16 @@ namespace SleekPredictionPunter.WebApp.Controllers
                         ProviderName = getRemoteInfo.ProviderDisplayName,
                         DateCreated = DateTime.Now,
                         DateOfBirth = Convert.ToDateTime(getRemoteInfo.Principal.FindFirstValue(ClaimTypes.DateOfBirth)),
-                        UserRole = roleEnum,
-                        UserRoleName = roleEnum.ToString()
+                        UserRole = RoleEnum.Subscriber,
+                        UserRoleName = RoleEnum.Subscriber.ToString()
                     };
 
-                    //agent model builder
-                    var agent = new Agent
+                    //wallet model builder
+                    var walletModel = new WalletModel
                     {
-                        FirstName = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Name),
-                        LastName = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Surname),
-                        Email = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Email),
-                        State = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.StateOrProvince),
-                        Street = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.StreetAddress),
-                        DateCreated = DateTime.Now,
-                        DateOfBirth = Convert.ToDateTime(getRemoteInfo.Principal.FindFirstValue(ClaimTypes.DateOfBirth)),
-                        City = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Locality),
-                        Country = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Country),
-                        Gender = (GenderEnum)Convert.ToInt32(getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Gender)),
-                        PhoneNumber = getPhoneNumber,
-                        IsTenant = true,
-                        Username = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Email)
-
+                        UserEmailAddress = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Email),
+                        UserRole = RoleEnum.Subscriber,
+                        Amount = 0.0m,
                     };
 
                     // subscriber model builder
@@ -247,24 +238,24 @@ namespace SleekPredictionPunter.WebApp.Controllers
                         Username = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Email)
                     };
 
-                    //predictor model builder
-                    var predictor = new Predictor
-                    {
-                        FirstName = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Name),
-                        LastName = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Surname),
-                        Email = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Email),
-                        State = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.StateOrProvince),
-                        Street = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.StreetAddress),
-                        DateCreated = DateTime.Now,
-                        DateOfBirth = Convert.ToDateTime(getRemoteInfo.Principal.FindFirstValue(ClaimTypes.DateOfBirth)),
-                        City = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Locality),
-                        Country = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Country),
-                        Gender = (GenderEnum)Convert.ToInt32(getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Gender)),
-                        PhoneNumber = getPhoneNumber,
-                        IsTenant = true,
-                        Username = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Email)
+                    ////predictor model builder
+                    //var predictor = new Predictor
+                    //{
+                    //    FirstName = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Name),
+                    //    LastName = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Surname),
+                    //    Email = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Email),
+                    //    State = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.StateOrProvince),
+                    //    Street = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.StreetAddress),
+                    //    DateCreated = DateTime.Now,
+                    //    DateOfBirth = Convert.ToDateTime(getRemoteInfo.Principal.FindFirstValue(ClaimTypes.DateOfBirth)),
+                    //    City = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Locality),
+                    //    Country = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Country),
+                    //    Gender = (GenderEnum)Convert.ToInt32(getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Gender)),
+                    //    PhoneNumber = getPhoneNumber,
+                    //    IsTenant = true,
+                    //    Username = getRemoteInfo.Principal.FindFirstValue(ClaimTypes.Email)
 
-                    };
+                    //};
                     #endregion
 
                     var password = "1234567890";
@@ -280,49 +271,26 @@ namespace SleekPredictionPunter.WebApp.Controllers
                             ViewBag.Errors = "Could not obtain mobile number from your google. Please, Update your Mobile number on your profile.";
                         }
 
-                        if (result.Succeeded && !(await _userManager.IsInRoleAsync(externalUserModelBuilder, roleEnum.ToString())))
+                        if (result.Succeeded && !(await _userManager.IsInRoleAsync(externalUserModelBuilder, RoleEnum.Subscriber.ToString())))
                         {
-                            await _userManager.AddToRoleAsync(externalUserModelBuilder, roleEnum.ToString());
+                            await _userManager.AddToRoleAsync(externalUserModelBuilder, RoleEnum.Subscriber.ToString());
 
                             //inserting to db at this point..
                             var insert = await _thirdPartyUsersAppService.InsertNewThirdPartyUser(modelBuilder);
 
                             if (insert > 0)
                             {
-                                if (userRole == "4")
+                                var inserts = await _subscriberService.Insert(subscriber);
+                                if (inserts > 0)
                                 {
-                                    var inserts = await _agentService.CreateAgent(agent);
-                                    if (inserts > 0)
+                                    var createUserWallet = await _walletAppService.InsertNewAmount(walletModel);
+                                    if (createUserWallet == true)
                                     {
                                         HttpContext.Session.SetString(userEmail, modelBuilder.EmailAddress);
                                         HttpContext.Session.SetString(userId, modelBuilder.Id.ToString());
                                         HttpContext.Session.SetString(userName, modelBuilder.Username);
+                                        return LocalRedirect(returnUrl);
 
-                                        //here, if some info ain't gotten from google, we'd  redirect the user to where he/she could fill in those important info..
-                                        //so, for now, lemme just redirect the agent to the return url respectively..
-                                        return LocalRedirect(returnUrl);
-                                    }
-                                }
-                                else if (userRole == "2")
-                                {
-                                    var inserts = await _subscriberService.Insert(subscriber);
-                                    if (inserts > 0)
-                                    {
-                                        HttpContext.Session.SetString(userEmail, modelBuilder.EmailAddress);
-                                        HttpContext.Session.SetString(userId, modelBuilder.Id.ToString());
-                                        HttpContext.Session.SetString(userName, modelBuilder.Username);
-                                        return LocalRedirect(returnUrl);
-                                    }
-                                }
-                                else if (userRole == "3")
-                                {
-                                    var inserts = await _predictorService.Insert(predictor);
-                                    if (inserts > 0)
-                                    {
-                                        HttpContext.Session.SetString(userEmail, modelBuilder.EmailAddress);
-                                        HttpContext.Session.SetString(userId, modelBuilder.Id.ToString());
-                                        HttpContext.Session.SetString(userName, modelBuilder.Username);
-                                        return LocalRedirect(returnUrl);
                                     }
                                 }
                             }
@@ -331,7 +299,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 }
             }
 
-            return Redirect("");
+            return RedirectToAction("index","home");
         }
     }
 }

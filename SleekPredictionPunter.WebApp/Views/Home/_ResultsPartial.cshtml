@@ -1,0 +1,276 @@
+﻿<!-- Result Dear -->
+@model IEnumerable<SleekPredictionPunter.Model.HomeDataModels.WinningPlanPreviewSummary>
+@using SleekPredictionPunter.Model.HomeDataModels
+@inject SleekPredictionPunter.AppService.HomeWiningPlanPreview.IWiningPlanPreviewService _service
+@inject SleekPredictionPunter.AppService.Plans.IPricingPlanAppService _planService
+@*<link rel="stylesheet" href="~/FrontendTheme/files/custom.main.css" />*@
+
+<style>
+        .home-body-wrapper, .home-body-wrapper * {
+            text-align: center;
+        }
+   </style>
+
+@{
+
+    //Func<WinningPlanPreviewSummary, DateTime> orderBydesc = (x => x.DateUpdated.Value);
+
+    //var topPackageToPreview = await _service.GetFirstOrDefault(whereFunc: null,orderByfunc:orderBydesc);
+    //var plan = await _planService.GetById(topPackageToPreview.PricingPlanId);
+    var topPackageToPreview = new ResultPlanViewModel();
+    int won = 0;
+    decimal percent = 0.00m;
+    int total = 0;
+
+    topPackageToPreview = ViewBag.ResultPlanViewModel;
+    if (ViewBag.ResultPlanViewModel != null && topPackageToPreview.LatestPredictionDates.Count > 4)
+    {
+        var wonCheck = topPackageToPreview.LatestPredictionDates.Where(x => x.predictionResultEnum == PredictionResultEnum.PredictionWon);
+        won = wonCheck.Count();
+        total = topPackageToPreview.LatestPredictionDates.Count();
+
+        if (won == 0 || total == 0)
+            percent = 0;
+
+        else
+        {
+            decimal totalprincipal = (decimal)won / total;
+            percent = totalprincipal * 100;
+        }
+
+    }
+
+}
+
+
+
+@if (ViewBag.ResultPlanViewModel != null && topPackageToPreview.LatestPredictionDates.Count > 1)
+{
+    @*<div id="container">
+        <div class="home-body-wrapper row" style="font-size:1.2em; text-align:center; align-content:center ">
+            <div class="col-10 col-xs-12 product-gn-card" style="margin-left:20px">*@
+    <div class="container home-body-wrapper" style="font-size:1.2em; ">
+        @*<div class="col-1" id="result-col-1">
+            &nbsp;&nbsp;
+        </div>*@
+        <div class="product-gn-card" >
+            <div class="row">
+                <div class="col-md-4 product-info-card">
+                    <div class="product-title">
+                        <h4>@topPackageToPreview?.PricingPlan.PlanName</h4>
+                    </div>
+                    <div class="product-description">
+                        <p style="color:#fff;font-size:15px;">@topPackageToPreview.WinningPlanPreview?.Paragraph1Description</p>
+                        <p style="color:#fff;font-size:15px;">@topPackageToPreview.WinningPlanPreview?.Paragraph2Description</p>
+                        <p style="color: #fff; font-size: 15px;">@topPackageToPreview.WinningPlanPreview?.Paragraph3Description</p>
+                    </div>
+                    <div class="product-ratings">
+                        <div class="ratings">
+                            <span><b style="color:#fff;">Ratings:</b></span>
+                            @for (int i = 0; i < topPackageToPreview.WinningPlanPreview.RatingValue; i++)
+                            {
+                                <span class="fa fa-star" aria-hidden="true"></span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 product-assurance">
+                    <div class="product-title text-center">
+                        <h4 style="color: #fff;">Results</h4>
+                    </div>
+                    <div class="product-assurance-list">
+                        <ul>
+                            @if (topPackageToPreview.LatestPredictionDates.Any())
+                            {
+                                foreach (var item in topPackageToPreview.LatestPredictionDates)
+                                {
+                                    <li class="no-bg g">
+                                        <span class="date" style="color:#fff !important;"> @item.DateOfPrediction.Month/@item.DateOfPrediction.Day</span>
+                                        @if (item.predictionResultEnum == PredictionResultEnum.PredictionWon)
+                                        {
+                                            <i class="fa fa-check-circle green" title="Prediction was successful" aria-hidden="true"></i>
+                                        }
+                                        else if (item.predictionResultEnum == PredictionResultEnum.PredictionLost)
+                                        {
+                                            <i class="fa fa-check-circle red" title="Prediction was not auccessful" aria-hidden="true"></i>
+                                        }
+                                        else if (item.predictionResultEnum == PredictionResultEnum.MatchPostponed)
+                                        {
+                                            <i class="fa fa-check-circle yellow" title="Match was Postponed" aria-hidden="true"></i>
+
+                                        }
+                                        else if (item.predictionResultEnum == PredictionResultEnum.MatchCancelled)
+                                        {
+                                            <i class="fa fa-check-circle gray" title="Match was Cancelled" aria-hidden="true"></i>
+                                        }
+                                        else { }
+
+                                    </li>
+                                }
+                            }
+                            else
+                            {
+                                <li class="no-bg g">
+                                    <span class="date" style="color:#fff !important;">
+                                        <i class="fa fa-check-circle yellow" title="Prediction was successful" aria-hidden="true"></i>
+                                        No Predictions Dates
+                                    </span>
+                                </li>
+
+
+                            }
+                        </ul>
+                    </div>
+                    <div class="product-assurance-summary text-center">
+                        <p style="color: #fff; ">
+                            <b style="font-size:17px !important;color:red;display:block !important;">
+                                @Math.Round(percent, 2)%
+                            </b> Accumulated Profit
+                            <br> Last @total days
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3 product-activity">
+                    <div class="text-center">
+                        <p style="color:#fff;">
+                            <b style="font-size:23px;color:#fff;">
+                                Latest Prediction :
+                                <span style="color: rgb(255, 51, 51); font-size: 23px !important; visibility: initial;" class="blink">
+                                    @topPackageToPreview.TodayPrediction?.BeCategory
+                                </span>
+                            </b> <br>
+                            <b style="font-size:17px;color:#fff;">Match Starts:</b> <br>
+                            <span>
+                            </span>
+                        </p><table class="table">
+                            <tbody>
+                                <tr id="timer" style="direction:rtl;">
+                                    <td style="font-size:19px !important;color:#fff;">@topPackageToPreview?.TodayPrediction?.TimeofFixture.Day</td>
+                                    <td style="font-size:19px !important;color:#fff;">@topPackageToPreview?.TodayPrediction?.TimeofFixture.Hour</td>
+                                    <td style="font-size:19px !important;color:#fff;">@topPackageToPreview?.TodayPrediction?.TimeofFixture.Minute</td>
+                                </tr>
+                                <tr>
+                                    <td style="color:#fff;font-size:15px;font-weight:bold;">Day</td>
+                                    <td style="color:#fff;font-size:15px;font-weight:bold;">Hour</td>
+                                    <td style="color:#fff;font-size:15px;font-weight:bold;">Minutes</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div style="margin-top:10px;text-align:center;">
+                            <small style="font-size:15px;color:#fff;display:block;">
+                                <a href="#" style="color:#ff1;font-size:15px;">Risk management strategist</a> available for @topPackageToPreview.WinningPlanPreview.PlanName.
+                            </small>
+                            <small style="font-size:15px;color:#ffcc56;display:block;">Exclusive to 15 Days @topPackageToPreview.WinningPlanPreview.PlanName for FREE.</small>
+                            <a href="../../PricingPlan/Index" class="btn btn-sm bg-white" style="border-radius: 20px;font-size:15px;margin-top:15px;">Get Access Now</a>
+                        </div>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*</div>*@
+
+}
+
+
+
+@*<div class="container home-body-wrapper">
+        <div class="col-md-12 mt-3 product-gn-card home-body-wrapper">
+            <div class="row">
+                <div class="col-md-4 product-info-card">
+                    <div class="product-title">
+                        <h4>Genius Gold</h4>
+                    </div>
+                    <div class="product-description">
+                        <p style="color:#fff;font-size:13px;">The Genius Gold Plan is reserved for investors looking to make meaningful profits from low odds accumulators. It has odds from 1.65 to 2.15.</p>
+                        <p style="color:#fff;font-size:13px;">This Plan offers Football Predictions based on minimal risks.</p>
+                        <p style="color: #fff; font-size: 13px;">
+                            To secure your investment, we employ a highly effective
+                            <a href="https://betensured.com/risk-management-strategist" style="color:#ff1;font-size:15px;">risk management strategy</a>. Join now to learn more.
+                        </p>
+                    </div>
+                    <div class="product-ratings">
+                        <div class="ratings">
+                            <span><b style="color:#fff;">Ratings:</b></span>
+                            <span class="fa fa-star" aria-hidden="true"></span>
+                            <span class="fa fa-star" aria-hidden="true"></span>
+                            <span class="fa fa-star" aria-hidden="true"></span>
+                            <span class="fa fa-star" aria-hidden="true"></span>
+                            <span class="fa fa-star" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 product-assurance">
+                    <div class="product-title text-center">
+                        <h4 style="color: #fff;">Results</h4>
+                    </div>
+                    <div class="product-assurance-list">
+                        <ul>
+                            <li class="no-bg g">
+                                <span class="date" style="color:#fff !important;">31/08</span>
+                                <i class="fa fa-check-circle green" aria-hidden="true"></i>
+                            </li>
+                            <li class="no-bg g">
+                                <span class="date" style="color:#fff !important;">30/08</span>
+                                <i class="fa fa-times-circle red" aria-hidden="true"></i>
+                            </li>
+                            <li class="no-bg g">
+                                <span class="date" style="color: #fff !important; ">29/08</span>
+                                <i class="fa fa-times-circle red" aria-hidden="true"></i>
+                            </li>
+                            <li class="no-bg g">
+                                <span class="date" style="color:#fff !important;">28/08</span>
+                                <i class="fa fa-check-circle green" aria-hidden="true"></i>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="product-assurance-summary text-center">
+                        <p style="color: #fff; ">
+                            <b style="font-size:17px !important;color:red;display:block !important;">
+                                80%
+                            </b> Accumulated Profit
+                            <br> Last 30 days
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3 product-activity">
+                    <div class="text-center">
+                        <p style="color:#fff;">
+                            <b style="font-size:23px;color:#fff;">
+                                Today's Odds:
+                                <span style="color: rgb(255, 51, 51); font-size: 23px !important; visibility: hidden;" class="blink">
+                                    1.65
+                                </span>
+                            </b> <br>
+                            <b style="font-size:17px;color:#fff;">Match Starts:</b> <br>
+                            <span>
+                            </span>
+                        </p><table class="table">
+                            <tbody>
+                                <tr id="timer" style="direction:rtl;"><td style="font-size:19px !important;color:#fff;">03</td><td style="font-size:19px !important;color:#fff;">04</td><td style="font-size:19px !important;color:#fff;">50</td></tr>
+                                <tr>
+                                    <td style="color:#fff;font-size:15px;font-weight:bold;">Hours</td>
+                                    <td style="color:#fff;font-size:15px;font-weight:bold;">Minutes</td>
+                                    <td style="color:#fff;font-size:15px;font-weight:bold;">Seconds</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div style="margin-top:10px;text-align:center;">
+                            <small style="font-size:15px;color:#fff;display:block;">
+                                <a href="https://betensured.com/risk-management-strategist" style="color:#ff1;font-size:15px;">Risk management strategist</a> available for Genius investors.
+                            </small>
+                            <small style="font-size:15px;color:#ffcc56;display:block;">Exclusive to 15 Days Genius Gold members for FREE.</small>
+                            <a href="https://www.betensured.com/cat/TipsGenius/" class="btn btn-sm bg-white" style="border-radius: 20px;font-size:15px;margin-top:15px;">Get Access Now</a>
+                        </div>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+<!-- End of REsult View -->

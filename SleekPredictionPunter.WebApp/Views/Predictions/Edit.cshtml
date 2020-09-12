@@ -7,7 +7,7 @@
 
 <h2>Update Prediction Results</h2>
 
-@if (ViewBag.ErrorMessage != null)
+@if (ViewData["TempMessage"] != null)
 {
     <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 }
@@ -24,20 +24,30 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label class="control-label"><strong> ClubA </strong> </label>
+                <input asp-for="ClubA" class="form-control" />
+                <span asp-validation-for="ClubA" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label class="control-label"><strong>Club B </strong>  </label>
+                <input asp-for="ClubB" class="form-control" />
+                <span asp-validation-for="ClubB" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
                 <label class="control-label"><strong> ClubA Score</strong> </label>
                 <input asp-for="ClubAScore" class="form-control" placeholder="(Optional) enter the  score for ClubA" />
                 <span asp-validation-for="ClubAScore" class="text-danger"></span>
             </div>
             <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
-                <label class="control-label"><strong>Club Score </strong>  </label>
+                <label class="control-label"><strong>ClubB Score </strong>  </label>
                 <input asp-for="ClubBScore" class="form-control" placeholder="(Optional) enter the score for ClubB" />
                 <span asp-validation-for="ClubBScore" class="text-danger"></span>
             </div>
-            @*<div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
-                    <label asp-for="PredictionValue" class="control-label"></label>
-                    <input asp-for="PredictionValue" class="form-control" />
-                    <span asp-validation-for="PredictionValue" class="text-danger"></span>
-                </div>*@
+            <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
+                    <label class="control-label"> Match </label>
+                    <select readonly asp-for="MatchId" class="form-control" asp-items="ViewBag.MatchId"></select>
+                    <span asp-validation-for="MatchId" class="text-danger"></span>
+             </div>
             <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
                 <label asp-for="TimeofFixture" class="control-label"></label>
                 <input readonly asp-for="TimeofFixture" class="form-control" />
@@ -60,7 +70,7 @@
             </div>
             <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
                 <label class="control-label"><strong>Bet Category  </strong> </label>
-                <select asp-for="BetCategoryId" class="form-control" asp-items="ViewBag.BetCategoryId"></select>
+                <select  asp-for="BetCategoryId" class="form-control" asp-items="ViewBag.BetCategoryId"></select>
                 <span asp-validation-for="BetCategoryId" class="text-danger"></span>
             </div>
             <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">

@@ -45,7 +45,32 @@
       License: https://templatemag.com/license/
     ======================================================= -->
 </head>
-<body>
+
+<body style="zoom:85%">
+    <style>
+        #login-details-in {
+            visibility: collapse;
+        }
+
+        #main-content {
+            padding: 70px 30px 50px 30px;
+        }
+
+        @@media only screen and (max-width: 600px) {
+            #login-details-out {
+                display: none;
+            }
+
+            #login-details-in {
+                visibility: visible;
+            }
+
+            #main-content {
+                padding: 50px 5px 50px 5px;
+            }
+        }
+    </style>
+
     <section id="container">
         <!-- **********************************************************************************************************************************************************
         TOP BAR CONTENT & NOTIFICATIONS
@@ -58,13 +83,13 @@
             <!--logo start-->
             <a href="index.html" class="logo"><b>Predictive <span>Power</span></b></a>
             <!--logo end-->
-			
-			<div class="top-menu" style="padding-top:10px;">
-				<ul class="nav pull-right top-menu">
-					<partial name="_LoginPartial.cshtml" />
-				</ul>
-			</div>
-            
+
+            <div id="login-details-out" class="top-menu" style="padding-top:10px;">
+                <ul class="nav pull-right top-menu">
+                    <partial name="_LoginPartial.cshtml" />
+                </ul>
+            </div>
+
         </header>
         <!--header end-->
         <!--sidebar start-->
@@ -72,12 +97,91 @@
             <div id="sidebar" class="nav-collapse ">
                 <!-- sidebar menu start-->
                 <ul class="sidebar-menu" id="nav-accordion">
-                    <p class="centered"><a href="#">
-						<img src="~/AdminTheme/img/friends/fr-03.jpg" class="img-circle" width="80">
-						 </a>
-					</p>
-                    
+                    <p class="centered">
+                        <a href="#">
+                            <img src="~/AdminTheme/img/friends/fr-03.jpg" class="img-circle" width="80">
+                        </a>
+                    </p>
+
+
                     @if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.SuperAdmin.ToString()))
+                    {
+                        <li id="login-details-in">
+                            <partial name="_LoginPartial.cshtml" />
+                        </li>
+
+                        <li>
+                            <a class="" asp-area="" asp-controller="Home" asp-action="Index">
+                                <i class="fa fa-home"></i>
+                                <span>Switch FrontEnd</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="@ViewBag.AdminIndex" href="../Admin/Index">
+                                <i class="fa fa-dashboard"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="@ViewBag.Clubs" href="../../Clubs/Index">
+                                <i class=" fa fa-soccer-ball-o"></i>
+                                <span>Clubs</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="@ViewBag.PredictionCategories" href="../../PredictionCategories/Index">
+                                <i class=" fa fa-sitemap"></i>
+                                <span>Prediction Categories</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="@ViewBag.Matches" href="../../Matches/Index">
+                                <i class=" fa fa-soccer-ball-o"></i>
+                                <span>Matches</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="@ViewBag.Predictions" href="../../Predictions/Index">
+                                <i class=" fa fa-bar-chart-o"></i>
+                                <span>Predictions</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="@ViewBag.PlanSetup" href="../../pricingplan/listofplans">
+                                <i class=" fa fa-briefcase"></i>
+                                <span>Plan-Setup</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="@ViewBag.Contact" href="../../Home/ContactIndex">
+                                <i class=" fa fa-envelope"></i>
+                                <span>Contact Tickets</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="@ViewBag.WinningPlanPreviewSummaries" href="../../WinningPlanPreviewSummaries/Index">
+                                <i class=" fa fa-resolving"></i>
+                                <span>Set Result View</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="@ViewBag.BetPlatform" href="../../betplatforms/index">
+                                <i class=" fa fa-playstation"></i>
+                                <span>Bet Platforms</span>
+                            </a>
+                        </li>
+                        @*<li>
+                                <a class="@ViewBag.FeedBack" href="../../Home/FeedBackIndex">
+                                    <i class=" fa fa-envelope"></i>
+                                    <span>Feedback</span>
+                                </a>
+                            </li>*@
+                    }
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.Subscriber.ToString()))
                     {
                         <li>
                             <a class="" asp-area="" asp-controller="Home" asp-action="Index">
@@ -85,59 +189,33 @@
                                 <span>Switch FrontEnd</span>
                             </a>
                         </li>
-                    
-                    <li>
-                        <a class="@ViewBag.AdminIndex" href="../Admin/Index">
-                            <i class="fa fa-dashboard"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="@ViewBag.Clubs" href="../../Clubs/Index">
-                            <i class=" fa fa-soccer-ball-o"></i>
-                            <span>Clubs</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="@ViewBag.PredictionCategories" href="../../PredictionCategories/Index">
-                            <i class=" fa fa-umbrella-beach"></i>
-                            <span>Prediction Categories</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="@ViewBag.Matches" href="../../Matches/Index">
-                            <i class=" fa fa-soccer-ball-o"></i>
-                            <span>Matches</span>
-                        </a>
-                    </li>
 
-                    <li>
-                        <a class="@ViewBag.Predictions" href="../../Predictions/Index">
-                            <i class=" fa fa-bar-chart-o"></i>
-                            <span>Predictions</span>
-                        </a>
-                    </li>
+                        <li>
+                            <a class="@ViewBag.UserIndex" asp-area="" asp-controller="userManagement" asp-action="PredictionResults">
+                                <i class="fa fa-user"></i>
+                                <span>User Details</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="@ViewBag.AllUserLogs" asp-area="" asp-controller="userManagement" asp-action="AllUserLogs">
+                                <i class="fa fa-list"></i>
+                                <span>Transaction Logs</span>
+                            </a>
+                        </li>
 
+                        <li>
+                            <a class="@ViewBag.PredictionResults" asp-area="" asp-controller="Predictions" asp-action="PredictionResults">
+                                <i class="fa fa-chain"></i>
+                                <span>Prediction Results</span>
+                            </a>
+                        </li>
 
-                    <li>
-                        <a class="@ViewBag.PlanSetup" href="../../pricingplan/listofplans">
-                            <i class=" fa fa-bar-chart-o"></i>
-                            <span>Plan-Setup</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a class="@ViewBag.Contact" href="../../Home/ContactIndex">
-                            <i class=" fa fa-envelope"></i>
-                            <span>Contact Tickets</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="@ViewBag.FeedBack" href="../../Home/FeedBackIndex">
-                            <i class=" fa fa-envelope"></i>
-                            <span>Feedback</span>
-                        </a>
-                    </li>
+                        @*<li>
+                                <a class="@ViewBag.PredictionResults" asp-area="" asp-controller="Predictions" asp-action="PredictionResults">
+                                    <i class="fa fa-chain"></i>
+                                    <span>Prediction Results</span>
+                                </a>
+                            </li>*@
                     }
                 </ul>
                 <!-- sidebar menu end-->
@@ -145,7 +223,7 @@
         </aside>
         <!--sidebar end-->
 
-        <section id="main-content" style="padding:70px;">
+        <section id="main-content">
             @RenderBody()
         </section>
 
@@ -180,7 +258,7 @@
     <script src="~/AdminTheme/lib/zabuto_calendar.js"></script>
 
     <script type="text/javascript" language="javascript" src="~/AdminTheme/lib/advanced-datatable/js/jquery.js"></script>
- 
+
     <script class="include" type="text/javascript" src="~/AdminTheme/lib/jquery.dcjqaccordion.2.7.js"></script>
 
     <script type="text/javascript" language="javascript" src="~/AdminTheme/lib/advanced-datatable/js/jquery.dataTables.js"></script>
@@ -231,7 +309,7 @@
         }
     </script>
 
-   
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -21,6 +21,11 @@ namespace SleekPredictionPunter.AppService.Wallet
             return result > 0 ? true : false;
         }
 
+        public async Task UpdateWalletDetails(WalletModel model)
+        {
+            await _baseRepository.Update(model, true);
+        }
+
         public async Task<IEnumerable<WalletModel>> GetAllWalletForAdmin(int startIndex = 0, int take = int.MaxValue)
         {
             var result = await _baseRepository.GetAllQueryable(startIndex: startIndex, count: take);
@@ -33,9 +38,9 @@ namespace SleekPredictionPunter.AppService.Wallet
             return getById;
         }
 
-        public async Task<IEnumerable<WalletModel>> GetAllWalletD(Func<WalletModel, bool> predicate, int startIndex = 0, int take = int.MaxValue)
+        public async Task<WalletModel> GetAllWalletD(Func<WalletModel, bool> predicate)
         {
-            var result = await _baseRepository.GetAllQueryable(predicate, startIndex: startIndex, count: take);
+            var result = await _baseRepository.GetFirstOrDefault(predicate);
             return result;
         }
     }

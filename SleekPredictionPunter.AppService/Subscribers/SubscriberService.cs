@@ -97,17 +97,8 @@ namespace SleekPredictionPunter.AppService
 		/// </summary>
 		/// <param name="predicate"></param>
 		/// <returns></returns>
-		public async Task<Subscriber> GetFirstOrDefault(Subscriber model)
+		public async Task<Subscriber> GetFirstOrDefault(Func<Subscriber, bool> predicate)
 		{
-			model.Email = string.IsNullOrEmpty(model.Email) ? string.Empty : model.Email.ToLower();
-			model.Username = string.IsNullOrEmpty(model.Username) ? string.Empty : model.Username.ToLower();
-			model.PhoneNumber = string.IsNullOrEmpty(model.PhoneNumber) ? string.Empty : model.PhoneNumber.ToLower();
-
-			Func<Subscriber, bool> predicate = (x =>
-			(string.IsNullOrEmpty(model.Email) || x.Email == model.Email)
-			&& (string.IsNullOrEmpty(model.Username) || x.Username == model.Username)
-			&& (string.IsNullOrEmpty(model.PhoneNumber) || x.PhoneNumber == model.PhoneNumber));
-
 			return await _repo.GetFirstOrDefault(predicate);
 		}
 		public async Task<long> GetMonthlySummaryForPredictions()

@@ -11,28 +11,34 @@
 <div class="row">
     <div class="col-11">
         <form asp-action="Create">
+            <div>
+                @if (ViewBag.TempMessage != null)
+                {
+                    <p> @ViewBag.TempMessage</p>
+                }
+            </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
-                <label asp-for="ClubAId" class="control-label"></label>
+                <label class="control-label"><strong> Club A </strong> </label>
                 <select asp-for="ClubAId" class="form-control" asp-items="ViewBag.ClubAId"></select>
             </div>
             <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
-                <label asp-for="ClubBId" class="control-label"></label>
+                <label class="control-label"> <strong> Club B </strong></label>
                 <select required asp-for="ClubBId" class="form-control" asp-items="ViewBag.ClubBId"></select>
             </div>
             
             <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
-                <label class="control-label">Match Category</label>
+                <label class="control-label"><strong> Match Category</strong> </label>
                 <select required asp-for="MatchCategoryId" class="form-control" asp-items="ViewBag.MatchCategoryId"></select>
             </div>
             
             <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
-                <label  class="control-label"> Sport Category</label>
+                <label  class="control-label"><strong>Sport Category</strong> </label>
                 <select required asp-for="CustomCategoryId" class="form-control" asp-items="ViewBag.CustomCategoryId"></select>
             </div>
           
             <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 form-group">
-                <label  class="control-label"> Time Of Match</label>
+                <label  class="control-label"><strong>Time Of Match </strong> </label>
                 <input required asp-for="TimeofMatch" class="form-control" />
                 <span asp-validation-for="TimeofMatch" class="text-danger"></span>
             </div>
@@ -46,11 +52,11 @@
             </div>
             <hr/>
             <div class="col-12 form-group">
-                <div class="col-4" style="margin-left:25px">
+                <div class="col-4" style="margin-left:5px">
                     <input type="submit" value="Create" class="btn btn-success" />
                 </div> <br/>
                 <div>
-                    <a asp-action="Index">Back to Matches</a>
+                   <a asp-action="Index">Back to Matches</a>
                 </div>
             </div>
         </form>

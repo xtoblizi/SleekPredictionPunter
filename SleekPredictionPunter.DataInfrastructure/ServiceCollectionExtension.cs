@@ -22,27 +22,30 @@ namespace SleekPredictionPunter.DataInfrastructure
 				options.Password.RequireNonAlphanumeric = false;
 				options.Password.RequireUppercase = false;
 				options.Password.RequireLowercase = false;
-			})
-				.AddEntityFrameworkStores<PredictionDbContext>()
+			}).AddEntityFrameworkStores<PredictionDbContext>()	
 				.AddDefaultTokenProviders();
 
-			services.AddAuthentication(options =>
-			{
-				//options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-				//options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-				//options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-			}).AddJwtBearer(options =>
-			{
-				options.SaveToken = true;
-				options.RequireHttpsMetadata = false;
-				options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
-				{
-					ValidateIssuer = true,
-					ValidateAudience = true,
-					RequireExpirationTime = true,
-					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("PredictivePowerSecurityTokens"))
-				};
-			});
+		
+
+			//services.AddAuthentication(options =>
+			//{
+			//	//options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+			//	//options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			//	//options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+			//});
+
+			//.AddJwtBearer(options =>
+			//{
+			//	options.SaveToken = true;
+			//	options.RequireHttpsMetadata = false;
+			//	options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+			//	{
+			//		ValidateIssuer = true,
+			//		ValidateAudience = true,
+			//		RequireExpirationTime = true,
+			//		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("PredictivePowerSecurityTokens"))
+			//	};
+			//});
 
 		}
 	}

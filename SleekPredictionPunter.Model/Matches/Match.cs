@@ -76,7 +76,8 @@ namespace SleekPredictionPunter.Model.Matches
 		public MatchStatusEnum ReturnStatus {
 			get {
 				var result = TimeofMatch > DateTime.Now ? MatchStatusEnum.Upcoming : MatchStatusEnum.Past;
-				
+				result = MatchStatus != MatchStatusEnum.Upcoming || MatchStatus == MatchStatusEnum.Playing ?
+					MatchStatusEnum.Past : result;
 				return result;
 			} 
 		}

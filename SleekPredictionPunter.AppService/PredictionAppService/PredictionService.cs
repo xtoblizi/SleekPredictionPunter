@@ -7,15 +7,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.EntityFrameworkCore;
+using SleekPredictionPunter.AppService.Subscriptions;
 
 namespace SleekPredictionPunter.AppService.PredictionAppService
 {
     public class PredictionService: IPredictionService
     {
         private readonly IBaseRepository<Prediction> _repo;
-        public PredictionService(IBaseRepository<Prediction> baseRepository)
+        private readonly ISubscriptionAppService  _subscriptionAppService;
+        public PredictionService(IBaseRepository<Prediction> baseRepository,
+            ISubscriptionAppService subscriptionAppService)
         {
             _repo = baseRepository;
+            _subscriptionAppService = subscriptionAppService;
         }
 
         public async Task<long> InsertPrediction(Prediction model)
@@ -75,9 +79,12 @@ namespace SleekPredictionPunter.AppService.PredictionAppService
         }
 
         
-        public async Task<IEnumerable<IGrouping<long, Prediction>>> ReturnRelationalData(Func<Prediction,bool> predicate,bool groupByPredicateCategory = false, bool groupByMatchCategory = false, bool groupByCustomCategory = false)
+        public async Task<IEnumerable<IGrouping<long, Prediction>>> ReturnRelationalData(Func<Prediction,bool> predicate, Func<Prediction, DateTime> orderByFunc, 
+            bool groupByPredicateCategory = false, bool groupByMatchCategory = false,
+            bool groupByCustomCategory = false, bool groupByBetCategory =false,
+            int startIndex = 0, int count = int.MaxValue)
         {
-            var result = await _repo.GetAllQueryable(predicate);
+            var result = await _repo.GetAllQueryable(predicate,orderByFunc,startIndex,count);
             IEnumerable<IGrouping<long, Prediction>> finalResult = null;
             if (groupByPredicateCategory)
             {
@@ -91,6 +98,10 @@ namespace SleekPredictionPunter.AppService.PredictionAppService
             {
                finalResult = result.GroupBy(x => x.CustomCategoryId);
             }
+            else if(groupByBetCategory)
+            {
+                finalResult = result.GroupBy(c => c.BetCategoryId);
+            }
 
             return finalResult;
         }
@@ -103,6 +114,23 @@ namespace SleekPredictionPunter.AppService.PredictionAppService
         public async Task<Prediction> GetFirstOrDefault(Func<Prediction, bool> whereFunc)
         {
             return await _repo.GetFirstOrDefault(whereFunc);
+        }
+
+        public async Task<IEnumerable<Prediction>> PredictionResult(string username,int startindex = 0 , int count = int.MaxValue)
+        {
+            //get subscription
+            Func<Subcription, bool> predicate = (c => c.ExpirationDateTime > DateTime.Now && c.SubscriberUsername==username);
+            var getSubscription = await _subscriptionAppService.GetPredicateRecord(predicate);
+
+            if(getSubscription != null)
+            {
+                Func<Prediction, bool> predictionPredicate =
+                (x => x.PricingPlanId == getSubscription.PricingPlanId && x.PredictionResult == Model.Enums.PredictionResultEnum.PredictionWon);
+
+                return await _repo.GetAllQueryable(predictionPredicate, (x => x.DateCreated), startindex, count);
+            }
+
+            return null;
         }
     }
 }
