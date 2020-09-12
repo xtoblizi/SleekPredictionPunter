@@ -14,6 +14,7 @@ using SleekPredictionPunter.Model.Matches;
 using SleekPredictionPunter.Model.PredicationMatchMaps;
 using SleekPredictionPunter.Model.Categoriess;
 using SleekPredictionPunter.Model.HomeDataModels;
+using SleekPredictionPunter.Model.BettingPlatform;
 
 namespace SleekPredictionPunter.DataInfrastructure
 {
@@ -67,6 +68,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 		public DbSet<CustomCategory> CustomCategories { get; set; }
 		public DbSet<BetCategory> BetCategories { get; set; }
 		public DbSet<WinningPlanPreviewSummary> WinningPlanPreviewSummary { get; set; }
+		public DbSet<BetPlanform> BetPlanforms { get; set; }
 
 
 		/// <summary>

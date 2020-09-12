@@ -1,0 +1,105 @@
+﻿@model SleekPredictionPunter.WebApp.ViewModels.BetPlatforms.BetPlatformVm
+@using SleekPredictionPunter.GeneralUtilsAndServices
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Create Bet-Platform</h2>
+
+
+<div class="row mt">
+    <div class="col-md-11 col-lg-11 col-xl-8 col-sm-12 col-xs-12">
+        <div class="row">
+            <div class="col-md-5 col-lg-4 col-xl-4 col-sm-12 col-xs-12">
+                <form asp-action="Create" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="BetPlatformName" class="control-label"></label>
+                        <input type="text" required asp-for="BetPlatformName" class="form-control" />
+                        <span asp-validation-for="BetPlatformName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Caption" class="control-label"></label>
+                        <input type="text" asp-for="Caption" class="form-control" />
+                        <span asp-validation-for="Caption" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LogoPath" class="control-label"></label>
+                        <input type="file" required asp-for="LogoPath" class="form-control" />
+                        <span asp-validation-for="LogoPath" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div  class="col-md-10 col-lg-10 col-xl-8 col-sm-12 col-xs-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                           Bet Platform Name
+                        </th>
+                        <th>
+                            Caption
+                        </th>
+                        <th>
+                           Logo
+                        </th>
+                        
+                        <th>
+                            Status
+                        </th>
+                        
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.BetPlatforms != null)
+                    {
+                        @foreach (var item in ViewBag.BetPlatforms)
+                        {
+                            <tr>
+                                <td>
+                                    @item?.BetPlatformName
+                                </td>
+                                <td>
+                                    @item?.Caption
+                                </td>
+                                <td>
+                                    <img src="~/files/@(System.IO.Path.GetFileName(await FileReaderHelper.ReadAsync(item?.LogoPath)))" style="width:50px;height:30px" />
+                                </td>
+
+                                <td>
+                                    @item.EntityStatus
+                                </td>
+
+                                <td>
+                                    @*<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i class="fa fc-content"></i></a>*@
+                                    <a asp-action="Edit" title="Update betplatform details" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i title="Update BetPlatform Details" class="fa fa-pencil"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" title="Delete" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

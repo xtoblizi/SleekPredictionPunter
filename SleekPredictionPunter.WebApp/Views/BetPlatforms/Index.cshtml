@@ -1,0 +1,70 @@
+﻿@model IEnumerable<SleekPredictionPunter.Model.BettingPlatform.BetPlanform>
+@using SleekPredictionPunter.GeneralUtilsAndServices
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.BetPlatformName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Caption)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LogoPath)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateCreated)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EntityStatus)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateUpdated)
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BetPlatformName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Caption)
+                    </td>
+                    <td>
+                        <img src="~/files/@(System.IO.Path.GetFileName(await FileReaderHelper.ReadAsync(item?.LogoPath)))" style="width:50px;height:30px" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateCreated)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EntityStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateUpdated)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" title="Update betplatform details" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i title="Update BetPlatform Details" class="fa fa-pencil"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" title="Delete" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

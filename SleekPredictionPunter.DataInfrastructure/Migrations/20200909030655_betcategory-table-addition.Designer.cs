@@ -10,8 +10,8 @@ using SleekPredictionPunter.DataInfrastructure;
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
     [DbContext(typeof(PredictionDbContext))]
-    [Migration("20200903133304_initialcreate")]
-    partial class initialcreate
+    [Migration("20200909030655_betcategory-table-addition")]
+    partial class betcategorytableaddition
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -229,6 +229,36 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.ToTable("AgentRefereeMaps");
                 });
 
+            modelBuilder.Entity("SleekPredictionPunter.Model.BettingPlatform.BetPlanform", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BetPlatformName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Caption")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LogoPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BetPlanforms");
+                });
+
             modelBuilder.Entity("SleekPredictionPunter.Model.Categoriess.BetCategory", b =>
                 {
                     b.Property<long>("Id")
@@ -357,6 +387,51 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SportLeagueCategory");
+                });
+
+            modelBuilder.Entity("SleekPredictionPunter.Model.HomeDataModels.WinningPlanPreviewSummary", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AdvertActionMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Paragraph1Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Paragraph2Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Paragraph3Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PlanName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PricingPlanId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RatingValue")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("SetforHomePreview")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WinningPlanPreviewSummary");
                 });
 
             modelBuilder.Entity("SleekPredictionPunter.Model.IdentityModels.ApplicationRole", b =>

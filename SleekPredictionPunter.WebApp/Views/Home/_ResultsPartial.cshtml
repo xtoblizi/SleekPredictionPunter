@@ -23,7 +23,7 @@
     int total = 0;
 
     topPackageToPreview = ViewBag.ResultPlanViewModel;
-    if (ViewBag.ResultPlanViewModel != null && topPackageToPreview.LatestPredictionDates.Count > 1)
+    if (ViewBag.ResultPlanViewModel != null && topPackageToPreview.LatestPredictionDates.Count > 4)
     {
         var wonCheck = topPackageToPreview.LatestPredictionDates.Where(x => x.predictionResultEnum == PredictionResultEnum.PredictionWon);
         won = wonCheck.Count();
