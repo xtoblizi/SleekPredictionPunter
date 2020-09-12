@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\ClubLogo\" />
+    <Folder Include="wwwroot\files\" />
     <Folder Include="wwwroot\TeamLogo\" />
   </ItemGroup>
 

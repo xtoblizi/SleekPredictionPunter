@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SleekPredictionPunter.AppService;
 using SleekPredictionPunter.DataInfrastructure;
+using SleekPredictionPunter.GeneralUtilsAndServices;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -60,7 +61,9 @@ namespace SleekPredictionPunter.WebApp
 			services.AddUserIdentityServices();
 			services.AddPredictionApplicationServices();
 			services.AddRazorPages();
-		
+			services.AddGeneralUtilServices();
+
+
 			services.AddAuthentication()
 				.AddGoogle(opt =>
 				{
