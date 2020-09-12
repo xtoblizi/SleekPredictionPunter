@@ -112,7 +112,11 @@ namespace SleekPredictionPunter.AppService
 			var filter = getAllSubscriber.Where(x => x.DateCreated >= firstDayOfTheMonth && x.DateCreated <= dateTo);
 			return filter.LongCount();
 		}
+		public async Task<IEnumerable<Subscriber>> GetAllSubscribersByAgentRefcode(Func<Subscriber, bool> predicate, int startIndex = 0, int count = int.MaxValue)
+		{
+			var getAll = await _repo.GetAllQueryable(predicate, startIndex, count);
+			return getAll;
+		}
 
-		
 	}
 }

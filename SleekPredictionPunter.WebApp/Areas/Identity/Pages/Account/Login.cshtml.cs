@@ -79,7 +79,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 
             returnUrl = returnUrl ?? Url.Content("~/");
 
-            // Clear the existing external cookie to ensure a clean login process
+            // Clear the existing external cookie to ensure a clean login processju
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -87,83 +87,91 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null,string loginType = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null, string loginType = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
-
-            if (ModelState.IsValid && loginType=="1")
+            try
             {
-				// This doesn't count login failures towards account lockout
-				// To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                returnUrl = returnUrl ?? Url.Content("~/");
 
-				var user = await _userManager.FindByEmailAsync(Input.Email);
-				if (user != null && await _userManager.CheckPasswordAsync(user, Input.Password))
-				{
-					#region SignIn using token
-					var claims = new[]{
-					new Claim(JwtRegisteredClaimNames.Sub,user.UserName),
-					new Claim (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())};
+                if (ModelState.IsValid && loginType == "1")
+                {
+                    // This doesn't count login failures towards account lockout
+                    // To enable password failures to trigger account lockout, set lockoutOnFailure: true
 
-					var signInKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("PredictivePowerSecurityTokens"));
-					var token = new JwtSecurityToken(
-						expires: DateTime.UtcNow.AddHours(24*2),
-						claims: claims,
-						signingCredentials: new SigningCredentials(signInKey, SecurityAlgorithms.HmacSha256));
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+                    if (user != null && await _userManager.CheckPasswordAsync(user, Input.Password))
+                    {
+                        #region SignIn using token
+                        //var claims = new[]{
+                        //new Claim(JwtRegisteredClaimNames.Sub,user.UserName),
+                        //new Claim (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())};
 
-					#endregion
-					var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
-					var userRolesList = await _userManager.GetRolesAsync(user);
-					var userRoles = string.Join(",", userRolesList);
+                        //var signInKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("PredictivePowerSecurityTokens"));
+                        //var token = new JwtSecurityToken(
+                        //	expires: DateTime.UtcNow.AddHours(24*2),
+                        //	claims: claims,
+                        //	signingCredentials: new SigningCredentials(signInKey, SecurityAlgorithms.HmacSha256));
 
-					if (result.Succeeded)
-					{
-						//Get user details by email then, pass user successful to httpcontextaccessor then, use on UI....
-						//var getUser = await _userManager.FindByEmailAsync(Input.Email);
-						HttpContext.Session.SetString(userEmail, user.Email);
-						HttpContext.Session.SetString(userId, user.Id);
-						HttpContext.Session.SetString(userName, user.UserName);
-						HttpContext.Session.SetString("isAuthenticated", "true");
-						HttpContext.Session.SetString("fullName", user.FullName);
-						HttpContext.Session.SetString("roles", userRoles);
-						HttpContext.Session.SetString("token", new JwtSecurityTokenHandler().WriteToken(token));
+                        #endregion
+                        var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                        var userRolesList = await _userManager.GetRolesAsync(user);
+                        var userRoles = string.Join(",", userRolesList);
 
-						_logger.LogInformation("User logged in.");
-						return LocalRedirect(returnUrl);
-					}
-					else if (result.RequiresTwoFactor)
-					{
-						return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-					}
-					else if (result.IsLockedOut)
-					{
-						_logger.LogWarning("User account locked out.");
-						return RedirectToPage("./Lockout");
-					}
-					else
-					{
-						var notalloewd = result.IsNotAllowed == true ? "User trying to sign in is not allowed." : "";
-						ErrorMessage = $"Sign was not succesful at the time. {notalloewd} ";
-						ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-						return Page();
-					}
-				}
+                        if (result.Succeeded)
+                        {
+                            //Get user details by email then, pass user successful to httpcontextaccessor then, use on UI....
+                            //var getUser = await _userManager.FindByEmailAsync(Input.Email);
+                            HttpContext.Session.SetString(userEmail, user.Email);
+                            HttpContext.Session.SetString(userId, user.Id);
+                            HttpContext.Session.SetString(userName, user.UserName);
+                            HttpContext.Session.SetString("isAuthenticated", "true");
+                            HttpContext.Session.SetString("fullName", user.FullName);
+                            HttpContext.Session.SetString("roles", userRoles);
 
-				ErrorMessage = "Invalid Username or password, could not find user, please try again with correct details";
+                            _logger.LogInformation("User logged in.");
+                            return LocalRedirect(returnUrl);
+                        }
+                        else if (result.RequiresTwoFactor)
+                        {
+                            return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                        }
+                        else if (result.IsLockedOut)
+                        {
+                            _logger.LogWarning("User account locked out.");
+                            return RedirectToPage("./Lockout");
+                        }
+                        else
+                        {
+                            var notalloewd = result.IsNotAllowed == true ? "User trying to sign in is not allowed." : "";
+                            ErrorMessage = $"Sign was not succesful at the time. {notalloewd} ";
+                            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                            return Page();
+                        }
+                    }
 
-			}
+                    ErrorMessage = "Invalid Username or password, could not find user, please try again with correct details";
 
-            else if (loginType == "2")
-            {
-                var redirectUrl = Url.Action("ThirdPartyLoginCallback", "ThirdPartyCallBack", new {returnUrl });
-                redirectUrl = redirectUrl.Remove(0, 9);
-                var prop = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
-                return new ChallengeResult("Google", prop);
+                }
+
+                else if (loginType == "2")
+                {
+                    var redirectUrl = Url.Action("ThirdPartyLoginCallback", "ThirdPartyCallBack", new { returnUrl });
+                    redirectUrl = redirectUrl.Remove(0, 9);
+                    var prop = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+                    return new ChallengeResult("Google", prop);
+                }
+
+                // If we got this far, something failed, redisplay form
+
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+                return Page();
+      
             }
+            catch (Exception ex)
+            {
 
-            // If we got this far, something failed, redisplay form
-
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            return Page();
+                throw ex;
+            }
         }
 
         public async Task<IActionResult> OnPostSendVerificationEmailAsync()

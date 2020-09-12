@@ -1,0 +1,82 @@
+﻿@model SleekPredictionPunter.Model.HomeDataModels.WinningPlanPreviewSummary
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+ 
+</style>
+
+<h2>Create Winning Plan Preview Summary</h2>
+<hr />
+<div class="row">
+    <div class="col-md-10">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="col-md-6 col-lg-6 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label class="control-label">Plan Details Paragraph1 Description</label>
+                <textarea asp-for="Paragraph1Description" class="form-control"></textarea>
+                <span asp-validation-for="Paragraph1Description" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label class="control-label">Plan Details Paragraph2 Description</label>
+                <textarea asp-for="Paragraph2Description" class="form-control"></textarea>
+                <span asp-validation-for="Paragraph2Description" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label class="control-label"> Plan Details Paragraph3 Description</label>
+                <textarea asp-for="Paragraph3Description" class="form-control"></textarea>
+                <span asp-validation-for="Paragraph3Description" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label class="control-label">Advert Action Message</label>
+                <textarea asp-for="AdvertActionMessage" class="form-control"></textarea>
+                <span asp-validation-for="AdvertActionMessage" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label class="control-label">Select Rating</label>
+                <select asp-for="RatingValue" asp-items="ViewBag.RatingId" class="form-control"></select>
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-xl-3 col-sm-6 col-xs-12 form-group">
+                <label class="control-label"> Select Package</label>
+                <select asp-for="PricingPlanId" asp-items="ViewBag.PricingPlanId" class="form-control"></select>
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-xl-3 col-sm-6 col-xs-12 form-group" style="margin-top:28px">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" asp-for="SetforHomePreview" /> @Html.DisplayNameFor(model => model.SetforHomePreview)
+                    </label>
+                </div>
+            </div>
+            <p> &nbsp; </p>
+            <div class="row">
+                <div class="col-12 form-group">
+                    &nbsp; &nbsp; <input type="submit" value="Create" class="btn btn-success" />
+                    @* <a asp-action="Index" class="link" style="margin:15px">Back to Matches</a>*@
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <h4>Below is a sample of what the hot wining result preiview would look like based on the name fields</h4>
+    <p> The blue highlighted regions describe different sections of the result view that relate to the form fields above</p>
+    <div id="imagepreviewofresultpackage">
+        <img src="~/AdminTheme/img/wininig_row.png" style="height:auto; width:100%"/>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

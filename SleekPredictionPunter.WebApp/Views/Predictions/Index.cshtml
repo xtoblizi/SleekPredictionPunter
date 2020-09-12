@@ -59,11 +59,13 @@
 									Logo
 								</th>
 								<th>
-									Prediction Category
+								  Category
 								</th>
-
 								<th>
-									Match Category
+									Plan
+								</th>
+								<th>
+									Prediction Status
 								</th>
 								<th>
 									Time
@@ -102,9 +104,9 @@
 									<td>
 										@Html.DisplayFor(modelItem => item.BeCategory)
 									</td>
-
+									<td> @item.PricingPlanName</td>
 									<td>
-										@item?.MatchCategory
+										@item.PredictionResult
 									</td>
 
 									<td>

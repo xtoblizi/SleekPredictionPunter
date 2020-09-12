@@ -116,16 +116,21 @@ namespace SleekPredictionPunter.AppService.PredictionAppService
             return await _repo.GetFirstOrDefault(whereFunc);
         }
 
-        public async Task<IEnumerable<Prediction>> PredictionResult(string username)
+        public async Task<IEnumerable<Prediction>> PredictionResult(string username,int startindex = 0 , int count = int.MaxValue)
         {
             //get subscription
-            Func<Subcription, bool> predicate = (c => c.DateCreated > DateTime.Now && c.SubscriberUsername==username);
+            Func<Subcription, bool> predicate = (c => c.ExpirationDateTime > DateTime.Now && c.SubscriberUsername==username);
             var getSubscription = await _subscriptionAppService.GetPredicateRecord(predicate);
 
-            Func<Prediction, bool> predictionPredicate = 
+            if(getSubscription != null)
+            {
+                Func<Prediction, bool> predictionPredicate =
                 (x => x.PricingPlanId == getSubscription.PricingPlanId && x.PredictionResult == Model.Enums.PredictionResultEnum.PredictionWon);
 
-            return await _repo.GetAllQueryable(predictionPredicate); 
+                return await _repo.GetAllQueryable(predictionPredicate, (x => x.DateCreated), startindex, count);
+            }
+
+            return null;
         }
     }
 }

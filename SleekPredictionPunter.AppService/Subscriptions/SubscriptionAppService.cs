@@ -27,7 +27,7 @@ namespace SleekPredictionPunter.AppService.Subscriptions
 
         public async Task<Subcription> GetPredicateRecord(Func<Subcription, bool> predicate)
         {
-            var result = await _baseRepository.GetFirstOrDefault(predicate);
+            var result = await _baseRepository.GetFirstOrDefault(predicate,(x=>x.DateCreated));
             return result;
         }
 

@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using SleekPredictionPunter.Model.Matches;
 using SleekPredictionPunter.Model.PredicationMatchMaps;
 using SleekPredictionPunter.Model.Categoriess;
+using SleekPredictionPunter.Model.HomeDataModels;
+using SleekPredictionPunter.Model.BettingPlatform;
 
 namespace SleekPredictionPunter.DataInfrastructure
 {
@@ -21,12 +23,11 @@ namespace SleekPredictionPunter.DataInfrastructure
         // const string connectionstring = "Data Source=.;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
         //   " Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
 
-        const string connectionstring = "server=(LocalDb)\\MSSQLLocalDB;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
+       // const string connectionstring = "Data Source=DESKTOP-JBDM8G2\\SQLEXPRESS;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
+         //   " Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
+
+        const string connectionstring = "Data Source=localhost\\SQLEXPRESS;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
             " Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
-
-        //const string connectionstring = "Data Source=localhost\\SQLEXPRESS;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
-        //    " Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
-
         public PredictionDbContext CreateDbContext(string[] args)
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<PredictionDbContext>();
@@ -66,6 +67,8 @@ namespace SleekPredictionPunter.DataInfrastructure
 		public DbSet<PredictionMatchMap> PredictionMapMaps { get; set; }
 		public DbSet<CustomCategory> CustomCategories { get; set; }
 		public DbSet<BetCategory> BetCategories { get; set; }
+		public DbSet<WinningPlanPreviewSummary> WinningPlanPreviewSummary { get; set; }
+		public DbSet<BetPlanform> BetPlanforms { get; set; }
 
 
 		/// <summary>

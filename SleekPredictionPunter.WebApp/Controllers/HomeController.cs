@@ -2,13 +2,18 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SleekPredictionPunter.AppService.Contacts;
+using SleekPredictionPunter.AppService.HomeWiningPlanPreview;
 using SleekPredictionPunter.AppService.MatchCategories;
 using SleekPredictionPunter.AppService.Plans;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.Predictors;
 using SleekPredictionPunter.Model;
+using SleekPredictionPunter.Model.Enums;
+using SleekPredictionPunter.Model.HomeDataModels;
+using SleekPredictionPunter.Model.PricingPlan;
 using SleekPredictionPunter.WebApp.Models;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,15 +28,18 @@ namespace SleekPredictionPunter.WebApp.Controllers
 		private readonly IPredictorService _predictorService;
 		private readonly IMatchCategoryService _matchCategoryService;
 		private readonly IPricingPlanAppService _pricingPlanservice;
+		private readonly IWiningPlanPreviewService _winingService;
 		public HomeController(ILogger<HomeController> logger,
 			IPredictorService predictorService,
 			IMatchCategoryService matchCategoryService,
 			IPredictionService predictionService,
+			IWiningPlanPreviewService winingService,
 			IContactAppService contactAppService,
 			IPricingPlanAppService pricingPlanAppService)
 		{
 			_contactService = contactAppService;
 			_matchCategoryService = matchCategoryService;
+			_winingService = winingService;
 			_predictionService = predictionService;
 			_predictorService = predictorService;
 			_logger = logger;
@@ -59,7 +67,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
 				freePredicate = (p => p.PricingPlanId == geteFreePlan.Id);
 				Func<Prediction, DateTime> orderByDescFunc = (x => x.DateCreated);
 				var freePredications =
-						await _predictionService.GetPredictionsOrdered(freePredicate, orderByDescFunc, startIndex: 0, count: 100);
+						await _predictionService.GetPredictionsOrdered(freePredicate, orderByDescFunc,
+						startIndex: 0, count: 100);
 			}
 			
 			#region Predications in groupings
@@ -75,25 +84,68 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
 			var groupedTipsByPredicationCategories = await _predictionService.ReturnRelationalData(predicate:freePredicate,
 				orderByFunc:orderByFunc,
-				groupByPredicateCategory: true);
+				groupByPredicateCategory: true,startIndex:10,count:10);
 
 			var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(predicate: freePredicate,
 				orderByFunc:orderByFunc,
-				groupByMatchCategory: true);
+				groupByMatchCategory: true, startIndex: 10, count: 10);
 
 			var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(predicate:freePredicate,
 				orderByFunc:orderByFunc,
-				groupByCustomCategory: true);
+				groupByCustomCategory: true, startIndex: 10, count: 10);
 
 
 			ViewBag.GroupedTipsByCustomCategories = groupedTipsByCustomCategories;
 			ViewBag.GroupedTipsByMatchCategories = groupedTipsByMatchCategories;
 			ViewBag.GroupedTipsByPredicationCategories = groupedTipsByPredicationCategories;
 			#endregion
+
+			#region Hot Package Result To Preview
+			Func<WinningPlanPreviewSummary, DateTime> orderBydesc = (x => x.DateUpdated.Value);
+			Func<WinningPlanPreviewSummary, bool> wherefunc = (x => x.SetforHomePreview == true);
+
+			var topPackageToPreview = await _winingService.GetFirstOrDefault(whereFunc: wherefunc, orderByfunc: orderBydesc);
+			if (topPackageToPreview != null)
+			{
+				PricingPlanModel plan = await _pricingPlanservice.GetById(topPackageToPreview.PricingPlanId);
+
+				Func<Prediction, bool> predicateClause = (x => x.PricingPlanId == plan.Id && 
+				x.PredictionResult != PredictionResultEnum.MatchPending);
+
+				Func<Prediction, DateTime> orderByfunc = (x => x.DateUpdated.Value);
+				var predictionsResults = await _predictionService.GetPredictionsOrdered(predicateClause, orderByfunc, 0, 4);
+				var lastestDates = new List<LastestPredictionDateValues>();
+				if (predictionsResults != null)
+				{
+					foreach (var item in predictionsResults)
+					{
+						lastestDates.Add(new LastestPredictionDateValues { 
+						DateOfPrediction = item.DateCreated,
+						predictionResultEnum = item.PredictionResult
+						});
+					}
+
+					ResultPlanViewModel resultPlanView = new ResultPlanViewModel()
+					{
+						PricingPlan = plan,
+						WinningPlanPreview = topPackageToPreview,
+						LatestPredictionDates = lastestDates,
+						TodayPrediction = predictionsResults?.FirstOrDefault()
+
+					};
+
+					ViewBag.ResultPlanViewModel = resultPlanView;
+				}
+
+				
+			}
+				
+
 			
+			#endregion
+
 
 			return View();
-
 		}
 		
 
@@ -118,6 +170,12 @@ namespace SleekPredictionPunter.WebApp.Controllers
             {
 				return View(message);
 			}
+			return View();
+		}
+
+		[HttpPost]
+		public IActionResult SetAgentAdvert(AgentAdvert model)
+		{
 			return View();
 		}
 

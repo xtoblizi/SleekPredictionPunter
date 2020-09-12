@@ -1,0 +1,255 @@
+﻿@model SleekPredictionPunter.Model.AgentDashboardDto
+@inject SleekPredictionPunter.AppService.ISubscriberService _subscriber
+@inject SleekPredictionPunter.AppService.Plans.IPricingPlanAppService _pricingPlan
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var serialNumber = 1;
+    var serialNumberr = 1;
+}
+
+<!-- Favicons -->
+<link href="img/favicon.png" rel="icon">
+<link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+
+<!-- Bootstrap core CSS -->
+<link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!--external css-->
+<link href="lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="lib/advanced-datatable/css/demo_page.css" rel="stylesheet" />
+<link href="lib/advanced-datatable/css/demo_table.css" rel="stylesheet" />
+<link rel="stylesheet" href="lib/advanced-datatable/css/DT_bootstrap.css" />
+<!-- Custom styles for this template -->
+<link href="css/style.css" rel="stylesheet">
+<link href="css/style-responsive.css" rel="stylesheet">
+<style>
+    .card {
+        background-color: #fff;
+        border-radius: 10px;
+        border: none;
+        position: relative;
+        margin-bottom: 30px;
+        box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1), 0 0.9375rem 1.40625rem rgba(90,97,105,0.1), 0 0.25rem 0.53125rem rgba(90,97,105,0.12), 0 0.125rem 0.1875rem rgba(90,97,105,0.1);
+    }
+
+    .l-bg-cherry {
+        background: linear-gradient(to right, #493240, #f09) !important;
+        color: #fff;
+    }
+
+    .l-bg-blue-dark {
+        background: linear-gradient(to right, #373b44, #4286f4) !important;
+        color: #fff;
+    }
+
+    .l-bg-green-dark {
+        background: linear-gradient(to right, #0a504a, #38ef7d) !important;
+        color: #fff;
+    }
+
+    .l-bg-orange-dark {
+        background: linear-gradient(to right, #a86008, #ffba56) !important;
+        color: #fff;
+    }
+
+    .card .card-statistic-3 .card-icon-large .fas, .card .card-statistic-3 .card-icon-large .far, .card .card-statistic-3 .card-icon-large .fab, .card .card-statistic-3 .card-icon-large .fal {
+        font-size: 110px;
+    }
+
+    .card .card-statistic-3 .card-icon {
+        text-align: center;
+        line-height: 50px;
+        margin-left: 15px;
+        color: #000;
+        position: absolute;
+        right: -5px;
+        top: 20px;
+        opacity: 0.1;
+    }
+
+    .l-bg-cyan {
+        background: linear-gradient(135deg, #289cf5, #84c0ec) !important;
+        color: #fff;
+    }
+
+    .l-bg-green {
+        background: linear-gradient(135deg, #23bdb8 0%, #43e794 100%) !important;
+        color: #fff;
+    }
+
+    .l-bg-orange {
+        background: linear-gradient(to right, #f9900e, #ffba56) !important;
+        color: #fff;
+    }
+
+    .l-bg-cyan {
+        background: linear-gradient(135deg, #289cf5, #84c0ec) !important;
+        color: #fff;
+    }
+</style>
+
+@using (Html.BeginForm("agentdashboard", "agents", FormMethod.Get, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <section class="wrapper">
+        <div class="row">                    
+            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-6 col-xs-10">
+                <div class="card l-bg-cherry">
+                    <div class="card-statistic-3 p-4">
+                        <div class="card-icon card-icon-large justify-content-xl-center"><i class="fas fa-shopping-cart"></i></div>
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                            <h3 class="card-title text-center"><b>My Referrals</b></h3>
+                        </div>
+                        <div class="row align-items-center col-xl-6 col-lg-6 col-md-6 d-flex col-sm-10 col-sm-10">
+                            <div class="col-8">
+                                <h1 class="d-flex align-items-center mb-0">
+                                    <br />
+                                    <br />
+                                    @Model.SubcribrrCount
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-4 col-sm-6 col-xs-10">
+                <div class="card l-bg-blue-dark">
+                    <div class="card-statistic-3 p-4">
+                        <div class="card-icon card-icon-large justify-content-xl-center"><i class="fas fa-users"></i></div>
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                            <h3 class="card-title text-center"><b>Total Earnings</b></h3>
+                        </div>
+                        <div class="row align-items-center col-xl-6 col-lg-6 col-md-6 d-flex col-sm-6 col-sm-10">
+                            <div class="col-8">
+                                <h2 class="d-flex align-items-center mb-0 col-sm-6">
+                                    <br /><br />
+                                    @Model.AgentEarnings
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="row mt">
+        <!-- /col-lg-12 -->
+        <div class="col-lg-12 mt">
+
+            <div class="row content-panel">
+                <div class="panel-heading">
+                    <ul class="nav nav-tabs nav-justified">
+                        <li>
+                            <h2 class="text-center"><b>My Referral Details</b></h2>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="table-responsive">
+                            <table class="table field_wrapper">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">S/N</th>
+                                        <th scope="col">Email Address</th>
+                                        <th scope="col">First Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Referral Code</th>
+                                        <th scope="col">Date Referred</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                @if (Model.AllSubscriber.Any())
+                                {
+                                    @foreach (var item in Model.AllSubscriber)
+                                    {
+                                        //var getPlanById = await _pricingPlan.GetPlanById(item.PlanId);
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row" id="serialnumber">@(serialNumber++)</th>
+                                                <td>@item.Username</td>
+                                                <td>@item.FirstName</td>
+                                                <td>@item.LastName</td>
+                                                <td>@item.RefererCode</td>
+                                                <td>@item.DateCreated.ToString()</td>
+                                                <td>
+                                                    <button class="btn btn-success btn-xs" disabled><i class="fa fa-check"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    }
+                                }
+                                else
+                                {
+                                    <p class="align-content-center">No Records</p>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    
+    <div class="row mt">
+        <!-- /col-lg-12 -->
+        <div class="col-lg-12 mt">
+
+            <div class="row content-panel">
+                <div class="panel-heading">
+                    <ul class="nav nav-tabs nav-justified">
+                        <li>
+                            <h3 class="card-title text-center"><b>Referral Subscriptions</b></h3>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="table-responsive">
+                            <table class="table field_wrapper">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">S/N</th>
+                                        <th scope="col">User Name</th>
+                                        <th scope="col">Package Name</th>
+                                        <th scope="col">Duration</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                @if (Model.Subscription.Any())
+                                {
+                                    @foreach (var item in Model.Subscription)
+                                    {
+                                        var getPlanById = await _pricingPlan.GetPlanById(item.PricingPlanId);
+                                        var getSubscribeById = await _subscriber.GetById(item.SubscriberId);
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row" id="serialnumber">@(serialNumberr++)</th>
+                                                <td>@getSubscribeById.Username</td>
+                                                <td>@getPlanById.PlanName</td>
+                                                <td>@item.NumberOfMonths</td>
+                                                <td>@getPlanById.Price</td>
+                                                <td>
+                                                    <button class="btn btn-success btn-xs" disabled><i class="fa fa-eye-slash"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    }
+                                }
+                                else
+                                {
+                                    <p class="align-content-center">No Records</p>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+}

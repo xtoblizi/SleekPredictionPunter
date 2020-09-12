@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -8,11 +9,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SleekPredictionPunter.AppService;
 using SleekPredictionPunter.AppService.Agents;
+using SleekPredictionPunter.AppService.Subscriptions;
+using SleekPredictionPunter.AppService.Wallet;
 using SleekPredictionPunter.DataInfrastructure;
 using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.IdentityModels;
+using SleekPredictionPunter.Model.Wallets;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
@@ -22,14 +27,23 @@ namespace SleekPredictionPunter.WebApp.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAgentService _agentService;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ISubscriberService _subscriberService;
+        private readonly ISubscriptionAppService _subscriptionAppService;
+        private readonly IWalletAppService _walletAppService;
+        private readonly IAgentRefereeMapService _agentRefereeMapService;
         public AgentsController(PredictionDbContext context, IAgentService agentService,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            UserManager<ApplicationUser> userManager, ISubscriptionAppService subscriptionAppService,
+            SignInManager<ApplicationUser> signInManager, ISubscriberService subscriberService,
+            IWalletAppService walletAppService, IAgentRefereeMapService agentRefereeMapService)
         {
             _context = context;
             _agentService = agentService;
             _userManager = userManager;
             _signInManager = signInManager;
+            _subscriberService = subscriberService;
+            _subscriptionAppService = subscriptionAppService;
+            _walletAppService = walletAppService;
+            _agentRefereeMapService = agentRefereeMapService;
         }
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
         // GET: Agents
@@ -160,6 +174,71 @@ namespace SleekPredictionPunter.WebApp.Controllers
             var agent = await _agentService.GetAgentById(id);
             await _agentService.RemoveAgentById(agent, true); 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        [Route("Agent/MyDashboard")]
+        public async Task<IActionResult> AgentDashboard()
+        {
+            try
+            {
+                var dateFrom = DateTime.Now;
+                var firstDayOfTheMonth = new DateTime(dateFrom.Year, dateFrom.Month, 1);
+                var dateTo = DateTime.Now;
+
+                var user = User.Identity.Name;
+                Func<Agent, bool> predicateForAgent = (x => x.Username == user);
+                var getAgentInfoByUsername = await _agentService.GetAgentsPredicate(predicateForAgent);
+
+                Func<Subscriber, bool> getAllSubscribersByRefcode = (sub =>
+                (string.IsNullOrEmpty(getAgentInfoByUsername.RefererCode) || sub.RefererCode == getAgentInfoByUsername.RefererCode) &&
+                (sub.DateCreated >= firstDayOfTheMonth && sub.DateCreated <= dateTo));
+
+                var getAllSubcriberByRefCode = await _subscriberService.GetAllSubscribersByAgentRefcode(getAllSubscribersByRefcode);
+                List<Subcription> subscriberSubscription = new List<Subcription>();
+
+                foreach (var item in getAllSubcriberByRefCode)
+                {
+                    Func<Subcription, bool> getAllSubscriberSubscriptions = (plan => plan.SubscriberUsername == item.Username);
+                    var subscription = await _subscriptionAppService.GetPredicateRecord(getAllSubscriberSubscriptions);
+                    if (subscription != null)
+                    {
+                        subscriberSubscription.Add(subscription);
+                    }
+                }
+                Func<Subscriber, bool> getAllSubscribers = (s => s.RefererCode == getAgentInfoByUsername.RefererCode);
+                var subscriberCount = await _subscriberService.GetAllSubscribersByAgentRefcode(getAllSubscribers);
+
+                Func<WalletModel, bool> agentWalletPredicate = (w => w.UserEmailAddress == getAgentInfoByUsername.Username);
+                var agentWallet = await _walletAppService.GetAllWalletDetailsForUser(agentWalletPredicate);
+                var getLastItemInTheList = agentWallet.Where(agentWalletPredicate).LastOrDefault();
+
+                var getAgentRevenue = await _agentRefereeMapService.CalculateAgentRevenueByRefereerCode(getAgentInfoByUsername.RefererCode);
+
+                var agentDashboardDto = new AgentDashboardDto
+                {
+                    SubcribrrCount = subscriberCount.LongCount(),
+                    AgentEarnings = getAgentRevenue,
+                    AllSubscriber = getAllSubcriberByRefCode,
+                    Subscription = subscriberSubscription,
+                    AgentWalletBalance = getLastItemInTheList.Amount
+                };
+                return View(agentDashboardDto);
+            }
+            catch (Exception)
+            {
+                var agentDashboardDto = new AgentDashboardDto
+                {
+                    SubcribrrCount = 0,
+                    AgentEarnings = 0,
+                    AllSubscriber = null,
+                    Subscription = null,
+                    AgentWalletBalance = 0,
+                    ProcessingMessage = "An error occurred. Please, check your internet connection then, refresh your browser."
+                };
+                return View(agentDashboardDto);
+            }
+
         }
 
         private async Task<bool> AgentExists(long id)

@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SleekPredictionPunter.AppService;
 using SleekPredictionPunter.DataInfrastructure;
+using SleekPredictionPunter.GeneralUtilsAndServices;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -44,22 +45,24 @@ namespace SleekPredictionPunter.WebApp
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 			});
 
-			services.AddAuthentication(options =>
-			{
-				options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-				options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-				options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-			}).AddCookie(options =>
-			{
-				options.LoginPath = "/identity/auth/login";
-				options.AccessDeniedPath = "";
-				options.ExpireTimeSpan = TimeSpan.FromMinutes(10500);
-			});
+			//services.AddAuthentication(options =>
+			//{
+			//	options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+			//	options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+			//	options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+			//}).AddCookie(options =>
+			//{
+			//	options.LoginPath = "/identity/account/login";
+			//	options.AccessDeniedPath = "";
+			//	options.ExpireTimeSpan = TimeSpan.FromMinutes(10500);
+			//});
 			services.AddSession(x => { x.IdleTimeout = TimeSpan.FromHours(24); });
 
 			services.AddUserIdentityServices();
 			services.AddPredictionApplicationServices();
 			services.AddRazorPages();
+			services.AddGeneralUtilServices();
+
 
 			services.AddAuthentication()
 				.AddGoogle(opt =>

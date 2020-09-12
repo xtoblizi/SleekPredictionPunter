@@ -1,4 +1,5 @@
-﻿using SleekPredictionPunter.Model;
+﻿using SleekPredictionPunter.AppService.Wallet;
+using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Repository.Base;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,11 @@ namespace SleekPredictionPunter.AppService.Agents
     public class AgentService: IAgentService
     {
         private readonly IBaseRepository<Agent> _repo;
-        public AgentService(IBaseRepository<Agent> baseRepository)
+        private readonly IWalletAppService _walletAppService;
+        public AgentService(IBaseRepository<Agent> baseRepository, IWalletAppService walletAppService)
         {
             _repo = baseRepository;
+            _walletAppService = walletAppService;
         }
 
         public async Task<long> CreateAgent(Agent agent)
@@ -39,12 +42,11 @@ namespace SleekPredictionPunter.AppService.Agents
                         referrerCode = $"{referrerCode}_{RandomString(2)}";
                     };
                 }
+
                 agent.EntityStatus = Model.Enums.EntityStatusEnum.NotActive;
                 agent.DateCreated = DateTime.Now;
                 agent.IsTenant = true;
                 agent.RefererCode = referrerCode;
-                agent.Wallet.Balance = 0;
-                agent.Wallet.UserName = agent.Username;
 
                 return await _repo.Insert(agent);
             }

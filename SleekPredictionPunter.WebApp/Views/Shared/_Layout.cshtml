@@ -4,55 +4,66 @@
 @using SleekPredictionPunter.Model.Enums
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@model SleekPredictionPunter.Model.AgentDashboardDto
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<!-- Header section Peredion-->
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>@ViewData["Title"] - Predictive Power </title>
+    <!-- Header section Peredion-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Predictive Power </title>
 
-	@*@if (ViewBag.AddLinkScriptforPackage != null && ViewBag.AddLinkScriptforPackage == true)
-	{
-		<link href="~/AdminTheme/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
-		<link href="~/AdminTheme/css/style.css" rel="stylesheet">
-		<link href="~/AdminTheme/css/style-responsive.css" rel="stylesheet">
-	}*@
+    @*@if (ViewBag.AddLinkScriptforPackage != null && ViewBag.AddLinkScriptforPackage == true)
+        {
+            <link href="~/AdminTheme/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+            <link href="~/AdminTheme/css/style.css" rel="stylesheet">
+            <link href="~/AdminTheme/css/style-responsive.css" rel="stylesheet">
+        }*@
 
-	<!-- favicon -->
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-	<!-- bootstrap -->
-	<link rel="stylesheet" href="~/FrontendTheme/assets/css/bootstrap.min.css">
-	<!-- fontawesome icon  -->
-	<link rel="stylesheet" href="~/FrontendTheme/assets/css/fontawesome.min.css">
-	<!-- flaticon css -->
-	<link rel="stylesheet" href="~/FrontendTheme/assets/fonts/flaticon.css">
-	<!-- animate.css -->
-	<link rel="stylesheet" href="~/FrontendTheme/assets/css/animate.css">
-	<!-- Owl Carousel -->
-	<link rel="stylesheet" href="~/FrontendTheme/assets/css/owl.carousel.min.css">
-	<!-- magnific popup -->
-	<link rel="stylesheet" href="~/FrontendTheme/assets/css/magnific-popup.css">
-	<link rel="stylesheet" href="~/FrontendTheme/assets/css/odometer.min.css">
-	<!-- stylesheet -->
-	<link rel="stylesheet" href="~/FrontendTheme/assets/css/style.css">
-	<!-- responsive -->
-	<link rel="stylesheet" href="~/FrontendTheme/assets/css/responsive.css">
+    <!-- favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="~/FrontendTheme/assets/css/bootstrap.min.css">
+    <!-- fontawesome icon  -->
+    <link rel="stylesheet" href="~/FrontendTheme/assets/css/fontawesome.min.css">
+    <!-- flaticon css -->
+    <link rel="stylesheet" href="~/FrontendTheme/assets/fonts/flaticon.css">
+    <!-- animate.css -->
+    <link rel="stylesheet" href="~/FrontendTheme/assets/css/animate.css">
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="~/FrontendTheme/assets/css/owl.carousel.min.css">
+    <!-- magnific popup -->
+    <link rel="stylesheet" href="~/FrontendTheme/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/FrontendTheme/assets/css/odometer.min.css">
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="~/FrontendTheme/assets/css/style.css">
+    <!-- responsive -->
+    <link rel="stylesheet" href="~/FrontendTheme/assets/css/responsive.css">
 
-	<link rel="stylesheet" href="~/FrontendTheme/assets/css/register-page-responsive.css">
+    <link rel="stylesheet" href="~/FrontendTheme/assets/css/register-page-responsive.css">
 </head>
+<style>
+
+	@@media only screen and (max-width: 600px) {
+		#timer-header-top {
+			display: none;
+		}
+	}
+</style>
 
 <body style="zoom:85%">
-	<!-- preloader begin -->
-	<div class="preloader">
-		
-		<span>Predictive Power Loading ... </span>
-	</div>
+    <!-- preloader begin -->
+    <div class="preloader">
+
+        <span>Predictive Power Loading ... </span>
+    </div>
 
 	<!-- bet modal begin -->
-	<div class="bet-modal-bg">
+
+	@*<div class="bet-modal-bg">
 		<div class="bet-modal">
 			<div class="bet-header">
 				<span class="title">Predict a game</span>
@@ -93,14 +104,15 @@
 				<button>Predict Now</button>
 			</div>
 		</div>
-	</div>
+	</div>*@
+
 	<!-- bet modal end -->
 	<!-- header begin -->
 	<div class="header">
 		<div class="header-top">
 			<div class="container">
 				<div class="row">
-					<div class="col-xl-6 col-lg-6 col-sm-6">
+					<div class="col-xl-6 col-lg-6 col-sm-6" id="timer-header-top">
 						<div class="left-area">
 							<ul>
 								<li>
@@ -133,85 +145,91 @@
 			</div>
 		</div>
 
-		<div id="navbar" class="header-bottom">
-			<div class="container">
-				<div class="row">
-					<div class="col-xl-3 col-lg-3 d-xl-flex d-lg-flex d-block align-items-center">
-						<div class="row">
-							<div class="col-xl-12 col-lg-12 col-6 d-xl-block d-lg-block d-flex align-items-center">
-								<div class="logo">
-									<a href="#">
-										<img src="~/FrontendTheme/assets/img/logo.png" alt="logo">
-									</a>
-								</div>
-							</div>
-							<div class="col-6 d-xl-none d-lg-none d-block">
-								<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-									<i class="fas fa-bars"></i>
-								</button>
-							</div>
-						</div>
-					</div>
-					<div class="col-xl-9 col-lg-9">
-						<div class="mainmenu">
-							<nav class="navbar navbar-expand-lg">
-								<div class="collapse navbar-collapse" id="navbarSupportedContent">
-									<ul class="navbar-nav ml-auto">
-										<li class="nav-item">
-											<a class="nav-link" href="../../Home/Index">Home</a>
-										</li>
+        <div id="navbar" class="header-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-3 d-xl-flex d-lg-flex d-block align-items-center">
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-6 d-xl-block d-lg-block d-flex align-items-center">
+                                <div class="logo">
+                                    <a href="#">
+                                        <img src="~/FrontendTheme/assets/img/logo.png" alt="logo">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-6 d-xl-none d-lg-none d-block">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                    <i class="fas fa-bars"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-9 col-lg-9">
+                        <div class="mainmenu">
+                            <nav class="navbar navbar-expand-lg">
+                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                    <ul class="navbar-nav ml-auto">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="../../Home/Index">Home</a>
+                                        </li>
 
-										@if (!User.Identity.IsAuthenticated && (!User.IsInRole("Agent") || !User.IsInRole("SuperAdmin")))
-										{
-											<li class="nav-item">
-												<a asp-page="/account/register" asp-area="identity" asp-route-userType="4" class="nav-link">Be an Agent</a>
-											</li>
-										}
-										<li class="nav-item">
-											<a class="nav-link" href="../../predictions/frontEndIndex">Predictions</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link" href="../../pricingplan/index">Packages</a>
-										</li>
-										@if (User.Identity.IsAuthenticated && User.IsInRole("Subscriber"))
-										{
-											<li class="nav-item">
-												<a class="nav-link" href="../../usermanagement/index">Manage Profile</a>
-											</li>
-										}
-										<li class="nav-item">
-											<a class="nav-link" href="../../home/privacy">Terms & Conditions</a>
-										</li>
+                                        @if (!User.Identity.IsAuthenticated && (!User.IsInRole("Agent") || !User.IsInRole("SuperAdmin")))
+                                        {
+                                            <li class="nav-item">
+                                                <a asp-page="/account/register" asp-area="identity" asp-route-userType="4" class="nav-link">Be an Agent</a>
+                                            </li>
+                                        }
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="../../predictions/frontEndIndex">Predictions</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="../../pricingplan/index">Packages</a>
+                                        </li>
+                                        @if (User.Identity.IsAuthenticated && User.IsInRole("Subscriber"))
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="../../usermanagement/index">Manage Profile</a>
+                                            </li>
+                                        }
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="../../home/privacy">Terms & Conditions</a>
+                                        </li>
 
-										<li class="nav-item">
-											<a class="nav-link" href="../../home/contact">Contact</a>
-										</li>
-										@if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin"))
-										{
-											<li class="nav-item">
-												<a class="nav-link" href="../../admin/index">Admin Dashboard</a>
-											</li>
-										}
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="../../home/contact">Contact</a>
+                                        </li>
+                                        @if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin"))
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="../../admin/index">Admin Dashboard</a>
+                                            </li>
+                                        }
 
-									</ul>
-								</div>
-							</nav>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                                        @if (User.Identity.IsAuthenticated && User.IsInRole("Agent"))
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="../../agent/mydashboard">Agent Dashboard</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-	<!-- header end -->
-	<!-- Banner section . Note include the section content being the content
-		in the partialview with name _bannerPartial.cs>
-	@RenderSection("bannersection", false)
+    <!-- header end -->
+    <!-- Banner section . Note include the section content being the content
+        in the partialview with name _bannerPartial.cs>
+    @RenderSection("bannersection", false)
 
-	<!-- current Page Content Begin-->
-	<div>
-		@RenderBody()
+    <!-- current Page Content Begin-->
+    <div>
+        @RenderBody()
 
 	</div>
 	<!-- current page body end-->
@@ -228,21 +246,21 @@
 						<div class="social">
 							<ul>
 								<li>
-									<a href="https://www.facebook.com/108120464353440/" class="social-icon">
+									<a href="https://www.facebook.com/108120464353440/" title="Facebook" class="social-icon">
 										<i class="fab fa-facebook-f"></i>
 									</a>
-									<a href="#" class="social-icon">
+									@*<a href="#" class="social-icon">
 										<i class="fab fa-twitter"></i>
-									</a>
-									<a href="https://www.instagram.com/p/CDPAWk2jLIL/" class="social-icon">
+									</a>*@
+									<a href="https://www.instagram.com/p/CDPAWk2jLIL/" title="Instagram" class="social-icon">
 										<i class="fab fa-instagram"></i>
 									</a>
-									@*<a href="#" class="social-icon">
-											<i class="fab fa-pinterest-p"></i>
-										</a>*@
-									@*<a href="#" class="social-icon">
-											<i class="fab fa-facebook-f"></i>
-										</a>*@
+									<a href="https://t.me/joinchat/AAAAAFd48-rJD4RJL3dcgg" title="Telegram" class="social-icon">
+											<i class="fab fa-telegram"></i>
+									</a>
+									<a href="https://melbet.ng/?tag=d_454693m_18639c_sopsman" class="social-icon" title="Melbet Link">
+											<i class="fab fa-info"></i>
+									</a>
 								</li>
 							</ul>
 						</div>
@@ -254,7 +272,7 @@
 									</span>
 									<span class="text">
 										<span class="title">Mail Us</span>
-										<span class="descr">don't@reply.com</span>
+										<span class="descr"></span>
 									</span>
 								</li>
 								<li>
@@ -303,7 +321,7 @@
 						<h3>Connect With Us</h3>
 						<ul>
 							<li>
-								<a href="">Privacy Terms and Conditions</a>
+								<a href="../../Home/Privacy">Privacy Terms and Conditions</a>
 							</li>
 							@*<li>
 									<a href="#">Blog</a>
@@ -383,62 +401,62 @@
 		</div>
 	</div>
 
-	<!-- footer Notes section -->
-	<!-- notes begin -->
-	<div class="notes">
-		<div class="container">
-			<div class="row justify-content-center">
-				@*<div class="col-xl-10 col-lg-10">
-					Predictive Power is a sports prediction html template, published by autworks throgh envato marketplace. You can use this template on any kind of sports prediction in the world. as like football, baseball, soccer, cricket etc. all rights reserved by autworks © 2020.
-				</div>*@
-			</div>
-		</div>
-	</div>
-	<!-- notes end -->
-	<!-- copyright footer begin -->
-	<div class="copyright-footer">
-		<div class="container">
-			<div class="row justify-content-between">
-				<div class="col-xl-5 col-md-6 col-lg-6 d-lg-flex d-lg-flex d-block align-items-center">
-					<p class="copyright-text">
-						<a href="#">Predictive Power</a> © 2020. PRIVACY POLICY
-					</p>
-				</div>
-				<div class="text-right col-md-6 col-xl-4 col-lg-6 d-xl-flex d-lg-flex d-block align-items-center">
-					<p class="copyright-text">
-						Powerd By <a href="">Capable Minds Group</a>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- copyright footer end -->
-	<!-- jquery -->
-	<!-- <script src="assets/js/jquery.js"></script> -->
-	<script src="~/FrontendTheme/assets/js/jquery-3.4.1.min.js"></script>
-	<!-- bootstrap -->
-	<script src="~/FrontendTheme/assets/js/bootstrap.min.js"></script>
-	<!-- owl carousel -->
-	<script src="~/FrontendTheme/assets/js/owl.carousel.js"></script>
-	<!-- magnific popup -->
-	<script src="~/FrontendTheme/assets/js/jquery.magnific-popup.js"></script>
-	<!-- filterizr js -->
-	<script src="~/FrontendTheme/assets/js/jquery.filterizr.min.js"></script>
-	<!-- wow js-->
-	<script src="~/FrontendTheme/assets/js/wow.min.js"></script>
-	<!-- clock js -->
-	<script src="~/FrontendTheme/assets/js/clock.min.js"></script>
-	<!-- main -->
-	<script src="~/FrontendTheme/assets/js/main.js"></script>
-	<!-- Home / Index based js-->
-	<script src="~/FrontendTheme/assets/js/jquery.appear.min.js"></script>
-	<script src="~/FrontendTheme/assets/js/odometer.min.js"></script>
-	<script src="~/FrontendTheme/assets/js/oddometer-active.js"></script>
-	<script src="~/FrontendTheme/assets/js/step-signup.js"></script>
+    <!-- footer Notes section -->
+    <!-- notes begin -->
+    <div class="notes">
+        <div class="container">
+            <div class="row justify-content-center">
+                @*<div class="col-xl-10 col-lg-10">
+                        Predictive Power is a sports prediction html template, published by autworks throgh envato marketplace. You can use this template on any kind of sports prediction in the world. as like football, baseball, soccer, cricket etc. all rights reserved by autworks © 2020.
+                    </div>*@
+            </div>
+        </div>
+    </div>
+    <!-- notes end -->
+    <!-- copyright footer begin -->
+    <div class="copyright-footer">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-xl-5 col-md-6 col-lg-6 d-lg-flex d-lg-flex d-block align-items-center">
+                    <p class="copyright-text">
+                        <a href="#">Predictive Power</a> © 2020. PRIVACY POLICY
+                    </p>
+                </div>
+                <div class="text-right col-md-6 col-xl-4 col-lg-6 d-xl-flex d-lg-flex d-block align-items-center">
+                    <p class="copyright-text">
+                        Powerd By <a href="">Capable Minds Group</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- copyright footer end -->
+    <!-- jquery -->
+    <!-- <script src="assets/js/jquery.js"></script> -->
+    <script src="~/FrontendTheme/assets/js/jquery-3.4.1.min.js"></script>
+    <!-- bootstrap -->
+    <script src="~/FrontendTheme/assets/js/bootstrap.min.js"></script>
+    <!-- owl carousel -->
+    <script src="~/FrontendTheme/assets/js/owl.carousel.js"></script>
+    <!-- magnific popup -->
+    <script src="~/FrontendTheme/assets/js/jquery.magnific-popup.js"></script>
+    <!-- filterizr js -->
+    <script src="~/FrontendTheme/assets/js/jquery.filterizr.min.js"></script>
+    <!-- wow js-->
+    <script src="~/FrontendTheme/assets/js/wow.min.js"></script>
+    <!-- clock js -->
+    <script src="~/FrontendTheme/assets/js/clock.min.js"></script>
+    <!-- main -->
+    <script src="~/FrontendTheme/assets/js/main.js"></script>
+    <!-- Home / Index based js-->
+    <script src="~/FrontendTheme/assets/js/jquery.appear.min.js"></script>
+    <script src="~/FrontendTheme/assets/js/odometer.min.js"></script>
+    <script src="~/FrontendTheme/assets/js/oddometer-active.js"></script>
+    <script src="~/FrontendTheme/assets/js/step-signup.js"></script>
 
-	@*<script src="~/lib/jquery/dist/jquery.min.js"></script>
-		<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="~/js/site.js" asp-append-version="true"></script>*@
-	@RenderSection("Scripts", required: false)
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>*@
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

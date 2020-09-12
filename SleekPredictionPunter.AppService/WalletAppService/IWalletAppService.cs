@@ -12,5 +12,6 @@ namespace SleekPredictionPunter.AppService.Wallet
         Task<WalletModel> GetByUserId(Func<WalletModel, bool> predicate);
         Task<bool> InsertNewAmount(WalletModel model);
         Task UpdateWalletDetails(WalletModel model);
+        Task<IEnumerable<WalletModel>> GetAllWalletDetailsForUser(Func<WalletModel, bool> predicate, int startIndex = 0, int take = int.MaxValue);
     }
 }

@@ -2,9 +2,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using SleekPredictionPunter.AppService.Agents;
 using SleekPredictionPunter.AppService.BetCategories;
+using SleekPredictionPunter.AppService.BetPlatforms;
 using SleekPredictionPunter.AppService.Clubs;
 using SleekPredictionPunter.AppService.Contacts;
 using SleekPredictionPunter.AppService.CustomCategory;
+using SleekPredictionPunter.AppService.HomeWiningPlanPreview;
 using SleekPredictionPunter.AppService.MatchCategories;
 using SleekPredictionPunter.AppService.Matches;
 using SleekPredictionPunter.AppService.Packages;
@@ -50,6 +52,8 @@ namespace SleekPredictionPunter.AppService
 			services.AddTransient<IMatchService, MatchService>();
 			services.AddTransient<IPredicationMatchMapService, PredictionMatchMapService>();
 			services.AddTransient<IBetCategoryService, BetCategoryService>();
+			services.AddTransient<IWiningPlanPreviewService, WiningPlanPreviewService>();
+			services.AddTransient<IBetPlatformService, BetPlatformService>();
 
             // repository DI registration
             services.AddPredictionRepositories();
