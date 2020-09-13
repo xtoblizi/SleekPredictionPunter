@@ -26,8 +26,15 @@
         <div class="row justify-content-center">
             <div class="col-xl-7 col-lg-8 col-md-8 col-sm-12 col-xm-12">
                 <div class="section-title">
-					 @if (ViewData["RegistrationStatusMessge"] != null) {<h3 class="text-success"> @ViewData["RegistrationStatusMessge"]</h3>  }
-                   </div>
+                    @if (ViewData["RegistrationStatusMessge"] != null) {
+
+                    <h6 class="text-success"> @ViewData["RegistrationStatusMessge"]</h6>
+                    }
+
+                @if(ViewData["RefLink"] != null){
+                <p> <a href="@ViewData["RefLink"]"></a>  </p>
+                }
+                </div>
             </div>
         </div>
         <div class="row justify-content-center">
