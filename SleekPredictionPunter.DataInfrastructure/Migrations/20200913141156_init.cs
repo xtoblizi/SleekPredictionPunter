@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
-    public partial class Init0001 : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,6 +40,24 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BetCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BetPlanforms",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: true),
+                    BetPlatformName = table.Column<string>(nullable: true),
+                    Caption = table.Column<string>(nullable: true),
+                    LogoPath = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BetPlanforms", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -447,7 +465,8 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     Paragraph3Description = table.Column<string>(nullable: true),
                     RatingValue = table.Column<int>(nullable: false),
                     AdvertActionMessage = table.Column<string>(nullable: true),
-                    PricingPlanId = table.Column<int>(nullable: false)
+                    PricingPlanId = table.Column<int>(nullable: false),
+                    SetforHomePreview = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -819,6 +838,9 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AgentUsers");
+
+            migrationBuilder.DropTable(
+                name: "BetPlanforms");
 
             migrationBuilder.DropTable(
                 name: "Clubs");
