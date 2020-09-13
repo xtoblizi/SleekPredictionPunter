@@ -5,9 +5,11 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     var sn = 1;
+    var sn1 = 1;
+    var sn2 = 1;
 }
-    <div class="container">
-        <h2>Create Prediction</h2>
+    <div style="background-color:white">
+        <h2>Create Booking</h2>
         <hr />
         <h3 class="text-danger">
             @if (ViewData["ErrorMessage"] != null)
@@ -27,24 +29,20 @@
                                             <th>
                                                 S/N
                                             </th>
-
                                             <th>
                                                 Club A
                                             </th>
-
                                             <th>
                                             </th>
                                             <th>
                                                 Club B
                                             </th>
-
                                             <th>
                                                 Bet
                                             </th>
                                             <th>
                                                 Date
                                             </th>
-
                                             <th>
                                                 Action
                                             </th>
@@ -53,9 +51,6 @@
                                     <tbody>
                                         @foreach (var item in ViewBag.Predictions as IEnumerable<Prediction>)
                                         {
-                                            //var getCluALogo = await _clubService.GetByName(item.ClubA);
-                                            //var getCluBLogo = await _clubService.GetByName(item.ClubB);
-                                            //                     var matchType = await _matchCategory.GetById(item.MatchCategoryId);
                                             <tr>
                                                 <td>
                                                     @(sn++)
@@ -64,34 +59,21 @@
                                                 <td>
                                                     @item.ClubA
                                                 </td>
-                                                @*<td>
-                                        <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item.ClubALogoPath))" style="width:30px;height:30px" />
-                                    </td>*@
                                                 <td>
                                                     VS
                                                 </td>
                                                 <td>
                                                     @item.ClubB
                                                 </td>
-                                                @*<td>
-                                        <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item?.ClubBLogoPath))" style="width:30px;height:30px" />
-                                    </td>*@
                                                 <td>
                                                     @item.BeCategory
                                                 </td>
-                                                @*<td> @item.PricingPlanName</td>
-                                    <td>
-                                        @item.PredictionResult
-                                    </td>*@
-
                                                 <td>
                                                     @item.TimeofFixture.ToShortDateString()
                                                 </td>
 
                                                 <td>
-                                                    @*<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i class="fa fc-content"></i></a>*@
                                                     <a asp-action="Add" title="Add Predcition to Booking" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i title="Add Predcition to Booking" class="fa fa-plus"></i></a>
-
                                                 </td>
                                             </tr>
                                         }
@@ -111,24 +93,14 @@
                                             <th>
                                                 S/N
                                             </th>
-
                                             <th>
                                                 Club A
                                             </th>
-
                                             <th>
                                             </th>
                                             <th>
                                                 Club B
                                             </th>
-
-                                            <th>
-                                                Bet
-                                            </th>
-                                            <th>
-                                                Date
-                                            </th>
-
                                             <th>
                                                 Action
                                             </th>
@@ -137,44 +109,23 @@
                                     <tbody>
                                         @foreach (var item in ViewBag.Predictions as IEnumerable<Prediction>)
                                         {
-                                            //var getCluALogo = await _clubService.GetByName(item.ClubA);
-                                            //var getCluBLogo = await _clubService.GetByName(item.ClubB);
-                                            //                     var matchType = await _matchCategory.GetById(item.MatchCategoryId);
                                             <tr>
                                                 <td>
-                                                    @(sn++)
+                                                    @(sn1++)
                                                 </td>
 
                                                 <td>
                                                     @item.ClubA
                                                 </td>
-                                                @*<td>
-                                        <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item.ClubALogoPath))" style="width:30px;height:30px" />
-                                    </td>*@
                                                 <td>
                                                     VS
                                                 </td>
                                                 <td>
                                                     @item.ClubB
                                                 </td>
-                                                @*<td>
-                                        <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item?.ClubBLogoPath))" style="width:30px;height:30px" />
-                                    </td>*@
-                                                <td>
-                                                    @item.BeCategory
-                                                </td>
-                                                @*<td> @item.PricingPlanName</td>
-                                    <td>
-                                        @item.PredictionResult
-                                    </td>*@
 
                                                 <td>
-                                                    @item.TimeofFixture.ToShortDateString()
-                                                </td>
-
-                                                <td>
-                                                    @*<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i class="fa fc-content"></i></a>*@
-                                                    <a asp-action="Add" title="Remove from Booking" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i title="Remove from booking" class="fa fa-remove"></i></a>
+                                                    <a asp-action="Remove" title="Remove from Booking" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i title="Remove from booking" class="fa fa-remove"></i></a>
                                                 </td>
                                             </tr>
                                         }
@@ -192,14 +143,14 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">S/N</th>
-                                        <th scope="col">Question</th>
-                                        <th scope="col">Answer</th>
+                                        <th scope="col">Bet Platform</th>
+                                        <th scope="col">BetCode</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row" id="serialnumber">@(sn++)</th>
+                                        <th scope="row" id="serialnumber">@(sn2++)</th>
                                         <td>
                                             <select type="text" name="questionId[]" class="form-control">
                                                 <option value="">... Select BetPlatform ...</option>
@@ -228,7 +179,7 @@
                 <hr />
                 <div class="row">
                     <div class="col-12 form-group">
-                        <input type="submit" value="Add Prediction" class="btn btn-success" style="margin:15px" />
+                        <input type="submit" value="Book" class="btn btn-success" style="margin:15px" />
                     </div>
                 </div>
 
@@ -236,9 +187,6 @@
         </div>
 
     </div>
-
-
-
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
