@@ -16,6 +16,7 @@ using SleekPredictionPunter.AppService.Plans;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.PredictionCategoryService;
 using SleekPredictionPunter.AppService.PredictionMatchMaps;
+using SleekPredictionPunter.AppService.PredictionsBookings;
 using SleekPredictionPunter.AppService.Predictors;
 using SleekPredictionPunter.AppService.Subscriptions;
 using SleekPredictionPunter.AppService.ThirdPartyAppService;
@@ -54,6 +55,7 @@ namespace SleekPredictionPunter.AppService
 			services.AddTransient<IBetCategoryService, BetCategoryService>();
 			services.AddTransient<IWiningPlanPreviewService, WiningPlanPreviewService>();
 			services.AddTransient<IBetPlatformService, BetPlatformService>();
+			services.AddTransient<IPredictionBookingService, PredictionBookingService>();
 
             // repository DI registration
             services.AddPredictionRepositories();
