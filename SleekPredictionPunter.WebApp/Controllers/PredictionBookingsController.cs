@@ -133,24 +133,41 @@ namespace SleekPredictionPunter.WebApp.Controllers
             if(!TotalPredictions.Any())
                 TotalPredictions = predictions.ToList();
 
-            TotalPredictions.Select(x => BookingPredictionsStatic.Any(y => x.Id != y.Id));
+            //TotalPredictions.Select(x => BookingPredictionsStatic.Any(y => x.Id != y.Id));
 
-            ViewBag.Predictions = predictions;
+            ViewBag.Predictions = TotalPredictions;
             ViewBag.BookingPredictionsStatic = BookingPredictionsStatic;
 
             return View();
         }
+
 
         // POST: PredictionBookings/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddPrediction(Prediction predictionBooking)
+        public async Task<IActionResult> AddPrediction(long predictionId)
         {
+
+            var predictionBooking = await _predictionService.GetById(predictionId);
             BookingPredictionsStatic.Add(predictionBooking);
-      
-            TotalPredictions.Select(x => BookingPredictionsStatic.Any(y => x.Id != y.Id));
+            TotalPredictions.Remove(predictionBooking);
+           // TotalPredictions.Select(x => BookingPredictionsStatic.Any(y => x.Id != y.Id));
+
+            ViewBag.Predictions = TotalPredictions;
+            return RedirectToAction("Create");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemovePrediction(long predictionId)
+        {
+
+            var predictionBooking = await _predictionService.GetById(predictionId);
+            BookingPredictionsStatic.Remove(predictionBooking);
+
+            TotalPredictions.Add(predictionBooking);
 
             ViewBag.Predictions = TotalPredictions;
             return RedirectToAction("Create");
@@ -252,6 +269,25 @@ namespace SleekPredictionPunter.WebApp.Controllers
         private async Task<bool> PredictionBookingExists(long id)
         {
             return await _context.GetBookingById(id) != null ? true : false;
+        }
+
+        private  async Task AddPredictionToBooking(long id)
+        {
+            var predictionBooking = await _predictionService.GetById(id);
+            BookingPredictionsStatic.Add(predictionBooking);
+            TotalPredictions.Remove(predictionBooking);
+            // TotalPredictions.Select(x => BookingPredictionsStatic.Any(y => x.Id != y.Id));
+
+            ViewBag.Predictions = TotalPredictions;
+        } 
+        private  async Task RemovePredictionFromBooking(long id)
+        {
+            var predictionBooking = await _predictionService.GetById(id);
+            BookingPredictionsStatic.Remove(predictionBooking);
+
+            TotalPredictions.Add(predictionBooking);
+
+            ViewBag.Predictions = TotalPredictions;
         }
     }
 }

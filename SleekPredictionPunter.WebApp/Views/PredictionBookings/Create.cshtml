@@ -8,7 +8,7 @@
     var sn1 = 1;
     var sn2 = 1;
 }
-    <div style="background-color:white">
+    <div style="background-color:inherit">
         <h2>Create Booking</h2>
         <hr />
         <h3 class="text-danger">
@@ -20,70 +20,60 @@
         <div class="row">
             <form asp-action="Create">
                 <div class="row">
-                    <div class="col-md-7">
-                        <div class="row">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover">
-                                    <thead>
+                    <div class="col-md-7 col-lg-7 col-sm-10 col-xs-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            S/N
+                                        </th>
+                                        <th>
+                                            Club A
+                                                VS
+                                            Club B
+                                        </th>
+                                        <th>
+                                            Bet
+                                        </th>
+                                        <th>
+                                            Date
+                                        </th>
+                                        <th>
+                                           Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.Predictions as IEnumerable<Prediction>)
+                                    {
                                         <tr>
-                                            <th>
-                                                S/N
-                                            </th>
-                                            <th>
-                                                Club A
-                                            </th>
-                                            <th>
-                                            </th>
-                                            <th>
-                                                Club B
-                                            </th>
-                                            <th>
-                                                Bet
-                                            </th>
-                                            <th>
-                                                Date
-                                            </th>
-                                            <th>
-                                                Action
-                                            </th>
+                                            <td>
+                                                @(sn++)
+                                            </td>
+
+                                            <td>
+                                                @item.ClubA
+                                                 &nbsp; vs &nbsp;
+                                                @item.ClubB
+                                            </td>
+                                            <td>
+                                                @item.BeCategory
+                                            </td>
+                                            <td>
+                                                @item.TimeofFixture.ToShortDateString()
+                                            </td>
+                                            <td>
+                                              @*  <a asp-action="AddPrediction" title="Add Predcition to Booking" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i title="Add Predcition to Booking" class="fa fa-plus"></i></a>*@
+                                                <a href="#" title="Add Predcition to Booking" class="btn btn-primary btn-xs"><i title="Add Predcition to Booking" class="fa fa-plus"></i></a>
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in ViewBag.Predictions as IEnumerable<Prediction>)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @(sn++)
-                                                </td>
-
-                                                <td>
-                                                    @item.ClubA
-                                                </td>
-                                                <td>
-                                                    VS
-                                                </td>
-                                                <td>
-                                                    @item.ClubB
-                                                </td>
-                                                <td>
-                                                    @item.BeCategory
-                                                </td>
-                                                <td>
-                                                    @item.TimeofFixture.ToShortDateString()
-                                                </td>
-
-                                                <td>
-                                                    <a asp-action="Add" title="Add Predcition to Booking" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i title="Add Predcition to Booking" class="fa fa-plus"></i></a>
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div id="predictionchoice" class="col-md-5 col-lg-5 col-lg-5 col-sm-12 col-xs-12">
-
                         @if (ViewBag.BookingPredictionsStatic != null)
                         {
                             <div class="table-responsive">
@@ -94,11 +84,8 @@
                                                 S/N
                                             </th>
                                             <th>
-                                                Club A
-                                            </th>
-                                            <th>
-                                            </th>
-                                            <th>
+                                                Club A 
+                                                vs 
                                                 Club B
                                             </th>
                                             <th>
@@ -107,7 +94,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (var item in ViewBag.Predictions as IEnumerable<Prediction>)
+                                        @foreach (var item in ViewBag.BookingPredictionsStatic as IEnumerable<Prediction>)
                                         {
                                             <tr>
                                                 <td>
@@ -116,16 +103,14 @@
 
                                                 <td>
                                                     @item.ClubA
-                                                </td>
-                                                <td>
-                                                    VS
-                                                </td>
-                                                <td>
+                                                    &nbsp; vs &nbsp;
+
                                                     @item.ClubB
                                                 </td>
 
                                                 <td>
-                                                    <a asp-action="Remove" title="Remove from Booking" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i title="Remove from booking" class="fa fa-remove"></i></a>
+                                                   @* <a asp-action="RemovePrediction" title="Remove from Booking" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i title="Remove from booking" class="fa fa-remove"></i></a>*@
+                                                    <a  title="Remove from Booking" href="#"  class="btn btn-primary btn-xs"><i title="Remove from booking" class="fa fa-remove"></i></a>
                                                 </td>
                                             </tr>
                                         }
@@ -168,7 +153,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <input type="text" name="betcode" placeholder="Enter Betcode" />
+                                            <input class="form-control" type="text" name="betcode" placeholder="Enter Betcode" />
                                         </td>
                                     </tr>
                                 </tbody>
