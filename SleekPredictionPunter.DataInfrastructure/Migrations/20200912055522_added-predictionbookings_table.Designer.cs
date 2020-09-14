@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SleekPredictionPunter.DataInfrastructure;
 
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
     [DbContext(typeof(PredictionDbContext))]
-    partial class PredictionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200912055522_added-predictionbookings_table")]
+    partial class addedpredictionbookings_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -846,9 +848,6 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.Property<DateTime?>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("DisplayonHome")
-                        .HasColumnType("bit");
-
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
 
@@ -860,9 +859,6 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
                     b.Property<string>("PredictedBy")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PredictionResult")
-                        .HasColumnType("int");
 
                     b.Property<string>("Predictions")
                         .HasColumnType("nvarchar(max)");

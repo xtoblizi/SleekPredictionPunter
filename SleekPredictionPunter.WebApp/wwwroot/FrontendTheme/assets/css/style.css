@@ -1332,7 +1332,7 @@ ul {
         display: flex; }
         .upcoming-match .upcoming-match-list .single-upcoming-match .single-team .part-logo img {
           width: 55px;
-          height: 60px; }
+          height: 50px; }
       .upcoming-match .upcoming-match-list .single-upcoming-match .single-team .part-text span.team-name {
         font-weight: 500;
         text-transform: uppercase;
