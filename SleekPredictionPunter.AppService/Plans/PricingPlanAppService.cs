@@ -78,6 +78,21 @@ namespace SleekPredictionPunter.AppService.Plans
             }
         }
 
+        public async Task UpdatePricePlanBenefit(PlanPricingBenefitsModel model)
+        {
+            try
+            {
+                if (model == null) throw new ArgumentNullException("There's a problem with your model. Failed to insert to question table");
+
+                 await _benefitBaseRepository.Update(model);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public async Task<IEnumerable<PlanPricingBenefitsModel>> GetAllBenefits()
         {
             var getAllRecords = await _benefitBaseRepository.GetAllQueryable();
@@ -85,9 +100,19 @@ namespace SleekPredictionPunter.AppService.Plans
             return result;
         }
 
-        private async Task DeleteBenefit(PlanPricingBenefitsModel model, bool deleted = true)
+        public async Task<IEnumerable<PlanPricingBenefitsModel>> GetAllBenefitsByPredicate(Func<PlanPricingBenefitsModel,bool> predicate)
         {
-            await _benefitBaseRepository.Delete(model, deleted);
+            var getAllRecords = await _benefitBaseRepository.GetAllQueryable(predicate);
+            return getAllRecords;
+        }
+
+        public async Task DeleteBenefit(long id)
+        {
+            var obj = await _benefitBaseRepository.GetById(id);
+            if(obj != null)
+            {
+                await _benefitBaseRepository.Delete(obj);
+            }
         }
         #endregion
 
@@ -199,5 +224,6 @@ namespace SleekPredictionPunter.AppService.Plans
         {
             await _dynamicPlansAndBenefitsRepo.Delete(model);
         }
-	}
+
+    }
 }

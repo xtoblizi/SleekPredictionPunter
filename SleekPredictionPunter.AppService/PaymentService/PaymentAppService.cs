@@ -27,9 +27,9 @@ namespace SleekPredictionPunter.AppService.PaymentService
         {
             try
             {
-                string secretKey = "sk_test_ff43f0891562d8d81cfd17389654a0c11c157258";
+                string secretKey = "sk_live_ec2ce7fcefeefb71cb02c017e0a81a9e658cbcbc";
                 string reference = Guid.NewGuid().ToString();
-                callbackUrl += reference;
+                callbackUrl = $"{callbackUrl}?reference={reference}";
                 var transaction = new PayStackApi(secretKey);
 
                 walletModel.CurrentAmount = walletModel.CurrentAmount * 100;

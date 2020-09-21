@@ -20,4 +20,11 @@ namespace SleekPredictionPunter.Model.PricingPlan
         public IEnumerable<PricingPlanModel> PricingPlanModel { get; set; }
         public IEnumerable<PlanPricingBenefitsModel> planPricingBenefitsModels { get; set; }
     }
+
+    public class PlanPricingDtoEdit
+    {
+        public PricingPlanModel PricingPlanModel { get; set; }
+        public IEnumerable<PlanBenefitQuestionsModel> planBenefitQuestionsModelForNewAdds { get; set; }
+        public IEnumerable<PlanPricingBenefitsModel> planPricingBenefitsModels { get; set; }
+    }
 }

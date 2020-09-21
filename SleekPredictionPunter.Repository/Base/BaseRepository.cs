@@ -145,21 +145,21 @@ namespace SleekPredictionPunter.Repository.Base
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		public async virtual Task<T> GetById(string id)
-		{
-			var result = await _entity.FindAsync(id);
-			return result;
-		}
+		//public async virtual Task<T> GetById(string id)
+		//{
+		//	var result = await _entity.FindAsync(id);
+		//	return result;
+		//}
 		public async virtual Task<T> GetById(long id)
 		{
 			var result= await _entity.FindAsync(id);
 			return result;
 		}
-		public async virtual Task<T> GetById(int id)
-		{
-			var result = await _entity.FindAsync(id);
-			return result;
-		}
+		//public async virtual Task<T> GetById(int id)
+		//{
+		//	var result = await _entity.FindAsync(id);
+		//	return result;
+		//}
 
 		/// <summary>
 		/// Get the first of default of a  queried table

@@ -7,6 +7,7 @@ namespace SleekPredictionPunter.AppService.Plans
 {
     public interface IPricingPlanAppService
     {
+        Task DeleteBenefit(long id);
         Task<IEnumerable<PlanPricingBenefitsModel>> GetAllBenefits();
         Task<PlanBenefitQuestionsModel> GetQuestionById(long id);
         Task<IEnumerable<PlanBenefitQuestionsModel>> GetAllQuestion();
@@ -19,12 +20,13 @@ namespace SleekPredictionPunter.AppService.Plans
         Task<PricingPlanModel> GetFirstOfDefault(Func<PricingPlanModel, bool> func = null);
 		Task<PricingPlanModel> GetById(long packgeId);
 		Task DeletePricingPlan(long packgeId);
-
-		Task<PricingPlanModel> GetPlanById(long id);
+        Task<IEnumerable<PlanPricingBenefitsModel>> GetAllBenefitsByPredicate(Func<PlanPricingBenefitsModel, bool> predicate);
+        Task UpdatePricePlanBenefit(PlanPricingBenefitsModel model);
+        Task<PricingPlanModel> GetPlanById(long id);
         Task DeleteDynamicMode(dynamic model);
         void UpdatePanQuestions(PlanBenefitQuestionsModel model);
         void UpdatePricingPlan(PricingPlanModel model);
-
+        
     }
     
 }

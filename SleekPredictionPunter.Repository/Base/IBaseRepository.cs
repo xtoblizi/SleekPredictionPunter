@@ -26,11 +26,11 @@ namespace SleekPredictionPunter.Repository.Base
 
 		DbSet<T> ReturnDbSetForQuery();
 
-		Task<T> GetById(string id);
+		//Task<T> GetById(string id);
 
 		Task<T> GetById(long id);
 
-		Task<T> GetById(int id);
+		//Task<T> GetById(int id);
 		Task<long> SaveChangesAsync();
 
 		//Task<dynamic> ReturnIncldedResult<T1, T2>(IIncludableQueryable<T1, T2> includeablequery) where T1 : class where T2 : class;
