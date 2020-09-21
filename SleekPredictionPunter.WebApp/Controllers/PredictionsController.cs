@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using ReflectionIT.Mvc.Paging;
 using SleekPredictionPunter.AppService.BetCategories;
 using SleekPredictionPunter.AppService.Clubs;
 using SleekPredictionPunter.AppService.CustomCategory;
@@ -68,14 +69,24 @@ namespace SleekPredictionPunter.WebApp.Controllers
         /// </summary>
         /// <returns></returns>
         //[Authorize(Roles = "Super Admin")]
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    ViewBag.Predictions = "active";
+        //    Func<Prediction, DateTime> orderByDesc = (s => s.DateCreated);
+        //    var result = await _predictionService.GetPredictionsOrdered(orderDescFunc:orderByDesc,startIndex:0,count:50);
+        //    return View(result);
+        //}
+
+        public async Task<IActionResult> Index(int page = 1)
         {
             ViewBag.Predictions = "active";
             Func<Prediction, DateTime> orderByDesc = (s => s.DateCreated);
-            var result = await _predictionService.GetPredictionsOrdered(orderDescFunc:orderByDesc,startIndex:0,count:50);
-            return View(result);
-        } 
-		public async Task<IActionResult> FrontEndIndex()
+
+            var qry = await _predictionService.GetPredictionsOrdered(orderDescFunc: orderByDesc, startIndex: 0, count: 50);
+            var model =  PagingList.Create(qry, 10, page);
+            return View(model);
+        }
+        public async Task<IActionResult> FrontEndIndex()
         {
 			base.AddLinkScriptforPackageSetter(true);
             var plans = await _pricingPlanservice.GetAllPlans();
@@ -252,7 +263,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             prediction.CustomCategoryId = match.CustomCategoryId;
             prediction.MatchCategoryId = match.MatchCategoryId;
             prediction.MatchCategory = match.MatchCategory;
-            prediction.PredictorId = getPredictor.Id;
+            prediction.PredictorId =  getPredictor.Id;
             prediction.PredictionResult = Model.Enums.PredictionResultEnum.MatchPending;
             prediction.ClubA = match.ClubA;
             prediction.ClubB = match.ClubB;

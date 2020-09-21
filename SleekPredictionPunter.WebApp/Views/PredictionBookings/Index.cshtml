@@ -1,0 +1,78 @@
+﻿@model IEnumerable<SleekPredictionPunter.Model.PredictionBookings.PredictionBooking>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            
+            <th>
+                Booking Codes
+            </th>
+            
+            <th>
+                Odd
+            </th>
+            <th>
+               Bonus Code
+            </th>
+            <th>
+              Predicted By
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LeastMatchstattime)
+            </th>
+            
+            <th>
+               Price Plan
+            </th>
+            <th>
+                Display on Home
+            </th>
+            
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.BookingCodeWithRelationToPlatform)
+            </td>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.Odd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BonusCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PredictedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PricingPlan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisplayonHome)
+            </td>
+           
+            <td>
+                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" title="View Prediction Details" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

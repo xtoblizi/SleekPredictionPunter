@@ -1,0 +1,178 @@
+﻿@model SleekPredictionPunter.Model.Prediction
+@using SleekPredictionPunter.Model.BettingPlatform
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var sn = 1;
+    var sn1 = 1;
+    var sn2 = 1;
+}
+    <div style="background-color:inherit">
+        <h2>Create Booking</h2>
+        <hr />
+        <h3 class="text-danger">
+            @if (ViewData["ErrorMessage"] != null)
+            {
+                @ViewData["ErrorMessage"]
+            }
+        </h3>
+        <div class="row">
+            <form asp-action="Create">
+                <div class="row">
+                    <div class="col-md-7 col-lg-7 col-sm-10 col-xs-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            S/N
+                                        </th>
+                                        <th>
+                                            Club A
+                                                VS
+                                            Club B
+                                        </th>
+                                        <th>
+                                            Bet
+                                        </th>
+                                        <th>
+                                            Date
+                                        </th>
+                                        <th>
+                                           Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.Predictions as IEnumerable<Prediction>)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @(sn++)
+                                            </td>
+
+                                            <td>
+                                                @item.ClubA
+                                                 &nbsp; vs &nbsp;
+                                                @item.ClubB
+                                            </td>
+                                            <td>
+                                                @item.BeCategory
+                                            </td>
+                                            <td>
+                                                @item.TimeofFixture.ToShortDateString()
+                                            </td>
+                                            <td>
+                                              @*  <a asp-action="AddPrediction" title="Add Predcition to Booking" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i title="Add Predcition to Booking" class="fa fa-plus"></i></a>*@
+                                                <a href="#" title="Add Predcition to Booking" class="btn btn-primary btn-xs"><i title="Add Predcition to Booking" class="fa fa-plus"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="predictionchoice" class="col-md-5 col-lg-5 col-lg-5 col-sm-12 col-xs-12">
+                        @if (ViewBag.BookingPredictionsStatic != null)
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                S/N
+                                            </th>
+                                            <th>
+                                                Club A 
+                                                vs 
+                                                Club B
+                                            </th>
+                                            <th>
+                                                Action
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in ViewBag.BookingPredictionsStatic as IEnumerable<Prediction>)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @(sn1++)
+                                                </td>
+
+                                                <td>
+                                                    @item.ClubA
+                                                    &nbsp; vs &nbsp;
+
+                                                    @item.ClubB
+                                                </td>
+
+                                                <td>
+                                                   @* <a asp-action="RemovePrediction" title="Remove from Booking" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i title="Remove from booking" class="fa fa-remove"></i></a>*@
+                                                    <a  title="Remove from Booking" href="#"  class="btn btn-primary btn-xs"><i title="Remove from booking" class="fa fa-remove"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-10 col-md-10 col-sm-12">
+                        <div class="table-responsive">
+                            <table class="table field_wrapper">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">S/N</th>
+                                        <th scope="col">Bet Platform</th>
+                                        <th scope="col">BetCode</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row" id="serialnumber">@(sn2++)</th>
+                                        <td>
+                                            <select type="text" name="questionId[]" class="form-control">
+                                                <option value="">... Select BetPlatform ...</option>
+                                                @if (ViewBag.BetPlatforms != null)
+                                                {
+                                                    @foreach (var item in ViewBag.BetPlatforms as IEnumerable<BetPlanform>)
+                                                    {
+                                                        <option value="@item.Id">@item.BetPlatformName</option>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <option value="" class="disabled">No data</option>
+                                                }
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="text" name="betcode" placeholder="Enter Betcode" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-12 form-group">
+                        <input type="submit" value="Book" class="btn btn-success" style="margin:15px" />
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

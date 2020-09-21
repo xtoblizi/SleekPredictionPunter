@@ -63,8 +63,6 @@ namespace SleekPredictionPunter.Model
 		public virtual Predictor Predictor { get; set; }
 		public virtual long  PredictorId { get; set; }
 
-		
-
 		public virtual PredictionCategory PredictionCategory { get; set; }
 		public virtual string PredictionCategoryName { get; set; }
 		public virtual long PredictionCategoryId { get; set; }

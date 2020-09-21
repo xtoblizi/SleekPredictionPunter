@@ -76,12 +76,15 @@
         TOP BAR CONTENT & NOTIFICATIONS
         *********************************************************************************************************************************************************** -->
         <!--header start-->
+
         <header class="header black-bg">
             <div class="sidebar-toggle-box">
                 <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
             </div>
             <!--logo start-->
-            <a href="index.html" class="logo"><b>Predictive <span>Power</span></b></a>
+            <a href="index.html" class="logo">
+                <b>Predictive <span>Power</span></b>
+            </a>
             <!--logo end-->
 
             <div id="login-details-out" class="top-menu" style="padding-top:10px;">
@@ -102,21 +105,21 @@
                             <img src="~/AdminTheme/img/friends/fr-03.jpg" class="img-circle" width="80">
                         </a>
                     </p>
-
-
-                    @if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.SuperAdmin.ToString()))
+                    @if (SignInManager.IsSignedIn(User))
                     {
                         <li id="login-details-in">
                             <partial name="_LoginPartial.cshtml" />
                         </li>
+                    }
+                    <li>
+                        <a class="" asp-area="" asp-controller="Home" asp-action="Index">
+                            <i class="fa fa-home"></i>
+                            <span>Switch FrontEnd</span>
+                        </a>
+                    </li>
 
-                        <li>
-                            <a class="" asp-area="" asp-controller="Home" asp-action="Index">
-                                <i class="fa fa-home"></i>
-                                <span>Switch FrontEnd</span>
-                            </a>
-                        </li>
-
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.SuperAdmin.ToString()))
+                    {
                         <li>
                             <a class="@ViewBag.AdminIndex" href="../Admin/Index">
                                 <i class="fa fa-dashboard"></i>
@@ -174,22 +177,21 @@
                                 <span>Bet Platforms</span>
                             </a>
                         </li>
+                         <li>
+                            <a class="@ViewBag.PredictionGroup" href="../../predictionbookings/index">
+                                <i class=" fa fa-soccer-ball-o"></i>
+                                <span>Prediction Booking</span>
+                            </a>
+                        </li>
                         @*<li>
-                                <a class="@ViewBag.FeedBack" href="../../Home/FeedBackIndex">
-                                    <i class=" fa fa-envelope"></i>
-                                    <span>Feedback</span>
-                                </a>
-                            </li>*@
+                <a class="@ViewBag.FeedBack" href="../../Home/FeedBackIndex">
+                    <i class=" fa fa-envelope"></i>
+                    <span>Feedback</span>
+                </a>
+            </li>*@
                     }
                     @if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.Subscriber.ToString()))
                     {
-                        <li>
-                            <a class="" asp-area="" asp-controller="Home" asp-action="Index">
-                                <i class="fa fa-home"></i>
-                                <span>Switch FrontEnd</span>
-                            </a>
-                        </li>
-
                         <li>
                             <a class="@ViewBag.UserIndex" asp-area="" asp-controller="userManagement" asp-action="PredictionResults">
                                 <i class="fa fa-user"></i>
@@ -210,12 +212,6 @@
                             </a>
                         </li>
 
-                        @*<li>
-                                <a class="@ViewBag.PredictionResults" asp-area="" asp-controller="Predictions" asp-action="PredictionResults">
-                                    <i class="fa fa-chain"></i>
-                                    <span>Prediction Results</span>
-                                </a>
-                            </li>*@
                     }
                 </ul>
                 <!-- sidebar menu end-->
@@ -244,7 +240,6 @@
 
     <!-- js placed at the end of the document so the pages load faster -->
     <script src="~/AdminTheme/lib/jquery/jquery.min.js"></script>
-
     <script src="~/AdminTheme/lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="~/AdminTheme/lib/jquery.scrollTo.min.js"></script>
     <script src="~/AdminTheme/ib/jquery.nicescroll.js" type="text/javascript"></script>

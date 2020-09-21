@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ReflectionIT.Mvc.Paging;
 using SleekPredictionPunter.AppService;
 using SleekPredictionPunter.DataInfrastructure;
 using SleekPredictionPunter.GeneralUtilsAndServices;
@@ -62,7 +63,7 @@ namespace SleekPredictionPunter.WebApp
 			services.AddPredictionApplicationServices();
 			services.AddRazorPages();
 			services.AddGeneralUtilServices();
-
+			services.AddPaging();
 
 			services.AddAuthentication()
 				.AddGoogle(opt =>
