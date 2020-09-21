@@ -54,7 +54,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             return View();
         }
 
-        [Authorize(Roles = nameof(RoleEnum.Subscriber))]
+        //[Authorize(Roles = nameof(RoleEnum.Subscriber))]
         public async Task<IActionResult> SubscribeToPlan(long id)
         {
             try
@@ -76,11 +76,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
                     return View();
                 }
                 //to appsettings.json
-                var actionLink = $"subscription/paymentcallback?reference=";
+                var actionLink = $"subscription/paymentcallback";
                 var callbackUrl = $"{Request.Scheme}://{Request.Host}/{actionLink}";
                
 				//check i user has money in his/her wallet. if first and foremost, any transaction records exist, check wallet else just redirect to payment platform.
-				var getUserDetails = await _userManager.FindByEmailAsync(HttpContext.Session.GetString("userEmail"));
+				var getUserDetails = await _userManager.FindByEmailAsync(User.Identity.Name);
                 
 				if(getUserDetails == null)
 				{
@@ -147,15 +147,15 @@ namespace SleekPredictionPunter.WebApp.Controllers
             }
         }
 
-        public async Task<IActionResult> PaymentCallBack(string reference)
+        public async Task<IActionResult> PaymentCallBack(string reference = null, string trxref = null)
         {
             try
             {
 
-                var email = HttpContext.Session.GetString("userEmail");
+                var email = User.Identity.Name;
                 var userRole = HttpContext.Session.GetString("userRole");
                 RoleEnum roleEnum = userRole == "4" ? RoleEnum.Agent : userRole == "3" ? RoleEnum.Predictor : RoleEnum.Subscriber;
-                string secretKey = "sk_test_ff43f0891562d8d81cfd17389654a0c11c157258";
+                string secretKey = "sk_live_ec2ce7fcefeefb71cb02c017e0a81a9e658cbcbc";
                 var transaction = new PayStackApi(secretKey);
                 var confirmation = transaction.Transactions.Verify(reference);
                 if(confirmation.Status == true)

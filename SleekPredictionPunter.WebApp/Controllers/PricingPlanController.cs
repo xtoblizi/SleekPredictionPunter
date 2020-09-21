@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SleekPredictionPunter.AppService.Plans;
 using SleekPredictionPunter.Model.PricingPlan;
@@ -195,15 +194,82 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> EditPlan(long id)
         {
-            var getPlanQuestionById = await _pricingPlanAppService.GetPlanById(id);
-            return View(getPlanQuestionById);
+            var getPlanById = await _pricingPlanAppService.GetPlanById(id);
+            Func<PlanPricingBenefitsModel, bool> predicate = (x => x.PlanPricingId == id);
+            var getBenefitsByPlanId = await _pricingPlanAppService.GetAllBenefitsByPredicate(predicate);
+            var getAllQquestions = await _pricingPlanAppService.GetAllQuestion();
+            #region filter existing benefits
+            //var questionsId = getAllQquestions.Where 
+            IEnumerable<PlanBenefitQuestionsModel> filterAlreadyChosenQuestions = null;
+            foreach (var item in getBenefitsByPlanId)
+            {
+                filterAlreadyChosenQuestions = getAllQquestions.Where(x => x.QuestionId != item.QuestionId);
+            }
+            #endregion
+
+            var editPlanDto = new PlanPricingDtoEdit
+            {
+                PricingPlanModel = getPlanById,
+                planPricingBenefitsModels = getBenefitsByPlanId,
+                planBenefitQuestionsModelForNewAdds = filterAlreadyChosenQuestions
+            };
+            return View(editPlanDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditPlan(PricingPlanModel model)
+        public async Task<IActionResult> EditPlan(PlanPricingDto model, IEnumerable<PlanPricingBenefitsModel> getOldeBenefits,
+                                                  int[] answers, long[] questionId)
         {
-            _pricingPlanAppService.UpdatePricingPlan(model);
-            return RedirectToAction(nameof(CreateNewQuestion));
+            var result = false;
+            var planModelBuilder = new PricingPlanModel
+            {
+                PlanName = model.PricingPlanModel.PlanName,
+                PlanType = model.PricingPlanModel.PlanType,
+                Duration = model.PricingPlanModel.Duration,
+                Price = model.PricingPlanModel.Price,
+                Id = model.PricingPlanModel.Id,
+                PlanCommission = model.PricingPlanModel.PlanCommission
+            };
+            var benefits = new List<BenefitOutlines>();
+
+            Func<PricingPlanModel, bool> predicate = (x => x.PlanName == planModelBuilder.PlanName);
+
+            var checkExistingplanProperties = await _pricingPlanAppService.GetFirstOfDefault(predicate);
+            if (checkExistingplanProperties != null)
+            {
+                _pricingPlanAppService.UpdatePricingPlan(planModelBuilder);
+            }
+           
+            
+            for (int i = 0; i < questionId.Length; i++)
+            {
+                var compareBetweenOldAndNewlyAddedBenefits = getOldeBenefits.Where(x => x.BenefitId == i);
+                if (compareBetweenOldAndNewlyAddedBenefits != null)
+                {
+                    //update the particular benefit alone..
+                    foreach (var item in compareBetweenOldAndNewlyAddedBenefits)
+                    {
+                        await _pricingPlanAppService.UpdatePricePlanBenefit(item);
+                    }
+                }
+
+                var questionindex = questionId[i];
+                    var getQuestionById = await _pricingPlanAppService.GetQuestionById(questionindex);
+                    var insertToPlanBenefits = new PlanPricingBenefitsModel
+                    {
+                        Answer = Convert.ToBoolean(answers[i]),
+                        Question = getQuestionById.Question,
+                        QuestionId = getQuestionById.QuestionId,
+                        DateTimeCreated = DateTime.UtcNow,
+                        IsActive = true,
+                        PlanPricingId = planModelBuilder.Id
+                    };
+
+                    await _pricingPlanAppService.InsertPricePlanBenefit(insertToPlanBenefits);
+                return RedirectToAction("ListofPlans", "Pricingplan");
+            }
+                    return RedirectToAction("ListofPlans", "Pricingplan");
+        
         }
 
         [HttpGet]
@@ -215,8 +281,15 @@ namespace SleekPredictionPunter.WebApp.Controllers
             return RedirectToAction(nameof(ListofPlans));
         }
         #endregion
-    }
 
+        [HttpGet]
+        public async Task<IActionResult> DeleteBenefit(long id)
+        {
+          await _pricingPlanAppService.DeleteBenefit(id);
+            return RedirectToAction("listofPlans", "pricingplan");
+        }
+    }
+  
     public class BenefitOutlines
     {
         public long QuestionId { get; set; }

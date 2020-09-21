@@ -67,8 +67,10 @@ namespace SleekPredictionPunter.WebApp
 			services.AddAuthentication()
 				.AddGoogle(opt =>
 				{
-					opt.ClientId = "232216909561-l8q4np7q0pd711i5gplqv8fq9aijurla.apps.googleusercontent.com";
-					opt.ClientSecret = "rYjORJBnSLg5l51eiynfGkwJ";
+					opt.ClientId = "183764575139-h7q2bnhb3f7e1aeisqc63lmn35a2pco9.apps.googleusercontent.com";
+					//opt.ClientId = "232216909561-l8q4np7q0pd711i5gplqv8fq9aijurla.apps.googleusercontent.com";
+					opt.ClientSecret = "jTJwfkJzu7xTxgq_G_ZNoK-I";
+					//opt.ClientSecret = "rYjORJBnSLg5l51eiynfGkwJ";
 				});
 		}
 
