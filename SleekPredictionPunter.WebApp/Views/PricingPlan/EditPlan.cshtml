@@ -26,7 +26,7 @@
                             <div class="col-md-4">
                                 <input type="hidden" asp-for="Id">
                                 <label class="control-label">Plan Name</label>
-                                <input type="text" class="form-control" required placeholder="Basic Plan" size="16" asp-for="PlanName">
+                                <input readonly type="text" class="form-control" required placeholder="Basic Plan" size="16" asp-for="PlanName">
                                 <span class="text-danger"> </span>
                             </div>
 
@@ -41,11 +41,18 @@
                                 <span class="text-danger"> </span>
                             </div>
                             <hr />
+                            <br />
+                            <br/>
+                            <br/>
                             <div class="col-md-4">
                                 <div>
                                     <div class="input-group-btn" style="margin-right:2px;">
-                                        <button type="submit" class="btn btn-success">Update</button> &nbsp;
-                                        <a href="../../pricingplan/listofplans" class="btn btn-danger">Back</a>
+                                        <span style="margin-right:20px">
+                                            <button type="submit" class="btn btn-success">Update</button> &nbsp;
+                                        </span> 
+                                        <span style="margin-left:10px">
+                                            <a href="../../pricingplan/listofplans" class="btn btn-danger">Back</a>
+                                        </span>
                                     </div>
                                 </div>
                             </div>

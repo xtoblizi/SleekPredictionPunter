@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SleekPredictionPunter.AppService.BookingCodes;
 using SleekPredictionPunter.AppService.Contacts;
 using SleekPredictionPunter.AppService.HomeWiningPlanPreview;
 using SleekPredictionPunter.AppService.MatchCategories;
@@ -28,10 +29,12 @@ namespace SleekPredictionPunter.WebApp.Controllers
 		private readonly IPredictorService _predictorService;
 		private readonly IMatchCategoryService _matchCategoryService;
 		private readonly IPricingPlanAppService _pricingPlanservice;
+		private readonly IBookingCodeService _bookingCodeService;
 		private readonly IWiningPlanPreviewService _winingService;
 		public HomeController(ILogger<HomeController> logger,
 			IPredictorService predictorService,
 			IMatchCategoryService matchCategoryService,
+			IBookingCodeService bookingCodeService,
 			IPredictionService predictionService,
 			IWiningPlanPreviewService winingService,
 			IContactAppService contactAppService,
@@ -39,6 +42,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 		{
 			_contactService = contactAppService;
 			_matchCategoryService = matchCategoryService;
+			_bookingCodeService = bookingCodeService;
 			_winingService = winingService;
 			_predictionService = predictionService;
 			_predictorService = predictorService;
@@ -70,7 +74,17 @@ namespace SleekPredictionPunter.WebApp.Controllers
 						await _predictionService.GetPredictionsOrdered(freePredicate, orderByDescFunc,
 						startIndex: 0, count: 100);
 			}
-			
+
+			#region Get Booking Codes
+			if(geteFreePlan != null)
+			{
+				Func<BookingCode, bool> func = (x => x.PricingPlanId == geteFreePlan.Id);
+				Func<BookingCode, DateTime> orderByfunc = (x => x.DateCreated);
+				var betingCodes = await _bookingCodeService.GetAllQueryableDto(func, orderByfunc, 0, 50);
+				ViewBag.BettingCodes = betingCodes;
+			}
+			#endregion
+
 			#region Predications in groupings
 
 			if (geteFreePlan != null)
@@ -89,6 +103,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
 			var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(predicate: freePredicate,
 				orderByFunc:orderByFunc,
 				groupByMatchCategory: true, startIndex: 10, count: 10);
+
+			if (groupedTipsByMatchCategories.Any())
+				ViewBag.ShowMatchCategory = true;
 
 			var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(predicate:freePredicate,
 				orderByFunc:orderByFunc,
@@ -113,7 +130,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 				x.PredictionResult != PredictionResultEnum.MatchPending);
 
 				Func<Prediction, DateTime> orderByfunc = (x => x.DateUpdated.Value);
-				var predictionsResults = await _predictionService.GetPredictionsOrdered(predicateClause, orderByfunc, 0, 4);
+				var predictionsResults = await _predictionService.GetPredictionsOrdered(predicateClause, orderByfunc, 0, 5);
 				var lastestDates = new List<LastestPredictionDateValues>();
 				if (predictionsResults != null)
 				{

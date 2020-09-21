@@ -1,0 +1,67 @@
+﻿@model SleekPredictionPunter.Model.BookingCode
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BookingCode</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BetCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BetCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BetPlatformId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BetPlatformId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Betplatform)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Betplatform)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PricingPlanId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PricingPlanId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PricingPlan)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PricingPlan)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EntityStatus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EntityStatus)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateUpdated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateUpdated)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

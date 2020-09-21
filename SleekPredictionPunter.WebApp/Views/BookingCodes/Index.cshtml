@@ -1,0 +1,97 @@
+﻿
+@model  IEnumerable<SleekPredictionPunter.Model.BookingCode>
+@*@using ReflectionIT.Mvc.Paging
+@addTagHelper *, ReflectionIT.Mvc.Paging*@
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section class="container-fluid" style="padding:5px;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="content-panel" style="padding:5px">
+                <div class="row" style="margin-top:20px">
+                    <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6">
+                        &nbsp; &nbsp; &nbsp;	<a asp-action="Create" class="btn btn-primary">Add Booking Code</a>
+                    </div>
+
+                </div>
+                <br />
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.BetCode)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Betplatform)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PricingPlan)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DateCreated)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.EntityStatus)
+                                </th>
+
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.BetCode)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Betplatform)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PricingPlan)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DateCreated)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EntityStatus)
+                                        </td>
+
+                                        <td>
+                                            <a asp-action="Edit" title="Update BookingCode" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i title="Update Booking Code" class="fa fa-pencil"></i></a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                            <tr>
+                                <td>
+                                    <div class="float-right">
+                                        <span><select> Select Page size</select> </span>
+                                        <span>Prev</span>  <span>Next</span>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                        
+                    </table>
+                   
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

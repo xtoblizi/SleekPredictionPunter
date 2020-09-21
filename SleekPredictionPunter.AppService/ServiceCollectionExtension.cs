@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SleekPredictionPunter.AppService.Agents;
 using SleekPredictionPunter.AppService.BetCategories;
 using SleekPredictionPunter.AppService.BetPlatforms;
+using SleekPredictionPunter.AppService.BookingCodes;
 using SleekPredictionPunter.AppService.Clubs;
 using SleekPredictionPunter.AppService.Contacts;
 using SleekPredictionPunter.AppService.CustomCategory;
@@ -56,6 +57,7 @@ namespace SleekPredictionPunter.AppService
 			services.AddTransient<IWiningPlanPreviewService, WiningPlanPreviewService>();
 			services.AddTransient<IBetPlatformService, BetPlatformService>();
 			services.AddTransient<IPredictionBookingService, PredictionBookingService>();
+			services.AddTransient<IBookingCodeService, BookingCodeService>();
 
             // repository DI registration
             services.AddPredictionRepositories();

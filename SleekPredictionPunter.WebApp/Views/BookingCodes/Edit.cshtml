@@ -1,0 +1,44 @@
+﻿@model SleekPredictionPunter.Model.BookingCode
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>BookingCode</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="BetCode" class="control-label"></label>
+                <input asp-for="BetCode" class="form-control" />
+                <span asp-validation-for="BetCode" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Select BetPlatform</label>
+                <select required title="Select the betting platform for this booking code" asp-for="BetPlatformId" class="form-control" asp-items="ViewBag.BetPlatformId"></select>
+            </div>
+            
+            <div class="form-group">
+                <label class="control-label">Select Package </label>
+                <select required title="Select the package where you wish to bound this predcition booking to" asp-for="PricingPlanId" class="form-control" asp-items="ViewBag.PricingPlanId"></select>
+            </div>
+            
+
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

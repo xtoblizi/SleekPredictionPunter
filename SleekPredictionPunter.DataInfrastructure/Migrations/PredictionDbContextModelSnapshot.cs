@@ -257,6 +257,42 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.ToTable("BetPlanforms");
                 });
 
+            modelBuilder.Entity("SleekPredictionPunter.Model.BookingCode", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BetCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("BetPlatformId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Betplatform")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PricingPlan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("PricingPlanId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BookingCodes");
+                });
+
             modelBuilder.Entity("SleekPredictionPunter.Model.Categoriess.BetCategory", b =>
                 {
                     b.Property<long>("Id")

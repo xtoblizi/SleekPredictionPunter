@@ -1,20 +1,30 @@
-﻿
+﻿@using SleekPredictionPunter.AppService.BookingCodes.Dto
+@using SleekPredictionPunter.GeneralUtilsAndServices
+
 @{
 	var sn = 1;
+	var sn2 = 1;
 }
 
 <style>
-	#mobile-top-view{
+	.mobile-top-view {
+		visibility: collapse;
+	}
+	#betcodes-mobile-view{
 		visibility:collapse;
 	}
+
 	@@media only screen and (max-width: 600px) {
-		#mobile-top-view {
-			visibility:visible;
+		.mobile-top-view {
+			visibility: visible;
 		}
 
 		#desktop-view {
 			display: none;
 
+		}
+		#betcodes-web-view{
+			display: none;
 		}
 	}
 </style>
@@ -33,151 +43,122 @@
 
 <div class="result">
 	<div class="container">
-		@*<div class="filter-menu">
-				<div class="row">
-					<div class="col-xl-4 col-lg-4 col-md-4">
-						<div class="form-group">
-							<select class="form-control">
-								<option>Last 7 days</option>
-								<option>Last 24 hours</option>
-								<option>Last 12 hours</option>
-								<option>Last 6 hours</option>
-								<option>Last 1 hours</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-xl-4 col-lg-4 col-md-4">
-						<div class="form-group">
-							<select class="form-control">
-								<option>All Sports</option>
-								<option>Football</option>
-								<option>Ice Hocky</option>
-								<option>Badminton</option>
-								<option>Baseball</option>
-								<option>Basketball</option>
-								<option>Tennis</option>
-								<option>Cycling</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-xl-4 col-lg-4 col-md-4">
-						<div class="form-group">
-							<select class="form-control">
-								<option>Bangla Cricket League</option>
-								<option>Indian Football Federation</option>
-								<option>English premier league</option>
-							</select>
-						</div>
-					</div>
-				</div>
-			</div>*@
-
 		<div class="result-sheet-cover">
 			<div class="result-sheet">
 				<h4 class="result-title">Top Latest Free Predictions</h4>
 				<div class="table-responsive">
-					<table id="mobile-top-view" class="table">
+					<table class="table mobile-top-view">
 						<thead>
 							<tr>
 								<th>S/N</th>
 								<th scope="col">Date</th>
 								<th scope="col">Match</th>
-								@*<th scope="col"></th>
-								<th scope="col">Club B</th>*@
 								<th scope="col">Tip</th>
 							</tr>
 						</thead>
 						<tbody id="mobile-body">
 							@if (ViewBag.FreeTips != null)
 							{
-
 								foreach (var prediction in ViewBag.FreeTips as IEnumerable<Prediction>)
 								{
-
 									<tr id="non-mobile-view">
 										<td>@(sn++)</td>
-										
 										<td class="date">@prediction.TimeofFixture.Date</td>
 										<td class="team-name">
-											@*<div class="col-sm-12">
-												<img id="clubbimg" class="clubimg" style="width:25px;height:23px" src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubBLogoPath))" />
-											</div>*@
-											
-											<span id="cluba" class="clubname"> @prediction.ClubA </span> 
-											<span class="text-danger"> vs</span> <br/>
+											<span id="cluba" class="clubname"> @prediction.ClubA </span>
+											<span class="text-danger"> vs</span> <br />
 											<span id="clubb" class="clubname"> @prediction.ClubB </span>
 										</td>
-										@*<td><span class="versace">vs</span></td>*@
-										
-										<td class="score">@prediction.PredictionValue</td>
-										@*<td>
-											<a>
-												<span class="view-icon">
-													<i class="fas fa-ellipsis-v"></i>
-												</span>
-											</a>
-										</td>*@
+										<td class="score text-success">@prediction.PredictionValue</td>
 									</tr>
-
 								}
 							}
 
 						</tbody>
 					</table>
 
+					<div class="mobile-top-view">
+						<span style="font-weight:bold">BETTING CODE</span>
+						@foreach (var item in ViewBag.BettingCodes as IEnumerable<BookingCodeDto>)
+						{
+							<div class="row">
+								<div>
+									<span class="text-success">@item.Betplatform</span> :
+								</div>
+								<div>
+									<span class="text-danger">@item.BetCode</span>
+								</div>
+							</div>
+							
+						}
+					</div>
+					
 					<table id="desktop-view" class="table">
-							<thead>
-								<tr>
-									<th>S/N</th>
-									<th scope="col"></th>
-									<th scope="col">Date & Time</th>
-									<th scope="col">ClubA</th>
-									<th scope="col"></th>
-									<th scope="col">ClubB</th>
-									<th scope="col">Tip</th>
-									<th scope="col"></th>
-								</tr>
-							</thead>
-							<tbody>
-								@if (ViewBag.FreeTips != null)
+						<thead>
+							<tr>
+								<th>S/N</th>
+								<th scope="col"></th>
+								<th scope="col">Date & Time</th>
+								<th scope="col">ClubA</th>
+								<th scope="col"></th>
+								<th scope="col">ClubB</th>
+								<th scope="col">Tip</th>
+								<th scope="col"></th>
+							</tr>
+						</thead>
+						<tbody>
+							@if (ViewBag.FreeTips != null)
+							{
+								foreach (var prediction in ViewBag.FreeTips as IEnumerable<Prediction>)
 								{
 
-									foreach (var prediction in ViewBag.FreeTips as IEnumerable<Prediction>)
-									{
+									<tr id="non-mobile-view">
+										<td>@(sn2++)</td>
+										<th scope="row">
+											<span class="icon">
+												<i class="flaticon-football"></i>
+											</span>
+										</th>
+										<td class="date">@prediction.DateCreated</td>
+										<td class="team-name">
+											<span id="cluba" class="clubname"> @prediction.ClubA </span> &nbsp; &nbsp;
+											<img id="clubaimg" height="25" width="25" class="clubimg" src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubALogoPath))" />
 
-										<tr id="non-mobile-view">
-											<td>@(sn++)</td>
-											<th scope="row">
-												<span class="icon">
-													<i class="flaticon-football"></i>
+										</td>
+										<td><span class="versace">vs</span></td>
+										<td>
+											<span id="clubb" class="clubname"> @prediction.ClubB </span> &nbsp; &nbsp;
+											<img id="clubbimg" class="clubimg" height="25" width="25" src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubBLogoPath))" />
+										</td>
+										<td class="score text-success">@prediction.PredictionValue</td>
+										<td>
+											<a>
+												<span class="view-icon">
+													<i class="fas fa-ellipsis-v"></i>
 												</span>
-											</th>
-											<td class="date">@prediction.DateCreated</td>
-											<td class="team-name">
-												<span id="cluba" class="clubname"> @prediction.ClubA </span>
-												<img id="clubaimg" height="25" width="25" class="clubimg" src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubALogoPath))" />
-
-											</td>
-											<td><span class="versace">vs</span></td>
-											<td>
-												<span id="clubb" class="clubname"> @prediction.ClubB </span>
-												<img id="clubbimg" class="clubimg" height="25" width="25" src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubBLogoPath))" />
-											</td>
-											<td class="score">@prediction.PredictionValue</td>
-											<td>
-												<a>
-													<span class="view-icon">
-														<i class="fas fa-ellipsis-v"></i>
-													</span>
-												</a>
-											</td>
-										</tr>
-
-									}
+											</a>
+										</td>
+									</tr>
 								}
+							}
 
-							</tbody>
-						</table>
+							@if (ViewBag.BettingCodes != null)
+							{
+
+								<tr id="betcodes-web-view">
+									<td><strong>BETTING CODE</strong>  </td>
+									@foreach (var item in ViewBag.BettingCodes as IEnumerable<BookingCodeDto>)
+									{
+										<td class="score"><span class="text-success">@item.Betplatform</span> : <span class="text-danger">@item.BetCode</span> </td>
+										
+									}
+									
+								</tr>
+							}
+						</tbody>
+					</table>
+					<br/>
+					
 				</div>
 
 			</div>

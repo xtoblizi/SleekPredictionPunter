@@ -1,0 +1,52 @@
+﻿@model SleekPredictionPunter.Model.BookingCode
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>BookingCode</h4>
+<hr />
+<div class="row">
+    <div class="col-md-10 col-sm-11 col-lg-10">
+        <form asp-action="Create">
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-xs-12 text-danger"></div>
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="col-md-5 col-lg-5 col-xl-5 col-sm-12 col-xs-12 form-group">
+                    <label asp-for="BetCode" class="control-label"></label>
+                    <input required asp-for="BetCode" class="form-control" />
+                    <span asp-validation-for="BetCode" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-5 col-lg-5 col-xl-5 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Select BetPlatform</label>
+                    <select required title="Select the betting platform for this booking code"
+                            asp-for="BetPlatformId" class="form-control" asp-items="ViewBag.BetPlatformId"></select>
+                </div>
+
+                <div class="col-md-5 col-lg-5 col-xl-5 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Select Package </label>
+                    <select required title="Select the package where you wish to bound this predcition booking to"
+                            asp-for="PricingPlanId" class="form-control" asp-items="ViewBag.PackageId"></select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 form-group">
+                    <input type="submit" value="Create" class="btn btn-success" style="margin:15px" />
+                    <br />
+                   
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

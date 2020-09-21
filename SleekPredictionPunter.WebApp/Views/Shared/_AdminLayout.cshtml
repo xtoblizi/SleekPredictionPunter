@@ -82,7 +82,7 @@
                 <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
             </div>
             <!--logo start-->
-            <a href="index.html" class="logo">
+            <a  asp-area="" asp-controller="Home" asp-action="Index" class="logo">
                 <b>Predictive <span>Power</span></b>
             </a>
             <!--logo end-->
@@ -177,8 +177,14 @@
                                 <span>Bet Platforms</span>
                             </a>
                         </li>
-                         <li>
+                         @*<li>
                             <a class="@ViewBag.PredictionGroup" href="../../predictionbookings/index">
+                                <i class=" fa fa-soccer-ball-o"></i>
+                                <span>Prediction Booking</span>
+                            </a>
+                        </li>*@
+                        <li>
+                            <a class="@ViewBag.BookingCode" href="../../bookingcodes/index">
                                 <i class=" fa fa-soccer-ball-o"></i>
                                 <span>Prediction Booking</span>
                             </a>

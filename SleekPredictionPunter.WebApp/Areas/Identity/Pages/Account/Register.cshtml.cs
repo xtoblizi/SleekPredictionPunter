@@ -201,7 +201,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 									var refLink = Url.Page("/Identity/Account/Register",pageHandler: null,
 									values: new { area = "Identity", registrationType = "1", userType = "2", refCode = refCode },
 									protocol: Request.Scheme);
-									ViewData["RefLink"] = RefLink;
+									ViewData["RefLink"] = refLink;
 
 									ViewData["RegistrationStatusMessge"] = $"Agent Registration Successful. \n Your RefererCode is {refCode}." +
 										$" \n \n Preferably use your refererlink to start referring users to Predictive Power and make money " +

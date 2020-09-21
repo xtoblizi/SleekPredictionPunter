@@ -4,21 +4,49 @@
 @inject SleekPredictionPunter.AppService.Clubs.IClubService _clubService
 @{
 
-	Func<Match, DateTime> orderByDescFunc = (x => x.DateCreated);
+	DateTime yesterday = DateTime.Today.AddDays(-1);
+
+	var tomorrow = DateTime.Today.AddDays(1);
+
+	Func<Match, DateTime> orderByDescFunc = (x => x.TimeofMatch);
 	Func<Match, bool> wherefunc = (x =>
-	 x.ReturnStatus == MatchStatusEnum.Upcoming || x.ReturnStatus == MatchStatusEnum.Playing);
+	(x.ReturnStatus == MatchStatusEnum.Upcoming || x.ReturnStatus == MatchStatusEnum.Playing)
+	 && (x.TimeofMatch >= yesterday) && (x.TimeofMatch <= tomorrow)
+	);
 
-	var matches = await _matchService.GetMatches(whereFunc: wherefunc, orderByDescFunc: orderByDescFunc, startIndex: 0, count: 5);
 
+
+	var matches = await _matchService.GetMatches(whereFunc: wherefunc, orderByDescFunc: orderByDescFunc, startIndex: 0, count: 6);
+	var finalmatches = matches.ToList();
 	var topMatch = matches.FirstOrDefault(x => x.IsSetAsHotPreview);
+	//var checkremove = matches.ToList().RemoveAll(x => x.Id == topMatch.Id);
+	IEnumerable<Match> finalREmovetREsult =null;
+	if(topMatch != null)
+	{
+		finalREmovetREsult = finalmatches.Where(x => x.Id != topMatch.Id);
+	}
 
-	matches.ToList().Remove(topMatch);
-
-
+	dynamic GetDayRemaining(DateTime dateTime)
+	{
+		var diff = dateTime.Day - DateTime.Now.Day;
+		return diff;
+	}
+	dynamic GetHourRemaining(DateTime dateTime)
+	{
+		var diff = dateTime.Hour - DateTime.Now.Hour;
+		return diff;
+	}
+	dynamic GetMinutesRemaing(DateTime dateTime)
+	{
+		var diff = dateTime.Minute - DateTime.Now.Minute;
+		return diff;
+	}
+	dynamic GetsecondsRemainig(DateTime dateTime)
+	{
+        var diff = dateTime.Second - DateTime.Now.Second;
+        return diff;
+	}
 }
-
-
-
 
 <!-- upcoming match begin -->
 <div class="upcoming-match" id="upcoming_match">
@@ -35,7 +63,7 @@
         </div>
         <div class="row">
             @if (topMatch != null)
-            {
+			{
             <div class="col-xl-6 col-lg-6">
                 <div class="single-match">
                     <div class="part-head" style="background-color:black; background:none">
@@ -71,19 +99,19 @@
                     </span>
                     <div class="part-timer timer" data-date="@topMatch?.TimeofMatch.ToUniversalTime()">
                         <div class="single-time">
-                            <span class="number day">@topMatch?.TimeofMatch.Day</span>
+                            <span class="number day">@GetDayRemaining(topMatch.TimeofMatch)</span>
                             <span class="title">Days</span>
                         </div>
                         <div class="single-time">
-                            <span class="number hour">@topMatch?.TimeofMatch.Hour</span>
+                            <span class="number hour">@GetHourRemaining(topMatch.TimeofMatch)</span>
                             <span class="title">Hours</span>
                         </div>
                         <div class="single-time">
-                            <span class="number minute">@topMatch?.TimeofMatch.Minute</span>
+                            <span class="number minute">@GetMinutesRemaing(topMatch.TimeofMatch)</span>
                             <span class="title">Minutes</span>
                         </div>
                         <div class="single-time">
-                            <span class="number second">@topMatch?.TimeofMatch.Second</span>
+                            <span class="number second">@GetsecondsRemainig(topMatch.TimeofMatch)</span>
                             <span class="title">Seconds</span>
                         </div>
                     </div>
@@ -91,72 +119,44 @@
             </div>
             }
 
-            @if (matches != null)
+            @if (finalREmovetREsult != null)
             {
             <div class="col-xl-6 col-lg-6">
                 <div class="upcoming-match-list">
 
-                    @if (matches != null)
+                    @if (finalREmovetREsult != null)
+                    {
+                        foreach (var item in finalREmovetREsult)
                         {
-                            foreach (var item in matches)
-                            {
-                    <div class="single-upcoming-match">
-                        <div class="single-team">
-                            <div class="part-logo">
-                                <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item?.ClubALogoPath))" alt="Club A">
-                            </div>
-                            <div class="part-text">
-                                <span class="team-name">
-                                    @item.ClubA
-                                </span>
-                            </div>
-                        </div>
-                        <span class="versase">vs</span>
-                        <div class="single-team">
-                            <div class="part-text">
-                                <span class="team-name">
-                                    @item.ClubB
-                                </span>
-                            </div>
-                            <div class="part-logo">
-                                <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item?.ClubBLogoPath))" alt="Club B">
-                            </div>
-                        </div>
-                    </div>
-                            }
-
+                               <div class="single-upcoming-match">
+                                    <div class="single-team">
+                                        <div class="part-logo">
+                                            <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item?.ClubALogoPath))" alt="Club A">
+                                        </div>
+                                        <div class="part-text">
+                                            <span class="team-name">
+                                                @item.ClubA
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span class="versase">vs</span>
+                                    <div class="single-team">
+                                        <div class="part-text">
+                                            <span class="team-name">
+                                                @item.ClubB
+                                            </span>
+                                        </div>
+                                        <div class="part-logo">
+                                            <img src="~/TeamLogo/@(System.IO.Path.GetFileName(item?.ClubBLogoPath))" alt="Club B">
+                                        </div>
+                                    </div>
+                             </div>
                         }
 
-
-                    @*<div class="single-upcoming-match">
-                            <div class="single-team">
-                                <div class="part-logo">
-                                    <img src="assets/img/team-7.png" alt="">
-                                </div>
-                                <div class="part-text">
-                                    <span class="team-name">
-                                        Khulna tigers
-                                    </span>
-                                </div>
-                            </div>
-                            <span class="versase">vs</span>
-                            <div class="single-team">
-                                <div class="part-text">
-                                    <span class="team-name">
-                                        dhaka platoon
-                                    </span>
-                                </div>
-                                <div class="part-logo">
-                                    <img src="assets/img/team-8.png" alt="">
-                                </div>
-                            </div>
-                        </div>*@
+                    }
                 </div>
             </div>
             }
-
-
-
         </div>
         <div class="text-center">
             <a href="../../predictions/FrontEndIndex" class="vew-more-news bet-btn bet-btn-dark-light">

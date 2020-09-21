@@ -3,7 +3,7 @@
 @using SleekPredictionPunter.Model.HomeDataModels
 @inject SleekPredictionPunter.AppService.HomeWiningPlanPreview.IWiningPlanPreviewService _service
 @inject SleekPredictionPunter.AppService.Plans.IPricingPlanAppService _planService
-@*<link rel="stylesheet" href="~/FrontendTheme/files/custom.main.css" />*@
+<link rel="stylesheet" href="~/FrontendTheme/files/custom.main.css" />
 
 <style>
         .home-body-wrapper, .home-body-wrapper * {
@@ -23,7 +23,7 @@
     int total = 0;
 
     topPackageToPreview = ViewBag.ResultPlanViewModel;
-    if (ViewBag.ResultPlanViewModel != null && topPackageToPreview.LatestPredictionDates.Count > 4)
+    if (ViewBag.ResultPlanViewModel != null)
     {
         var wonCheck = topPackageToPreview.LatestPredictionDates.Where(x => x.predictionResultEnum == PredictionResultEnum.PredictionWon);
         won = wonCheck.Count();
@@ -44,7 +44,7 @@
 
 
 
-@if (ViewBag.ResultPlanViewModel != null && topPackageToPreview.LatestPredictionDates.Count > 1)
+@if (ViewBag.ResultPlanViewModel != null && topPackageToPreview.LatestPredictionDates.Count > 4)
 {
     @*<div id="container">
         <div class="home-body-wrapper row" style="font-size:1.2em; text-align:center; align-content:center ">

@@ -21,9 +21,11 @@
 			visibility: visible;
 			display: none;
 		}
-		#in_pla{
+
+		#in_pla {
 			display: none;
 		}
+
 		.part-bnonus {
 			visibility: hidden;
 			display: none;
@@ -66,7 +68,6 @@
 <!-- banner end -->
 <!-- about end -->
 <!-- cta begin -->
-
 <!-- feature begin -->
 <div class="feature" id="feature_section">
 	<div class="container">
@@ -127,290 +128,12 @@
 <!-- betting begin -->
 
 <div class="right-area">
-	<partial name="_ResultsPartial" />	
+	<partial name="_ResultsPartial" />
 </div>
 
 
-<div class="betting" id="in_play">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
-				<div class="section-title">
-					<h2>Matches/Sports Categories</h2>
-					<p>Free Prediction in varied match categories and</p>
-				</div>
-			</div>
-		</div>
-		<div class="betting-table">
-			<div class="row">
-				<div class="col-xl-2 col-lg-2">
-					<div class="bett-menu">
-						<ul class="nav nav-tabs" id="myTab" role="tablist">
-
-							@*<li class="nav-item">
-									<a class="nav-link active" id="all-sports-tab" data-toggle="tab" href="#all-sports" role="tab" aria-controls="all-sports" aria-selected="true">
-										<i class="flaticon-medal"></i>
-										<span class="text">
-											All Fixtures
-										</span>
-									</a>
-								</li>*@
-							@if (ViewBag.MatchCategory != null)
-							{
-								@foreach (var item in ViewBag.MatchCategory as IEnumerable<MatchCategory>)
-								{
-									<li class="nav-item">
-										<a class="nav-link" id="@item.Id-tab" data-toggle="tab" href="#@item.Id" role="tab" aria-controls="@item.Id" aria-selected="false">
-											<i class="flaticon-football"></i>
-											<span class="catname text">
-												@item.CategoryName
-											</span>
-										</a>
-									</li>
-								}
-							}
-
-							@*<li class="nav-item">
-									<a class="nav-link" id="football-tab" data-toggle="tab" href="#football" role="tab" aria-controls="football" aria-selected="false">
-										<i class="flaticon-football"></i>
-										<span class="text">
-											football
-										</span>
-									</a>
-								</li>*@
-						</ul>
-					</div>
-				</div>
-				<div class="col-xl-10 col-lg-10">
-					<div class="tab-content bet-tab-content" id="myTabContent">
-						<div>
-							@*<div class="tab-pane fade show active" id="all-sports" role="tabpanel" aria-labelledby="all-sports-tab">
-									<div class="sport-content-title">
-										<h3>
-											All Sports
-											<span class="sport-content-conter"></span>
-										</h3>
-									</div>
-									<div class="sports-list">
-										<h4 class="title">England International League</h4>
-										<div class="single-sport-box">
-											<div class="part-icon">
-												<i class="flaticon-football"></i>
-											</div>
-											<div class="part-team">
-												<ul>
-													<li>
-														<span class="team-name">
-															arsenal
-														</span>
-														<span class="score-number">
-															2
-														</span>
-													</li>
-													<li>
-														<span class="team-name">
-															everton
-														</span>
-														<span class="score-number">
-															4
-														</span>
-													</li>
-												</ul>
-											</div>
-											<div class="part-match">
-												<div class="single-place-to-bet">
-													<a href="#">
-														<span class="bet-price">1.00</span>
-														<span class="result-for-final">
-															arsenal
-														</span>
-													</a>
-												</div>
-												<div class="single-place-to-bet">
-													<a href="#">
-														<span class="bet-price">4.30</span>
-														<span class="result-for-final">
-															draw
-														</span>
-													</a>
-												</div>
-												<div class="single-place-to-bet">
-													<a href="#">
-														<span class="bet-price">5.75</span>
-														<span class="result-for-final">
-															everton
-														</span>
-													</a>
-												</div>
-											</div>
-											<div class="part-bnonus">
-												<span class="bonus-number">+336</span>
-											</div>
-										</div>
-										<div class="single-sport-box">
-											<div class="part-icon">
-												<i class="flaticon-football"></i>
-											</div>
-											<div class="part-team">
-												<ul>
-													<li>
-														<span class="team-name">
-															Aston Villa
-														</span>
-														<span class="score-number">
-															4
-														</span>
-													</li>
-													<li>
-														<span class="team-name">
-															Norwich City
-														</span>
-														<span class="score-number">
-															3
-														</span>
-													</li>
-												</ul>
-											</div>
-											<div class="part-match">
-												<div class="single-place-to-bet">
-													<a href="#">
-														<span class="bet-price">1.52</span>
-														<span class="result-for-final">
-															Aston Villa
-														</span>
-													</a>
-												</div>
-												<div class="single-place-to-bet">
-													<a href="#">
-														<span class="bet-price">2.35</span>
-														<span class="result-for-final">
-															draw
-														</span>
-													</a>
-												</div>
-												<div class="single-place-to-bet">
-													<a href="#">
-														<span class="bet-price">3.65</span>
-														<span class="result-for-final">
-															Norwich City
-														</span>
-													</a>
-												</div>
-											</div>
-											<div class="part-bnonus">
-												<span class="bonus-number">+336</span>
-											</div>
-										</div>
-
-									</div>
-								</div>*@
-						</div>
-
-
-						@if (ViewBag.GroupedTipsByMatchCategories != null)
-						{
-							@foreach (var items in ViewBag.GroupedTipsByMatchCategories as IEnumerable<IGrouping<long, Prediction>>)
-							{
-
-								<div class="tab-pane fade show active" id="@items.Key" role="tabpanel" aria-labelledby="@items.Key-tab">
-									<div class="sport-content-title">
-										<h3>
-											Fixture(s)
-											<span class="sport-content-conter">[@items.Count()]</span>
-										</h3>
-									</div>
-									<div class="sports-list">
-										<h4 class="match-title title">@items.FirstOrDefault()?.MatchCategory</h4>
-										@if (items != null)
-										{
-											foreach (var prediction in items)
-											{
-												var showCorrectScore = false;
-												if (!string.IsNullOrEmpty(prediction.ClubAScore) && !string.IsNullOrEmpty(prediction.ClubBScore)
-													&& !string.IsNullOrEmpty(prediction.PredictionValue))
-												{
-													showCorrectScore = true;
-
-												}
-												<div class="single-sport-box">
-													<div class="league-icon part-icon">
-														<i class="flaticon-football"></i>
-													</div>
-													<div class="part-team">
-														<ul>
-															<li>
-																<span class="team-name">
-																	<strong>@prediction?.ClubA</strong>
-																</span>
-																@*<span class="score-number">
-																		<strong>@prediction?.ClubAScore </strong>
-																	</span>*@
-															</li>
-															<li>
-																<span class="team-name">
-																	<strong> @prediction?.ClubB</strong>
-																</span>
-																@*<span class="score-number">
-																		<strong>@prediction?.ClubBScore </strong>
-																	</span>*@
-															</li>
-														</ul>
-													</div>
-													<div class="part-match">
-														<div class="single-place-to-bet">
-															<a href="#">
-																@if (showCorrectScore == true)
-																{
-																	<span class="bet-price">@prediction?.ClubAScore</span>
-																}
-																<span class="result-for-final">
-																	<strong>@prediction?.ClubA </strong>
-																</span>
-															</a>
-														</div>
-														<div class="single-place-to-bet">
-															<a href="#">
-
-																@if (showCorrectScore == true)
-																{
-																	<span class="bet-price">
-																		@prediction.ClubAScore - @prediction.ClubBScore
-																	</span>
-																}
-																<span class="result-for-final"><strong style="color:green;">@prediction.PredictionValue</strong> </span>
-															</a>
-														</div>
-														<div class="single-place-to-bet">
-															<a href="#">
-																@if (showCorrectScore == true)
-																{
-																	<span class="bet-price">@prediction?.ClubBScore</span>
-																}
-																<span class="result-for-final">
-																	<strong>@prediction.ClubB</strong>
-																</span>
-															</a>
-														</div>
-													</div>
-													<div class="part-bnonus">
-														<span class="bonus-number" style="font-size:smaller"> &nbsp; </span>
-													</div>
-												</div>
-											}
-
-										}
-
-									</div>
-								</div>
-							}
-						}
-
-
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<div>
+	<partial name="_MatchCategoryPartial"/>
 </div>
 
 <!-- result end -->
@@ -420,7 +143,11 @@
 </div>
 <!--end of upcoming matches-->
 
+
+<partial name="_PlanHomeViewPartial" />
+
 <partial name="_TestimonialPartial" />
+
 
 <!-- Mobile App matches-->
 <div class="right-area">

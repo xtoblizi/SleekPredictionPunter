@@ -1,18 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SleekPredictionPunter.AppService.Clubs;
 using SleekPredictionPunter.AppService.CustomCategory;
 using SleekPredictionPunter.AppService.MatchCategories;
 using SleekPredictionPunter.AppService.Matches;
-using SleekPredictionPunter.AppService.Packages;
-using SleekPredictionPunter.AppService.Plans;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.PredictionCategoryService;
-using SleekPredictionPunter.AppService.Predictors;
-using SleekPredictionPunter.AppService.Subscriptions;
 using SleekPredictionPunter.GeneralUtilsAndServices;
-using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.Matches;
 using System;
 using System.Threading.Tasks;
@@ -99,8 +93,12 @@ namespace SleekPredictionPunter.WebApp.Controllers
         //[Authorize(Roles = nameof(RoleEnum.SuperAdmin))]
         public async Task<IActionResult> Create(Match match)
         {
+            var errorMessage = string.Empty;
             var  twodaysago = match.TimeofMatch.AddDays(-2);
             var now = DateTime.Now;
+
+            if (match.ClubAId == match.ClubBId)
+                errorMessage = "You cannot create a match between same teams";
 
             Func<Match, bool> wherefunc = (x => x.ClubAId == match.ClubAId
              && x.ClubBId == match.ClubBId
@@ -108,8 +106,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
              && x.TimeofMatch >= twodaysago);
 
             var check = await _matchService.GetDefault(wherefunc);
-            var errorMessage = string.Empty;
-
+            
             if (check != null)
                 errorMessage = $"There is already a match with this combination of clubs being" +
                     $"CLubA {check.ClubA.ToString()} vs CLubB {check.ClubB} Time : {check.TimeofMatch} in the below match league. \n \n"  +
@@ -120,7 +117,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 errorMessage = "Please fill all details for the mactch creation form";
 
             if (match.TimeofMatch.AddMinutes(-2) < now)
-                errorMessage = "This match time is to close to kickoff time. A validation" +
+                errorMessage = "This match time is too close to kickoff time. A validation" +
                     " prevents creation of matches less than 2minutes to match kickoff time";
 
 

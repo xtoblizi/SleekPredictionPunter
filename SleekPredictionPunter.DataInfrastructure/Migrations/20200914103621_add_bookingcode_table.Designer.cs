@@ -10,8 +10,8 @@ using SleekPredictionPunter.DataInfrastructure;
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
     [DbContext(typeof(PredictionDbContext))]
-    [Migration("20200913141156_init")]
-    partial class init
+    [Migration("20200914103621_add_bookingcode_table")]
+    partial class add_bookingcode_table
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -257,6 +257,42 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BetPlanforms");
+                });
+
+            modelBuilder.Entity("SleekPredictionPunter.Model.BookingCode", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BetCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("BetPlatformId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Betplatform")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PricingPlan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("PricingPlanId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BookingCodes");
                 });
 
             modelBuilder.Entity("SleekPredictionPunter.Model.Categoriess.BetCategory", b =>
@@ -821,6 +857,63 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
                     b.HasIndex("PredictorId");
 
                     b.ToTable("Predictions");
+                });
+
+            modelBuilder.Entity("SleekPredictionPunter.Model.PredictionBookings.PredictionBooking", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BonusCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BookingCodeWithRelationToPlatform")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BookingCodes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BookingPlatformIds")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("DisplayonHome")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LeastMatchstattime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Odd")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<string>("PredictedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PredictionResult")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Predictions")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PricingPlan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("PricingPlanId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PredictionBookings");
                 });
 
             modelBuilder.Entity("SleekPredictionPunter.Model.PredictionCategory", b =>

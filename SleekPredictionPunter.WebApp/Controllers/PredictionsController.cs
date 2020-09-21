@@ -109,7 +109,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 {
                     foreach (var item in subscriptions)
                     {
-                        paidPredicate += (x => x.PricingPlanId == item.PricingPlanId );
+                        paidPredicate += (x => x.PricingPlanId == item.PricingPlanId);
                     }
                 }
             }

@@ -21,15 +21,17 @@ namespace SleekPredictionPunter.DataInfrastructure
 {
 	public class PredictionDbFactory : IDesignTimeDbContextFactory<PredictionDbContext>
 	{
-        // const string connectionstring = "Data Source=.;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
-        //   " Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
+		//const string connectionstring = "Data Source=SQL5080.site4now.net;Initial Catalog=DB_A66CD2_SleekPredictionPun;User Id=DB_A66CD2_SleekPredictionPun_admin;Password=Admin@123";
 
-       // const string connectionstring = "Data Source=DESKTOP-JBDM8G2\\SQLEXPRESS;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
-         //   " Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
+		// const string connectionstring = "Data Source=DESKTOP-JBDM8G2\\SQLEXPRESS;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
+		//   " Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
 
-        const string connectionstring = "Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
-            " Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
-        public PredictionDbContext CreateDbContext(string[] args)
+		//const string connectionstring = "Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
+		//		  " Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
+
+		const string connectionstring = "Data Source=localhost\\SQLEXPRESS;Initial Catalog = SleekPredictionPunterDb; Integrated Security = True;" +
+				  " Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout = 60; Encrypt=False;TrustServerCertificate=True";
+		public PredictionDbContext CreateDbContext(string[] args)
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<PredictionDbContext>();
 			optionsBuilder.UseSqlServer(connectionstring);
@@ -71,6 +73,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 		public DbSet<WinningPlanPreviewSummary> WinningPlanPreviewSummary { get; set; }
 		public DbSet<BetPlanform> BetPlanforms { get; set; }
 		public DbSet<PredictionBooking> PredictionBookings { get; set; }
+		public DbSet<BookingCode> BookingCodes { get; set; }
 
 
 		/// <summary>
