@@ -24,7 +24,11 @@ namespace SleekPredictionPunter.GeneralUtilsAndServices
         {
             System.Random random = new System.Random();
             int genNumber = random.Next(1234567890);
+            var wwwrootdirectory = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/{directory}");
 
+            if (!Directory.Exists(wwwrootdirectory)) 
+                Directory.CreateDirectory(wwwrootdirectory); 
+                
             if (formFile == null || formFile.Length == 0)
                 return new FileCreationResult { FileStatueEnum = FileResultEnum.FileNotFound };
             var relativePath = Path.Combine($"wwwroot/{directory}", Path.GetFileName(genNumber + formFile.FileName));

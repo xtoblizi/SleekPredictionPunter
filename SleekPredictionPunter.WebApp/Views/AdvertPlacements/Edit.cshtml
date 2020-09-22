@@ -1,0 +1,61 @@
+﻿@model SleekPredictionPunter.AppService.AdvertPlacements.Dto.AdverPlacementDto
+@using SleekPredictionPunter.GeneralUtilsAndServices
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>AdvertPlacement</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-md-5 col-lg-5 col-xl-5 col-sm-12 col-xs-12 form-group">
+                <label asp-for="AdverTitle" class="control-label"></label>
+                <input asp-for="AdverTitle" class="form-control" />
+                <span asp-validation-for="AdverTitle" class="text-danger"></span>
+            </div>
+            <div class="col-md-5 col-lg-5 col-xl-5 col-sm-12 col-xs-12 form-group">
+                <label asp-for="AdvertCaption" class="control-label"></label>
+                <input asp-for="AdvertCaption" class="form-control" />
+                <span asp-validation-for="AdvertCaption" class="text-danger"></span>
+            </div>
+            <div class="col-md-5 col-lg-5 col-xl-5 col-sm-12 col-xs-12 form-group">
+                <label class="control-label"> Previous Image</label>
+                <img src="~/@(System.IO.Path.GetFileName(Model.FullPathForRead))" style="width:70px;height:50px" />
+            </div>
+            <div class="col-md-5 col-lg-5 col-xl-5 col-sm-12 col-xs-12 form-group">
+                <label class="control-label"> Change Image</label>
+                <input type="file" asp-for="AdImageFile" class="form-control" />
+                <span asp-validation-for="AdImageFile" class="text-danger"></span>
+            </div>
+            @*<div class="col-md-5 col-lg-5 col-xl-5 col-sm-12 col-xs-12 form-group">
+                <label asp-for="AdvertDescription" class="control-label"></label>
+                <textarea cols="2" rows="3" asp-for="AdvertDescription" class="form-control" />
+                <span asp-validation-for="AdvertDescription" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="AdLink" class="control-label"></label>
+                <input asp-for="AdLink" class="form-control" />
+                <span asp-validation-for="AdLink" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Id" />
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

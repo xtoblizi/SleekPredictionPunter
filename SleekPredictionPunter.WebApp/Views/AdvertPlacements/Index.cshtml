@@ -1,0 +1,86 @@
+﻿@model IEnumerable<SleekPredictionPunter.Model.AdvertPlacement>
+@using SleekPredictionPunter.GeneralUtilsAndServices
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Under Construction </h2>
+<br />
+
+<section class="container-fluid" style="padding:10px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-panel">
+                <h2 class="title">List of Advert Placements</h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid" style="padding:10px;">
+    <div class="row mt">
+        <div class="col-md-12">
+            <div class="content-panel" style="padding:20px">
+                <div class="row">
+                    <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6">
+                        <a asp-action="Create" class="btn btn-primary">New Advert</a>
+                    </div>
+
+                </div>
+                <br />
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.AdTitle)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.AdCaption)
+                                </th>
+                                <th>
+                                    Ad Image
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DateCreated)
+                                </th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>
+                                    @item.AdTitle)
+                                </td>
+                                <td>
+                                    @item.AdCaption)
+                                </td>
+                               
+                                <td  title="@item.AdLink">
+                                    <img alt="@item.AdLink" src="~/Advert/@(System.IO.Path.GetFileName(await FileReaderHelper.ReadAsync(item.AdImageRelativePath)))" style="width:50px;height:30px" />
+                                </td>
+                                <td>
+                                    @item.DateCreated.ToShortDateString()
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" title="Update BookingCode" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i title="Update Booking Code" class="fa fa-pencil"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+

@@ -79,30 +79,33 @@
                                                 var getOldeBenefits = Model.planPricingBenefitsModels;
                                                 var getBenefitValue = "";
                                                 var getQuestionByQuestionId = await _pricingPlan.GetQuestionById(chose.QuestionId);
-                                                <tr>
-                                                    <th scope="row" id="serialnumber">@(serialNumber++)</th>
-                                                    <td>
-                                                        <select type="text" class="form-control">
-                                                            <option value="@getQuestionByQuestionId.QuestionId">@getQuestionByQuestionId.Question</option>
-                                                        </select>
-                                                    </td>
-                                                    <td>                                                        
-                                                        @if (chose.Answer==false)
-                                                        {
-                                                            getBenefitValue = "No";
-                                                        }
-                                                        else
-                                                        {
-                                                            getBenefitValue = "Yes";
-                                                        }
-                                                        <select type="text" class="form-control">
-                                                            <option value="@chose.Answer">@getBenefitValue</option>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <a  href="/pricingplan/DeleteBenefit?id=@chose.BenefitId" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
-                                                    </td>
-                                                </tr>
+                                                @if (getQuestionByQuestionId != null)
+                                                {
+                                                    <tr>
+                                                        <th scope="row" id="serialnumber">@(serialNumber++)</th>
+                                                        <td>
+                                                            <select type="text" class="form-control">
+                                                                <option value="@getQuestionByQuestionId.QuestionId">@getQuestionByQuestionId.Question</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            @if (chose.Answer == false)
+                                                            {
+                                                                getBenefitValue = "No";
+                                                            }
+                                                            else
+                                                            {
+                                                                getBenefitValue = "Yes";
+                                                            }
+                                                            <select type="text" class="form-control">
+                                                                <option value="@chose.Answer">@getBenefitValue</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <a href="/pricingplan/DeleteBenefit?id=@chose.BenefitId" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
+                                                        </td>
+                                                    </tr>
+                                                }
                                             }
                                         }
                                     </tbody>

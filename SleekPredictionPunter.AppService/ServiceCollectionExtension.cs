@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
+using SleekPredictionPunter.AppService.AdvertPlacements;
 using SleekPredictionPunter.AppService.Agents;
 using SleekPredictionPunter.AppService.BetCategories;
 using SleekPredictionPunter.AppService.BetPlatforms;
@@ -58,6 +59,7 @@ namespace SleekPredictionPunter.AppService
 			services.AddTransient<IBetPlatformService, BetPlatformService>();
 			services.AddTransient<IPredictionBookingService, PredictionBookingService>();
 			services.AddTransient<IBookingCodeService, BookingCodeService>();
+			services.AddTransient<IAdvertPlacementService, AdvertPlacementService>();
 
             // repository DI registration
             services.AddPredictionRepositories();

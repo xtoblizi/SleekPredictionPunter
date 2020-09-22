@@ -1,0 +1,61 @@
+﻿@model SleekPredictionPunter.Model.AdvertPlacement
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AdvertPlacement</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AdTitle)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdTitle)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdCaption)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdCaption)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdImageRelativePath)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdImageRelativePath)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdLink)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdLink)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EntityStatus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EntityStatus)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateUpdated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateUpdated)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

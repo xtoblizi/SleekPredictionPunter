@@ -1,0 +1,53 @@
+﻿@model SleekPredictionPunter.Model.AdvertPlacement
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>AdvertPlacement</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AdTitle)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdTitle)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdCaption)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdCaption)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdLink)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdLink)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EntityStatus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EntityStatus)
+        </dd>
+       
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

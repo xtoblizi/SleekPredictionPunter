@@ -1,0 +1,54 @@
+﻿@model SleekPredictionPunter.AppService.AdvertPlacements.Dto.AdverPlacementDto
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Create>Advert Placement</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-10 col-sm-11 col-lg-10">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-md-5 col-lg-5 col-xl-5 col-sm-12 col-xs-12 form-group">
+                <label asp-for="AdverTitle" class="control-label"></label>
+                <input asp-for="AdverTitle" class="form-control" />
+                <span asp-validation-for="AdverTitle" class="text-danger"></span>
+            </div>
+            <div class="col-md-5 col-lg-5 col-xl-5 col-sm-12 col-xs-12 form-group">
+                <label asp-for="AdvertCaption" class="control-label"></label>
+                <input asp-for="AdvertCaption" class="form-control" />
+                <span asp-validation-for="AdvertCaption" class="text-danger"></span>
+            </div> 
+            
+            <div class="col-md-5 col-lg-5 col-xl-5 col-sm-12 col-xs-12 form-group">
+                <label asp-for="AdImageFile" class="control-label"></label>
+                <input  type="file"  asp-for="AdImageFile" class="form-control" />
+                <span asp-validation-for="AdImageFile" class="text-danger"></span>
+            </div>
+            <div class="col-md-5 col-lg-5 col-xl-5 col-sm-12 col-xs-12 form-group">
+                <label asp-for="AdLink" class="control-label"></label>
+                <input asp-for="AdLink" class="form-control" />
+                <span asp-validation-for="AdLink" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-12 form-group">
+                    <input type="submit" value="Create" class="btn btn-success" style="margin:15px" />
+                    <br />
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

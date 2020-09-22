@@ -63,8 +63,6 @@ namespace SleekPredictionPunter.Repository.Base
 
 		public async virtual Task Update(T model, bool savechange = true)
 		{
-
-			//	var result = _predictionDbContext.Entry(model).State = EntityState.Modified;
 			_entity.Update(model);
 
 			if (savechange)
