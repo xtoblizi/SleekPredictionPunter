@@ -220,56 +220,67 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> EditPlan(PlanPricingDto model, IEnumerable<PlanPricingBenefitsModel> getOldeBenefits,
                                                   int[] answers, long[] questionId)
         {
-            var result = false;
-            var planModelBuilder = new PricingPlanModel
+            try
             {
-                PlanName = model.PricingPlanModel.PlanName,
-                PlanType = model.PricingPlanModel.PlanType,
-                Duration = model.PricingPlanModel.Duration,
-                Price = model.PricingPlanModel.Price,
-                Id = model.PricingPlanModel.Id,
-                PlanCommission = model.PricingPlanModel.PlanCommission
-            };
-            var benefits = new List<BenefitOutlines>();
-
-            Func<PricingPlanModel, bool> predicate = (x => x.PlanName == planModelBuilder.PlanName);
-
-            var checkExistingplanProperties = await _pricingPlanAppService.GetFirstOfDefault(predicate);
-            if (checkExistingplanProperties != null)
-            {
-                _pricingPlanAppService.UpdatePricingPlan(planModelBuilder);
-            }
-           
-            
-            for (int i = 0; i < questionId.Length; i++)
-            {
-                var compareBetweenOldAndNewlyAddedBenefits = getOldeBenefits.Where(x => x.BenefitId == i);
-                if (compareBetweenOldAndNewlyAddedBenefits != null)
+                var result = false;
+                var planModelBuilder = new PricingPlanModel
                 {
-                    //update the particular benefit alone..
-                    foreach (var item in compareBetweenOldAndNewlyAddedBenefits)
-                    {
-                        await _pricingPlanAppService.UpdatePricePlanBenefit(item);
-                    }
+                    PlanName = model.PricingPlanModel.PlanName,
+                    PlanType = model.PricingPlanModel.PlanType,
+                    Duration = model.PricingPlanModel.Duration,
+                    Price = model.PricingPlanModel.Price,
+                    PlanCommission = model.PricingPlanModel.PlanCommission,
+                    Id = model.PricingPlanModel.Id,
+                    DateUpdated = DateTime.Now
+                };
+                var benefits = new List<BenefitOutlines>();
+
+                Func<PricingPlanModel, bool> predicate = (x => x.PlanName == planModelBuilder.PlanName);
+
+                var checkExistingplanProperties = await _pricingPlanAppService.GetFirstOfDefault(predicate);
+                if (checkExistingplanProperties != null)
+                {
+                    _pricingPlanAppService.UpdatePricingPlan(planModelBuilder);
+                    //if (insertPlan != null && insertPlan.Id > 0)
+                    //{
+                        for (int i = 0; i < questionId.Length; i++)
+                        //foreach (var item in questionId)
+                        {
+                            var questionindex = questionId[i];
+                            var getQuestionById = await _pricingPlanAppService.GetQuestionById(questionindex);
+                            var insertToPlanBenefits = new PlanPricingBenefitsModel
+                            {
+                                Answer = Convert.ToBoolean(answers[i]),
+                                Question = getQuestionById.Question,
+                                QuestionId = getQuestionById.QuestionId,
+                                DateTimeCreated = DateTime.UtcNow,
+                                IsActive = true,
+                                PlanPricingId = planModelBuilder.Id
+                            };
+
+                            result = await _pricingPlanAppService.InsertPricePlanBenefit(insertToPlanBenefits);
+                        }
+
+                        if (result == true)
+                        {
+                            return RedirectToAction("ListofPlans", "Pricingplan");
+                        }
+
+                        //means. an error occurred if it reaches this point..
+                        var getAllQquestions = await _pricingPlanAppService.GetAllQuestion();
+                        var dtoModel = new PlanPricingDto
+                        {
+                            planBenefitQuestionsModels = getAllQquestions,
+                            PricingPlanModel = null,
+                        };
                 }
-
-                var questionindex = questionId[i];
-                    var getQuestionById = await _pricingPlanAppService.GetQuestionById(questionindex);
-                    var insertToPlanBenefits = new PlanPricingBenefitsModel
-                    {
-                        Answer = Convert.ToBoolean(answers[i]),
-                        Question = getQuestionById.Question,
-                        QuestionId = getQuestionById.QuestionId,
-                        DateTimeCreated = DateTime.UtcNow,
-                        IsActive = true,
-                        PlanPricingId = planModelBuilder.Id
-                    };
-
-                    await _pricingPlanAppService.InsertPricePlanBenefit(insertToPlanBenefits);
-                return RedirectToAction("ListofPlans", "Pricingplan");
+                ViewBag.Errors = "";
+                return View(model);
             }
-                    return RedirectToAction("ListofPlans", "Pricingplan");
-        
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpGet]

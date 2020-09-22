@@ -12,6 +12,7 @@ namespace SleekPredictionPunter.AppService.Plans
         Task<PlanBenefitQuestionsModel> GetQuestionById(long id);
         Task<IEnumerable<PlanBenefitQuestionsModel>> GetAllQuestion();
         Task<bool> insertPanQuestions(PlanBenefitQuestionsModel model);
+        Task<PlanBenefitQuestionsModel> GetFirstOfDefaultQuestionProperties(Func<PlanBenefitQuestionsModel, bool> func = null);
         Task<bool> InsertPricePlanBenefit(PlanPricingBenefitsModel model);
         Task<PricingPlanModel> InsertPricingPlan(PricingPlanModel model);
         Task<IEnumerable<PlanWithBenefitsDto>> GetAllPlansWithBenefits();

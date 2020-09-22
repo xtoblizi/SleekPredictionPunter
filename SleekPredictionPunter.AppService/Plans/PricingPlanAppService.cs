@@ -52,6 +52,10 @@ namespace SleekPredictionPunter.AppService.Plans
             var result = await _baseRepository.GetById(id);
             return result;
         }
+        public async Task<PlanBenefitQuestionsModel> GetFirstOfDefaultQuestionProperties(Func<PlanBenefitQuestionsModel, bool> func = null)
+        {
+            return await _baseRepository.GetFirstOrDefault(func);
+        }
 
         public async Task<IEnumerable<PlanBenefitQuestionsModel>> GetAllQuestion()
         {
