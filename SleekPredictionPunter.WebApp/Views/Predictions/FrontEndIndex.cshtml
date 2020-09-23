@@ -27,20 +27,6 @@
     }
 </style>
 
-<!-- breadcrumb begin -->
-@*<div class="breadcrumb-bettix contact-page" >
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-7 col-lg-7">
-                <div class="breadcrumb-content">
-                    <h1 style="color:white"> <strong style="font-weight:bolder">PREDICITONS LISTINGS</strong> </h1> 
-                    <br/>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>*@
-
 <div class="breadcrumb-bettix result-page">
     <div class="container">
         <div class="row">
@@ -65,8 +51,6 @@
                                 <th>S/N</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Match</th>
-                                @*<th scope="col"></th>
-                    <th scope="col">Club B</th>*@
                                 <th scope="col">Tip</th>
                             </tr>
                         </thead>
@@ -82,26 +66,12 @@
 
                                         <td class="date">@prediction.TimeofFixture.Date</td>
                                         <td class="team-name">
-                                            @*<div class="col-sm-12">
-                                    <img id="clubbimg" class="clubimg" style="width:25px;height:23px" src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubBLogoPath))" />
-                                </div>*@
-
                                             <span id="cluba" class="clubname"> @prediction.ClubA </span>
                                             <span class="text-danger"> vs</span> <br />
                                             <span id="clubb" class="clubname"> @prediction.ClubB </span>
                                         </td>
-                                        @*<td><span class="versace">vs</span></td>*@
-
                                         <td class="score">@prediction.PredictionValue</td>
-                                        @*<td>
-                                <a>
-                                    <span class="view-icon">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </span>
-                                </a>
-                            </td>*@
                                     </tr>
-
                                 }
                             }
 
@@ -146,7 +116,7 @@
                                             <span id="clubb" class="clubname"> @prediction.ClubB </span>
                                             <img id="clubbimg" class="clubimg" height="25" width="25" src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubBLogoPath))" />
                                         </td>
-                                        <td class="score">@prediction.PredictionValue</td>
+                                        <td class="score text-success">@prediction.PredictionValue</td>
                                         <td>
                                             <a>
                                                 <span class="view-icon">
@@ -168,6 +138,9 @@
     </div>
     <br />
     <br />
+
+    <!-------------------------------------This is Paid TIps ------------------------------------------------------------->
+
     <div class="container">
         <div class="cta" style="padding:0px 10px 0px 10px; background-image:none; background-color:black">
             <div class="about-site" style="padding:15px">
@@ -194,56 +167,6 @@
                         <div class="result-sheet">
                             <h4 class="result-title"> @getCategoryName?.BetCategoryName </h4>
                             <div class="table-responsive">
-                                @*<table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>S/N</th>
-                                            <th scope="col"></th>
-                                            <th scope="col">Date & Time</th>
-                                            <th scope="col">Club A</th>
-                                            <th scope="col"></th>
-                                            <th scope="col">Club B</th>
-                                            <th scope="col">Prediction</th>
-                                            <th scope="col"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @foreach (var prediction in item)
-                                        {
-                                            <tr id="non-mobile-view">
-                                                <td>@(sn++)</td>
-                                                <th scope="row">
-                                                    <span class="icon">
-                                                        <i class="flaticon-football"></i>
-                                                    </span>
-                                                </th>
-                                                <td class="date">@prediction.DateCreated</td>
-                                                <td class="team-name">
-                                                    <span id="cluba" class="clubname"> @prediction.ClubA </span>
-                                                    <img id="clubaimg" class="clubimg" style="width: 25px; height:23px" src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubALogoPath))" />
-
-                                                </td>
-                                                <td><span class="versace">vs</span></td>
-                                                <td>
-                                                    <span id="clubb" class="clubname"> @prediction.ClubB </span>
-                                                    <img id="clubbimg" class="clubimg" style="width:25px;height:23px" src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubBLogoPath))" />
-
-                                                </td>
-                                                <td class="score">@prediction.PredictionValue</td>
-                                                <td>
-                                                    <a>
-                                                        <span class="view-icon">
-                                                            <i class="fas fa-ellipsis-v"></i>
-                                                        </span>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        }
-
-                                    </tbody>
-                                </table>*@
-
                             <table id="desktop-view" class="table">
 							<thead>
 								<tr>
@@ -258,10 +181,10 @@
 								</tr>
 							</thead>
 							<tbody>
-								@if (ViewBag.FreeTips != null)
+								@if (item != null)
 								{
 
-									foreach (var prediction in ViewBag.FreeTips as IEnumerable<Prediction>)
+									foreach (var prediction in item as IEnumerable<Prediction>)
 									{
 
 										<tr id="non-mobile-view">
@@ -282,7 +205,7 @@
 												<span id="clubb" class="clubname"> @prediction.ClubB </span>
 												<img id="clubbimg" class="clubimg" height="25" width="25" src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubBLogoPath))" />
 											</td>
-											<td class="score">@prediction.PredictionValue</td>
+											<td class="score text-success">@prediction.PredictionValue</td>
 											<td>
 												<a>
 													<span class="view-icon">
@@ -298,22 +221,20 @@
 							</tbody>
 						    </table>
 
-                                <table id="mobile-top-view" class="table">
+                            <table id="mobile-top-view" class="table">
                                     <thead>
                                         <tr>
                                             <th>S/N</th>
                                             <th scope="col">Date</th>
                                             <th scope="col">Match</th>
-                                            @*<th scope="col"></th>
-                    <th scope="col">Club B</th>*@
                                             <th scope="col">Tip</th>
                                         </tr>
                                     </thead>
                                     <tbody id="mobile-body">
-                                        @if (ViewBag.FreeTips != null)
+                                        @if (item != null)
                                         {
 
-                                            foreach (var prediction in ViewBag.FreeTips as IEnumerable<Prediction>)
+                                            foreach (var prediction in item as IEnumerable<Prediction>)
                                             {
 
                                                 <tr id="non-mobile-view">
@@ -321,29 +242,14 @@
 
                                                     <td class="date">@prediction.TimeofFixture.Date</td>
                                                     <td class="team-name">
-                                                        @*<div class="col-sm-12">
-                                    <img id="clubbimg" class="clubimg" style="width:25px;height:23px" src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubBLogoPath))" />
-                                </div>*@
-
                                                         <span id="cluba" class="clubname"> @prediction.ClubA </span>
                                                         <span class="text-danger"> vs</span> <br />
                                                         <span id="clubb" class="clubname"> @prediction.ClubB </span>
                                                     </td>
-                                                    @*<td><span class="versace">vs</span></td>*@
-
-                                                    <td class="score">@prediction.PredictionValue</td>
-                                                    @*<td>
-                                <a>
-                                    <span class="view-icon">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </span>
-                                </a>
-                            </td>*@
+                                                    <td class="score text-success">@prediction.PredictionValue</td>
                                                 </tr>
-
                                             }
                                         }
-
                                     </tbody>
                                 </table>
                             </div>

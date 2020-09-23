@@ -145,14 +145,14 @@
                         </p><table class="table">
                             <tbody>
                                 <tr id="timer" style="direction:rtl;">
-                                    <td style="font-size:19px !important;color:#fff;">@topPackageToPreview?.TodayPrediction?.TimeofFixture.Day</td>
-                                    <td style="font-size:19px !important;color:#fff;">@topPackageToPreview?.TodayPrediction?.TimeofFixture.Hour</td>
-                                    <td style="font-size:19px !important;color:#fff;">@topPackageToPreview?.TodayPrediction?.TimeofFixture.Minute</td>
+                                    <td style="font-size:19px !important;color:#fff;">@topPackageToPreview?.TodayPrediction?.TimeofFixture.ToString()</td>
+                                    @*<td style="font-size:19px !important;color:#fff;">@topPackageToPreview?.TodayPrediction?.TimeofFixture.ToShortDateString()</td>
+                                    <td style="font-size:19px !important;color:#fff;">@topPackageToPreview?.TodayPrediction?.TimeofFixture.TimeOfDay</td>*@
                                 </tr>
                                 <tr>
-                                    <td style="color:#fff;font-size:15px;font-weight:bold;">Day</td>
-                                    <td style="color:#fff;font-size:15px;font-weight:bold;">Hour</td>
-                                    <td style="color:#fff;font-size:15px;font-weight:bold;">Minutes</td>
+                                    <td style="color:#fff;font-size:15px;font-weight:bold;">Date Time</td>
+                                    @*<td style="color:#fff;font-size:15px;font-weight:bold;">Of </td>
+                                    <td style="color:#fff;font-size:15px;font-weight:bold;">Prediction</td>*@
                                 </tr>
                             </tbody>
                         </table>

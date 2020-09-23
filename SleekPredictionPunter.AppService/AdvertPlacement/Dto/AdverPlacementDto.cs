@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using SleekPredictionPunter.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +14,9 @@ namespace SleekPredictionPunter.AppService.AdvertPlacements.Dto
 		public string AdvertCaption { get; set; }
 		public string AdvertDescription { get; set; }
 		public string AdLink { get; set; }
+		public int AdvertSection { get; set; }
 
+		public string ButtonText { get; set; }
 		public IFormFile AdImageFile { get; set; }
 
 	}

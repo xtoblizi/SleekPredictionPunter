@@ -204,8 +204,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 									ViewData["RefLink"] = refLink;
 
 									ViewData["RegistrationStatusMessge"] = $"Agent Registration Successful. \n Your RefererCode is {refCode}." +
-										$" \n \n Preferably use your refererlink to start referring users to Predictive Power and make money " +
-									$" \n Referer Link";
+										$" \n \n Preferably use your refererlink to start referring users to Predictive Power and make money ";
 								}
 							}
 							else
