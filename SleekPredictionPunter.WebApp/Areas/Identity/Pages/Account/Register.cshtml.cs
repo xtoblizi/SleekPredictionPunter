@@ -209,7 +209,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 							}
 							else
 							{
-								ViewData["RegistrationStatusMessge"] = $"Registration was not successful at this time,please try again with your valid details. \n {result.Errors.FirstOrDefault().Description} .Thanks";
+								ViewData["Error"] = $"Registration was not successful at this time,please try again with your valid details. \n {result.Errors.FirstOrDefault().Description} .Thanks";
 							}
 							#endregion
 
@@ -239,6 +239,8 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 						}
 						foreach (var error in result.Errors)
 						{
+							ViewData["Error"] +=  $"{error.Description}.";
+
 							ModelState.AddModelError(string.Empty, error.Description);
 						}
 					}
@@ -253,7 +255,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 				}
 				else
 				{
-					RegistrationStatusMessge = "You can only register as a subscriber or an agent";
+					ViewData["RegistrationStatusMessge"] = "You can only register as a subscriber or an agent";
 				}
 
 				// If we got this far, something failed, redisplay form

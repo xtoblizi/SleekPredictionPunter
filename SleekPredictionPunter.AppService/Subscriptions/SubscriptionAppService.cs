@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Diagnostics;
-using Microsoft.VisualBasic;
-using SleekPredictionPunter.Model;
+﻿using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Repository.Base;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.AppService.Subscriptions
