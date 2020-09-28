@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SleekPredictionPunter.Model.Matches.Match>
+﻿@model SleekPredictionPunter.Model.PaginationModel<SleekPredictionPunter.Model.Matches.Match>
 
 @{
     ViewData["Title"] = "Index";
@@ -45,7 +45,7 @@
                                 <th>
                                     Match Category
                                 </th>
-                                
+
                                 <th>
                                     Match Time
                                 </th>
@@ -60,12 +60,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.Paginated())
                             {
                                 <tr>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.ClubA)
-                                       
+
                                     </td>
 
                                     <td>
@@ -73,7 +73,7 @@
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.ClubB)
-                                       
+
                                     </td>
 
                                     <td>
@@ -81,9 +81,9 @@
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.MatchCategory)
-                                       
+
                                     </td>
-                                   
+
                                     <td>
                                         @Html.DisplayFor(modelItem => item.TimeofMatch)
                                     </td>
@@ -101,8 +101,19 @@
                             }
                         </tbody>
                     </table>
+                    <div style="align-items:end;">
+                        <ul class="pagination" style="vertical-align:middle;">
+                            @for (int i = 1; i <= Model.PageCount(); i++)
+                            {
+                                <li class="@(i == Model.CurrentPage ? "page-item active" : "page-item")">
+                                    <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                                </li>
+
+                            }
+                        </ul>
+                    </div>
                 </div>
-                
+
 
             </div>
         </div>

@@ -7,6 +7,7 @@ using SleekPredictionPunter.AppService.Matches;
 using SleekPredictionPunter.AppService.PredictionAppService;
 using SleekPredictionPunter.AppService.PredictionCategoryService;
 using SleekPredictionPunter.GeneralUtilsAndServices;
+using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Model.Matches;
 using System;
 using System.Threading.Tasks;
@@ -38,9 +39,15 @@ namespace SleekPredictionPunter.WebApp.Controllers
         }
 
         // GET: Matches
-        public async Task<IActionResult> Index(int startIndex = 0,int count = 200)
+        public async Task<IActionResult> Index(int page=1)
         {
-            return View(await _matchService.GetMatches<DateTime>(null,(x=>x.DateCreated),startIndex,count));
+            var painationModel = new PaginationModel<Match>
+            {
+                PerPage = 10,
+                CurrentPage = page,
+                TModel = await _matchService.GetMatches<DateTime>(null, (x => x.DateCreated))
+            };
+            return View(painationModel);
         }
         public async Task<IActionResult> _FrontEndPartialView()
         {

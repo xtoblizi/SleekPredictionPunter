@@ -241,10 +241,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 if (checkExistingplanProperties != null)
                 {
                     _pricingPlanAppService.UpdatePricingPlan(planModelBuilder);
-                    //if (insertPlan != null && insertPlan.Id > 0)
-                    //{
+
                         for (int i = 0; i < questionId.Length; i++)
-                        //foreach (var item in questionId)
                         {
                             var questionindex = questionId[i];
                             var getQuestionById = await _pricingPlanAppService.GetQuestionById(questionindex);

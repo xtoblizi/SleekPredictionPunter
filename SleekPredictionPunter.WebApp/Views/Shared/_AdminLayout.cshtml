@@ -38,6 +38,7 @@
     <link rel="stylesheet" href="~/AdminTheme/lib/advanced-datatable/css/DT_bootstrap.css" />
     <link href="~/AdminTheme/css/style.css" rel="stylesheet">
     <link href="~/AdminTheme/css/style-responsive.css" rel="stylesheet">
+    <script src="~/AdminTheme/lib/DannyPaginator.js"></script>
     <!-- =======================================================
       Template Name: Dashio
       Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
@@ -177,7 +178,21 @@
                                 <span>Bet Platforms</span>
                             </a>
                         </li>
-                         
+                        <li class="sub-menu">
+                            <a class="active" href="javascript:;">
+                                <i class="fa fa-th"></i>
+                                <span>User Management</span>
+                            </a>
+                            <ul class="sub">
+                                <li class="active">
+                                    <a href="../../admin/getallagents">All Agents</a>
+                                </li>
+                                <li>
+                                    <a href="../../admin/getallsubscribers">All Subscribers</a>
+                                </li>
+                            </ul>
+                        </li>
+
                         <li>
                             <a class="@ViewBag.BookingCode" href="../../bookingcodes/index">
                                 <i class=" fa fa-soccer-ball-o"></i>
