@@ -28,12 +28,16 @@
                 <div class="section-title">
                     @if (ViewData["RegistrationStatusMessge"] != null) {
 
-                    <h6 class="text-success"> @ViewData["RegistrationStatusMessge"]</h6>
+                    <h5 class="text-success"> @ViewData["RegistrationStatusMessge"]</h5>
+                    }
+                    @if (ViewData["Error"] != null) {
+
+                        <h5 class="text-danger"> @ViewData["Error"]</h5>
                     }
 
-                @if(ViewData["RefLink"] != null){
-                <p> <a href="@ViewData["RefLink"]"></a>  </p>
-                }
+                    @if(ViewData["RefLink"] != null){
+                    <p class="link"> Referer Link : <a target="_blank" href="@ViewData["RefLink"]"> @ViewData["RefLink"] </a> </p>
+                    }
                 </div>
             </div>
         </div>

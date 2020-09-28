@@ -1,30 +1,149 @@
-﻿<div class="container justify-content-center" style="padding-top:unset;">
+﻿@inject SleekPredictionPunter.AppService.AdvertPlacements.IAdvertPlacementService  _context
+@using SleekPredictionPunter.Model
+@using SleekPredictionPunter.GeneralUtilsAndServices
+@{
+
+    Func<AdvertPlacement, bool> wherefunc = (x => (x.AdvertSection == AdvertSection.FooterLeft) || (x.AdvertSection == AdvertSection.FooterRight));
+    var getAdvertPlacements = await _context.GetAdvertPlacements(wherefunc);
+
+    AdvertPlacement leftsection = null;
+    AdvertPlacement rightsection = null;
+
+    if (getAdvertPlacements.Any())
+    {
+        leftsection = getAdvertPlacements.FirstOrDefault(x => x.AdvertSection == AdvertSection.FooterLeft);
+        rightsection = getAdvertPlacements.FirstOrDefault(x => x.AdvertSection == AdvertSection.FooterRight);
+    }
+
+}
+
+<style>
+    .block_container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .promotions {
+        padding: 30px 5px 30px 5px;
+    }
+
+    .about {
+        padding: 30px 5px 30px 5px;
+        justify-content: center;
+        text-justify: distribute
+    }
+    .adimage {
+        align-content:center;width:100%;height:100%;object-fit:cover;
+    }
+
+</style>
+
+<div class="promotions">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-7 col-lg-6">
+                <div class="single-promotion">
+                    @if (leftsection != null)
+					{
+						var buttonText = string.IsNullOrEmpty(leftsection.ButtonText) ? "More Info" : leftsection.ButtonText;
+                        var length = leftsection.AdDescription.Length;
+                        var lengthtotake = length > 70 ? 70 : length;
+						var description = leftsection.AdDescription.ToString().Substring(0,lengthtotake);
+                        <div class="fill single-promotion-img">
+                            <img class="adimage" src="~/Advert/@(System.IO.Path.GetFileName(await FileReaderHelper.ReadAsync(leftsection.AdImageRelativePath)))" alt="">
+                        </div>
+                        <div class="part-text">
+                            <span class="sub-title text-white">@leftsection?.AdTitle</span>
+                            <!--<h4 class="title">Get $20 in free bets<br/> when you bet $5</h4>-->
+                            <p> @description @{if (description.Length > lengthtotake) { <span>...</span>}
+							} </p>
+                            <a target="_blank" href="@leftsection.AdLink"> @buttonText</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="fill single-promotion-img">
+                            <img class="adimage" src="~/FrontendTheme/assets/img/upcoming-match-bg-4.jpg" alt="">
+                        </div>
+                        <div class="part-text">
+                            <span class="sub-title text-white"> Promote your Service Here</span>
+                            <!--<h4 class="title">Get $20 in free bets<br/> when you bet $5</h4>-->
+                            <p>Advertise your service here with the crisp image and text description. Reach Millions here and now! </p>
+                            <a href="promotion-details">More Info</a>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+            <div class="col-xl-5 col-lg-6">
+                <div class="single-promotion">
+                    @if (rightsection != null)
+                    {
+                        var buttonText = string.IsNullOrEmpty(rightsection.ButtonText) ? "More Info" : rightsection.ButtonText;
+                        var length = rightsection.AdDescription.Length;
+                        var lengthtotake = length > 40 ? 40 : length;
+                        var description = rightsection.AdDescription.ToString().Substring(0, lengthtotake);
+                        <div class="fill single-promotion-img">
+                            <img class="adimage" src="~/Advert/@(System.IO.Path.GetFileName(await FileReaderHelper.ReadAsync(rightsection.AdImageRelativePath)))" alt="">
+                        </div>
+                        <div class="part-text">
+                            <span class="sub-title text-white">@rightsection?.AdTitle</span>
+                            <!--<h4 class="title">Get $20 in free bets<br/> when you bet $5</h4>-->
+                            <p>
+                                @description 
+                                @{if (description.Length > lengthtotake)
+                                  { <span>...</span>}
+                                }
+                            </p>
+                            <a target="_blank" href="@rightsection.AdLink">@buttonText</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="fill single-promotion-img">
+                            <img src="~/FrontendTheme/assets/img/banner-1.jpg" alt="">
+                        </div>
+                        <div class="part-text">
+                            <span class="sub-title text-white">Advertise Here</span>
+                            <!--<h4 class="title">Get a $50 welcome bonus</h4>-->
+                            <p>Advertise your service here with the crisp image and description. </p>
+                            <a href="#">More Info</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="padding-top:unset;">
     <div class="about-site" style="width:100%; font-size:inherit; overflow-wrap:break-word">
-        <div class="about" style="font-family:inherit; font-size:1.2em; ">
+        <div class="about justify-content-center" style="font-family:inherit; font-size:1.2em; ">
             <p>
                 <strong style="color:darkred">
-                 FREE FOOTBALL PREDICTION SITE
+                    FREE FOOTBALL PREDICTION SITE <br />
                 </strong>
                 Football betting is fun, but without some level of knowledge and guidance, it can be a high risk venture.
                 Soccer fans looking for websites that offer accurate forecasts go straight to the best football prediction site in the world predictionwiz.com
             </p>
             <p>
                 <strong style="color:darkred">
-                    ACCURATE SOCCER PREDICTION
+                    ACCURATE SOCCER PREDICTION <br />
                 </strong>
                 Predictionwiz.com understands the attraction of this league and provides expert analysis and football betting tips,
                 to ensure you come out tops with your wagers.
-            </p>        
+            </p>
             <p>
                 <strong style="color:darkred">
-                    BEST PREDICTION SITE IN THE WORLD
+                    BEST PREDICTION SITE IN THE WORLD <br />
                 </strong>
                 Predictionwiz.com is the best prediction site in the world. The website works to help you win with the best footballing tips in the industry.
                 Amateur and Professional tipsters can avail themselves of fast, reliable and efficient football betting tips.
             </p>
             <p>
                 <strong style="color:darkred">
-                    REAL FOOTBALL PREDICTION
+                    REAL FOOTBALL PREDICTION <br />
                 </strong>
                 Predictionwiz is a top football prediction website that guarantees real football predictions on every market available.
                 Every day of the week, our team of expert analysts and statisticians are working tirelessly to guarantee our daily returns
@@ -37,7 +156,8 @@
                 It is possible to have more winnings and fewer losses with betting; working with us will guarantee you profits for your efforts.
                 Just try us at predictionwiz and we won't disappoint you.
             </p>
-            
-</div>
-</div>
+
+        </div>
+    </div>
+    
 </div>

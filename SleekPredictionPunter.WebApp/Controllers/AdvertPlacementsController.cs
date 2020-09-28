@@ -49,6 +49,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public IActionResult Create()
         {
             ViewBag.AdvertPlacements = "active";
+            var rolesEnumList = EnumHelper.GetEnumResults<AdvertSection>();
+            ViewBag.AdSectionId = new SelectList(rolesEnumList, "Id", "Name");
             return View();
         }
 
@@ -64,14 +66,23 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 var wwwwrootDirectory = "Advert";
                 var createFile = await _fileHelper.SaveFileToCustomWebRootPath(wwwwrootDirectory, advertPlacement.AdImageFile);
 
-                if(createFile.FileStatueEnum == FileResultEnum.FileCreationSuccess)
+               
+                if (createFile.FileStatueEnum == FileResultEnum.FileCreationSuccess)
                 {
+                    Func<AdvertPlacement, bool> predicate = (x => x.AdvertSection == (AdvertSection)advertPlacement.AdvertSection);
+                    var getplacebySection = await _context.GetDefault(predicate);
+                    if (getplacebySection != null)
+                        await _context.Delete(getplacebySection);
+
                     var model = new AdvertPlacement()
                     {
                         AdTitle = advertPlacement.AdverTitle,
                         AdCaption = advertPlacement.AdvertCaption,
                         AdLink = advertPlacement.AdLink,
-                        AdImageRelativePath = createFile.CreatedFileRelativePath
+                        AdImageRelativePath = createFile.CreatedFileRelativePath,
+                        AdDescription = advertPlacement.AdvertDescription,
+                        AdvertSection = (AdvertSection)advertPlacement.AdvertSection,
+                        ButtonText = advertPlacement.ButtonText
                     };
 
                     await _context.Create(model);
@@ -79,6 +90,10 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 
                 return RedirectToAction(nameof(Index));
             }
+
+            var rolesEnumList = EnumHelper.GetEnumResults<AdvertSection>();
+            ViewBag.AdSectionId = new SelectList(rolesEnumList, "Id", "Name");
+
             ViewBag.AdvertPlacements = "active";
             return View(advertPlacement);
         }
@@ -125,7 +140,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
                         model.AdTitle = advertPlacement.AdverTitle;
                         model.AdCaption = advertPlacement.AdvertCaption;
                         model.AdLink = advertPlacement.AdLink;
+                        model.AdDescription = advertPlacement.AdvertDescription;
                         model.AdImageRelativePath = createFile.CreatedFileRelativePath;
+                        model.ButtonText = advertPlacement.ButtonText;
 
                         await _context.Update(model);
                     }

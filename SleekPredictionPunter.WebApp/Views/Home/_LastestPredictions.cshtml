@@ -8,7 +8,7 @@
 
 <style>
 	.mobile-top-view {
-		visibility: collapse;
+		visibility: collapse;		
 	}
 	#betcodes-mobile-view{
 		visibility:collapse;
@@ -16,6 +16,7 @@
 
 	@@media only screen and (max-width: 600px) {
 		.mobile-top-view {
+			display:inline;
 			visibility: visible;
 		}
 
@@ -47,52 +48,6 @@
 			<div class="result-sheet">
 				<h4 class="result-title">Top Latest Free Predictions</h4>
 				<div class="table-responsive">
-					<table class="table mobile-top-view">
-						<thead>
-							<tr>
-								<th>S/N</th>
-								<th scope="col">Date</th>
-								<th scope="col">Match</th>
-								<th scope="col">Tip</th>
-							</tr>
-						</thead>
-						<tbody id="mobile-body">
-							@if (ViewBag.FreeTips != null)
-							{
-								foreach (var prediction in ViewBag.FreeTips as IEnumerable<Prediction>)
-								{
-									<tr id="non-mobile-view">
-										<td>@(sn++)</td>
-										<td class="date">@prediction.TimeofFixture.Date</td>
-										<td class="team-name">
-											<span id="cluba" class="clubname"> @prediction.ClubA </span>
-											<span class="text-danger"> vs</span> <br />
-											<span id="clubb" class="clubname"> @prediction.ClubB </span>
-										</td>
-										<td class="score text-success">@prediction.PredictionValue</td>
-									</tr>
-								}
-							}
-
-						</tbody>
-					</table>
-
-					<div class="mobile-top-view">
-						<span style="font-weight:bold">BETTING CODE</span>
-						@foreach (var item in ViewBag.BettingCodes as IEnumerable<BookingCodeDto>)
-						{
-							<div class="row">
-								<div>
-									<span class="text-success">@item.Betplatform</span> :
-								</div>
-								<div>
-									<span class="text-danger">@item.BetCode</span>
-								</div>
-							</div>
-							
-						}
-					</div>
-					
 					<table id="desktop-view" class="table">
 						<thead>
 							<tr>
@@ -150,15 +105,63 @@
 									@foreach (var item in ViewBag.BettingCodes as IEnumerable<BookingCodeDto>)
 									{
 										<td class="score"><span class="text-success">@item.Betplatform</span> : <span class="text-danger">@item.BetCode</span> </td>
-										
+
 									}
-									
+
 								</tr>
 							}
 						</tbody>
 					</table>
-					<br/>
-					
+				
+					<table class="table mobile-top-view">
+						<thead>
+							<tr>
+								<th>S/N</th>
+								<th scope="col">Date</th>
+								<th scope="col">Match</th>
+								<th scope="col">Tip</th>
+							</tr>
+						</thead>
+						<tbody id="mobile-body">
+							@if (ViewBag.FreeTips != null)
+							{
+								foreach (var prediction in ViewBag.FreeTips as IEnumerable<Prediction>)
+								{
+									<tr id="non-mobile-view">
+										<td>@(sn++)</td>
+										<td class="date">@prediction.TimeofFixture.Date</td>
+										<td class="team-name">
+											<span id="cluba" class="clubname"> @prediction.ClubA </span>
+											<span class="text-danger"> vs</span> <br />
+											<span id="clubb" class="clubname"> @prediction.ClubB </span>
+										</td>
+										<td class="score text-success">@prediction.PredictionValue</td>
+									</tr>
+								}
+							}
+
+						</tbody>
+					</table>
+
+					<div class="mobile-top-view">
+						<span style="font-weight:bold">BETTING CODE</span>
+						@foreach (var item in ViewBag.BettingCodes as IEnumerable<BookingCodeDto>)
+						{
+							<div class="row">
+								<div>
+									&nbsp; &nbsp; &nbsp;	<span class="text-success">@item.Betplatform</span> :
+								</div>
+								<div>
+									<span class="text-danger">@item.BetCode</span>
+								</div>
+							</div>
+
+						}
+					</div>
+
+
+					<br />
+
 				</div>
 
 			</div>

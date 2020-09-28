@@ -117,7 +117,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
             {
                 Func<Prediction, bool> freePredicate = (p => p.PricingPlanId == geteFreePlan.Id);
 
-                ViewBag.FreeTips = await _predictionService.GetPredictions(freePredicate, startIndex: 0, count: 5);
+                Func<Prediction, DateTime> orderbyexpression = (x => x.DateCreated);
+
+                ViewBag.FreeTips = await _predictionService.GetPredictionsOrdered(freePredicate,orderbyexpression,startIndex: 0, count: 20);
 
             }
             if (paidPredicate != null)
