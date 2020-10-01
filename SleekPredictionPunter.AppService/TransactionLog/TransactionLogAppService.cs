@@ -41,7 +41,7 @@ namespace SleekPredictionPunter.AppService.TransactionLog
 
         public async Task<IEnumerable<TransactionLogModel>> GetAllTransactionLog(Func<TransactionLogModel, bool> model, int skip = 0, int take = int.MaxValue)
         {
-            var result = await _baseRepository.GetAllQueryable(model, skip, take);
+            var result = await _baseRepository.GetAllQueryable(model,(x=>x.DateCreated),skip, take);
             return result;
         }
 

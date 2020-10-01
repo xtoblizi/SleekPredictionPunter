@@ -2,28 +2,41 @@
 @inject SleekPredictionPunter.AppService.Clubs.IClubService _clubService
 @inject SleekPredictionPunter.AppService.Subscriptions.ISubscriptionAppService _sub
 @inject SleekPredictionPunter.AppService.BetCategories.IBetCategoryService _betCategory
-
+@using SleekPredictionPunter.AppService.BookingCodes.Dto
 
 @{
     ViewData["Title"] = "FrontEndIndex";
     Layout = "~/Views/Shared/_Layout.cshtml";
     int sn = 1;
-   
+    int snmobile = 1;
+
+    var paidbetcodes = ViewBag.PaidBettingCodes as IEnumerable<BookingCodeDto>;
 }
 
 <style>
-    #mobile-top-view {
-        visibility: collapse;
+    .mobile-top-view {
+         display: none;
     }
+    
+	#betcodes-mobile-view{
+		visibility:collapse;
+        display:none;
+	}
 
     @@media only screen and (max-width: 600px) {
-        #mobile-top-view {
+       .mobile-top-view {
             visibility: visible;
+            display: inline !important;
         }
-
+       #betcodes-mobile-view{
+           display:normal !important;
+       }
         #desktop-view {
             display: none;
         }
+        #betcodes-web-view{
+			display: none;
+		}
     }
 </style>
 
@@ -45,7 +58,7 @@
             <div class="result-sheet">
                 <h4 class="result-title">Free Tips</h4>
                 <div class="table-responsive">
-                    <table id="mobile-top-view" class="table">
+                    <table class="mobile-top-view table">
                         <thead>
                             <tr>
                                 <th>S/N</th>
@@ -57,14 +70,13 @@
                         <tbody id="mobile-body">
                             @if (ViewBag.FreeTips != null)
                             {
-
                                 foreach (var prediction in ViewBag.FreeTips as IEnumerable<Prediction>)
                                 {
 
                                     <tr id="non-mobile-view">
-                                        <td>@(sn++)</td>
+                                        <td>@(snmobile++)</td>
 
-                                        <td class="date">@prediction.TimeofFixture.Date</td>
+                                        <td class="date">@prediction.TimeofFixture</td>
                                         <td class="team-name">
                                             <span id="cluba" class="clubname"> @prediction.ClubA </span>
                                             <span class="text-danger"> vs</span> <br />
@@ -77,12 +89,29 @@
 
                         </tbody>
                     </table>
+                    @if (ViewBag.FreeBettingCodes != null)
+                    {
+                        <div class="mobile-top-view">
+                            <span style="font-weight:bold">BETTING CODE</span>
+                            @foreach (var item in ViewBag.FreeBettingCodes as IEnumerable<BookingCodeDto>)
+                            {
+                                <div class="row">
+                                    <div>
+                                        &nbsp; &nbsp; &nbsp;	<span class="text-success">@item.Betplatform</span> :
+                                    </div>
+                                    <div>
+                                        <span class="text-danger">@item.BetCode</span>
+                                    </div>
+                                </div>
 
+                            }
+                        </div>
+                    }
                     <table id="desktop-view" class="table">
                         <thead>
                             <tr>
                                 <th>S/N</th>
-                                <th scope="col"></th>
+                                @*<th scope="col"></th>*@
                                 <th scope="col">Date & Time</th>
                                 <th scope="col">ClubA</th>
                                 <th scope="col"></th>
@@ -97,14 +126,13 @@
 
                                 foreach (var prediction in ViewBag.FreeTips as IEnumerable<Prediction>)
                                 {
-
                                     <tr id="non-mobile-view">
                                         <td>@(sn++)</td>
-                                        <th scope="row">
+                                        @*<th scope="row">
                                             <span class="icon">
                                                 <i class="flaticon-football"></i>
                                             </span>
-                                        </th>
+                                        </th>*@
                                         <td class="date">@prediction.DateCreated</td>
                                         <td class="team-name">
                                             <span id="cluba" class="clubname"> @prediction.ClubA </span>
@@ -125,10 +153,20 @@
                                             </a>
                                         </td>
                                     </tr>
-
                                 }
                             }
 
+                            @if (ViewBag.FreeBettingCodes != null)
+                            {
+
+                                <tr id="betcodes-web-view">
+                                    <td><strong>BETTING CODE</strong>  </td>
+                                    @foreach (var item in ViewBag.FreeBettingCodes as IEnumerable<BookingCodeDto>)
+                                    {
+                                        <td class="score"><span class="text-success">@item.Betplatform</span> : <span class="text-danger">@item.BetCode</span> </td>
+                                    }
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -142,129 +180,147 @@
     <!-------------------------------------This is Paid TIps ------------------------------------------------------------->
 
     <div class="container">
-        <div class="cta" style="padding:0px 10px 0px 10px; background-image:none; background-color:black">
-            <div class="about-site" style="padding:15px">
+        <div class="cta" style="padding: 0px 10px 0px 10px;
+		background-image: none;
+		background-color: black">
+            <div class="about-site" style="padding: 15px">
                 <h3>PAID TIPS</h3>
             </div>
         </div>
     </div>
 
-        
-        <br />
-        <br />
-        @*<div class="container">
 
-            </div>*@
-
-        <div class="row"></div><br />
-        @if (ViewBag.GroupedTipsByBetCategories != null)
+    <br />
+    <br />
+    <div class="row"></div><br />
+    @if (ViewBag.GroupedTipsByBetCategories != null)
+    {
+        foreach (var item in ViewBag.GroupedTipsByBetCategories as IEnumerable<IGrouping<long, Prediction>>)
         {
-            foreach (var item in ViewBag.GroupedTipsByBetCategories as IEnumerable<IGrouping<long, Prediction>>)
-            {
-                var @getCategoryName = await _betCategory.GetById(item.Key);
-                <div class="container">
-                    <div class="result-sheet-cover">
-                        <div class="result-sheet">
-                            <h4 class="result-title"> @getCategoryName?.BetCategoryName </h4>
-                            <div class="table-responsive">
+            var @getCategoryName = await _betCategory.GetById(item.Key);
+            <div class="container">
+                <div class="result-sheet-cover">
+                    <div class="result-sheet">
+                        <h4 class="result-title"> @getCategoryName?.BetCategoryName </h4>
+                        <div class="table-responsive">
                             <table id="desktop-view" class="table">
-							<thead>
-								<tr>
-									<th>S/N</th>
-									<th scope="col"></th>
-									<th scope="col">Date & Time</th>
-									<th scope="col">ClubA</th>
-									<th scope="col"></th>
-									<th scope="col">ClubB</th>
-									<th scope="col">Tip</th>
-									<th scope="col"></th>
-								</tr>
-							</thead>
-							<tbody>
-								@if (item != null)
-								{
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        @*<th scope="col"></th>*@
+                                        <th scope="col">Date & Time</th>
+                                        <th scope="col">ClubA</th>
+                                        <th scope="col"></th>
+                                        <th scope="col">ClubB</th>
+                                        <th scope="col">Tip</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (item != null)
+                                    {
 
-									foreach (var prediction in item as IEnumerable<Prediction>)
-									{
-
-										<tr id="non-mobile-view">
-											<td>@(sn++)</td>
-											<th scope="row">
-												<span class="icon">
-													<i class="flaticon-football"></i>
-												</span>
-											</th>
-											<td class="date">@prediction.DateCreated</td>
-											<td class="team-name">
-												<span id="cluba" class="clubname"> @prediction.ClubA </span>
-												<img id="clubaimg" height="25" width="25" class="clubimg" src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubALogoPath))" />
-
-											</td>
-											<td><span class="versace">vs</span></td>
-											<td>
-												<span id="clubb" class="clubname"> @prediction.ClubB </span>
-												<img id="clubbimg" class="clubimg" height="25" width="25" src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubBLogoPath))" />
-											</td>
-											<td class="score text-success">@prediction.PredictionValue</td>
-											<td>
-												<a>
-													<span class="view-icon">
-														<i class="fas fa-ellipsis-v"></i>
-													</span>
-												</a>
-											</td>
-										</tr>
-
-									}
-								}
-
-							</tbody>
-						    </table>
-
-                            <table id="mobile-top-view" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>S/N</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Match</th>
-                                            <th scope="col">Tip</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="mobile-body">
-                                        @if (item != null)
+                                        foreach (var prediction in item as IEnumerable<Prediction>)
                                         {
 
-                                            foreach (var prediction in item as IEnumerable<Prediction>)
-                                            {
+                                            <tr id="non-mobile-view">
+                                                <td>@(sn++)</td>
+                                                @*<th scope="row">
+                                                    <span class="icon">
+                                                        <i class="flaticon-football"></i>
+                                                    </span>
+                                                </th>*@
+                                                <td class="date">@prediction.DateCreated</td>
+                                                <td class="team-name">
+                                                    <span id="cluba" class="clubname"> @prediction.ClubA </span>
+                                                    <img id="clubaimg" height="25" width="25" class="clubimg" src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubALogoPath))" />
 
-                                                <tr id="non-mobile-view">
-                                                    <td>@(sn++)</td>
+                                                </td>
+                                                <td><span class="versace">vs</span></td>
+                                                <td>
+                                                    <span id="clubb" class="clubname"> @prediction.ClubB </span>
+                                                    <img id="clubbimg" class="clubimg" height="25" width="25" src="~/TeamLogo/@(System.IO.Path.GetFileName(prediction.ClubBLogoPath))" />
+                                                </td>
+                                                <td class="score text-success">@prediction.PredictionValue</td>
+                                                <td>
+                                                    <a>
+                                                        <span class="view-icon">
+                                                            <i class="fas fa-ellipsis-v"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
 
-                                                    <td class="date">@prediction.TimeofFixture.Date</td>
-                                                    <td class="team-name">
-                                                        <span id="cluba" class="clubname"> @prediction.ClubA </span>
-                                                        <span class="text-danger"> vs</span> <br />
-                                                        <span id="clubb" class="clubname"> @prediction.ClubB </span>
-                                                    </td>
-                                                    <td class="score text-success">@prediction.PredictionValue</td>
-                                                </tr>
-                                            }
                                         }
-                                    </tbody>
-                                </table>
-                            </div>
+                                    }
 
+                                    @if (ViewBag.PaidBettingCodes != null)
+                                    {
+
+                                        <tr id="betcodes-web-view">
+                                            <td><strong>BETTING CODE</strong>  </td>
+                                            @foreach (var itemm in paidbetcodes.Where(p=>p.PricingPlanId == item.FirstOrDefault()?.PricingPlanId ))
+                                            {
+                                                <td class="score"><span class="text-success">@itemm.Betplatform</span> : <span class="text-danger">@itemm.BetCode</span> </td>
+
+                                            }
+
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+
+                            <table class="mobile-top-view table">
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Match</th>
+                                        <th scope="col">Tip</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="mobile-body">
+                                    @if (item != null)
+                                    {
+
+                                        foreach (var prediction in item as IEnumerable<Prediction>)
+                                        {
+
+                                            <tr id="non-mobile-view">
+                                                <td>@(snmobile++)</td>
+
+                                                <td class="date">@prediction.TimeofFixture</td>
+                                                <td class="team-name">
+                                                    <span id="cluba" class="clubname"> @prediction.ClubA </span>
+                                                    <span class="text-danger"> vs</span> <br />
+                                                    <span id="clubb" class="clubname"> @prediction.ClubB </span>
+                                                </td>
+                                                <td class="score text-success">@prediction.PredictionValue</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+
+                            <div class="mobile-top-view">
+                                <span style="font-weight:bold">BETTING CODE</span>
+                                @foreach (var itemm in paidbetcodes.Where(p=>p.PricingPlanId == item.FirstOrDefault()?.PricingPlanId))
+                                {
+                                    <div class="row">
+                                        <div>
+                                            &nbsp; &nbsp; &nbsp;<span class="text-success">@itemm.Betplatform</span> :
+                                        </div>
+                                        <div>
+                                            <span class="text-danger">@itemm.BetCode</span>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
-            }
-
-
-            //foreach (var item in getsubscriptions)
-            //{
-
-            //}
+            </div>
         }
-        
-
-    </div>
+    }
+</div>

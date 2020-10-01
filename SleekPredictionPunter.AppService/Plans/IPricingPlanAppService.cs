@@ -25,8 +25,9 @@ namespace SleekPredictionPunter.AppService.Plans
         Task UpdatePricePlanBenefit(PlanPricingBenefitsModel model);
         Task<PricingPlanModel> GetPlanById(long id);
         Task DeleteDynamicMode(dynamic model);
-        void UpdatePanQuestions(PlanBenefitQuestionsModel model);
-        void UpdatePricingPlan(PricingPlanModel model);
+        Task PricePlanBenefit_InsertUpdateOrIgnoreIfExist(PlanPricingBenefitsModel model);
+        Task UpdatePanQuestions(PlanBenefitQuestionsModel model);
+        Task UpdatePricingPlan(PricingPlanModel model);
         
     }
     

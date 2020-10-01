@@ -12,5 +12,8 @@ namespace SleekPredictionPunter.Model
         public IEnumerable<TransactionLogModel> TransactionLog { get; set; }
         public WalletModel WalletModel { get; set; }
         public Subscriber SubscriberModel{ get; set; }
+
+        public string CurrentPlan { get; set; }
+        public string CurrentPlanExpirationDate { get; set; }
     }
 }

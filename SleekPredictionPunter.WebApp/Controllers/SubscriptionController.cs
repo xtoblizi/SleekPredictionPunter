@@ -60,21 +60,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
             try
             {
                 var procesingMessage = string.Empty;
-                /*Check if user session exist. if exist, continue else, redirect to login and return back to same page after login is successful.*/
-                //if (string.IsNullOrEmpty(HttpContext.Session.GetString("userEmail")))
-                //{
-                //    var returnUrl = "/subscription/SubscribeToPlan?id="+id;
-                //    return Redirect("/Identity/Account/Login?returnUrl=" +returnUrl);
-                //}
-
-                var userRole = HttpContext.Session.GetString("userRole");
-                RoleEnum roleEnum = RoleEnum.Subscriber;
-
-                if (roleEnum != RoleEnum.Subscriber)
+                if (!User.IsInRole(RoleEnum.Subscriber.ToString()))
                 {
-                    TempData["ProcessingMessage"] = $"Only a subscriber can subscribe to a pcakages. Your role is that of an {roleEnum.ToString()}";
-                    return View();
+                    TempData["ProcessingMessage"] = $"Only a subscriber can subscribe to a pcakages.";
                 }
+             
                 //to appsettings.json
                 var actionLink = $"subscription/paymentcallback";
                 var callbackUrl = $"{Request.Scheme}://{Request.Host}/{actionLink}";
@@ -105,7 +95,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                     var transLog = new TransactionLogModel
                     {
                         UserEmailAddress = getUserDetails.Email,
-                        UserRole = roleEnum,
+                        UserRole = RoleEnum.Subscriber,
                         CurrentAmount = getPlanDetails.Price,
                         PlanId = getPlanDetails.Id
                     };
@@ -153,8 +143,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
             {
 
                 var email = User.Identity.Name;
-                var userRole = HttpContext.Session.GetString("userRole");
-                RoleEnum roleEnum = userRole == "4" ? RoleEnum.Agent : userRole == "3" ? RoleEnum.Predictor : RoleEnum.Subscriber;
+                var userRole = RoleEnum.Subscriber.ToString();
+                RoleEnum roleEnum =  RoleEnum.Subscriber;
                 string secretKey = "sk_live_ec2ce7fcefeefb71cb02c017e0a81a9e658cbcbc";
                 var transaction = new PayStackApi(secretKey);
                 var confirmation = transaction.Transactions.Verify(reference);
@@ -162,12 +152,12 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 {
                     Func<WalletModel, bool> predicateForsubSubscriber = (x => x.UserEmailAddress == email);
                     var getWalletDetailsForThisSubscriber = await _walletAppService.GetAllWalletD(predicate: predicateForsubSubscriber);
+                    
                     Func<Subscriber, bool> predicate = (x => x.Email == email);
                     var getSubscriberDetails = await _subscriberService.GetFirstOrDefault(predicate);
 
                     var getLogByRef = await _transactionLogAppService.GetPredicatedTransactionLog(x => x.ReferenceNumber == reference);
-                    var walletModel = new WalletModel();
-                    walletModel = new WalletModel
+                    var walletModel = new WalletModel 
                     {                 
                         Id = getWalletDetailsForThisSubscriber.Id,
                         UserEmailAddress = email,
@@ -189,7 +179,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
                             LastAmountTransacted = walletModel.LastAmountTransacted,
                             DateTimeOfLastTransacted = walletModel.DateTimeLastTransacted
                         };
-                         await _transactionLogAppService.UpdateTransactionLog(logModel);
+
+                       await _transactionLogAppService.UpdateTransactionLog(logModel);
 
                        var subscriptionModel = new Subcription
                         {
@@ -250,7 +241,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 
 
                                     //log new general wallet price for agent
-                                    _walletAppService.UpdateWalletDetails(agentMainWalletModel);
+                                   await _walletAppService.UpdateWalletDetails(agentMainWalletModel);
                                     //create new log for this agent
                                     await _transactionLogAppService.UpdateTransactionLog(agentLogModel);
 

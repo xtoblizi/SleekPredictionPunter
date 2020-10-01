@@ -8,22 +8,28 @@
 
 <style>
 	.mobile-top-view {
-		visibility: collapse;		
+		visibility: collapse;
+		display:none;
 	}
 	#betcodes-mobile-view{
 		visibility:collapse;
+		display:none;
 	}
 
 	@@media only screen and (max-width: 600px) {
 		.mobile-top-view {
-			display:inline;
+			display:inline !important;
 			visibility: visible;
+		}
+
+		#betcodes-mobile-view {
+		 display:inline !important;
 		}
 
 		#desktop-view {
 			display: none;
-
 		}
+
 		#betcodes-web-view{
 			display: none;
 		}
@@ -52,7 +58,7 @@
 						<thead>
 							<tr>
 								<th>S/N</th>
-								<th scope="col"></th>
+								@*<th></th>*@
 								<th scope="col">Date & Time</th>
 								<th scope="col">ClubA</th>
 								<th scope="col"></th>
@@ -69,11 +75,11 @@
 
 									<tr id="non-mobile-view">
 										<td>@(sn2++)</td>
-										<th scope="row">
+										@*<th scope="row">
 											<span class="icon">
 												<i class="flaticon-football"></i>
 											</span>
-										</th>
+										</th>*@
 										<td class="date">@prediction.DateCreated</td>
 										<td class="team-name">
 											<span id="cluba" class="clubname"> @prediction.ClubA </span> &nbsp; &nbsp;
@@ -129,7 +135,7 @@
 								{
 									<tr id="non-mobile-view">
 										<td>@(sn++)</td>
-										<td class="date">@prediction.TimeofFixture.Date</td>
+										<td class="date">@prediction.TimeofFixture.ToShortDateString()</td>
 										<td class="team-name">
 											<span id="cluba" class="clubname"> @prediction.ClubA </span>
 											<span class="text-danger"> vs</span> <br />

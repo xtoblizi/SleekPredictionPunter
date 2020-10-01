@@ -234,6 +234,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 							else
 							{
 								await _signInManager.SignInAsync(user, isPersistent: false);
+								return RedirectToAction(returnUrl);
 								
 							}
 						}
@@ -282,6 +283,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+				PhoneNumber = user.PhoneNumber,
                 IsTenant = true,
                 Username = user.UserName,
                 RefererCode = refCode
@@ -305,6 +307,7 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 				LastName = user.LastName,
 				IsTenant = true,
 				Username = user.UserName,
+				PhoneNumber = user.PhoneNumber,
 				RefererCode = refereerCode
 			};
 

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ReflectionIT.Mvc.Paging;
 using SleekPredictionPunter.AppService.BetCategories;
+using SleekPredictionPunter.AppService.BookingCodes;
 using SleekPredictionPunter.AppService.Clubs;
 using SleekPredictionPunter.AppService.CustomCategory;
 using SleekPredictionPunter.AppService.MatchCategories;
@@ -37,6 +38,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         private readonly IMatchCategoryService _matchCategoryService;
         private readonly ISubscriptionAppService _subscriptionSerivce;
         private readonly ICustomCategoryService _customCategoryService;
+        private readonly IBookingCodeService _bookingCodeService;
 
         public PredictionsController(IPredictionService predictionService,
 			IPricingPlanAppService pricingPlanAppService,
@@ -44,6 +46,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
 			IPackageAppService packageService,
             IClubService clubService,
             IBetCategoryService betCategoryService,
+            IBookingCodeService bookingCodeService,
             IMatchService  matchService,
             ICategoryService categoryService,
             IPredictorService predictorService,
@@ -51,6 +54,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             ICustomCategoryService customCategoryService)
         { 
             _predictionService = predictionService;
+            _bookingCodeService = bookingCodeService;
             _subscriptionSerivce = subscriptionAppService;
             _packageService = packageService;
             _betCategoryService = betCategoryService;
@@ -92,12 +96,13 @@ namespace SleekPredictionPunter.WebApp.Controllers
             var plans = await _pricingPlanservice.GetAllPlans();
             var geteFreePlan = plans.FirstOrDefault(c => c.Price < 1);
             Func<Prediction, bool> paidPredicate = null;
-
+            Func<BookingCode, bool> betcodeWhereFunc = null;
             // get to know who is signed in 
             var isAdmin = base.IsAdmin();
             if (isAdmin)
             {
                 paidPredicate = (p => p.PricingPlanId != geteFreePlan.Id);
+                betcodeWhereFunc += (x => x.PricingPlanId != geteFreePlan.Id);
             }
             else
             {
@@ -110,24 +115,44 @@ namespace SleekPredictionPunter.WebApp.Controllers
                     foreach (var item in subscriptions)
                     {
                         paidPredicate += (x => x.PricingPlanId == item.PricingPlanId);
+                        betcodeWhereFunc += (x => x.PricingPlanId == item.PricingPlanId);
                     }
                 }
             }
             if (geteFreePlan != null)
             {
                 Func<Prediction, bool> freePredicate = (p => p.PricingPlanId == geteFreePlan.Id);
-
                 Func<Prediction, DateTime> orderbyexpression = (x => x.DateCreated);
+               
 
-                ViewBag.FreeTips = await _predictionService.GetPredictionsOrdered(freePredicate,orderbyexpression,startIndex: 0, count: 20);
+                ViewBag.FreeTips = await _predictionService.GetPredictionsOrdered(freePredicate,orderbyexpression,startIndex: 0, count: 50);
+
+                #region Get Booking Codes
+             
+                Func<BookingCode, bool> func = (x => x.PricingPlanId == geteFreePlan.Id);
+                Func<BookingCode, DateTime> orderByfunc = (x => x.DateCreated);
+                var betingCodes = await _bookingCodeService.GetAllQueryableDto(func, orderByfunc, 0, 50);
+                ViewBag.FreeBettingCodes = betingCodes;
+                
+                #endregion
 
             }
             if (paidPredicate != null)
             {
-                var paidTips = await _predictionService.GetPredictions(paidPredicate, startIndex: 0, count: 100);
                 Func<Prediction, DateTime> orderByFunc = (x => x.DateCreated);
+                var paidTips = await _predictionService.GetPredictionsOrdered(paidPredicate, orderByFunc, startIndex: 0, count: 100);
+               
                 var count = 100;
                 ViewBag.PaidTips = paidTips;
+
+                #region Get Booking Codes
+
+              
+                Func<BookingCode, DateTime> orderByfunc = (x => x.DateCreated);
+                var betingCodes = await _bookingCodeService.GetAllQueryableDto(betcodeWhereFunc, orderByfunc, 0, 50);
+                ViewBag.PaidBettingCodes = betingCodes;
+
+                #endregion
 
                 IEnumerable<IGrouping<long, Prediction>> groupedTipsByPredicationCategories = 
                     await _predictionService.ReturnRelationalData(predicate:paidPredicate, orderByFunc: orderByFunc,

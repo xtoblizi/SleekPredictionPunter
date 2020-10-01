@@ -200,17 +200,17 @@
                     @if (SignInManager.IsSignedIn(User) && User.IsInRole(RoleEnum.Subscriber.ToString()))
                     {
                         <li>
-                            <a class="@ViewBag.UserIndex" asp-area="" asp-controller="userManagement" asp-action="PredictionResults">
+                            <a class="@ViewBag.UserIndex" asp-area="" asp-controller="userManagement" asp-action="index">
                                 <i class="fa fa-user"></i>
                                 <span>User Details</span>
                             </a>
                         </li>
-                        <li>
+                        @*<li>
                             <a class="@ViewBag.AllUserLogs" asp-area="" asp-controller="userManagement" asp-action="AllUserLogs">
                                 <i class="fa fa-list"></i>
                                 <span>Transaction Logs</span>
                             </a>
-                        </li>
+                        </li>*@
 
                         <li>
                             <a class="@ViewBag.PredictionResults" asp-area="" asp-controller="Predictions" asp-action="PredictionResults">

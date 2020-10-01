@@ -145,34 +145,35 @@
 
         var fieldHTML = '<tbody><tr> <th scope="row">@(serialNumber++)</th> <td>  <select type="text" name="questionId[]" class="form-control">'+
                                     '<option value="">... Select Option ...</option>'+
-                                    '@foreach (var item in Model.planBenefitQuestionsModelForNewAdds) { <option value="@item.QuestionId">@item.Question</option> }'+
-                                '</select> </td>'+
-                            '<td>'+
-                                '<select type="text" name="answers[]" class="form-control">'+
-                                    '<option value="">... Select Option ...</option>'+
-                                    '<option value="1">Yes</option>'+
-                                    '<option value="0">No</option>'+
-                                '</select>'+
-                            '</td>'+
-                            '<td><a href="javascript:void(0);" class="remove_button"><i class="fa fa-times"></i></a></td>'+
-                        '</tr> </tbody>';
+                                    '@if(Model != null && Model.planBenefitQuestionsModelForNewAdds != null) { @foreach (var item in Model.planBenefitQuestionsModelForNewAdds) { <option value="@item.QuestionId">@item.Question</option> }} '+
 
-        var x = 1; //Initial field counter is 1
+								'</select> </td>'+
+							'<td>'+
+								'<select type="text" name="answers[]" class="form-control">'+
+									'<option value="">... Select Option ...</option>'+
+									'<option value="1">Yes</option>'+
+									'<option value="0">No</option>'+
+								'</select>'+
+							'</td>'+
+							'<td><a href="javascript:void(0);" class="remove_button"><i class="fa fa-times"></i></a></td>'+
+						'</tr> </tbody>';
+
+										var x = 1; //Initial field counter is 1
 
         //Once add button is clicked
         $(addButton).click(function () {
-            //Check maximum number of input fields
-            if (x < maxField) {
-                x++; //Increment field counter
+											//Check maximum number of input fields
+											if (x < maxField) {
+												x++; //Increment field counter
                 $(wrapper).append(fieldHTML); //Add field html
-            }
-        });
+											}
+										});
 
         //Once remove button is clicked
         $(wrapper).on('click', '.remove_button', function (e) {
-            e.preventDefault();
+											e.preventDefault();
             $(this).parent('a').remove(); //Remove field html
-            x--; //Decrement field counter
-        });
-    });
+											x--; //Decrement field counter
+										});
+									});
 </script>

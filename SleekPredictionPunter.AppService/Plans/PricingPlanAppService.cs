@@ -42,7 +42,7 @@ namespace SleekPredictionPunter.AppService.Plans
             }
         }
 
-        public async void UpdatePanQuestions(PlanBenefitQuestionsModel model)
+        public async Task UpdatePanQuestions(PlanBenefitQuestionsModel model)
         {
               await _baseRepository.Update(model, true);
         }
@@ -74,6 +74,39 @@ namespace SleekPredictionPunter.AppService.Plans
 
                     var insert = await _benefitBaseRepository.Insert(model);
                     return insert > 0 ? true : false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public async Task<PlanPricingBenefitsModel> GetFirstOrDefaultPlanBenefitModel(Func<PlanPricingBenefitsModel, bool> func)
+        {
+            var planbenefitmodel = await _benefitBaseRepository.GetFirstOrDefault(func);
+            return planbenefitmodel;
+        }
+
+        public async Task PricePlanBenefit_InsertUpdateOrIgnoreIfExist(PlanPricingBenefitsModel model)
+        {
+            try
+            {
+                if (model == null) throw new ArgumentNullException("There's a problem with your model. Failed to insert to question table");
+
+                Func<PlanPricingBenefitsModel, bool> func = (x => x.PlanPricingId == model.PlanPricingId && x.QuestionId == model.QuestionId);
+                var getFirsOrDefault = await GetFirstOrDefaultPlanBenefitModel(func);
+
+                if (getFirsOrDefault != null && getFirsOrDefault.Answer != model.Answer)
+                {
+                    getFirsOrDefault.Answer = model.Answer;
+                    await _benefitBaseRepository.Update(getFirsOrDefault);
+                }
+
+                if(getFirsOrDefault == null)
+                {
+                    await _benefitBaseRepository.Insert(model);
+                }
+
             }
             catch (Exception)
             {
@@ -131,7 +164,7 @@ namespace SleekPredictionPunter.AppService.Plans
             }
             return null;
         }
-        public async void UpdatePricingPlan(PricingPlanModel model)
+        public async Task UpdatePricingPlan(PricingPlanModel model)
         {
             try
             {

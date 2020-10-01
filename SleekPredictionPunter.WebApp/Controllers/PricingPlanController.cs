@@ -240,11 +240,10 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 var checkExistingplanProperties = await _pricingPlanAppService.GetFirstOfDefault(predicate);
                 if (checkExistingplanProperties != null)
                 {
-                    _pricingPlanAppService.UpdatePricingPlan(planModelBuilder);
+                   await _pricingPlanAppService.UpdatePricingPlan(planModelBuilder);
                     //if (insertPlan != null && insertPlan.Id > 0)
                     //{
                         for (int i = 0; i < questionId.Length; i++)
-                        //foreach (var item in questionId)
                         {
                             var questionindex = questionId[i];
                             var getQuestionById = await _pricingPlanAppService.GetQuestionById(questionindex);
@@ -258,21 +257,17 @@ namespace SleekPredictionPunter.WebApp.Controllers
                                 PlanPricingId = planModelBuilder.Id
                             };
 
-                            result = await _pricingPlanAppService.InsertPricePlanBenefit(insertToPlanBenefits);
+                           await _pricingPlanAppService.PricePlanBenefit_InsertUpdateOrIgnoreIfExist(insertToPlanBenefits);
                         }
 
-                        if (result == true)
-                        {
-                            return RedirectToAction("ListofPlans", "Pricingplan");
-                        }
-
-                        //means. an error occurred if it reaches this point..
                         var getAllQquestions = await _pricingPlanAppService.GetAllQuestion();
                         var dtoModel = new PlanPricingDto
                         {
                             planBenefitQuestionsModels = getAllQquestions,
                             PricingPlanModel = null,
                         };
+
+                    return RedirectToAction("ListofPlans", "Pricingplan");
                 }
                 ViewBag.Errors = "";
                 return View(model);
