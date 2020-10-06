@@ -76,6 +76,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // GET: PredictionBookings
         public async Task<IActionResult> Index(string search = null, int startIndex = 0 , int count = int.MaxValue)
         {
+            ViewBag.BetPlatFormAndCode = "active";
+
             Func<PredictionBooking, bool> func = (x => x.BookingCodes.Contains(search));
             Func<PredictionBooking, DateTime> orderFunc = (x => x.DateCreated);
             var result = await _context.GetBookings(whereFunc: func, orderFunc, startIndex, count);
@@ -87,7 +89,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Details(long? id)
         {
             var predictionBooking = await _context.GetBookingById(id.Value);
-
+            ViewBag.BetPlatFormAndCode = "active";
 
             if (predictionBooking == null)
             {
@@ -119,6 +121,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // GET: PredictionBookings/Create
         public async Task<IActionResult> Create(string search = null, int startIndex = 0, int count = int.MaxValue)
         {
+            ViewBag.BetPlatFormAndCode = "active";
+
             search = string.IsNullOrEmpty(search) ? string.Empty : search;
             Func<Prediction, bool> func = null;
             if (string.IsNullOrEmpty(search))
@@ -149,6 +153,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddPrediction(long predictionId)
         {
+            ViewBag.BetPlatFormAndCode = "active";
 
             var predictionBooking = await _predictionService.GetById(predictionId);
             BookingPredictionsStatic.Add(predictionBooking);
@@ -177,7 +182,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Prediction predictionBooking)
         {
-
+            ViewBag.BetPlatFormAndCode = "active";
             //ViewBag.BetPlatforms = await _betPlatformService.GetAllQueryable();
             //if (ModelState.IsValid)
             //{

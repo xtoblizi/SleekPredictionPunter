@@ -81,6 +81,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         //    return View(result);
         //}
 
+
         public async Task<IActionResult> Index(int page = 1)
         {
             ViewBag.Predictions = "active";
@@ -97,8 +98,29 @@ namespace SleekPredictionPunter.WebApp.Controllers
             var geteFreePlan = plans.FirstOrDefault(c => c.Price < 1);
             Func<Prediction, bool> paidPredicate = null;
             Func<BookingCode, bool> betcodeWhereFunc = null;
+
+            List<Func<Prediction, bool>> paidPredicates = new List<Func<Prediction, bool>>();
+            List<Func<BookingCode, bool>> betcodeWhereFuncs = new List<Func<BookingCode, bool>>();
+
             // get to know who is signed in 
             var isAdmin = base.IsAdmin();
+
+            if (geteFreePlan != null)
+            {
+                Func<Prediction, bool> freePredicate = (p => p.PricingPlanId == geteFreePlan.Id);
+                Func<Prediction, DateTime> orderbyexpression = (x => x.DateCreated);
+
+                ViewBag.FreeTips = await _predictionService.GetPredictionsOrdered(freePredicate, orderbyexpression, startIndex: 0, count: 50);
+
+                #region Get Booking Codes
+                Func<BookingCode, bool> func = (x => x.PricingPlanId == geteFreePlan.Id);
+                Func<BookingCode, DateTime> orderByfunc = (x => x.DateCreated);
+                var betingCodes = await _bookingCodeService.GetAllQueryableDto(func, orderByfunc, 0, 50);
+                ViewBag.FreeBettingCodes = betingCodes;
+                #endregion
+            }
+
+            // paid section
             if (isAdmin)
             {
                 paidPredicate = (p => p.PricingPlanId != geteFreePlan.Id);
@@ -114,54 +136,75 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 {
                     foreach (var item in subscriptions)
                     {
-                        paidPredicate += (x => x.PricingPlanId == item.PricingPlanId);
-                        betcodeWhereFunc += (x => x.PricingPlanId == item.PricingPlanId);
+                        Func<Prediction, bool> func = (x => x.PricingPlanId == item.PricingPlanId);
+                        paidPredicates.Add(func);
+                        
+                        Func<BookingCode,bool> betfcodeFunc = (x => x.PricingPlanId == item.PricingPlanId);
+                        betcodeWhereFuncs.Add(betfcodeFunc);
                     }
                 }
-            }
-            if (geteFreePlan != null)
-            {
-                Func<Prediction, bool> freePredicate = (p => p.PricingPlanId == geteFreePlan.Id);
-                Func<Prediction, DateTime> orderbyexpression = (x => x.DateCreated);
-               
 
-                ViewBag.FreeTips = await _predictionService.GetPredictionsOrdered(freePredicate,orderbyexpression,startIndex: 0, count: 50);
-
-                #region Get Booking Codes
-             
-                Func<BookingCode, bool> func = (x => x.PricingPlanId == geteFreePlan.Id);
-                Func<BookingCode, DateTime> orderByfunc = (x => x.DateCreated);
-                var betingCodes = await _bookingCodeService.GetAllQueryableDto(func, orderByfunc, 0, 50);
-                ViewBag.FreeBettingCodes = betingCodes;
-                
-                #endregion
 
             }
-            if (paidPredicate != null)
+
+            // Admin section of Paid Predictions
+            if(paidPredicate != null)
             {
                 Func<Prediction, DateTime> orderByFunc = (x => x.DateCreated);
-                var paidTips = await _predictionService.GetPredictionsOrdered(paidPredicate, orderByFunc, startIndex: 0, count: 100);
-               
+               // var paidTips = await _predictionService.GetPredictionsOrdered(paidPredicate,orderByFunc, startIndex: 0, count: 100);
+
                 var count = 100;
-                ViewBag.PaidTips = paidTips;
+              //  ViewBag.PaidTips = paidTips;
 
                 #region Get Booking Codes
 
-              
+
                 Func<BookingCode, DateTime> orderByfunc = (x => x.DateCreated);
-                var betingCodes = await _bookingCodeService.GetAllQueryableDto(betcodeWhereFunc, orderByfunc, 0, 50);
+                var betingCodes = await _bookingCodeService.GetAllQueryableDto(betcodeWhereFunc, orderByfunc, 0, 30);
+                ViewBag.PaidBettingCodes = betingCodes;
+
+                #endregion
+
+                IEnumerable<IGrouping<long, Prediction>> groupedTipsByPredicationCategories =
+                    await _predictionService.ReturnRelationalData(predicate: paidPredicate, orderByFunc: orderByFunc,
+                    groupByPredicateCategory: true, startIndex: 0, count: count);
+                var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(predicate: paidPredicate,
+                    orderByFunc: orderByFunc, groupByMatchCategory: true, startIndex: 0, count: count);
+                var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(predicate: paidPredicate, orderByFunc: orderByFunc,
+                    groupByCustomCategory: true, startIndex: 0, count: 100);
+                var groupTipsByBetCategory = await _predictionService.ReturnRelationalData(predicate: paidPredicate, orderByFunc: orderByFunc,
+                    groupByBetCategory: true, startIndex: 0, count: count);
+
+
+                ViewBag.GroupedTipsByCustomCategories = groupedTipsByCustomCategories;
+                ViewBag.GroupedTipsByMatchCategories = groupedTipsByMatchCategories;
+                ViewBag.GroupedTipsByPredicationCategories = groupedTipsByPredicationCategories;
+                ViewBag.GroupedTipsByBetCategories = groupTipsByBetCategory;
+            }
+            /// subscriber paid prediction accomodating multiple subscriptions
+            if (paidPredicates.Any())
+            {
+                Func<Prediction, DateTime> orderByFunc = (x => x.DateCreated);
+              //  var paidTips = await _predictionService.GetAllByFuncList(paidPredicates, orderByFunc, startIndex: 0, count: 100);
+               
+                var count = 100;
+               // ViewBag.PaidTips = paidTips;
+
+                #region Get Booking Codes                
+                Func<BookingCode, DateTime> orderByfunc = (x => x.DateCreated);
+                var betingCodes = await _bookingCodeService.GetAllQueryableDto(betcodeWhereFuncs, orderByfunc, 0, 50);
                 ViewBag.PaidBettingCodes = betingCodes;
 
                 #endregion
 
                 IEnumerable<IGrouping<long, Prediction>> groupedTipsByPredicationCategories = 
-                    await _predictionService.ReturnRelationalData(predicate:paidPredicate, orderByFunc: orderByFunc,
+                    await _predictionService.ReturnRelationalData(predicates: paidPredicates, orderByFunc: orderByFunc,
                     groupByPredicateCategory: true,startIndex:0,count:count);
-                var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(predicate: paidPredicate,
+                var groupedTipsByMatchCategories = await _predictionService.ReturnRelationalData(predicates: paidPredicates,
                     orderByFunc: orderByFunc,groupByMatchCategory: true,startIndex:0,count:count);
-                var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(predicate:paidPredicate,orderByFunc:orderByFunc,
+                var groupedTipsByCustomCategories = await _predictionService.ReturnRelationalData(predicates:paidPredicates,orderByFunc:orderByFunc,
                     groupByCustomCategory: true,startIndex:0,count:100);
-                var groupTipsByBetCategory = await _predictionService.ReturnRelationalData(predicate:paidPredicate,orderByFunc:orderByFunc,
+                var groupTipsByBetCategory = await _predictionService.ReturnRelationalData(predicates:paidPredicates,orderByFunc:orderByFunc,
                     groupByBetCategory: true,startIndex:0,count:count);
 
 
@@ -171,26 +214,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 ViewBag.GroupedTipsByBetCategories = groupTipsByBetCategory;
 
             }
-            //foreach (var collectionGroup in groupTipsByBetCategory)
-            //{
-            //    foreach (var item in collectionGroup)
-            //    {
-            //        item
-            //    }
-
-            //}
-
-
-
-            //foreach (var item in groupedTipsByPredicationCategories)
-            //{
-            //    foreach (var keyvalue in item)
-            //    {
-
-            //    }
-            //}
-
-
+           
             return View();
         }
 

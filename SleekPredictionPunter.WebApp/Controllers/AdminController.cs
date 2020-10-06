@@ -26,22 +26,31 @@ namespace SleekPredictionPunter.WebApp.Controllers
             _subscriberService = subscriberService;
         }
 
-        //[Authorize]
+     
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             try
             {
-                ViewBag.AdminIndex = "active";
+               
+
                 var subscriberCount = await _subscriberService.GetMonthlySummaryForPredictions();
                 var agentCount = await _agentService.GetMonthlySummaryForNewAgents();
+                var totalsubscriberCount = await _subscriberService.GetCount();
                 var predictionCount = await _predictionService.GetMonthlySummaryForPredictions();
+                var predictionCountTotal = await _predictionService.GetCount();
+
+                var totalagentcount = await _agentService.GetCount();
 
                 var dashboardViewModel = new DashboardViewModel
                 {
                     NewSubscribers = subscriberCount,
                     NewAgents = agentCount,
                     NewPredictions = predictionCount,
+
+                    AllAgentsCount = totalagentcount,
+                    AllSubscriberCount = totalsubscriberCount,
+                    AllPredictionCount= predictionCountTotal,
                     TotalRevenueOnSubscription = "Coming soon"
                 };
                 return View(dashboardViewModel);
@@ -53,16 +62,19 @@ namespace SleekPredictionPunter.WebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllAgents(int page = 1)
+        public async Task<IActionResult> GetAllAgents(int page = 1,int count = 20)
         {
             try
             {
-                ViewBag.AdminIndex = "active";
+                ViewBag.UsersAgents = "active";
+                ViewBag.UsersandAgents = "active";
+                var skip = count * (page - 1);
                 var dashboardViewModel = new PaginationModel<Agent>
                 {
-                    PerPage = 20,
+                    PerPage = count,
                     CurrentPage = page,
-                    TModel = await _agentService.GetAgents(),
+                    TotalRecordCountOfTheTable = await _agentService.GetCount(),
+                    TModel = await _agentService.GetAgents(startIndex:skip,count:count),
                 };
                 return View(dashboardViewModel);
             }
@@ -73,16 +85,19 @@ namespace SleekPredictionPunter.WebApp.Controllers
         }
         
         [HttpGet]
-        public async Task<IActionResult> GetAllSubscribers(int page = 1)
+        public async Task<IActionResult> GetAllSubscribers(int page = 1,int count = 50)
         {
             try
             {
-                ViewBag.AdminIndex = "active";
+                ViewBag.UsersandAgents = "active";
+                ViewBag.UsersSubscribers = "active";
+                var skip = count * (page - 1);
                 var dashboardViewModel = new PaginationModel<Subscriber>
                 {
-                    PerPage = 50,
+                    PerPage = count,
                     CurrentPage = page,
-                    TModel = await _subscriberService.GetAllQueryable()
+                    TotalRecordCountOfTheTable = await _subscriberService.GetCount(),
+                    TModel = await _subscriberService.GetAllQueryable(startIndex: skip, count: count),
                 };
                 return View(dashboardViewModel);
             }

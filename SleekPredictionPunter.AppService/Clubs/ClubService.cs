@@ -37,6 +37,11 @@ namespace SleekPredictionPunter.AppService.Clubs
             return await _repo.GetFirstOrDefault(Predicate);
         }
 
+        public async Task<long> GetCount()
+        {
+            return await _repo.GetCount();
+        }
+
         public async Task<long> Insert(Club model, bool savechanges = true)
         {
             return await _repo.Insert(model, savechanges);

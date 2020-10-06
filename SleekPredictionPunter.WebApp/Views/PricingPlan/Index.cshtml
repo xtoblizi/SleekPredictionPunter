@@ -5,16 +5,29 @@
 }
 
 <style>
-		.pricingTable {
-			font-family: 'Lato', sans-serif;
-			text-align: center;
-			margin: 0 7px;
-		}
+	.subcription-about-header{
+        font-weight:800 !important;
+        color:darkred;
+        padding-bottom:4px;
+	}
+	.subcription-about {
+		font-size: 1.2em !important;
+		font-family: inherit;
+		font-weight: 400 !important;
+		padding: 5px 2px 5px 2px;
+		color: black;
+		margin: 10px inherit 10px inherit
+	}
+	.pricingTable {
+		font-family: 'Lato', sans-serif;
+		text-align: center;
+		margin: 0 7px;
+	}
 
-        .pricingTable .pricingTable-header {
-            background: linear-gradient(to right,black,black);
-            padding: 20px;
-        }
+	.pricingTable .pricingTable-header {
+		background: linear-gradient(to right,black,black);
+		padding: 20px;
+	}
 
         .pricingTable .title {
             color: #fff;
@@ -185,6 +198,14 @@
 
     <div class="demo">
         <div class="container">
+            <h4 class="subcription-about-header">Quick Info</h4>
+            <p  class="about subcription-about">
+            
+            THESE are list of subcription plans to enjoy as a subcriber on Predictive Power. 
+            You are automatically subscribed to the free plan and can enjoy prediction punters on the free category <br/><br/>
+            
+            To enjoy more categories of accurte predictions and booking codes, subscribe to the paid plans and get the best of Predictive Power. Welcome .Thanks</p> 
+            <hr/>
             <div class="row">
                 @if (Model.Any())
                 {

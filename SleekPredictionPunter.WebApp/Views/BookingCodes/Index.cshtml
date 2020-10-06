@@ -1,9 +1,16 @@
 ﻿
-@model  IEnumerable<SleekPredictionPunter.Model.BookingCode>
+@model  SleekPredictionPunter.Model.PaginationModel<BookingCode>
 @*@using ReflectionIT.Mvc.Paging
 @addTagHelper *, ReflectionIT.Mvc.Paging*@
 
 @{
+    var sn = 1;
+
+	int getPageIndex (int sn , int pagenumber,int count = 20)
+	{
+		var pagenum = pagenumber - 1 > 0 ? ((pagenumber - 1) * count) + sn : sn;
+		return pagenum;
+	}
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
@@ -24,21 +31,22 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <th>S/N</th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.BetCode)
+                                    Betcode
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Betplatform)
+                                    Bet Platform
                                 </th>
 
                                 <th>
-                                    @Html.DisplayNameFor(model => model.PricingPlan)
+                                   Package
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.DateCreated)
+                                    Date Created
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.EntityStatus)
+                                    Entity Status
                                 </th>
 
                                 <th></th>
@@ -47,9 +55,12 @@
                         <tbody>
                             @if (Model != null)
                             {
-                                @foreach (var item in Model)
+                                @foreach (var item in Model.TModel)
                                 {
                                     <tr>
+                                        <td>
+                                            @getPageIndex(sn++, Model.CurrentPage)
+                                        </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.BetCode)
                                         </td>
@@ -76,19 +87,19 @@
                                 }
                             }
 
-                            <tr>
-                                <td>
-                                    <div class="float-right">
-                                        <span><select> Select Page size</select> </span>
-                                        <span>Prev</span>  <span>Next</span>
-                                    </div>
-                                </td>
-                            </tr>
-
                         </tbody>
-                        
+
                     </table>
-                   
+                    <ul class="pagination" style="vertical-align:middle;">
+                        @for (int i = 1; i <= Model.PageCount(); i++)
+                        {
+                            <li class="@(i == Model.CurrentPage ? "page-item active" : "page-item")">
+                                <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                            </li>
+
+                        }
+                    </ul>
+
                 </div>
 
             </div>

@@ -27,6 +27,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // GET: BetPlanforms
         public async Task<IActionResult> Index(string search = null,int startindex=0, int count = int.MaxValue)
         {
+             ViewBag.BetPlatFormAndCode = "active";
+
             Func<BetPlanform, DateTime> orderbyfunc = (x => x.DateCreated);
             search = string.IsNullOrWhiteSpace(search) ? string.Empty : search;
             Func<BetPlanform, bool> wherefunc = (x => x.BetPlatformName.Contains(search) || x.Caption.Contains(search));
@@ -38,6 +40,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // GET: BetPlanforms/Details/5
         public async Task<IActionResult> Details(long id)
         {
+            ViewBag.BetPlatFormAndCode = "atcive";
+
             var betPlanform = await _context.GetById(id);
             if (betPlanform == null)
             {
@@ -60,6 +64,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromForm]BetPlatformVm betPlanformVm)
         {
+            ViewBag.BetPlatFormAndCode = "atcive";
+
             if (ModelState.IsValid)
             {
                 if(betPlanformVm.LogoPath != null)
@@ -100,6 +106,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(BetPlanform betPlanform)
         {
+            ViewBag.BetPlatFormAndCode = "atcive";
+
             if (ModelState.IsValid)
             {
                 try
@@ -126,6 +134,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // GET: BetPlanforms/Delete/5
         public async Task<IActionResult> Delete(long id)
         {
+            ViewBag.BetPlatFormAndCode = "atcive";
+
             var betPlanform = await _context.GetById(id);
             if (betPlanform == null)
             {

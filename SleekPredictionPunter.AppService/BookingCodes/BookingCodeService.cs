@@ -75,8 +75,46 @@ namespace SleekPredictionPunter.AppService.BookingCodes
 
 			return dtolist;
 		}
+		
+		public async Task<IEnumerable<BookingCodeDto>> GetAllQueryableDto(List<Func<BookingCode, bool>> wherefuncs = null,
+			Func<BookingCode, DateTime> orderByFunc = null, int startIndex = 0, int count = int.MaxValue)
+		{
 
+			List<BookingCode> result = new List<BookingCode>();
+			int subcount = count;
 
+			if (wherefuncs != null)
+				subcount = count / wherefuncs.Count;
+
+			foreach (var item in wherefuncs)
+			{
+				var tempResult = await this.GetAllQueryable(item, (c => c.DateCreated), startIndex, subcount);
+				result.AddRange(tempResult.ToList());
+			}
+			
+			var dtolist = new List<BookingCodeDto>();
+
+			dtolist.AddRange(result.Select(x => new BookingCodeDto
+			{
+				BetCode = x.BetCode,
+				Betplatform = x.Betplatform,
+				BetPlatformId = x.BetPlatformId,
+				PricingPlan = x.PricingPlan,
+				PricingPlanId = x.PricingPlanId,
+				DateCreated = x.DateCreated,
+				DateUpdated = x.DateUpdated,
+				EntityStatus = x.EntityStatus,
+				Id = x.Id,
+				BetPlatformFilePath = GetBetPlanform(x.BetPlatformId)?.LogoPath
+			}));
+
+			return dtolist;
+		}
+
+		public async Task<long> GetCount()
+		{
+			return await _baseRepository.GetCount();
+		}
 		private BetPlanform GetBetPlanform(long id)
 		{
 			return _betplatform.GetById(id).Result;
@@ -117,6 +155,8 @@ namespace SleekPredictionPunter.AppService.BookingCodes
 		}
 
 	
+
+
 		#endregion
 	}
 }

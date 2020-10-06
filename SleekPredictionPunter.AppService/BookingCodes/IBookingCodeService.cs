@@ -18,8 +18,11 @@ namespace SleekPredictionPunter.AppService.BookingCodes
 
 		Task<IEnumerable<BookingCodeDto>> GetAllQueryableDto(Func<BookingCode, bool> wherefunc = null, Func<BookingCode, DateTime> orderByFunc = null
 			, int startIndex = 0, int count = int.MaxValue);
+		Task<IEnumerable<BookingCodeDto>> GetAllQueryableDto(List<Func<BookingCode, bool>> wherefuncs = null, Func<BookingCode, DateTime> orderByFunc = null
+			, int startIndex = 0, int count = int.MaxValue);
 
 		Task<BookingCode> GetById(long id);
 		Task<BookingCode> GetByName(string bookingcode);
+		Task<long> GetCount();
 	}
 }

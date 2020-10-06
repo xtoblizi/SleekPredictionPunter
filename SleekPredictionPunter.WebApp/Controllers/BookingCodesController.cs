@@ -25,20 +25,32 @@ namespace SleekPredictionPunter.WebApp.Controllers
         }
 
         // GET: BookingCodes
-        public async Task<IActionResult> Index(string search = null, int startIndex = 0, int count = int.MaxValue)
+        public async Task<IActionResult> Index(string search = null, int page = 0, int count = 20)
         {
             ViewBag.BookingCode = "active";
+            ViewBag.BetPlatFormAndCode = "atcive";
 
             search = string.IsNullOrEmpty(search) ? string.Empty : search;
 
             Func<BookingCode, bool> wherefunc = (x => x.BetCode.Contains(search) || x.Betplatform.Contains(search));
-            var result = await _context.GetAllQueryable(wherefunc,(x=>x.DateCreated),startIndex,count);
-            return View(result);
+            var skip = count * (page - 1);
+            var result = await _context.GetAllQueryable(wherefunc: wherefunc, orderByFunc: (x=>x.DateCreated), startIndex : skip,count:count);
+
+            var dashboardViewModel = new PaginationModel<BookingCode>
+            {
+                PerPage = count,
+                CurrentPage = page,
+                TotalRecordCountOfTheTable = await _context.GetCount(),
+                TModel = result,
+            };
+
+            return View(dashboardViewModel);
         }
 
         // GET: BookingCodes/Details/5
         public async Task<IActionResult> Details(long id)
         {
+            ViewBag.BetPlatFormAndCode = "atcive";
             var bookingCode = await _context.GetById(id);
             if (bookingCode == null)
             {
@@ -52,6 +64,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.BookingCode = "active";
+            ViewBag.BetPlatFormAndCode = "atcive";
 
             ViewBag.PackageId = new SelectList(await _pricingPlanAppService.GetAllPlans(), "Id", "PlanName");
             ViewBag.BetPlatformId = new SelectList(await _betPlatformService.GetAllQueryable(null, (x => x.DateCreated), 0, 100), "Id", "BetPlatformName");
@@ -67,6 +80,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Create(BookingCode bookingCode)
         {
             ViewBag.BookingCode = "active";
+            ViewBag.BetPlatFormAndCode = "atcive";
 
             if (ModelState.IsValid)
             {
@@ -90,6 +104,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Edit(long id)
         {
             ViewBag.BookingCode = "active";
+            ViewBag.BetPlatFormAndCode = "atcive";
 
             var bookingCode = await _context.GetById(id);
             if (bookingCode == null)
@@ -110,6 +125,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Edit(BookingCode bookingCode)
         {
             if ( await _context.GetById(bookingCode.Id) == null)
+                ViewBag.BetPlatFormAndCode = "atcive";
             {
                 return NotFound();
             }
@@ -128,6 +144,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Delete(long id)
         {
             ViewBag.BookingCode = "active";
+            ViewBag.BetPlatFormAndCode = "atcive";
             var bookingCode = await _context.GetById(id);
             if (bookingCode == null)
             {

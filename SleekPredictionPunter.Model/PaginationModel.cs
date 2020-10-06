@@ -15,15 +15,19 @@ namespace SleekPredictionPunter.Model
             return PerPage++;
         }
 
+        public long TotalRecordCountOfTheTable { get; set; }
+       
 
         public int PageCount()
         {
-            return Convert.ToInt32(Math.Ceiling(TModel.Count() / (double)PerPage));
+            var count = TotalRecordCountOfTheTable > 0 ? TotalRecordCountOfTheTable : TModel.Count();
+            return Convert.ToInt32(Math.Ceiling(count / (double)PerPage));
         }
         public IEnumerable<T> Paginated()
         {
-            int start = (CurrentPage - 1) * PerPage;
-            return TModel.Skip(start).Take(PerPage);
+            //int start = (CurrentPage - 1) * PerPage;
+            // return TModel.Skip(start).Take(PerPage);
+            return TModel;
         }
     }
 }

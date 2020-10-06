@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    DateTime current = DateTime.Now;
 }
 
 <!-- Favicons -->
@@ -62,7 +63,12 @@
         top: 20px;
         opacity: 0.1;
     }
-
+    .small-text{
+        color:white;
+        font-weight:900;
+        text-align:center;
+        
+    }
     .l-bg-cyan {
         background: linear-gradient(135deg, #289cf5, #84c0ec) !important;
         color: #fff;
@@ -98,10 +104,11 @@
                             </div>
                             <div class="row align-items-center col-xl-6 col-lg-6 col-md-6 d-flex col-sm-10 col-sm-10">
                                 <div class="col-8">
-                                    <h1 class="d-flex align-items-center mb-0">
+                                    <h1 class="d-flex align-items-center mb-0 text-center">
                                         <br />
                                         <br />
-                                        @Model.NewSubscribers
+                                        <small class="small-text"> @current.ToString("MMMM"):@Model.NewSubscribers</small>
+                                        <small class="small-text"> Total:@Model.AllSubscriberCount</small> 
                                     </h1>
                                 </div>
                             </div>
@@ -117,9 +124,10 @@
                             </div>
                             <div class="row align-items-center col-xl-6 col-lg-6 col-md-6 d-flex col-sm-6 col-sm-10">
                                 <div class="col-8">
-                                    <h2 class="d-flex align-items-center mb-0 col-sm-6">
+                                    <h2 class="d-flex align-items-center mb-0 col-sm-6 text-center">
                                         <br /><br />
-                                        @Model.NewAgents
+                                        <small class="small-text">@current.ToString("MMMM"):@Model.NewAgents</small>
+                                        <small class="small-text"> Total:@Model.AllAgentsCount</small>
                                     </h2>
                                 </div>
                             </div>
@@ -134,10 +142,11 @@
                                 <h3 class="card-title text-center">Total Stakes</h3>
                             </div>
                             <div class="row align-items-center col-xl-6 col-lg-6 col-md-6 d-flex col-sm-6 col-sm-10">
-                                <div class="col-8">
+                                <div class="col-8 text-center">
                                     <h2 class="d-flex align-items-center mb-0 col-sm-6">
-                                        <br /><br />
-                                        @Model.NewPredictions
+                                        <br/><br />
+                                    <small class="small-text"> @current.ToString("MMMM"):@Model.NewPredictions</small> 
+                                    <small class="small-text">Total:@Model.AllPredictionCount</small>  
                                     </h2>
                                 </div>
                             </div>
@@ -153,9 +162,10 @@
                             </div>
                             <div class="row align-items-center col-xl-6 col-lg-6 col-md-6 d-flex col-sm-6 col-sm-10">
                                 <div class="col-8">
-                                    <h2 class="d-flex align-items-center mb-0">
+                                    <h2 class="d-flex align-items-center mb-0 text-center">
                                         <br /><br />
-                                        @Model.TotalRevenueOnSubscription
+                                              <small class="small-text">@current.ToString("MMMM"):@Model.TotalRevenueOnSubscription</small> 
+                                        
                                     </h2>
                                 </div>
                             </div>

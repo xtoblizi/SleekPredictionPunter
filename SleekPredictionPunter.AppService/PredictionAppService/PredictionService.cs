@@ -1,13 +1,10 @@
-﻿using SleekPredictionPunter.Model;
+﻿using SleekPredictionPunter.AppService.Subscriptions;
+using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Repository.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.EntityFrameworkCore;
-using SleekPredictionPunter.AppService.Subscriptions;
 
 namespace SleekPredictionPunter.AppService.PredictionAppService
 {
@@ -73,12 +70,28 @@ namespace SleekPredictionPunter.AppService.PredictionAppService
         //    return getAllFreePrediction.ToList();
         //}
 
-        public Task<IEnumerable<Prediction>> GetPaidPrediction()
+        public async Task<IEnumerable<Prediction>> GetPaidPrediction()
         {
             throw new NotImplementedException();
         }
 
-        
+        public async Task<IEnumerable<Prediction>> GetAllByFuncList(List<Func<Prediction, bool>> whereFuncs = null, Func<Prediction, DateTime> orderDescFunc = null, int startIndex = 0, int count = int.MaxValue)
+        {
+            List<Prediction> result = new List<Prediction>();
+            int subcount = count;
+
+            if (whereFuncs != null)
+                subcount = count / whereFuncs.Count;
+
+            foreach (var item in whereFuncs)
+            {
+                var tempResult = await this.GetPredictionsOrdered(item, (c => c.DateCreated), startIndex, subcount);
+                result.AddRange(tempResult.ToList());
+            }
+
+            return result;
+        }
+
         public async Task<IEnumerable<IGrouping<long, Prediction>>> ReturnRelationalData(Func<Prediction,bool> predicate, Func<Prediction, DateTime> orderByFunc, 
             bool groupByPredicateCategory = false, bool groupByMatchCategory = false,
             bool groupByCustomCategory = false, bool groupByBetCategory =false,
@@ -86,6 +99,36 @@ namespace SleekPredictionPunter.AppService.PredictionAppService
         {
             var result = await _repo.GetAllQueryable(predicate,orderByFunc,startIndex,count);
             IEnumerable<IGrouping<long, Prediction>> finalResult = null;
+
+            if (groupByPredicateCategory)
+            {
+                 finalResult = result.GroupBy(x => x.PredictionCategoryId);
+            }
+            else if(groupByMatchCategory)
+            {
+                 finalResult = result.GroupBy(x => x.MatchCategoryId);
+            }
+            else if(groupByCustomCategory)
+            {
+               finalResult = result.GroupBy(x => x.CustomCategoryId);
+            }
+            else if(groupByBetCategory)
+            {
+                finalResult = result.GroupBy(c => c.BetCategoryId);
+            }
+
+            return finalResult;
+        } 
+        
+        public async Task<IEnumerable<IGrouping<long, Prediction>>> ReturnRelationalData(List<Func<Prediction, bool>> predicates, Func<Prediction, DateTime> orderByFunc, 
+            bool groupByPredicateCategory = false, bool groupByMatchCategory = false,
+            bool groupByCustomCategory = false, bool groupByBetCategory =false,
+            int startIndex = 0, int count = int.MaxValue)
+        {
+            var result = await GetAllByFuncList(predicates,orderByFunc,startIndex,count);
+
+            IEnumerable<IGrouping<long, Prediction>> finalResult = null;
+
             if (groupByPredicateCategory)
             {
                  finalResult = result.GroupBy(x => x.PredictionCategoryId);
@@ -132,5 +175,11 @@ namespace SleekPredictionPunter.AppService.PredictionAppService
 
             return null;
         }
+        public async Task<long> GetCount()
+        {
+            return await _repo.GetCount();
+        }
+
+       
     }
 }

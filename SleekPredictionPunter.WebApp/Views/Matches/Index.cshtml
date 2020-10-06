@@ -1,8 +1,16 @@
 ﻿@model SleekPredictionPunter.Model.PaginationModel<SleekPredictionPunter.Model.Matches.Match>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+	var sn = 1;
+
+	int getPageIndex (int sn , int pagenumber)
+	{
+		var pagenum = pagenumber - 1 > 0 ? ((pagenumber - 1) * 20) + sn : sn;
+		return pagenum;
+	}
+
 }
 
 <section class="container-fluid" style="padding:10px;">
@@ -30,6 +38,9 @@
                     <table class="table table-responsive table-bordered">
                         <thead>
                             <tr>
+                                <th>
+                                    S/N
+                                </th>
                                 <th>
                                     Club A
                                 </th>
@@ -63,6 +74,9 @@
                             @foreach (var item in Model.Paginated())
                             {
                                 <tr>
+                                    <td>
+                                        @getPageIndex(sn++,Model.CurrentPage)
+                                    </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.ClubA)
 
@@ -102,6 +116,7 @@
                         </tbody>
                     </table>
                     <div style="align-items:end;">
+
                         <ul class="pagination" style="vertical-align:middle;">
                             @for (int i = 1; i <= Model.PageCount(); i++)
                             {

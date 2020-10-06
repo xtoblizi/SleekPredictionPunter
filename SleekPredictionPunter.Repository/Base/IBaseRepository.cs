@@ -24,6 +24,8 @@ namespace SleekPredictionPunter.Repository.Base
 			Func<T, OrderByKey> orderByFunc = null,
 			int startIndex = 0, int count = int.MaxValue);
 
+		Task<long> GetCount();
+
 		DbSet<T> ReturnDbSetForQuery();
 
 		//Task<T> GetById(string id);

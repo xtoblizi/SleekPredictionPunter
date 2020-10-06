@@ -75,6 +75,7 @@ namespace SleekPredictionPunter.DataInfrastructure
 		public DbSet<PredictionBooking> PredictionBookings { get; set; }
 		public DbSet<BookingCode> BookingCodes { get; set; }
 		public DbSet<AdvertPlacement> AdvertPlacements { get; set; }
+		public DbSet<Withdrawal> Withdrawal { get; set; }
 
 
 		/// <summary>

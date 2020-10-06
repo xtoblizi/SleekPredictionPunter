@@ -1,9 +1,16 @@
 ﻿@model SleekPredictionPunter.Model.PaginationModel<Subscriber>
 @using Microsoft.AspNetCore.Http
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    int serialNumber = 1;
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+	var sn = 1;
+	var pagecount = 50;
+	int getPageIndex (int sn , int pagenumber,int count = 50)
+	{
+		count = pagecount > 0 ? pagecount : count;
+		var pagenum = pagenumber - 1 > 0 ? ((pagenumber - 1) * count) + sn : sn;
+		return pagenum;
+	}
 }
 
 
@@ -13,7 +20,7 @@
             <div class="content-panel" style="padding:20px">
                 <div class="row">
                     <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6">
-                        <p><h2>List Of Subscribers</h2></p>
+                        <p><h3>List Of Subscribers</h3></p>
                     </div>
                 </div>
                 <br />
@@ -21,7 +28,7 @@
                     <table class="table table-responsive table-bordered">
                         <thead>
                             <tr>
-                                @*<th scope="col">S/N</th>*@
+                                <th scope="col">S/N</th>
                                 <th scope="col">First Name</th>
                                 <th scope="col">Last name</th>
                                 <th scope="col">Gender</th>
@@ -36,7 +43,9 @@
                             {
                                 <tbody>
                                     <tr>
-                                        @*<th scope="row" id="serialnumber">@(serialNumber++)</th>*@
+                                        <td>
+                                            @getPageIndex(sn++, Model.CurrentPage)
+                                        </td>
                                         <td>@item.FirstName</td>
                                         <td>@item.LastName</td>
                                         <td>@item.Gender.ToString()</td>
@@ -58,7 +67,7 @@
                         @for (int i = 1; i <= Model.PageCount(); i++)
                         {
                             <li class="@(i == Model.CurrentPage ? "page-item active" : "page-item")">
-                                <a class="page-link" href="@Url.Action("GetAllSubscribers", new { page = i })">@i</a>
+                                <a class="page-link" href="@Url.Action("GetAllSubscribers", new { page = i, count = pagecount })">@i</a>
                             </li>
 
                         }

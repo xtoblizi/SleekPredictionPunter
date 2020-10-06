@@ -24,17 +24,28 @@ namespace SleekPredictionPunter.WebApp.Controllers
         }
 
         // GET: Clubs
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search = null, int page = 0, int count = 10)
         {
             ViewBag.Clubs = "active";
-            var result = await _context.GetAllQueryable();
-            return View(result);
+            ViewBag.ClubsAndMatches = "active";
+            var skip = count * (page - 1);
+            var result = await _context.GetAllQueryable(null,(x=>x.DateCreated),startIndex: skip,count: count);
+          
+            var dashboardViewModel = new PaginationModel<Club>
+            {
+                PerPage = count,
+                CurrentPage = page,
+                TotalRecordCountOfTheTable = await _context.GetCount(),
+                TModel = result,
+            };
+            return View(dashboardViewModel);
         }
 
         // GET: Clubs/Details/5
         public async Task<IActionResult> Details(long? id)
         {
             ViewBag.Clubs = "active";
+            ViewBag.ClubsAndMatches = "active";
             if (id == null)
             {
                 return NotFound();
@@ -63,6 +74,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromForm] ClubDto model)
         {
+            ViewBag.ClubsAndMatches = "active";
             ViewBag.Clubs = "active";
             System.Random random = new System.Random();
             int genNumber = random.Next(1234567890);
@@ -98,6 +110,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Edit(long? id)
         {
             ViewBag.Clubs = "active";
+            ViewBag.ClubsAndMatches = "active";
+
             if (id == null)
             {
                 return NotFound();
@@ -118,6 +132,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("ClubName,Description,ClubLogRelativePath,Id,DateCreated,EntityStatus,DateUpdated")] Club club)
         {
+            ViewBag.ClubsAndMatches = "active";
+            ViewBag.Clubs = "active";
+
             if (id != club.Id)
             {
                 return NotFound();
@@ -149,6 +166,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Delete(long? id)
         {
             ViewBag.Clubs = "active";
+            ViewBag.ClubsAndMatches = "active";
+
             if (id == null)
             {
                 return NotFound();

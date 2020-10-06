@@ -100,5 +100,10 @@ namespace SleekPredictionPunter.AppService.Agents
             return new string(Enumerable.Repeat(chars, length)
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
+
+        public async Task<long> GetCount()
+        {
+            return await _repo.GetCount();
+        }
     }
 }

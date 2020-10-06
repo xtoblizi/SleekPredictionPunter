@@ -54,11 +54,14 @@ namespace SleekPredictionPunter.WebApp.Controllers
             return View();
         }
 
-        //[Authorize(Roles = nameof(RoleEnum.Subscriber))]
+  
         public async Task<IActionResult> SubscribeToPlan(long id)
         {
             try
             {
+                if (!User.Identity.IsAuthenticated && !User.IsInRole(RoleEnum.Subscriber.ToString()))
+                    return Redirect("/Identity/Account/Login");
+
                 var procesingMessage = string.Empty;
                 if (!User.IsInRole(RoleEnum.Subscriber.ToString()))
                 {
@@ -75,8 +78,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
 				if(getUserDetails == null)
 				{
                     TempData["ProcessingMessage"] = "Your request cannot be completed, please relogin and try again. Your credential could not be validated";
-					return View();
-				}
+                    return Redirect("/Identity/Account/Login");
+                }
                 //get plan details here..
                 var getPlanDetails = await _pricingPlanAppService.GetById(id);
                  HttpContext.Session.SetString(AgentCommission,Convert.ToString(getPlanDetails.PlanCommission));

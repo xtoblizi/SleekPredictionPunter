@@ -3,7 +3,13 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    int serialNumber = 1;
+  var sn = 1;
+
+	int getPageIndex (int sn , int pagenumber)
+	{
+		var pagenum = pagenumber - 1 > 0 ? ((pagenumber - 1) * 20) + sn : sn;
+		return pagenum;
+	}
 }
 
 <section class="container-fluid" style="padding:10px;">
@@ -12,7 +18,7 @@
             <div class="content-panel" style="padding:20px">
                 <div class="row">
                     <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6">
-                       <p><h2>List Of Agents</h2></p>
+                       <p><h3>List Of Agents</h3></p>
                     </div>
                 </div>
                 <br />
@@ -20,7 +26,7 @@
                     <table class="table table-responsive table-bordered">
                         <thead>
                             <tr>
-                                @*<th scope="col">S/N</th>*@
+                                <th scope="col">S/N</th>
                                 <th scope="col">First Name</th>
                                 <th scope="col">Last name</th>
                                 <th scope="col">Business Name</th>
@@ -35,7 +41,9 @@
                             {
                                 <tbody>
                                     <tr>
-                                        @*<th scope="row" id="serialnumber">@(serialNumber++)</th>*@
+                                        <td>
+                                            @getPageIndex(sn++, Model.CurrentPage)
+                                        </td>
                                         <td>@item.FirstName</td>
                                         <td>@item.LastName</td>
                                         <td>@item.TenantUniqueName</td>

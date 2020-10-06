@@ -18,5 +18,6 @@ namespace SleekPredictionPunter.AppService.Matches
 			int startIndex = 0, int count = int.MaxValue);
 		Task<Match> GetMatchById(long id);
 		Task<Match> GetDefault(Func<Match, bool> predicate = null, bool includeSetAsHotPreviewCriteria = false);
+		Task<long> GetCount();
 	}
 }

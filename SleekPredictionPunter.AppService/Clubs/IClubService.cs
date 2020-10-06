@@ -20,5 +20,6 @@ namespace SleekPredictionPunter.AppService.Clubs
 
 		Task<Club> GetById(long id);
 		Task<Club> GetByName(string name);
+		Task<long> GetCount();
 	}
 }

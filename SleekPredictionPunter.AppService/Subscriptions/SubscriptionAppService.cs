@@ -30,14 +30,13 @@ namespace SleekPredictionPunter.AppService.Subscriptions
         //getall: consider one to many record(s) as a batch where in,
         //show the user the count indicating the plan/package he/she is mapped to
         //(i.e), when clicked, th records would be revealed to him
-
         //public async Task<IEnumerable<Subcription>> GetAll()
         //{
         //    var collectionOfSubs = await _baseRepository.GetAllQueryable();
 
         //    foreach (var item in collectionOfSubs)
         //    {
-        //        Func<Subcription,bool> oeoeo = ((x)=>x.Packages.Where(s=>s.PlanName==);
+        //        Func<Subcription, bool> oeoeo = ((x) => x.Packages.Where(s => s.PlanName ==);
         //    }
         //}
 
@@ -50,5 +49,13 @@ namespace SleekPredictionPunter.AppService.Subscriptions
         {
             return await _baseRepository.GetAllQueryable(predicate, startIndex, count);
         }
+
+        //public Task<IEnumerable<Subcription>> GetAlls(List<Func<Subcription, bool>> funcs, int startIndex = 0, int count = int.MaxValue)
+        //{
+        //    foreach (var item in funcs)
+        //    {
+
+        //    }
+        //}
     }
 }

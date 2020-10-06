@@ -39,14 +39,19 @@ namespace SleekPredictionPunter.WebApp.Controllers
         }
 
         // GET: Matches
-        public async Task<IActionResult> Index(int page=1)
+        public async Task<IActionResult> Index(int page=1, int count = 20)
         {
+            var skip = count * (page - 1);
             var painationModel = new PaginationModel<Match>
             {
-                PerPage = 10,
+                PerPage = count,
                 CurrentPage = page,
-                TModel = await _matchService.GetMatches<DateTime>(null, (x => x.DateCreated))
+                TotalRecordCountOfTheTable = await _matchService.GetCount(),
+                TModel = await _matchService.GetMatches<DateTime>(null, (x => x.DateCreated),startIndex:skip,count:count)
             };
+            ViewBag.Matches = "active";
+            ViewBag.ClubsAndMatches = "active";
+
             return View(painationModel);
         }
         public async Task<IActionResult> _FrontEndPartialView()
@@ -81,7 +86,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // GET: Matches/Create
         public async Task<IActionResult> Create()
         {
-            ViewBag.Predictions = "active";
+            ViewBag.Matches = "active";
+            ViewBag.ClubsAndMatches = "active";
 
             ViewBag.ClubAId = new SelectList(await _clubService.GetAllQueryable(), "Id", "ClubName");
             ViewBag.ClubBId = new SelectList(await _clubService.GetAllQueryable(), "Id", "ClubName");
@@ -100,6 +106,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
         //[Authorize(Roles = nameof(RoleEnum.SuperAdmin))]
         public async Task<IActionResult> Create(Match match)
         {
+            ViewBag.Matches = "active";
+            ViewBag.ClubsAndMatches = "active";
+
             var errorMessage = string.Empty;
             var  twodaysago = match.TimeofMatch.AddDays(-2);
             var now = DateTime.Now;
@@ -162,6 +171,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
         //[Authorize(Roles = nameof(RoleEnum.SuperAdmin))]
         public async Task<IActionResult> Edit(long? id)
         {
+            ViewBag.Matches = "active";
+            ViewBag.ClubsAndMatches = "active";
+
             if (id == null)
             {
                 return NotFound();
@@ -190,10 +202,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Match match)
         {
-            //if (id != match.Id)
-            //{
-            //    return NotFound();
-            //}
+            ViewBag.Matches = "active";
+            ViewBag.ClubsAndMatches = "active";
 
             if (match.TimeofMatch < DateTime.Now && (match.ReturnStatus== MatchStatusEnum.Past || match.ReturnStatus == MatchStatusEnum.Playing))
             {
@@ -283,6 +293,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
         
         public async Task<IActionResult> Delete(long? id)
         {
+            ViewBag.Matches = "active";
+            ViewBag.ClubsAndMatches = "active";
+
             if (id == null)
             {
                 return NotFound();
@@ -302,6 +315,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
+            ViewBag.Matches = "active";
+            ViewBag.ClubsAndMatches = "active";
+
             var match = await _matchService.GetMatchById(id);
             await _matchService.Delete(match);
 

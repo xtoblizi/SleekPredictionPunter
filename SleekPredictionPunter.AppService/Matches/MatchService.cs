@@ -45,6 +45,11 @@ namespace SleekPredictionPunter.AppService.Matches
 			}
 		}
 
+		public async Task<long> GetCount()
+		{
+			return await _repo.GetCount();
+		}
+
 		public async Task<Match> GetMatchById(long id)
 		{
 			 return await _repo.GetById(id);

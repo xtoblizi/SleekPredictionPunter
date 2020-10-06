@@ -37,8 +37,17 @@ namespace SleekPredictionPunter.WebApp
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
 			.AddRazorPagesOptions(options =>
 			{
+				
 				options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
 				options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+			});
+
+			services.ConfigureApplicationCookie(options =>
+			{
+				options.LoginPath = $"/Identity/Account/Login";
+				options.LogoutPath = $"/Identity/Account/Logout";
+				options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+			
 			});
 
 			services.AddDbContext<PredictionDbContext>(options =>
@@ -46,14 +55,12 @@ namespace SleekPredictionPunter.WebApp
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 			});
 
-
 			services.AddSession(x => { x.IdleTimeout = TimeSpan.FromHours(24); });
 
 			services.AddUserIdentityServices();
 			services.AddPredictionApplicationServices();
 			services.AddRazorPages();
 			services.AddGeneralUtilServices();
-			services.AddPaging();
 
 			services.AddAuthentication()
 				.AddGoogle(opt =>
@@ -89,9 +96,17 @@ namespace SleekPredictionPunter.WebApp
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapRazorPages();
-				endpoints.MapControllerRoute("areas", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 				endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+				endpoints.MapControllerRoute("areas", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 			});
+
+			//app.UseEndpoints(endpoints =>
+			//{
+			//	endpoints.MapControllerRoute(
+			//		name: "default",
+			//		pattern: "{controller=Home}/{action=Index}/{id?}");
+			//	endpoints.MapRazorPages();
+			//});
 		}
 	}
 }

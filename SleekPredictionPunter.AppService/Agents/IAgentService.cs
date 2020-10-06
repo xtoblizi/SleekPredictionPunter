@@ -15,5 +15,6 @@ namespace SleekPredictionPunter.AppService.Agents
         Task<long> GetMonthlySummaryForNewAgents();
         Task<Agent> GetAgentsPredicate(Func<Agent, bool> predicate);
         Task Update(Agent model, bool savechage = true);
-    }
+		Task<long> GetCount();
+	}
 }
