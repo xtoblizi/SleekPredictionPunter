@@ -105,5 +105,10 @@ namespace SleekPredictionPunter.AppService.Agents
         {
             return await _repo.GetCount();
         }
+
+        public async Task<Agent> GetFirstOrDefault(Func<Agent, bool> agentfunc)
+        {
+            return await _repo.GetFirstOrDefault(agentfunc, (x => x.DateCreated));
+        }
     }
 }

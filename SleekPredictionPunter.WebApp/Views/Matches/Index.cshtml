@@ -116,15 +116,15 @@
                         </tbody>
                     </table>
                     <div style="align-items:end;">
-
+                        &nbsp;&nbsp;
                         <ul class="pagination" style="vertical-align:middle;">
                             @for (int i = 1; i <= Model.PageCount(); i++)
                             {
                                 <li class="@(i == Model.CurrentPage ? "page-item active" : "page-item")">
                                     <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
                                 </li>
-
                             }
+                            &nbsp;&nbsp;
                         </ul>
                     </div>
                 </div>

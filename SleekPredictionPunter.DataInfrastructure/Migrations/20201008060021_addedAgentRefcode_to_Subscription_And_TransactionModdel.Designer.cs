@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SleekPredictionPunter.DataInfrastructure;
 
 namespace SleekPredictionPunter.DataInfrastructure.Migrations
 {
     [DbContext(typeof(PredictionDbContext))]
-    partial class PredictionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201008060021_addedAgentRefcode_to_Subscription_And_TransactionModdel")]
+    partial class addedAgentRefcode_to_Subscription_And_TransactionModdel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1483,9 +1485,6 @@ namespace SleekPredictionPunter.DataInfrastructure.Migrations
 
                     b.Property<int>("WithdrawalStatus")
                         .HasColumnType("int");
-
-                    b.Property<string>("WithdrawalStatusName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

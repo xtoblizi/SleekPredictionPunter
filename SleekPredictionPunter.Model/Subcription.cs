@@ -23,6 +23,11 @@ namespace SleekPredictionPunter.Model
         /// This should not be null at anypoint of creating a new subcription 
         /// </summary>
         public DateTime ExpirationDateTime { get; set; }
+
+		/// <summary>
+		/// Pass this in here if the subscriber in question is under an agent
+		/// </summary>
+		public string AgentRefCode { get; set; }
 		public int NumberOfMonths { get; set; }
 	}
 }

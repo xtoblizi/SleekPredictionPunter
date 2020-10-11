@@ -9,7 +9,6 @@ namespace SleekPredictionPunter.WebApp.Controllers
 	public class BaseController : Controller
 	{
 		// place generalized code here.
-		private readonly SignInManager<ApplicationUser> _signInManager;
 		public BaseController()
 		{
 			ShowBreadCumBanner = false;

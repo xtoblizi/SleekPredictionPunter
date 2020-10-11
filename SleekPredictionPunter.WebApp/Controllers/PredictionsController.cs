@@ -129,7 +129,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             else
             {
                 var useremail = await base.GetUserName();
-                Func<Subcription, bool> subFunc = (s => s.SubscriberUsername == useremail);
+                Func<Subcription, bool> subFunc = (s => s.SubscriberUsername == useremail && s.ExpirationDateTime > DateTime.Now);
 
                 IEnumerable<Subcription> subscriptions = await _subscriptionSerivce.GetAll(subFunc);
                 if(subscriptions.Any())
@@ -157,7 +157,6 @@ namespace SleekPredictionPunter.WebApp.Controllers
               //  ViewBag.PaidTips = paidTips;
 
                 #region Get Booking Codes
-
 
                 Func<BookingCode, DateTime> orderByfunc = (x => x.DateCreated);
                 var betingCodes = await _bookingCodeService.GetAllQueryableDto(betcodeWhereFunc, orderByfunc, 0, 30);

@@ -1,0 +1,106 @@
+﻿@using SleekPredictionPunter.Model
+
+@{
+    var sn = 1;
+
+    int getPageIndex(int sn, int pagenumber)
+    {
+        var pagenum = pagenumber - 1 > 0 ? ((pagenumber - 1) * 20) + sn : sn;
+        return pagenum;
+    }
+
+    ViewData["Title"] = "WithdrawalRequests";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section class="container-fluid" style="padding:10px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-panel">
+                <h2 class="title"> Withdrwal Request </h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="container-fluid" style="padding:10px;">
+    <div class="row mt">
+        <div class="col-md-12">
+            <div class="content-panel" style="padding:20px">
+                <div class="row">
+                    <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6">
+                        <a asp-action="MakeWithdrawRequest" class="btn btn-primary">Make a Withdrawal Request</a>
+                    </div>
+                </div>
+                <br />
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+
+                                <th>
+                                    S/N
+                                </th>
+                                <th>
+                                    Amount
+                                </th>
+                                <th>
+                                    Withdrawal Status
+                                </th>
+                                <th>
+                                    Date Created
+                                </th>
+                                <th>
+                                    Date Updated
+                                </th>
+                                <th>Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.AgentWithdrawals as IEnumerable<Withdrawal>)
+                            {
+                                <tr>
+                                    <td> @getPageIndex(sn++, Model.CurrentPage)</td>
+                                    <td>
+                                        @item.Amount)
+                                    </td>
+                                    <td>
+                                        @item.WithdrawalStatus)
+                                    </td>
+                                    <td>
+                                        @item.DateCreated)
+                                    </td>
+                                    <td>
+                                        @item.DateUpdated)
+                                    </td>
+                                    <td>
+                                        @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |*@
+                                        <a asp-action="Delete" asp-route-id="@item.Id">Cancel </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <div style="align-items:end;">
+                        &nbsp;&nbsp;
+                        <ul class="pagination" style="vertical-align:middle;">
+                            @for (int i = 1; i <= Model.PageCount(); i++)
+                            {
+                                <li class="@(i == Model.CurrentPage ? "page-item active" : "page-item")">
+                                    <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                                </li>
+                            }
+                            &nbsp;&nbsp;
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</section>

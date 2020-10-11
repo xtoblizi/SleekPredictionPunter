@@ -122,6 +122,12 @@ namespace SleekPredictionPunter.AppService
 			var getAll = await _repo.GetAllQueryable(predicate, startIndex, count);
 			return getAll;
 		}
+		public async Task<IEnumerable<Subscriber>> GetAllSubscribersByAgentRefcode(Func<Subscriber, bool> predicate, Func<Subscriber,DateTime> orderByFunc,
+			int startIndex = 0, int count = int.MaxValue)
+		{
+			var getAll = await _repo.GetAllQueryable(predicate,orderByFunc,startIndex, count);
+			return getAll;
+		}
 
 	}
 }

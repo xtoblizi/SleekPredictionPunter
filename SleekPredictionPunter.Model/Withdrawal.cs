@@ -11,6 +11,7 @@ namespace SleekPredictionPunter.Model
 		public decimal Amount { get; set; }
 
 		public WithdrawalStatus WithdrawalStatus { get; set; }
+		public string WithdrawalStatusName { get { return WithdrawalStatusName; } set { value = WithdrawalStatus.ToString(); } }
 	}
 
 	public enum WithdrawalStatus

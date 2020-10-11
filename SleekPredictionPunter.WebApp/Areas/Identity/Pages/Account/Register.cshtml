@@ -6,6 +6,17 @@
 }
 
 <link rel="stylesheet" href="~/FrontendTheme/assets/css/register-page-responsive.css">
+<style>
+
+    .link{
+        color:blue !important;
+        text-decoration:underline;
+    }
+    .little-larger{
+        font-size:1.2em;
+    }
+
+</style>
 
 <!-- breadcrumb begin -->
 <div class="breadcrumb-bettix register-page">
@@ -26,163 +37,170 @@
         <div class="row justify-content-center">
             <div class="col-xl-7 col-lg-8 col-md-8 col-sm-12 col-xm-12">
                 <div class="section-title">
-                    @if (ViewData["RegistrationStatusMessge"] != null) {
+                    @if (ViewData["RegistrationStatusMessge"] != null)
+                    {
 
-                    <h5 class="text-success"> @ViewData["RegistrationStatusMessge"]</h5>
+                        <h4 class="text-success" style="font-size:1.2em"> @ViewData["RegistrationStatusMessge"]</h4>
+
+                        @if (ViewData["RefLink"] != null)
+                        {
+                            <p class="link little-larger"> Referer Link : <a target="_blank" href="@ViewData["RefLink"]"> @ViewData["RefLink"] </a> </p>
+                        }
+                        <br />
+                        <div class="col-xl-12 col-lg-8 col-md-8 col-sm-12 col-xm-12">
+                            <a asp-area="Identity" asp-page="login" class="btn btn-success"> Login Now!</a>
+                        </div>
                     }
-                    @if (ViewData["Error"] != null) {
-
-                        <h5 class="text-danger"> @ViewData["Error"]</h5>
-                    }
-
-                    @if(ViewData["RefLink"] != null){
-                    <p class="link"> Referer Link : <a target="_blank" href="@ViewData["RefLink"]"> @ViewData["RefLink"] </a> </p>
+                    @if (ViewData["Error"] != null)
+                    {
+                        <h4 class="text-danger"> @ViewData["Error"]</h4>
                     }
                 </div>
+
             </div>
+            
         </div>
         <div class="row justify-content-center">
 			<div class="row">
 				
 			</div>
-			<div class="row">
-				@*<div class="row">
-					<div class="sign-up-step">
-						<ul>
-							<li class="active">
-								<span class="icon">
-									<svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="user-circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="svg-inline--fa fa-user-circle fa-w-16 fa-fw fa-2x"><path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm128 421.6c-35.9 26.5-80.1 42.4-128 42.4s-92.1-15.9-128-42.4V416c0-35.3 28.7-64 64-64 11.1 0 27.5 11.4 64 11.4 36.6 0 52.8-11.4 64-11.4 35.3 0 64 28.7 64 64v13.6zm30.6-27.5c-6.8-46.4-46.3-82.1-94.6-82.1-20.5 0-30.4 11.4-64 11.4S204.6 320 184 320c-48.3 0-87.8 35.7-94.6 82.1C53.9 363.6 32 312.4 32 256c0-119.1 96.9-216 216-216s216 96.9 216 216c0 56.4-21.9 107.6-57.4 146.1zM248 120c-48.6 0-88 39.4-88 88s39.4 88 88 88 88-39.4 88-88-39.4-88-88-88zm0 144c-30.9 0-56-25.1-56-56s25.1-56 56-56 56 25.1 56 56-25.1 56-56 56z" class=""></path></svg>
-								</span>
-								<span class="text">User Details</span>
-							</li>&nbsp;
-						</ul>
-					</div>
-				</div>*@
+            <div class="row">
+                @*<div class="row">
+            <div class="sign-up-step">
+                <ul>
+                    <li class="active">
+                        <span class="icon">
+                            <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="user-circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="svg-inline--fa fa-user-circle fa-w-16 fa-fw fa-2x"><path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm128 421.6c-35.9 26.5-80.1 42.4-128 42.4s-92.1-15.9-128-42.4V416c0-35.3 28.7-64 64-64 11.1 0 27.5 11.4 64 11.4 36.6 0 52.8-11.4 64-11.4 35.3 0 64 28.7 64 64v13.6zm30.6-27.5c-6.8-46.4-46.3-82.1-94.6-82.1-20.5 0-30.4 11.4-64 11.4S204.6 320 184 320c-48.3 0-87.8 35.7-94.6 82.1C53.9 363.6 32 312.4 32 256c0-119.1 96.9-216 216-216s216 96.9 216 216c0 56.4-21.9 107.6-57.4 146.1zM248 120c-48.6 0-88 39.4-88 88s39.4 88 88 88 88-39.4 88-88-39.4-88-88-88zm0 144c-30.9 0-56-25.1-56-56s25.1-56 56-56 56 25.1 56 56-25.1 56-56 56z" class=""></path></svg>
+                        </span>
+                        <span class="text">User Details</span>
+                    </li>&nbsp;
+                </ul>
+            </div>
+        </div>*@
 
-				<div class="row">
-					<!-- section 1-->
-					<div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
+                @if (ViewBag.DisplayRegistrationSuccessDiv == null)
+                {
+                    <div class="row">
+                        <!-- section 1-->
+                        <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
 
-						<div class="all-form">
-							
-							<div class="single-form" id="first-step">
+                            <div class="all-form">
 
-                                <form class="form-inline" method="post">
-                                    @if (ViewData["userType"] != null && ViewData["userType"].ToString() == "2")
-                                    {
-                                        @if (ViewData["makeRefCodeHidden"] != null && ViewData["makeRefCodeHidden"].ToString() == "true")
+                                <div class="single-form" id="first-step">
+
+                                    <form class="form-inline" method="post">
+                                        @if (ViewData["userType"] != null && ViewData["userType"].ToString() == "2")
                                         {
-                                         <div class="form-group col-md-6 col-sm-12 col-lg-6 col-xl-6 justify-content-center">
-                                            <input asp-for="Input.ReferrerCode" value="@ViewData["refCode"]" readonly="readonly" type="text" required>
-                                         </div>
+                                            @if (ViewData["makeRefCodeHidden"] != null && ViewData["makeRefCodeHidden"].ToString() == "true")
+                                            {
+                                                <div class="form-group col-md-6 col-sm-12 col-lg-6 col-xl-6 justify-content-center">
+                                                    <input asp-for="Input.ReferrerCode" value="@ViewData["refCode"]" readonly="readonly" type="text" required>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="form-group col-md-6 col-sm-12 col-lg-6 col-xl-6" id="referralCodeId">
+                                                    <input asp-for="Input.ReferrerCode" type="text" id="referrercode" value="">
+                                                    <label for="userName">Referral Code [Optional]</label>
+                                                </div>
+                                            }
                                         }
-                                        else
-                                        {
-                                            <div class="form-group col-md-6 col-sm-12 col-lg-6 col-xl-6" id="referralCodeId"> 
-                                                <input asp-for="Input.ReferrerCode" type="text" id="referrercode" value="">
-                                                <label for="userName">Referral Code</label>
-                                            </div>
-                                        } 
-                                     }
-                                    <input type="hidden" id="registrationType" name="registrationType" value="1" />
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <input  asp-for="Input.FirstName" type="text" value="" id="firstName" required>
-                                        <label for="firstName">First Name</label>
-                                    </div>
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <input  asp-for="Input.LastName" type="text" value="" id="lastName" required>
-                                        <label for="lastName">Last Name</label>
-                                    </div>
+                                        <input type="hidden" id="registrationType" name="registrationType" value="1" />
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <input asp-for="Input.FirstName" type="text" value="" id="firstName" required>
+                                            <label for="firstName">First Name</label>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <input asp-for="Input.LastName" type="text" value="" id="lastName" required>
+                                            <label for="lastName">Last Name</label>
+                                        </div>
 
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <input  asp-for="Input.Email" type="text" value="" id="email" required>
-                                        <label for="email">Email Address</label>
-                                    </div>
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="country">Phone Number</label>
-                                        <input required asp-for="Input.PhoneNumber" type="text" id="country">
-                                        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <input required asp-for="Input.Password" type="password" id="password">
-                                        <label for="userName">Password</label>
-                                        <span asp-validation-for="Input.Password" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="paswordconfirm">Confirm Password</label>
-                                        <input required asp-for="Input.ConfirmPassword" type="password" id="paswordconfirm">
-                                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                                    </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <input asp-for="Input.Email" type="text" value="" id="email" required>
+                                            <label for="email">Email Address</label>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <label for="country">Phone Number</label>
+                                            <input required asp-for="Input.PhoneNumber" type="text" id="country">
+                                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <input required asp-for="Input.Password" type="password" id="password">
+                                            <label for="userName">Password</label>
+                                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <label for="paswordconfirm">Confirm Password</label>
+                                            <input required asp-for="Input.ConfirmPassword" type="password" id="paswordconfirm">
+                                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                        </div>
 
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <input required type="date" asp-for="Input.DateOfBirth" id="dOb">
-                                        <label for="dob">Date Of Birth</label>
-                                        <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
-                                    </div>
-                                    <br />
-                                    <hr />
-                                    <p>By clicking "Sign-up", you confirm that you have read and understood and accept the Predictive Power  <a href="#">Privacy & Coockie Policy, as well as Terms and Aggreement.</a>.</p>
-                                    <br />
-                                    <div class="form-group">
-                                        <button class="btn btn-outline-success">Sign-Up</button>
-                                    </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <input required type="date" asp-for="Input.DateOfBirth" id="dOb">
+                                            <label for="dob">Date Of Birth</label>
+                                            <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
+                                        </div>
+                                        <br />
+                                        <hr />
+                                        <p>By clicking "Sign-up", you confirm that you have read and understood and accept the Predictive Power  <a href="#">Privacy & Coockie Policy, as well as Terms and Aggreement.</a>.</p>
+                                        <br />
+                                        <div class="form-group">
+                                            <button class="btn btn-outline-success">Sign-Up</button>
+                                        </div>
                                     </form>
-							</div>
-						
+                                </div>
 
-						</div>
-					</div>
 
-					<!-- section 2-->
-					<div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                            </div>
+                        </div>
 
-						<div class="all-form">
-							<h5> <strong>Direct SignIn</strong> </h5> 
-							<hr/>
-							<div class="single-form" id="first-step">
+                        <!-- section 2-->
+                        <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
 
-								@if (Model.ExternalLogins.Count == 0)
-								{
-									<p class="aligncenter">No 3rd party Auth available. Please use the SignUp Form </p>
-								}
-								else
-								{
-									<form class="form-inline" method="post">
-										<div class="dropdown">
-											<input type="hidden" id="registrationType" name="registrationType" value="2" />
-											@foreach (var provider in Model.ExternalLogins)
-											{
-												@if (provider.DisplayName.Contains("Google"))
-												{
-													<span class="img-ic"><img src="~/FrontendTheme/assets/img/google-img.png" alt="Google Sigin"></span>
-													<span>
-														&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-														&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-														&nbsp;
-													</span>
-													<button class="btn btn-link" name="provider" type="submit" value="@provider.Name">
-														@*@provider.DisplayName*@ Sign In
-													</button>
-													break;
-												}
+                            <div class="all-form">
+                                <h5> <strong>Direct SignIn</strong> </h5>
+                                <hr />
+                                <div class="single-form" id="first-step">
 
-											}
+                                    @if (Model.ExternalLogins.Count == 0)
+                                    {
+                                        <p class="aligncenter">No 3rd party Auth available. Please use the SignUp Form </p>
+                                    }
+                                    else
+                                    {
+                                        <form class="form-inline" method="post">
+                                            <div class="dropdown">
+                                                <input type="hidden" id="registrationType" name="registrationType" value="2" />
+                                                @foreach (var provider in Model.ExternalLogins)
+                                                {
+                                                    @if (provider.DisplayName.Contains("Google"))
+                                                    {
+                                                        <span class="img-ic"><img src="~/FrontendTheme/assets/img/google-img.png" alt="Google Sigin"></span>
+                                                        <span>
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            &nbsp;
+                                                        </span>
+                                                        <button class="btn btn-link" name="provider" type="submit" value="@provider.Name">
+                                                            @*@provider.DisplayName*@ Sign In
+                                                        </button>
+                                                        break;
+                                                    }
 
-										</div>
-									</form>
-								}
-							</div>
-						</div>
-					</div>
-				</div>
+                                                }
 
-				
-			</div>
+                                            </div>
+                                        </form>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
 			
 			<div class="col-xl-9 col-lg-9">
                
-             
-				
             </div>
         </div>
     </div>

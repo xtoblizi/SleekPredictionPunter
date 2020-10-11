@@ -59,7 +59,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
         {
             try
             {
-                if (!User.Identity.IsAuthenticated && !User.IsInRole(RoleEnum.Subscriber.ToString()))
+                if (!User.Identity.IsAuthenticated || !User.IsInRole(RoleEnum.Subscriber.ToString()))
                     return Redirect("/Identity/Account/Login");
 
                 var procesingMessage = string.Empty;

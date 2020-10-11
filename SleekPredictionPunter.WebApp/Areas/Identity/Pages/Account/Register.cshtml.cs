@@ -111,10 +111,13 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 			public string ReferrerCode { get; set; }
 		}
 
-        public async Task OnGetAsync(string returnUrl = null, int? userType = null, string refCode = null)
+        public async Task OnGetAsync(string returnUrl = null, int? userType = null, string refCode = null, bool displayRegistrationSuccessDiv = false)
         {
             ViewData["userType"] =  userType == null ? "2" : userType.ToString() ;
 			ViewData["makeRefCodeHidden"] = "false";
+
+			if (displayRegistrationSuccessDiv == true)
+				ViewData["DisplayRegistrationSuccessDiv"] = true;
 
 			ReturnUrl = returnUrl;
 			if (!string.IsNullOrEmpty(refCode))
@@ -198,9 +201,14 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 									var refCode = await CreateAgent(user);
 									walletModel.UserRole = RoleEnum.Agent;
 									await _walletAppService.InsertNewAmount(walletModel);
-									var refLink = Url.Page("/Identity/Account/Register",pageHandler: null,
-									values: new { area = "Identity", registrationType = "1", userType = "2", refCode = refCode },
-									protocol: Request.Scheme);
+
+									var actionLink = $"Identity/Account/Register?registrationType=1&userType=2&refcode={refCode}";
+									var refLink = $"{Request.Scheme}://{Request.Host}/{actionLink}";
+
+									//var refLink = Url.Page("/Identity/Account/Register",pageHandler: null,
+									//values: new { area = "Identity", registrationType = "1", userType = "2", refCode = refCode },
+									//protocol: Request.Scheme);
+
 									ViewData["RefLink"] = refLink;
 
 									ViewData["RegistrationStatusMessge"] = $"Agent Registration Successful. \n Your RefererCode is {refCode}." +
@@ -233,8 +241,10 @@ namespace SleekPredictionPunter.WebApp.Areas.Identity.Pages.Account
 							}
 							else
 							{
-								await _signInManager.SignInAsync(user, isPersistent: false);
-								return RedirectToAction(returnUrl);
+								//	await _signInManager.SignInAsync(user, isPersistent: false);
+
+								ViewData["DisplayRegistrationSuccessDiv"] = true;
+								return Page();
 								
 							}
 						}

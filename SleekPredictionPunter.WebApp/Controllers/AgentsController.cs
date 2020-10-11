@@ -4,11 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using SleekPredictionPunter.AppService;
 using SleekPredictionPunter.AppService.Agents;
 using SleekPredictionPunter.AppService.Subscriptions;
+using SleekPredictionPunter.AppService.TransactionLog;
 using SleekPredictionPunter.AppService.Wallet;
+using SleekPredictionPunter.AppService.Withdrawals;
 using SleekPredictionPunter.DataInfrastructure;
 using SleekPredictionPunter.Model;
 using SleekPredictionPunter.Model.Enums;
 using SleekPredictionPunter.Model.IdentityModels;
+using SleekPredictionPunter.Model.TransactionLogs;
 using SleekPredictionPunter.Model.Wallets;
 using System;
 using System.Collections.Generic;
@@ -17,31 +20,37 @@ using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
-    public class AgentsController : Controller
+    public class AgentsController : BaseController
     {
-        private readonly PredictionDbContext _context;
+   
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAgentService _agentService;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ISubscriberService _subscriberService;
         private readonly ISubscriptionAppService _subscriptionAppService;
         private readonly IWalletAppService _walletAppService;
+        private readonly IWithdrawalService _withdrawalService;
         private readonly IAgentRefereeMapService _agentRefereeMapService;
+        private readonly ITransactionLogAppService _transactionLogAppService;
         public AgentsController(PredictionDbContext context, IAgentService agentService,
+            IWithdrawalService withdrawalService,
+            ITransactionLogAppService transactionLogAppService,
             UserManager<ApplicationUser> userManager, ISubscriptionAppService subscriptionAppService,
             SignInManager<ApplicationUser> signInManager, ISubscriberService subscriberService,
             IWalletAppService walletAppService, IAgentRefereeMapService agentRefereeMapService)
         {
-            _context = context;
             _agentService = agentService;
+            _transactionLogAppService = transactionLogAppService;
+            _withdrawalService = withdrawalService;
             _userManager = userManager;
             _signInManager = signInManager;
             _subscriberService = subscriberService;
             _subscriptionAppService = subscriptionAppService;
             _walletAppService = walletAppService;
             _agentRefereeMapService = agentRefereeMapService;
+
         }
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+ 
         // GET: Agents
         public async Task<IActionResult> Index()
         {
@@ -143,9 +152,63 @@ namespace SleekPredictionPunter.WebApp.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetUsersSubscriptions(string search = null,int page = 1,int count = 50)
+        {
+            var agentUsername = await base.GetUserName();
+            var agentCode = string.Empty;
+            Agent agent = null;
+            IEnumerable<Subcription> subcriptions = null;
 
+            if (string.IsNullOrEmpty(agentUsername))
+            {
+                Func<Agent, bool> agentfunc = (x => x.Username == agentUsername);
+                agent = await _agentService.GetFirstOrDefault(agentfunc);
+            }
 
-        // GET: Agents/Delete/5
+            if(agent != null){
+                Func<Subcription, bool> predicate = (x => x.AgentRefCode == agent.RefererCode);
+                var skip = count * (page - 1);
+                //note to correctly calculate the page
+                subcriptions = await _subscriptionAppService.GetAll(predicate, skip, count);
+
+                ViewBag.AgentUsersSubscriptions = subcriptions;
+            }
+            
+            //  var subs = await _subscriberService.GetAllQueryable();
+            return View();
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> WithdrawalRequests(string search = null, int page = 1, int count = 50)
+        {
+            var agentUsername = await base.GetUserName();
+            var agentCode = string.Empty;
+            Agent agent = null;
+            IEnumerable<Withdrawal> withdrawals = null;
+
+            if (string.IsNullOrEmpty(agentUsername))
+            {
+                Func<Agent, bool> agentfunc = (x => x.Username == agentUsername);
+                agent = await _agentService.GetFirstOrDefault(agentfunc);
+            }
+
+            if (agent != null)
+            {
+                Func<Withdrawal, bool> predicate = (x => x.AgentUsername == agentUsername);
+                var skip = count * (page - 1);
+                //note to correctly calculate the page
+                withdrawals = await _withdrawalService.GetWithdrawals(predicate,(o=>o.DateCreated) ,skip, count);
+
+                ViewBag.AgentWithdrawals = withdrawals;
+            }
+
+            //  var subs = await _subscriberService.GetAllQueryable();
+            return View();
+
+        }
+ 
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -183,17 +246,14 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 var dateTo = DateTime.Now;
 
                 var user = User.Identity.Name;
-                Func<Agent, bool> predicateForAgent = (x => x.Username == user);
-                var getAgentInfoByUsername = await _agentService.GetAgentsPredicate(predicateForAgent);
+                Func<Agent, bool> agentfunc = (x => x.Username == user);
+                var getAgentInfoByUsername = await _agentService.GetAgentsPredicate(agentfunc);
 
-                Func<Subscriber, bool> getAllSubscribersByRefcode = (sub =>
-                (string.IsNullOrEmpty(getAgentInfoByUsername.RefererCode) || sub.RefererCode == getAgentInfoByUsername.RefererCode) &&
-                (sub.DateCreated >= firstDayOfTheMonth && sub.DateCreated <= dateTo));
-
-                var getAllSubcriberByRefCode = await _subscriberService.GetAllSubscribersByAgentRefcode(getAllSubscribersByRefcode);
+                Func<Subscriber, bool> subscrtionfunc = (sub => sub.RefererCode == getAgentInfoByUsername.RefererCode);
+                var subscribersByAgenrtRefCode = await _subscriberService.GetAllSubscribersByAgentRefcode(subscrtionfunc,(x=>x.DateCreated));
                 List<Subcription> subscriberSubscription = new List<Subcription>();
 
-                foreach (var item in getAllSubcriberByRefCode)
+                foreach (var item in subscribersByAgenrtRefCode)
                 {
                     Func<Subcription, bool> getAllSubscriberSubscriptions = (plan => plan.SubscriberUsername == item.Username);
                     var subscription = await _subscriptionAppService.GetPredicateRecord(getAllSubscriberSubscriptions);
@@ -215,7 +275,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 {
                     SubcribrrCount = subscriberCount.LongCount(),
                     AgentEarnings = getAgentRevenue,
-                    AllSubscriber = getAllSubcriberByRefCode,
+                    AllSubscriber = subscribersByAgenrtRefCode,
                     Subscription = subscriberSubscription,
                     AgentWalletBalance = getLastItemInTheList.Amount
                 };

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,8 @@ using SleekPredictionPunter.Model;
 
 namespace SleekPredictionPunter.WebApp.Controllers
 {
-    public class WithdrawalsController : Controller
+   
+    public class WithdrawalsController : BaseController
     {
         private readonly IWithdrawalService _context;
 
@@ -20,9 +22,20 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // GET: Withdrawals
         public async Task<IActionResult> Index(int page = 1,int count = 50)
         {
+            IEnumerable<Withdrawal> withdrawals = null;
+            if (IsAdmin() == true)
+            {
+                withdrawals = await _context.GetWithdrawals(null, (x => x.DateCreated), startIndex: page, take: count);
+            }
+            else
+            {
+                var username = await GetUserName();
+                Func<Withdrawal, bool> func = (x => x.AgentUsername == username);
+                withdrawals = await _context.GetWithdrawals(func, (x => x.DateCreated), page, count);
+            }
 
-            var result = await _context.GetWithdrawals(null, (x => x.DateCreated), startIndex: page, take: count);
-            return View(result);
+            ViewBag.Withdrawals = withdrawals;
+            return View();
         }
 
         // GET: Withdrawals/Details/5
@@ -55,6 +68,27 @@ namespace SleekPredictionPunter.WebApp.Controllers
             }
 
             return View();
+        }
+
+        [HttpGet]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MakeWithdrwal (string agentUsername , decimal amount)
+        {
+            if (!string.IsNullOrEmpty(agentUsername) && amount > 0)
+            {
+                var model = new Withdrawal
+                {
+                    AgentUsername = agentUsername,
+                    Amount = amount,
+                    WithdrawalStatus = WithdrawalStatus.Pending
+                };
+                await _context.Insert(model);
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            TempData["RedirectToAction"] = "Amount must be greater than 0";
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Withdrawals/Edit/5

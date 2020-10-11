@@ -10,6 +10,11 @@ namespace SleekPredictionPunter.Model.TransactionLogs
     public class TransactionLogModel : BaseEntity
     {
         public string UserEmailAddress { get; set; }
+
+        /// <summary>
+        /// This is nullable.This is the agent refcode associated with the 
+        /// </summary>
+        public string AgentRefCodeForTheSubscriber { get; set; }
         public RoleEnum UserRole { get; set; }
         public long PlanId { get; set; }
         public TransactionTypeEnum TransactionType { get; set; }

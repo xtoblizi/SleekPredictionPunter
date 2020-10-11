@@ -22,6 +22,8 @@ namespace SleekPredictionPunter.AppService
 			DateTime? startDate = null, DateTime? endDate = null,
 			int startIndex = 0, int count = int.MaxValue);
 
+		Task<IEnumerable<Subscriber>> GetAllSubscribersByAgentRefcode(Func<Subscriber, bool> predicate, Func<Subscriber, DateTime> orderByFunc,
+			 int startIndex = 0, int count = int.MaxValue);
 		Task<Subscriber> GetById(long id);
 		Task<long> GetMonthlySummaryForPredictions();
 		Task<IEnumerable<Subscriber>> GetAllSubscribersByAgentRefcode(Func<Subscriber, bool> predicate, int startIndex = 0, int count = int.MaxValue);
