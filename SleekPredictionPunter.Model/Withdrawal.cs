@@ -6,12 +6,16 @@ namespace SleekPredictionPunter.Model
 {
 	public class Withdrawal :BaseEntity
 	{
+		public Withdrawal()
+		{
+			WithdrawalStatus = WithdrawalStatus.Pending;
+		}
 		public string AgentUsername { get; set; }
 
 		public decimal Amount { get; set; }
 
 		public WithdrawalStatus WithdrawalStatus { get; set; }
-		public string WithdrawalStatusName { get { return WithdrawalStatusName; } set { value = WithdrawalStatus.ToString(); } }
+		public string WithdrawalStatusName { get { return WithdrawalStatus.ToString(); } set { value = WithdrawalStatus.ToString(); } }
 	}
 
 	public enum WithdrawalStatus

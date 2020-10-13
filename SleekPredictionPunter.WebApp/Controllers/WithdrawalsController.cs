@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SleekPredictionPunter.AppService.Withdrawals;
+using SleekPredictionPunter.GeneralUtilsAndServices;
 using SleekPredictionPunter.Model;
 
 namespace SleekPredictionPunter.WebApp.Controllers
@@ -23,6 +25,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Index(int page = 1,int count = 50)
         {
             IEnumerable<Withdrawal> withdrawals = null;
+            var paginatedResult = new PaginationModel<Withdrawal>();
+
             if (IsAdmin() == true)
             {
                 withdrawals = await _context.GetWithdrawals(null, (x => x.DateCreated), startIndex: page, take: count);
@@ -32,10 +36,22 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 var username = await GetUserName();
                 Func<Withdrawal, bool> func = (x => x.AgentUsername == username);
                 withdrawals = await _context.GetWithdrawals(func, (x => x.DateCreated), page, count);
-            }
 
+                if(withdrawals != null)
+                {
+                    paginatedResult = new PaginationModel<Withdrawal>
+                    {
+                        PerPage = count,
+                        CurrentPage = page,
+                        TotalRecordCountOfTheTable = await _context.GetCount(),
+                        TModel = withdrawals,
+                    };
+                    ViewBag.AgentWithdrawals = paginatedResult;
+                }
+            }
+            ViewBag.Withdrawal = "active";
             ViewBag.Withdrawals = withdrawals;
-            return View();
+            return View(paginatedResult);
         }
 
         // GET: Withdrawals/Details/5
@@ -94,10 +110,12 @@ namespace SleekPredictionPunter.WebApp.Controllers
         // GET: Withdrawals/Edit/5
         public async Task<IActionResult> Edit(long id)
         {
-            //var model = await _context.GetById(id);
+            var model = await _context.GetById(id);
 
-            //await _context.Update(model);
-           
+            var withdrawalList = EnumHelper.GetEnumResults<WithdrawalStatus>();
+            ViewBag.WithdrawalStatusId = new SelectList(withdrawalList, "Id", "Name", (int)model.WithdrawalStatus);
+
+
             return View();
         }
 

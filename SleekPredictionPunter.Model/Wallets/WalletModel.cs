@@ -9,7 +9,18 @@ namespace SleekPredictionPunter.Model.Wallets
     {
         public string UserEmailAddress { get; set; }
         public RoleEnum UserRole { get; set; }
+        /// <summary>
+        /// This is the current Balance of the Wallet
+        /// </summary>
         public decimal Amount { get; set; }
+
+        /// <summary>
+        /// Total Amount of Transaction on Wallet
+        /// </summary>
+        public decimal TotalAmountCredited { get; set; }
+
+        public decimal TotalAmountDebited { get; set; }
+
         public decimal? LastAmountTransacted { get; set; }
         public DateTime? DateTimeLastTransacted { get; set; }
     }

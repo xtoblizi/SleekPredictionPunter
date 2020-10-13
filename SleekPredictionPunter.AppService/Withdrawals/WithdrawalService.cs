@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace SleekPredictionPunter.AppService.Withdrawals
 {
-	public class WithrawalService : IWithdrawalService
+	public class WithdrawalService : IWithdrawalService
 	{
 		private readonly IBaseRepository<Withdrawal> _repo;
-		public WithrawalService(IBaseRepository<Withdrawal> repo)
+		public WithdrawalService(IBaseRepository<Withdrawal> repo)
 		{
 			_repo = repo;
 		}
@@ -42,6 +42,10 @@ namespace SleekPredictionPunter.AppService.Withdrawals
 		public async Task Delete(Withdrawal model)
 		{
 			await _repo.Delete(model);
+		}
+		public async Task<long> GetCount()
+		{
+			return await _repo.GetCount();
 		}
 	}
 }

@@ -159,6 +159,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             var agentCode = string.Empty;
             Agent agent = null;
             IEnumerable<Subcription> subcriptions = null;
+            PaginationModel<Subcription> dashboardViewModel = new PaginationModel<Subcription>();
 
             if (string.IsNullOrEmpty(agentUsername))
             {
@@ -171,14 +172,97 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 var skip = count * (page - 1);
                 //note to correctly calculate the page
                 subcriptions = await _subscriptionAppService.GetAll(predicate, skip, count);
+                if(subcriptions != null)
+                {
+                    dashboardViewModel = new PaginationModel<Subcription>
+                    {
+                        PerPage = count,
+                        CurrentPage = page,
+                        TotalRecordCountOfTheTable = await _subscriptionAppService.GetCount(),
+                        TModel = subcriptions,
+                    };
 
-                ViewBag.AgentUsersSubscriptions = subcriptions;
+                    ViewBag.AgentUsersSubscriptions = dashboardViewModel;
+                }
             }
             
             //  var subs = await _subscriberService.GetAllQueryable();
-            return View();
+            return View(dashboardViewModel);
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAgentSubscribers(string search = null,int page = 1,int count = 50)
+        {
+            try
+            {
+                var agentUsername = await base.GetUserName();
+                var agentCode = string.Empty;
+                Agent agent = null;
+
+                IEnumerable<Subscriber> subscribers = null;
+
+                if (string.IsNullOrEmpty(agentUsername))
+                {
+                    Func<Agent, bool> agentfunc = (x => x.Username == agentUsername);
+                    agent = await _agentService.GetFirstOrDefault(agentfunc);
+                }
+
+                if (agent != null)
+                {
+                    search = string.IsNullOrEmpty(search) ? string.Empty : search;
+                    Func<Subscriber, bool> predicate = (x => (x.RefererCode == agent.RefererCode) && (string.IsNullOrEmpty(search) || x.FullAddress.Contains(search, StringComparison.OrdinalIgnoreCase) || x.Email.Contains(search,StringComparison.OrdinalIgnoreCase)));
+                    var skip = count * (page - 1);
+                    // note to correctly calculate the page
+
+                    var result = await _subscriberService.GetAllSubscribersByAgentRefcode(predicate, startIndex: skip, count: count);
+                   
+                    if(result != null)
+                    {
+                        var dashboardViewModel = new PaginationModel<Subscriber>
+                        {
+                            PerPage = count,
+                            CurrentPage = page,
+                            TotalRecordCountOfTheTable = await _subscriberService.GetCount(),
+                            TModel = result,
+                        };
+                        ViewBag.AgentSubscribers = dashboardViewModel;
+                    }
+                }
+
+                return View();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> MakeWithdrwal(Withdrawal model)
+        {
+            var agentUserName = await base.GetUserName();
+            model.AgentUsername = agentUserName;
+
+            if (!string.IsNullOrEmpty(model.AgentUsername) && model.Amount > 1000)
+            {
+                var withdraw = new Withdrawal
+                {
+                    AgentUsername = model.AgentUsername,
+                    Amount = model.Amount,
+                    WithdrawalStatus = WithdrawalStatus.Pending
+                };
+                await _withdrawalService.Insert(model);
+
+                return RedirectToAction(nameof(WithdrawalRequests));
+            }
+
+            TempData["RedirectToAction"] = "Amount must be greater than 0";
+            return RedirectToAction(nameof(WithdrawalRequests));
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> WithdrawalRequests(string search = null, int page = 1, int count = 50)
@@ -187,8 +271,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
             var agentCode = string.Empty;
             Agent agent = null;
             IEnumerable<Withdrawal> withdrawals = null;
+            var paginatedResult = new PaginationModel<Withdrawal>();
 
-            if (string.IsNullOrEmpty(agentUsername))
+            if (!string.IsNullOrEmpty(agentUsername))
             {
                 Func<Agent, bool> agentfunc = (x => x.Username == agentUsername);
                 agent = await _agentService.GetFirstOrDefault(agentfunc);
@@ -201,11 +286,21 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 //note to correctly calculate the page
                 withdrawals = await _withdrawalService.GetWithdrawals(predicate,(o=>o.DateCreated) ,skip, count);
 
-                ViewBag.AgentWithdrawals = withdrawals;
+                if (withdrawals != null)
+                {
+                    paginatedResult = new PaginationModel<Withdrawal>
+                    {
+                        PerPage = count,
+                        CurrentPage = page,
+                        TotalRecordCountOfTheTable = await _withdrawalService.GetCount(),
+                        TModel = withdrawals,
+                    };
+                    ViewBag.AgentWithdrawals = paginatedResult;
+                }
             }
 
             //  var subs = await _subscriberService.GetAllQueryable();
-            return View();
+            return View(paginatedResult);
 
         }
  
@@ -250,35 +345,37 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 var getAgentInfoByUsername = await _agentService.GetAgentsPredicate(agentfunc);
 
                 Func<Subscriber, bool> subscrtionfunc = (sub => sub.RefererCode == getAgentInfoByUsername.RefererCode);
-                var subscribersByAgenrtRefCode = await _subscriberService.GetAllSubscribersByAgentRefcode(subscrtionfunc,(x=>x.DateCreated));
-                List<Subcription> subscriberSubscription = new List<Subcription>();
+                var subscribersByAgenrtRefCode = await _subscriberService.GetAllSubscribersByAgentRefcode(subscrtionfunc,(x=>x.DateCreated),0,20);
+                //List<Subcription> subscriberSubscription = new List<Subcription>();
 
-                foreach (var item in subscribersByAgenrtRefCode)
-                {
-                    Func<Subcription, bool> getAllSubscriberSubscriptions = (plan => plan.SubscriberUsername == item.Username);
-                    var subscription = await _subscriptionAppService.GetPredicateRecord(getAllSubscriberSubscriptions);
-                    if (subscription != null)
-                    {
-                        subscriberSubscription.Add(subscription);
-                    }
-                }
+                //foreach (var item in subscribersByAgenrtRefCode)
+                //{
+                //    Func<Subcription, bool> getAllSubscriberSubscriptions = (plan => plan.SubscriberUsername == item.Username);
+                //    var subscription = await _subscriptionAppService.GetPredicateRecord(getAllSubscriberSubscriptions);
+                //    if (subscription != null)
+                //    {
+                //        subscriberSubscription.Add(subscription);
+                //    }
+                //}
                 Func<Subscriber, bool> getAllSubscribers = (s => s.RefererCode == getAgentInfoByUsername.RefererCode);
-                var subscriberCount = await _subscriberService.GetAllSubscribersByAgentRefcode(getAllSubscribers);
+                var subscriberCount = await _subscriberService.GetCount(getAllSubscribers);
 
                 Func<WalletModel, bool> agentWalletPredicate = (w => w.UserEmailAddress == getAgentInfoByUsername.Username);
                 var agentWallet = await _walletAppService.GetAllWalletDetailsForUser(agentWalletPredicate);
                 var getLastItemInTheList = agentWallet.Where(agentWalletPredicate).LastOrDefault();
 
+
+                //TODO : Review this and correct . implementation is incorrect
                 var getAgentRevenue = await _agentRefereeMapService.CalculateAgentRevenueByRefereerCode(getAgentInfoByUsername.RefererCode);
 
                 var agentDashboardDto = new AgentDashboardDto
                 {
-                    SubcribrrCount = subscriberCount.LongCount(),
+                    SubcribrrCount = subscriberCount,
                     AgentEarnings = getAgentRevenue,
                     AllSubscriber = subscribersByAgenrtRefCode,
-                    Subscription = subscriberSubscription,
                     AgentWalletBalance = getLastItemInTheList.Amount
                 };
+
                 return View(agentDashboardDto);
             }
             catch (Exception)
@@ -287,8 +384,6 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 {
                     SubcribrrCount = 0,
                     AgentEarnings = 0,
-                    AllSubscriber = null,
-                    Subscription = null,
                     AgentWalletBalance = 0,
                     ProcessingMessage = "An error occurred. Please, check your internet connection then, refresh your browser."
                 };

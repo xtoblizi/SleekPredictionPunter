@@ -28,5 +28,6 @@ namespace SleekPredictionPunter.AppService
 		Task<long> GetMonthlySummaryForPredictions();
 		Task<IEnumerable<Subscriber>> GetAllSubscribersByAgentRefcode(Func<Subscriber, bool> predicate, int startIndex = 0, int count = int.MaxValue);
 		Task<long> GetCount();
+		Task<long> GetCount(Func<Subscriber, bool> func);
 	}
 }

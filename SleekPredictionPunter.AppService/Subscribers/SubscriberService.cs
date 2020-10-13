@@ -116,10 +116,14 @@ namespace SleekPredictionPunter.AppService
 		public async Task<long> GetCount()
 		{
 			return await _repo.GetCount();
+		}		
+		public async Task<long> GetCount(Func<Subscriber, bool> func)
+		{
+			return await _repo.GetCount(func);
 		}
 		public async Task<IEnumerable<Subscriber>> GetAllSubscribersByAgentRefcode(Func<Subscriber, bool> predicate, int startIndex = 0, int count = int.MaxValue)
 		{
-			var getAll = await _repo.GetAllQueryable(predicate, startIndex, count);
+			var getAll = await _repo.GetAllQueryable(predicate, (x=>x.DateCreated),startIndex, count);
 			return getAll;
 		}
 		public async Task<IEnumerable<Subscriber>> GetAllSubscribersByAgentRefcode(Func<Subscriber, bool> predicate, Func<Subscriber,DateTime> orderByFunc,
@@ -129,5 +133,9 @@ namespace SleekPredictionPunter.AppService
 			return getAll;
 		}
 
+		public async Task<long> GetCountByFilter(Func<Subscriber, bool> func)
+		{
+			return await _repo.GetCount(func);
+		}
 	}
 }

@@ -1,0 +1,109 @@
+﻿@model SleekPredictionPunter.Model.PaginationModel<SleekPredictionPunter.Model.Subcription>
+
+    @{
+        ViewData["Title"] = "Agent User Subscriptions";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+        int getPageIndex(int sn, int pagenumber)
+        {
+            var pagenum = pagenumber - 1 > 0 ? ((pagenumber - 1) * 20) + sn : sn;
+            return pagenum;
+        }
+    }
+
+
+    <section class="container-fluid" style="padding:10px;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-panel">
+                    <h2 class="title"> Agent Subscribers </h2>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container-fluid" style="padding:10px;">
+        <div class="row mt">
+            <div class="col-md-12">
+                <div class="content-panel" style="padding:20px">
+                    <div class="row">
+                        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6">
+                            @*<a asp-action="Create" class="btn btn-primary">Create a Match</a>*@
+                        </div>
+                    </div>
+                    <br />
+                    <div class="table-responsive">
+                        <table class="table table table-bordered table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Full Name
+                                    </th>
+                                    <th>
+                                        Phone Number
+                                    </th>
+                                    <th>
+                                        Gender
+                                    </th>
+                                    <th>
+                                        State
+                                    </th>
+
+                                    <th>
+                                        City
+                                    </th>
+                                    <th>
+                                        Date Created
+                                    </th>
+
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.TModel != null)
+                                {
+                                    @foreach (var item in Model.TModel)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.SubscriberUsername
+                                            </td>
+
+                                            <td>
+                                                @item.DateCreated
+                                            </td>
+                                            <td>
+                                                @item.
+                                            </td>
+
+                                            <td>
+                                                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+
+                        <div style="align-items:end;">
+                            &nbsp;&nbsp;
+                            @if (Model.TModel != null)
+                            {
+                                <ul class="pagination" style="vertical-align:middle;">
+                                    @for (int i = 1; i <= Model.PageCount(); i++)
+                                    {
+                                        <li class="@(i == Model.CurrentPage ? "page-item active" : "page-item")">
+                                            <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                                        </li>
+                                    }
+                                    &nbsp;&nbsp;
+                                </ul>
+                            }
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </section>

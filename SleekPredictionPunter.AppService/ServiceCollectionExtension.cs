@@ -25,6 +25,7 @@ using SleekPredictionPunter.AppService.ThirdPartyAppService;
 using SleekPredictionPunter.AppService.TransactionLog;
 using SleekPredictionPunter.AppService.UserManagement;
 using SleekPredictionPunter.AppService.Wallet;
+using SleekPredictionPunter.AppService.Withdrawals;
 using SleekPredictionPunter.Repository;
 
 namespace SleekPredictionPunter.AppService
@@ -60,6 +61,7 @@ namespace SleekPredictionPunter.AppService
 			services.AddTransient<IPredictionBookingService, PredictionBookingService>();
 			services.AddTransient<IBookingCodeService, BookingCodeService>();
 			services.AddTransient<IAdvertPlacementService, AdvertPlacementService>();
+			services.AddTransient<IWithdrawalService, WithdrawalService>();
 
             // repository DI registration
             services.AddPredictionRepositories();

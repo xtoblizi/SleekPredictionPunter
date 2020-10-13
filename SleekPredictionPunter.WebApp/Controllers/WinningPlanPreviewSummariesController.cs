@@ -27,6 +27,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.WinningPlanPreviewSummaries = "active";
+            ViewBag.ResultandAdverts = "active";
+
             Func<WinningPlanPreviewSummary, DateTime> ordebyfunc = (x => x.DateCreated);
             var result = await _context.GetAllQueryable(null, orderByFunc: ordebyfunc, startIndex: 0, count: 100);
             ViewBag.HasValue = result.Any() ? true : false;
@@ -63,8 +65,11 @@ namespace SleekPredictionPunter.WebApp.Controllers
             };
 
             var plans = await _pricingPlanAppService.GetAllPlans();
+
             ViewBag.RatingId = new SelectList(ratings, "Id", "RateName");
             ViewBag.PricingPlanId = new SelectList(plans, "Id", "PlanName");
+            ViewBag.ResultandAdverts = "active";
+
             return View();
         }
 
@@ -97,8 +102,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
             var plans = await _pricingPlanAppService.GetAllPlans();
             ViewBag.PricingPlanId = new SelectList(plans, "Id", "PlanName", winningPlanPreviewSummary.PricingPlanId);
             ViewBag.RatingId = new SelectList(ratings, "Id", "RateName");
+            ViewBag.ResultandAdverts = "active";
 
-           
 
             return View(winningPlanPreviewSummary);
         }
@@ -121,6 +126,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 var plans = await _pricingPlanAppService.GetAllPlans();
                 ViewBag.PricingPlanId = new SelectList(plans, "Id", "PlanName");
                 ViewBag.RatingId = new SelectList(ratings, "Id", "RateName");
+                ViewBag.ResultandAdverts = "active";
 
                 return View(result);
             }
@@ -166,6 +172,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
             var plans = await _pricingPlanAppService.GetAllPlans();
             ViewBag.PricingPlanId = new SelectList(plans, "Id", "PlanName", winningPlanPreviewSummary.PricingPlanId);
             ViewBag.RatingId = new SelectList(ratings, "Id", "RateName");
+            ViewBag.ResultandAdverts = "active";
+
             return View(winningPlanPreviewSummary);
         }
 

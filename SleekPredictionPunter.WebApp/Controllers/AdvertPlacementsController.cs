@@ -28,6 +28,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Index(int startIndex = 0, int count = 100)
         {
             ViewBag.AdvertPlacements = "active";
+            ViewBag.ResultandAdverts = "active";
+
             var result = await _context.GetAdvertPlacements(null, (x => x.DateCreated), startIndex, count);
             return View(result);
         }
@@ -36,6 +38,9 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public async Task<IActionResult> Details(long id)
         {
             ViewBag.AdvertPlacements = "active";
+            ViewBag.ResultandAdverts = "active";
+
+
             var advertPlacement = await _context.GetById(id);
             if (advertPlacement == null)
             {
@@ -49,6 +54,8 @@ namespace SleekPredictionPunter.WebApp.Controllers
         public IActionResult Create()
         {
             ViewBag.AdvertPlacements = "active";
+            ViewBag.ResultandAdverts = "active";
+            
             var rolesEnumList = EnumHelper.GetEnumResults<AdvertSection>();
             ViewBag.AdSectionId = new SelectList(rolesEnumList, "Id", "Name");
             return View();
@@ -95,6 +102,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             ViewBag.AdSectionId = new SelectList(rolesEnumList, "Id", "Name");
 
             ViewBag.AdvertPlacements = "active";
+            ViewBag.ResultandAdverts = "active";
             return View(advertPlacement);
         }
 
@@ -116,6 +124,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             };
 
             ViewBag.AdvertPlacements = "active";
+            ViewBag.ResultandAdverts = "active";
             return View(advertDto);
         }
 
@@ -155,6 +164,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
             }
 
             ViewBag.AdvertPlacements = "active";
+            ViewBag.ResultandAdverts = "active";
             return View(advertPlacement);
         }
 
@@ -167,6 +177,7 @@ namespace SleekPredictionPunter.WebApp.Controllers
                 return NotFound();
             }
             ViewBag.AdvertPlacements = "active";
+            ViewBag.ResultandAdverts = "active";
             return View(advertPlacement);
         }
 

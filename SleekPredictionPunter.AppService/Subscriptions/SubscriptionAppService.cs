@@ -50,12 +50,9 @@ namespace SleekPredictionPunter.AppService.Subscriptions
             return await _baseRepository.GetAllQueryable(predicate, startIndex, count);
         }
 
-        //public Task<IEnumerable<Subcription>> GetAlls(List<Func<Subcription, bool>> funcs, int startIndex = 0, int count = int.MaxValue)
-        //{
-        //    foreach (var item in funcs)
-        //    {
-
-        //    }
-        //}
+        public async Task<long> GetCount()
+        {
+            return await _baseRepository.GetCount();
+        }
     }
 }

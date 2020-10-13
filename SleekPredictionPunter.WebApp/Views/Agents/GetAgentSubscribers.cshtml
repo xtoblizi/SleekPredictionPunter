@@ -1,0 +1,120 @@
+﻿@using SleekPredictionPunter.Model
+
+@{
+    ViewData["Title"] = "GetAgentSubscribers";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    int getPageIndex(int sn, int pagenumber)
+    {
+        var pagenum = pagenumber - 1 > 0 ? ((pagenumber - 1) * 20) + sn : sn;
+        return pagenum;
+    }
+}
+
+
+<section class="container-fluid" style="padding:10px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-panel">
+                <h2 class="title"> Agent Subscribers </h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid" style="padding:10px;">
+    <div class="row mt">
+        <div class="col-md-12">
+            <div class="content-panel" style="padding:20px">
+                <div class="row">
+                    <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6">
+                        @*<a asp-action="Create" class="btn btn-primary">Create a Match</a>*@
+                    </div>
+                </div>
+                <br />
+				<div class="table-responsive">
+					<table class="table table table-bordered table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>
+									Full Name
+								</th>
+								<th>
+									Phone Number
+								</th>
+								<th>
+									Gender
+								</th>
+								<th>
+									State
+								</th>
+
+								<th>
+									City
+								</th>
+								<th>
+									Date Created
+								</th>
+
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							@if (ViewBag.AgentSubscribers != null)
+							{
+								@foreach (var item in ViewBag.AgentSubscribers.TModel as IEnumerable<Subscriber>)
+								{
+									<tr>
+										<td>
+											@item.FullName)
+										</td>
+
+										<td>
+											@item.PhoneNumber)
+										</td>
+										<td>
+											@item.Gender)
+										</td>
+
+										<td>
+											@item.State)
+										</td>
+										<td>
+											@item.City)
+										</td>
+
+										<td>
+											@item.DateCreated)
+										</td>
+
+										<td>
+											<a asp-action="Details" asp-route-id="@item.Id">Details</a>
+										</td>
+									</tr>
+								}
+							}
+
+						</tbody>
+					</table>
+
+					@if (ViewBag.AgentSubscribers as PaginationModel<Subscriber> != null )
+					{
+						<div style="align-items:end;">
+							&nbsp;&nbsp;
+							<ul class="pagination" style="vertical-align:middle;">
+								@for (int i = 1; i <= ViewBag.AgentSubscribers.PageCount(); i++)
+								{
+									<li class="@(i == ViewBag.AgentSubscribers.CurrentPage ? "page-item active" : "page-item")">
+										<a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+									</li>
+								}
+								&nbsp;&nbsp;
+							</ul>
+						</div>
+					}
+
+				</div>
+            </div>
+        </div>
+    </div>
+</section>

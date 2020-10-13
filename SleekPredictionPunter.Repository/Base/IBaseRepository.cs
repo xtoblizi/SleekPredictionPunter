@@ -25,6 +25,7 @@ namespace SleekPredictionPunter.Repository.Base
 			int startIndex = 0, int count = int.MaxValue);
 
 		Task<long> GetCount();
+		Task<long> GetCount(Func<T,bool> func);
 
 		DbSet<T> ReturnDbSetForQuery();
 

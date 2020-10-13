@@ -38,9 +38,6 @@ namespace SleekPredictionPunter.Repository.Base
 			return result;
 		}
 
-		public async Task<long> GetCount(){
-			return await _entity.CountAsync();
-		}
 
 		public async virtual Task<T> Inserts(T model, bool savechage = true)
 		{
@@ -183,6 +180,16 @@ namespace SleekPredictionPunter.Repository.Base
 			return await Task.FromResult(_entity.AsNoTracking().FirstOrDefault());
 			
 		}
+		public async Task<long> GetCount()
+		{
+			return await _entity.CountAsync();
+		}
+
+		public async Task<long> GetCount(Func<T, bool> func)
+		{
+			var result =  _entity.Where(func).Count();
+			return await Task.FromResult(result);
+		}
 
 		public DbSet<T> ReturnDbSetForQuery()
         {
@@ -223,6 +230,7 @@ namespace SleekPredictionPunter.Repository.Base
 			// TODO: uncomment the following line if the finalizer is overridden above.
 			 GC.SuppressFinalize(this);
 		}
+
 		#endregion
 
 		//public async Task<dynamic> ReturnIncldedResult<T1, T2>(IIncludableQueryable<T1, T2> includeablequery) where T1 : class where T2 : class

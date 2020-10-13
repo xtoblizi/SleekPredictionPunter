@@ -209,24 +209,45 @@
                             </ul>
                         </li>
 
-                        <li class="no-bottom-marging">
-                            <a class="@ViewBag.Contact" href="../../Home/ContactIndex">
-                                <i class=" fa fa-envelope"></i>
-                                <span>Contact Tickets</span>
+                        
+                        <li class="sub-menu">
+                            <a class="@ViewBag.ResultandAdverts" href="javascript:;">
+                                <i class="fa fa-user-circle"></i>
+                                <span>Result History & Adverts ->  </span>
                             </a>
+                            <ul class="sub">
+                                <li class="@ViewBag.WinningPlanPreviewSummaries">
+                                    <a href="../../WinningPlanPreviewSummaries/Index">Set Result View</a>
+                                </li>
+                                <li class="@ViewBag.AdvertPlacements">
+                                    <a href="../../advertplacements/index">Advert Placements</a>
+                                </li>
+                            </ul>
                         </li>
-
-                        <li class="no-bottom-marging">
+                        @*<li class="no-bottom-marging">
                             <a class="@ViewBag.WinningPlanPreviewSummaries" href="../../WinningPlanPreviewSummaries/Index">
                                 <i class=" fa fa-resolving"></i>
                                 <span>Set Result View</span>
                             </a>
-                        </li>
+                        </li>*@
 
-                        <li class="no-bottom-marging">
+                        @*<li class="no-bottom-marging">
                             <a class="@ViewBag.AdvertPlacements" href="../../advertplacements/index">
                                 <i class=" fa fa-soccer-ball-o"></i>
                                 <span>Advert Placement</span>
+                            </a>
+                        </li>*@
+
+                        <li class="no-bottom-marging">
+                            <a class="@ViewBag.Withdrawal" href="../../Withdrawals/index">
+                                <i class=" fa fa-envelope-open"></i>
+                                <span> Withdrawals Requests </span>
+                            </a>
+                        </li>
+                        <li class="no-bottom-marging">
+                            <a class="@ViewBag.Contact" href="../../Home/ContactIndex">
+                                <i class=" fa fa-envelope"></i>
+                                <span>Contact Tickets</span>
                             </a>
                         </li>
 
@@ -247,6 +268,27 @@
                             </a>
                         </li>
 
+                    }
+                    @if (User.Identity.IsAuthenticated && User.IsInRole(RoleEnum.Agent.ToString()))
+                    {
+                        <li>
+                            <a class="@ViewBag.GetUsersSubscriptions" asp-area="" asp-controller="agents" asp-action="getagentsubscribers">
+                                <i class="fa fa-user"></i>
+                                <span>Agent Subscribers</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="@ViewBag.GetUsersSubscriptions" asp-area="" asp-controller="agents" asp-action="GetUsersSubscriptions">
+                                <i class="fa fa-envelope-open"></i>
+                                <span>Subscriptions </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="@ViewBag.WithdrawalRequests" asp-area="" asp-controller="agents" asp-action="WithdrawalRequests">
+                                <i class="fa fa-money"></i>
+                                <span>Withdrawal Requests</span>
+                            </a>
+                        </li>
                     }
                 </ul>
                 <!-- sidebar menu end-->

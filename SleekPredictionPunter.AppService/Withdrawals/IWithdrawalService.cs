@@ -14,5 +14,6 @@ namespace SleekPredictionPunter.AppService.Withdrawals
         Task Update(Withdrawal model);
         Task<IEnumerable<Withdrawal>> GetWithdrawals(Func<Withdrawal, bool> predicate = null, Func<Withdrawal, DateTime> orderbyFunc = null, int startIndex = 0, int take = int.MaxValue);
         Task Delete(Withdrawal model);
+        Task<long> GetCount();
     }
 }

@@ -1,4 +1,4 @@
-﻿@using SleekPredictionPunter.Model
+﻿@model SleekPredictionPunter.Model.PaginationModel<Withdrawal>
 
 @{
     var sn = 1;
@@ -30,12 +30,12 @@
             <div class="content-panel" style="padding:20px">
                 <div class="row">
                     <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6">
-                        <a asp-action="MakeWithdrawRequest" class="btn btn-primary">Make a Withdrawal Request</a>
+                        <a asp-action="AgentDashboard" class="btn btn-primary">Make a Withdrawal Request</a>
                     </div>
                 </div>
                 <br />
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-bordered table-striped table-condensed">
                         <thead>
                             <tr>
 
@@ -59,47 +59,53 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in ViewBag.AgentWithdrawals as IEnumerable<Withdrawal>)
+                            @if (Model.TModel != null)
                             {
-                                <tr>
-                                    <td> @getPageIndex(sn++, Model.CurrentPage)</td>
-                                    <td>
-                                        @item.Amount)
-                                    </td>
-                                    <td>
-                                        @item.WithdrawalStatus)
-                                    </td>
-                                    <td>
-                                        @item.DateCreated)
-                                    </td>
-                                    <td>
-                                        @item.DateUpdated)
-                                    </td>
-                                    <td>
-                                        @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |*@
-                                        <a asp-action="Delete" asp-route-id="@item.Id">Cancel </a>
-                                    </td>
-                                </tr>
+                                @foreach (var item in Model.TModel as IEnumerable<Withdrawal>)
+                                {
+                                    <tr>
+                                        <td> @getPageIndex(sn++, Model.CurrentPage)</td>
+                                        <td>
+                                            @item.Amount)
+                                        </td>
+                                        <td>
+                                            @item.WithdrawalStatus)
+                                        </td>
+                                        <td>
+                                            @item.DateCreated)
+                                        </td>
+                                        <td>
+                                            @item.DateUpdated)
+                                        </td>
+                                        <td>
+                                            @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |*@
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="text-danger">Cancel </a>
+                                        </td>
+                                    </tr>
+                                }
                             }
+
                         </tbody>
                     </table>
 
-                    <div style="align-items:end;">
-                        &nbsp;&nbsp;
-                        <ul class="pagination" style="vertical-align:middle;">
-                            @for (int i = 1; i <= Model.PageCount(); i++)
-                            {
-                                <li class="@(i == Model.CurrentPage ? "page-item active" : "page-item")">
-                                    <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
-                                </li>
-                            }
+                    @if (Model.TModel != null)
+                    {
+                        <div style="align-items:end;">
                             &nbsp;&nbsp;
-                        </ul>
-                    </div>
+                            <ul class="pagination" style="vertical-align:middle;">
+                                @for (int i = 1; i <= Model.PageCount(); i++)
+                                {
+                                    <li class="@(i == Model.CurrentPage ? "page-item active" : "page-item")">
+                                        <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                                    </li>
+                                }
+                                &nbsp;&nbsp;
+                            </ul>
+                        </div>
+                    }
+
                 </div>
-
-
             </div>
         </div>
     </div>

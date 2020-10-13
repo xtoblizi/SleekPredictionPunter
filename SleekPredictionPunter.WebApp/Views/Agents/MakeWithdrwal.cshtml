@@ -1,0 +1,15 @@
+﻿
+<div class="row">
+
+        @if (User.Identity.IsAuthenticated && User.IsInRole(RoleEnum.Agent.ToString()))
+        {
+            @using (Html.BeginForm("MakeWithdrwal", "Agents"))
+            {
+                <input type="number" readonly class="form-control" name="amount" title="Coming soon: Enter amount to withdraw. Minimum of #5000 naira only" placeholder="Enter Amount" min="5000" max="100000" />
+                <input type="submit" class="btn btn-success" value="Make Withdrawal" />
+            }
+        }
+
+ </div>
+
+
